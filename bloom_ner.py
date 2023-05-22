@@ -50,6 +50,8 @@ def PER_prompt(example, begin_tag='@@', end_tag='##'):
     prompt+= "Sortie : Le président de la République française est {0}Emmanuel Macron{1} .\n".format(begin_tag, end_tag)
     prompt+= "Entrée : Barack Obama est le président des États-Unis .\n"
     prompt+= "Sortie : {0}Barack Obama{1} est le président des États-Unis .\n".format(begin_tag, end_tag)
+    prompt+= "Entrée : Paris est la capitale de la France .\n"
+    prompt+= "Sortie : Paris est la capitale de la France .\n"
     prompt+= "Entrée : Zinedine Zidane explique que le Real Madrid a besoin de Karim Benzema .\n"
     prompt+= "Sortie : {0}Zinedine Zidane{1} explique que le Real Madrid a besoin de {0}Karim Benzema{1} .\n".format(begin_tag, end_tag)
     prompt+= "Imite-moi. Identifie les mentions de personnes dans la phrase suivante, en mettant \"{0}\" devant et un \"{1}\" derrière la mention dans la phrase suivante.\n".format(begin_tag, end_tag)
