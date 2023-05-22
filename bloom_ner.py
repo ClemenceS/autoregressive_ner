@@ -28,41 +28,7 @@ def datasets2bloom_readable_format(example, ner_tag_id, begin_tag='@@', end_tag=
     # return the string
     return string.strip()
 
-def bloom_readable_format2datasets(string, ner_tag_id, begin_tag='@@', end_tag='##'):
-    # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = ## and ending tag = @@
-    # and the string is 'I love ##Paris@@ and ##Berlin@@'
-    # the returned list of words will be ['I', 'love', 'Paris', 'and', 'Berlin']
-    # and the returned list of ner tags will be [0, 0, 3, 0, 3]
-    words = []
-    ner_tags = []
-    # split the string into around the beginning and ending tags
-    words_split = re.findall(r"[\w']+|@@|##", string, re.UNICODE)
-    # loop over the words
-    inside_tag = False
-    for word in words_split:
-        # if the word is equal to the beginning tag
-        if word == begin_tag:
-            # set inside tag to True
-            inside_tag = True
-        # if the word is equal to the ending tag
-        elif word == end_tag:
-            # set inside tag to False
-            inside_tag = False
-        # if the word is not equal to the beginning tag and not equal to the ending tag
-        else:
-            # add the word to the list of words
-            words.append(word)
-            # if inside tag is True
-            if inside_tag:
-                # add the ner tag id to the list of ner tags
-                ner_tags.append(ner_tag_id)
-            # if inside tag is False
-            else:
-                # add 0 to the list of ner tags
-                ner_tags.append(0)
-    
-    # return the list of words and the list of ner tags
-    return {'words': words, 'ner_tags': ner_tags}
+
 
 def DISO_prompt(example):
     #this function takes an example and a ner tag and returns a prompt
