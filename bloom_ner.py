@@ -59,6 +59,22 @@ def PER_prompt(example, begin_tag, end_tag):
     prompt+= "Sortie : "
     return prompt
 
+def PER_en_prompt(example, begin_tag, end_tag):
+    #this function takes an example and a ner tag and returns a prompt in english
+    prompt = "I am an expert linguist, I can identify mentions of people in a sentence. I can also format them. Here are some examples of sentences I can handle:\n"
+    prompt+= "Input: The President of the French Republic is Emmanuel Macron .\n"
+    prompt+= "Output: The President of the French Republic is {0}Emmanuel Macron{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Input: Barack Obama is the President of the United States .\n"
+    prompt+= "Output: {0}Barack Obama{1} is the President of the United States .\n".format(begin_tag, end_tag)
+    prompt+= "Input: Paris is the capital of France .\n"
+    prompt+= "Output: Paris is the capital of France .\n"
+    prompt+= "Input: Zinedine Zidane explains that Real Madrid needs Karim Benzema .\n"
+    prompt+= "Output: {0}Zinedine Zidane{1} explains that Real Madrid needs {0}Karim Benzema{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Imitate me. Identify the mentions of people in the following sentence, by putting \"{0}\" in front and a \"{1}\" behind the mention in the following sentence.\n".format(begin_tag, end_tag)
+    prompt+= "Input: "+example+"\n"
+    prompt+= "Output: "
+    return prompt
+
 def get_model_predictions(example_string, ner_tag, begin_tag, end_tag):
     API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
     headers = {"Authorization": "Bearer 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"}
