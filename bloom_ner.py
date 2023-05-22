@@ -75,19 +75,12 @@ def get_bloom_predictions(example_string, ner_tag):
         raise NotImplementedError
 
     output = query({
-        "inputs": prompt,
-        "parameters": {
-            "max_new_tokens": 100,
-            "return_full_text": False,
-            "top_p": 0.9,
-            "top_k": 3,
-            "temperature": 0.7,
-        },
-        "options": {
-            "use_cache": True
-        }     
+        "inputs": prompt, "options": {"use_cache": True},
+        "parameters": {"max_new_tokens": 100,"return_full_text": False,"top_p": 0.9,"top_k": 3,"temperature": 0.7,},
     })
-    return output[0]['generated_text']
+    if "error" in output:
+        raise Exception(output['error'])
+    return output[0]['generated_text'].split('\n')[0]
      
 def evaluate_bloom_prediction(example, ner_tag, ner_tag_id):
     #example is a dictionary with the keys 'doc_id', 'words', 'ner_tags'
