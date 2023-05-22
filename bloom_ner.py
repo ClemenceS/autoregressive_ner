@@ -95,14 +95,43 @@ def evaluate_model_prediction(example, ner_tag, ner_tag_id, begin_tag, end_tag):
     regex_end_tag = re.escape(end_tag)
     target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
     prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
-    print(target_mentions)
-    print(prediction_mentions)
+    # print(target_mentions)
+    # print(prediction_mentions)
+    # print("-"*50)
+    
+    tp = len(set(target_mentions).intersection(set(prediction_mentions)))
+    relevant = len(target_mentions)
+    retrieved = len(prediction_mentions)
+    # print("tp: ", tp)
+    # print("relevant: ", relevant)
+    # print("retrieved: ", retrieved)
+    # print("-"*50)
+    
+    global tp_sum, relevant_sum, retrieved_sum
+    tp_sum += len(set(target_mentions).intersection(set(prediction_mentions)))
+    relevant_sum += len(target_mentions)
+    retrieved_sum += len(prediction_mentions)
+    # print("tp_sum: ", tp_sum)
+    # print("relevant_sum: ", relevant_sum)
+    # print("retrieved_sum: ", retrieved_sum)
+    # print("-"*50)
+    
+    print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
+    print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
+    print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
     print("=====================================")
     
+tp_sum = 0
+relevant_sum = 0
+retrieved_sum = 0
 # dataset = datasets.load_dataset('meczifho/quaero')
 dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
 examples = dataset['train']
 
-for i in range(0, 30):
+for i in range(0, len(examples)):
     # evaluate_model_prediction(examples[i], 'DISO', 3)
     evaluate_model_prediction(examples[i], 'PER', 2, begin_tag='@@', end_tag='##')
+print("======= Evaluation after 30 examples =======")
+print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
+print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
+print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
