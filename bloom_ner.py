@@ -84,12 +84,9 @@ def get_bloom_predictions(example_string, ner_tag):
      
 def evaluate_bloom_prediction(example, ner_tag, ner_tag_id):
     #example is a dictionary with the keys 'doc_id', 'words', 'ner_tags'
-
     words = example['words'] if 'words' in example else example['tokens']
     ner_tags = example['ner_tags']
-    print(datasets2bloom_readable_format({'words': words, 'ner_tags': ner_tags}, ner_tag_id))
-    
-    #get the bloom prediction
+    target = example2string({'words': words, 'ner_tags': ner_tags}, ner_tag_id)
     bloom_prediction = get_bloom_predictions(' '.join(words), ner_tag)
     print(bloom_prediction)
     
