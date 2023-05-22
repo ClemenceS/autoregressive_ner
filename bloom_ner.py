@@ -60,9 +60,9 @@ def PER_prompt(example, begin_tag='@@', end_tag='##'):
     return prompt
 
 def get_bloom_predictions(example_string, ner_tag):
-    API_URL = "https://api-inference.huggingface.co/models/bigscience/bloomz"
-    headers = {"Authorization": "Bearer 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"}
-
+    API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
+    headers = {"Authorization": "Bearer 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"}
+    
     def query(payload):
         response = requests.post(API_URL, headers=headers, json=payload)
         return response.json()
