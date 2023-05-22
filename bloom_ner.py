@@ -1,8 +1,6 @@
 import re
 import datasets
 import requests
-# from huggingface_hub import HfApi
-from sklearn.metrics import f1_score, precision_score, recall_score
 
 def example2string(example, ner_tag_id, begin_tag, end_tag):
     # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
