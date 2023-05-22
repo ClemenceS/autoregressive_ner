@@ -4,10 +4,10 @@ import requests
 # from huggingface_hub import HfApi
 from sklearn.metrics import f1_score, precision_score, recall_score
 
-def datasets2bloom_readable_format(example, ner_tag_id, begin_tag='@@', end_tag='##'):
-    # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = ## and ending tag = @@
+def example2string(example, ner_tag_id, begin_tag='@@', end_tag='##'):
+    # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
     # and the example is {'id': 0, 'words': ['I', 'love', 'Paris', 'and', 'Berlin'], 'ner_tags': [0, 0, 3, 0, 3]}
-    # the returned string will be 'I love ##Paris@@ and ##Berlin@@'
+    # the returned string will be 'I love @@Paris## and @@Berlin##'
     words = example['words']
     ner_tags = example['ner_tags']
     # initialize the string
