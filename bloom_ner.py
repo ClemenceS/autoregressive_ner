@@ -73,6 +73,38 @@ def PER_en_prompt(example, begin_tag, end_tag):
     prompt+= "Output: "
     return prompt
 
+def LOC_prompt(example, begin_tag, end_tag):
+    #this function takes an example and a ner tag and returns a prompt
+    prompt = "Je suis un linguiste expert, je sais identifier les mentions des lieux dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n"
+    prompt+= "Entrée : Les portes de l' enfer sont situées en Turquie .\n"
+    prompt+= "Sortie : Les portes de l' enfer sont situées en {0}Turquie{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Entrée : Zinedine Zidane explique que le Real Madrid a besoin de Karim Benzema .\n"
+    prompt+= "Sortie : Zinedine Zidane explique que le Real Madrid a besoin de Karim Benzema .\n"
+    prompt+= "Entrée : Les manifestants se sont rassemblés sur la place République .\n"
+    prompt+= "Sortie : Les manifestants se sont rassemblés sur {0}la place République{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Entrée : La ville de Paris est située en France .\n"
+    prompt+= "Sortie : La ville de {0}Paris{1} est située en {0}France{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Imite-moi. Identifie les mentions de lieux dans la phrase suivante, en mettant \"{0}\" devant et un \"{1}\" derrière la mention dans la phrase suivante.\n".format(begin_tag, end_tag)
+    prompt+= "Entrée : "+example+"\n"
+    prompt+= "Sortie : "
+    return prompt
+
+def LOC_en_prompt(example, begin_tag, end_tag):
+    #this function takes an example and a ner tag and returns a prompt in english
+    prompt = "I am an expert linguist, I can identify mentions of places in a sentence. I can also format them. Here are some examples of sentences I can handle:\n"
+    prompt+= "Input: The gates of hell are located in Turkey .\n"
+    prompt+= "Output: The gates of hell are located in {0}Turkey{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Input: Zinedine Zidane explains that Real Madrid needs Karim Benzema .\n"
+    prompt+= "Output: Zinedine Zidane explains that Real Madrid needs Karim Benzema .\n"
+    prompt+= "Input: The demonstrators gathered in place République .\n"
+    prompt+= "Output: The demonstrators gathered in {0}place République{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Input: The city of Paris is located in France .\n"
+    prompt+= "Output: The city of {0}Paris{1} is located in {0}France{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Imitate me. Identify the mentions of places in the following sentence, by putting \"{0}\" in front and a \"{1}\" behind the mention in the following sentence.\n".format(begin_tag, end_tag)
+    prompt+= "Input: "+example+"\n"
+    prompt+= "Output: "
+    return prompt
+
 def query(payload):
     API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
     headers = {"Authorization": "Bearer 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"}
