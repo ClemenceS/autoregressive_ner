@@ -5,23 +5,13 @@ import requests
 from sklearn.metrics import f1_score, precision_score, recall_score
 
 def datasets2bloom_readable_format(example, ner_tag_id, begin_tag='@@', end_tag='##'):
-    # this function takes a dataset example and a ner_tag_id and returns a string
-    # the example is a dictionary with the following keys: 'id', 'words', 'ner_tags'
-    # the returned string is a sentence with the words of the given entity type surrounded by ## and @@
-    # for example, if ner_tag_id = 3 and 3 stands for LOC, beginning tag = ## and ending tag = @@
+    # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = ## and ending tag = @@
     # and the example is {'id': 0, 'words': ['I', 'love', 'Paris', 'and', 'Berlin'], 'ner_tags': [0, 0, 3, 0, 3]}
     # the returned string will be 'I love ##Paris@@ and ##Berlin@@'
-    # if the ner_tag_id = 2 and 2 stands for PER, beginning tag = ## and ending tag = @@
-    # and the example is {'id': 0, 'words': ['Barack', 'Obama', 'is', 'the', 'president', 'of', 'the', 'United', 'States', 'of', 'America'], 'ner_tags': [2, 2, 0, 0, 0, 0, 0, 3, 3, 3, 3]}
-    # the returned string will be '##Barack Obama@@ is the president of the United States of America'
-    
-    # get the words of the example
     words = example['words']
-    # get the ner tags of the example
     ner_tags = example['ner_tags']
     # initialize the string
     string = ''
-    # iterate over the words and the ner tags
     for i, (word, ner_tag) in enumerate(zip(words, ner_tags)):
         # if the ner tag is equal to the given ner tag id and the last ner tag was not equal to the given ner tag id
         if ner_tag == ner_tag_id and (ner_tags[i-1] != ner_tag_id if i > 0 else True):
@@ -39,20 +29,11 @@ def datasets2bloom_readable_format(example, ner_tag_id, begin_tag='@@', end_tag=
     return string.strip()
 
 def bloom_readable_format2datasets(string, ner_tag_id, begin_tag='@@', end_tag='##'):
-    # this function takes a string and returns a list of words and a list of ner tags
-    # the string is a sentence with the words of the given entity type surrounded by ## and @@
-    # for example, if ner_tag_id = 3 and 3 stands for LOC, beginning tag = ## and ending tag = @@
+    # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = ## and ending tag = @@
     # and the string is 'I love ##Paris@@ and ##Berlin@@'
     # the returned list of words will be ['I', 'love', 'Paris', 'and', 'Berlin']
     # and the returned list of ner tags will be [0, 0, 3, 0, 3]
-    # if the ner_tag_id = 2 and 2 stands for PER, beginning tag = ## and ending tag = @@
-    # and the string is '##Barack Obama@@ is the president of the United States of America'
-    # the returned list of words will be ['Barack', 'Obama', 'is', 'the', 'president', 'of', 'the', 'United', 'States', 'of', 'America']
-    # and the returned list of ner tags will be [2, 2, 0, 0, 0, 0, 0, 3, 3, 3, 3]
-
-    # initialize the list of words
     words = []
-    # initialize the list of ner tags
     ner_tags = []
     # split the string into around the beginning and ending tags
     words_split = re.findall(r"[\w']+|@@|##", string, re.UNICODE)
@@ -151,35 +132,12 @@ def evaluate_bloom_prediction(example, ner_tag, ner_tag_id):
     #get the bloom prediction
     bloom_prediction = get_bloom_predictions(' '.join(words), ner_tag)
     print(bloom_prediction)
-
-    #get the bloom prediction in the format of a list of words and a list of ner tags
-    bloom_prediction = bloom_readable_format2datasets(bloom_prediction, ner_tag_id)
-    words_bloom = bloom_prediction['words']
-    ner_tags_bloom = bloom_prediction['ner_tags']
-
-    if words != words_bloom:
-        f1_s = 0
-        precision = 0
-        recall = 0
-
-    else:
-        f1_s = f1_score(ner_tags, ner_tags_bloom, average='micro')
-        precision = precision_score(ner_tags, ner_tags_bloom, average='micro')
-        recall = recall_score(ner_tags, ner_tags_bloom, average='micro')
-
-    print("f1 score : ", f1_s)
-    print("precision : ", precision)
-    print("recall : ", recall)
     
 
 # dataset = datasets.load_dataset('meczifho/quaero')
-# examples = dataset['train']
-
-# for i in range(10):
-#     evaluate_bloom_prediction(examples[i], 'DISO', 3)
-
 dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
 examples = dataset['train']
 
 for i in range(10, 20):
+    # evaluate_bloom_prediction(examples[i], 'DISO', 3)
     evaluate_bloom_prediction(examples[i], 'PER', 2)
