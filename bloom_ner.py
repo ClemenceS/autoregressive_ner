@@ -73,13 +73,13 @@ def PER_en_prompt(example, begin_tag, end_tag):
     prompt+= "Output: "
     return prompt
 
-def get_model_predictions(example_string, ner_tag, begin_tag, end_tag):
+def query(payload):
     API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
     headers = {"Authorization": "Bearer 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"}
+    response = requests.post(API_URL, headers=headers, json=payload)
+    return response.json()
     
-    def query(payload):
-        response = requests.post(API_URL, headers=headers, json=payload)
-        return response.json()
+def get_model_predictions(example_string, ner_tag, begin_tag, end_tag):
     if ner_tag == 'DISO':
         prompt = DISO_prompt(example_string, begin_tag, end_tag)
     elif ner_tag == 'PER':
