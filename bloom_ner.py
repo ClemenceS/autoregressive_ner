@@ -131,7 +131,3 @@ examples = dataset['train']
 for i in range(0, len(examples)):
     # evaluate_model_prediction(examples[i], 'DISO', 3)
     evaluate_model_prediction(examples[i], 'PER', 2, begin_tag='@@', end_tag='##')
-print("======= Evaluation after 30 examples =======")
-print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
-print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
-print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
