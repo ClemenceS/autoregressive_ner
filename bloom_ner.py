@@ -4,7 +4,7 @@ import requests
 # from huggingface_hub import HfApi
 from sklearn.metrics import f1_score, precision_score, recall_score
 
-def example2string(example, ner_tag_id, begin_tag='@@', end_tag='##'):
+def example2string(example, ner_tag_id, begin_tag, end_tag):
     # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
     # and the example is {'id': 0, 'words': ['I', 'love', 'Paris', 'and', 'Berlin'], 'ner_tags': [0, 0, 3, 0, 3]}
     # the returned string will be 'I love @@Paris## and @@Berlin##'
@@ -29,7 +29,7 @@ def example2string(example, ner_tag_id, begin_tag='@@', end_tag='##'):
     return string.strip()
 
 
-def DISO_prompt(example, begin_tag='@@', end_tag='##'):
+def DISO_prompt(example, begin_tag, end_tag):
     #this function takes an example and a ner tag and returns a prompt
     prompt = "Je suis un clinicien expert, je sais identifier les mentions des maladies et des symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n"
     prompt+= "Entrée : Diagnostic et traitement de l' impuissance . Indications des injections intracaverneuses .\n"
@@ -43,7 +43,7 @@ def DISO_prompt(example, begin_tag='@@', end_tag='##'):
     prompt+= "Sortie : "
     return prompt
 
-def PER_prompt(example, begin_tag='@@', end_tag='##'):
+def PER_prompt(example, begin_tag, end_tag):
     #this function takes an example and a ner tag and returns a prompt
     prompt = "Je suis un linguiste expert, je sais identifier les mentions des personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n"
     prompt+= "Entrée : Le président de la République française est Emmanuel Macron .\n"
@@ -59,18 +59,17 @@ def PER_prompt(example, begin_tag='@@', end_tag='##'):
     prompt+= "Sortie : "
     return prompt
 
-def get_bloom_predictions(example_string, ner_tag):
+def get_model_predictions(example_string, ner_tag, begin_tag, end_tag):
     API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
     headers = {"Authorization": "Bearer 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"}
     
     def query(payload):
         response = requests.post(API_URL, headers=headers, json=payload)
         return response.json()
-        
     if ner_tag == 'DISO':
-        prompt = DISO_prompt(example_string)
+        prompt = DISO_prompt(example_string, begin_tag, end_tag)
     elif ner_tag == 'PER':
-        prompt = PER_prompt(example_string)
+        prompt = PER_prompt(example_string, begin_tag, end_tag)
     else:
         raise NotImplementedError
 
@@ -82,19 +81,28 @@ def get_bloom_predictions(example_string, ner_tag):
         raise Exception(output['error'])
     return output[0]['generated_text'].split('\n')[0]
      
-def evaluate_bloom_prediction(example, ner_tag, ner_tag_id):
+def evaluate_model_prediction(example, ner_tag, ner_tag_id, begin_tag, end_tag):
     #example is a dictionary with the keys 'doc_id', 'words', 'ner_tags'
     words = example['words'] if 'words' in example else example['tokens']
     ner_tags = example['ner_tags']
-    target = example2string({'words': words, 'ner_tags': ner_tags}, ner_tag_id)
-    bloom_prediction = get_bloom_predictions(' '.join(words), ner_tag)
-    print(bloom_prediction)
+    target = example2string({'words': words, 'ner_tags': ner_tags}, ner_tag_id, begin_tag, end_tag)
+    prediction = get_model_predictions(' '.join(words), ner_tag, begin_tag, end_tag)
+    print(target)
+    print(prediction)
+    print("-"*50)
     
-
+    regex_begin_tag = re.escape(begin_tag)
+    regex_end_tag = re.escape(end_tag)
+    target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
+    prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
+    print(target_mentions)
+    print(prediction_mentions)
+    print("=====================================")
+    
 # dataset = datasets.load_dataset('meczifho/quaero')
 dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
 examples = dataset['train']
 
-for i in range(10, 20):
-    # evaluate_bloom_prediction(examples[i], 'DISO', 3)
-    evaluate_bloom_prediction(examples[i], 'PER', 2)
+for i in range(0, 30):
+    # evaluate_model_prediction(examples[i], 'DISO', 3)
+    evaluate_model_prediction(examples[i], 'PER', 2, begin_tag='@@', end_tag='##')
