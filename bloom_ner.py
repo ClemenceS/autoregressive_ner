@@ -29,31 +29,30 @@ def datasets2bloom_readable_format(example, ner_tag_id, begin_tag='@@', end_tag=
     return string.strip()
 
 
-
-def DISO_prompt(example):
+def DISO_prompt(example, begin_tag='@@', end_tag='##'):
     #this function takes an example and a ner tag and returns a prompt
     prompt = "Je suis un clinicien expert, je sais identifier les mentions des maladies et des symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n"
     prompt+= "Entrée : Diagnostic et traitement de l' impuissance . Indications des injections intracaverneuses .\n"
-    prompt+= "Sortie : Diagnostic et traitement de l' @@impuissance## . Indications des injections intracaverneuses .\n"
+    prompt+= "Sortie : Diagnostic et traitement de l' {0}impuissance{1} . Indications des injections intracaverneuses .\n".format(begin_tag, end_tag)
     prompt+= "Entrée : Stratégie chirurgicale de l' adénocarcinome du cardia .\n"
-    prompt+= "Sortie : Stratégie chirurgicale de l' @@adénocarcinome du cardia## .\n"
+    prompt+= "Sortie : Stratégie chirurgicale de l' {0}adénocarcinome du cardia{1} .\n".format(begin_tag, end_tag)
     prompt+= "Entrée : Le paracétamol dans le traitement des douleurs arthrosiques .\n"
-    prompt+= "Sortie : Le paracétamol dans le traitement des @@douleurs arthrosiques## .\n"
-    prompt+= "Imite-moi. Identifie les mentions de maladies ou de symptômes dans la phrase suivante, en mettant \"@@\" devant et un \"##\" derrière la mention.\n"
+    prompt+= "Sortie : Le paracétamol dans le traitement des {0}douleurs arthrosiques{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Imite-moi. Identifie les mentions de maladies ou de symptômes dans la phrase suivante, en mettant \"{0}\" devant et un \"{1}\" derrière la mention.\n".format(begin_tag, end_tag)
     prompt+= "Entrée : "+example+"\n"
     prompt+= "Sortie : "
     return prompt
 
-def PER_prompt(example):
+def PER_prompt(example, begin_tag='@@', end_tag='##'):
     #this function takes an example and a ner tag and returns a prompt
     prompt = "Je suis un linguiste expert, je sais identifier les mentions des personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n"
     prompt+= "Entrée : Le président de la République française est Emmanuel Macron .\n"
-    prompt+= "Sortie : Le président de la République française est @@Emmanuel Macron## .\n"
+    prompt+= "Sortie : Le président de la République française est {0}Emmanuel Macron{1} .\n".format(begin_tag, end_tag)
     prompt+= "Entrée : Barack Obama est le président des États-Unis .\n"
-    prompt+= "Sortie : @@Barack Obama## est le président des États-Unis .\n"
+    prompt+= "Sortie : {0}Barack Obama{1} est le président des États-Unis .\n".format(begin_tag, end_tag)
     prompt+= "Entrée : Zinedine Zidane explique que le Real Madrid a besoin de Karim Benzema .\n"
-    prompt+= "Sortie : Zinedine Zidane explique que le Real Madrid a besoin de @@Karim Benzema## .\n"
-    prompt+= "Imite-moi. Identifie les mentions de personnes dans la phrase suivante, en mettant \"@@\" devant et un \"##\" derrière la mention.\n"
+    prompt+= "Sortie : {0}Zinedine Zidane{1} explique que le Real Madrid a besoin de {0}Karim Benzema{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Imite-moi. Identifie les mentions de personnes dans la phrase suivante, en mettant \"{0}\" devant et un \"{1}\" derrière la mention dans la phrase suivante.\n".format(begin_tag, end_tag)
     prompt+= "Entrée : "+example+"\n"
     prompt+= "Sortie : "
     return prompt
