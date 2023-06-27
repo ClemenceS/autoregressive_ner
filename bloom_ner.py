@@ -34,6 +34,8 @@ def DISO_prompt(example, begin_tag, end_tag):
     prompt+= "Sortie : Diagnostic et traitement de l' {0}impuissance{1} . Indications des injections intracaverneuses .\n".format(begin_tag, end_tag)
     prompt+= "Entrée : Stratégie chirurgicale de l' adénocarcinome du cardia .\n"
     prompt+= "Sortie : Stratégie chirurgicale de l' {0}adénocarcinome du cardia{1} .\n".format(begin_tag, end_tag)
+    prompt+= "Entrée : Intérêt de l' anesthésie caudale dans la cure chirurgicale du reflux vésico rénal .\n"
+    prompt+= "Sortie : Intérêt de l' anesthésie caudale dans la cure chirurgicale du reflux vésico rénal .\n"
     prompt+= "Entrée : Le paracétamol dans le traitement des douleurs arthrosiques .\n"
     prompt+= "Sortie : Le paracétamol dans le traitement des {0}douleurs arthrosiques{1} .\n".format(begin_tag, end_tag)
     prompt+= "Imite-moi. Identifie les mentions de maladies ou de symptômes dans la phrase suivante, en mettant \"{0}\" devant et un \"{1}\" derrière la mention.\n".format(begin_tag, end_tag)
