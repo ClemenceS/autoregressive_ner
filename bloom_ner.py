@@ -1,3 +1,4 @@
+import random
 import re
 import datasets
 import requests
@@ -6,7 +7,7 @@ def example2string(example, ner_tag_id, begin_tag, end_tag):
     # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
     # and the example is {'id': 0, 'words': ['I', 'love', 'Paris', 'and', 'Berlin'], 'ner_tags': [0, 0, 3, 0, 3]}
     # the returned string will be 'I love @@Paris## and @@Berlin##'
-    words = example['words']
+    words = example['words' if 'words' in example else 'tokens']
     ner_tags = example['ner_tags']
     # initialize the string
     string = ''
@@ -27,85 +28,87 @@ def example2string(example, ner_tag_id, begin_tag, end_tag):
     return string.strip()
 
 
-def DISO_prompt(example, begin_tag, end_tag):
-    #this function takes an example and a ner tag and returns a prompt
-    prompt = "Je suis un clinicien expert, je sais identifier les mentions des maladies et des symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n"
-    prompt+= "Entrée : Diagnostic et traitement de l' impuissance . Indications des injections intracaverneuses .\n"
-    prompt+= "Sortie : Diagnostic et traitement de l' {0}impuissance{1} . Indications des injections intracaverneuses .\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : Stratégie chirurgicale de l' adénocarcinome du cardia .\n"
-    prompt+= "Sortie : Stratégie chirurgicale de l' {0}adénocarcinome du cardia{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : Intérêt de l' anesthésie caudale dans la cure chirurgicale du reflux vésico rénal .\n"
-    prompt+= "Sortie : Intérêt de l' anesthésie caudale dans la cure chirurgicale du reflux vésico rénal .\n"
-    prompt+= "Entrée : Le paracétamol dans le traitement des douleurs arthrosiques .\n"
-    prompt+= "Sortie : Le paracétamol dans le traitement des {0}douleurs arthrosiques{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Imite-moi. Identifie les mentions de maladies ou de symptômes dans la phrase suivante, en mettant \"{0}\" devant et un \"{1}\" derrière la mention.\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : "+example+"\n"
-    prompt+= "Sortie : "
-    return prompt
+english_keywords = {
+    'first_sentence' : "I am an expert {}, I can identify mentions of {} in a sentence. I can also format them. Here are some examples of sentences I can handle:\n",
+    'last_sentence' : "Imitate me. Identify the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind the mention in the following sentence.\n",
+    'domains_jobs' : {
+        'clinical' : "clinician",
+        'general' : "linguist"
+    },
+    'ner_tags' : {
+        'PER' : "persons",
+        'DISO' : "disorders",
+        'LOC' : "places"
+    },
+    'input_intro' : "Input: ",
+    'output_intro' : "Output: ",
+}
 
-def PER_prompt(example, begin_tag, end_tag):
-    #this function takes an example and a ner tag and returns a prompt
-    prompt = "Je suis un linguiste expert, je sais identifier les mentions des personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n"
-    prompt+= "Entrée : Le président de la République française est Emmanuel Macron .\n"
-    prompt+= "Sortie : Le président de la République française est {0}Emmanuel Macron{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : Barack Obama est le président des États-Unis .\n"
-    prompt+= "Sortie : {0}Barack Obama{1} est le président des États-Unis .\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : Paris est la capitale de la France .\n"
-    prompt+= "Sortie : Paris est la capitale de la France .\n"
-    prompt+= "Entrée : Zinedine Zidane explique que le Real Madrid a besoin de Karim Benzema .\n"
-    prompt+= "Sortie : {0}Zinedine Zidane{1} explique que le Real Madrid a besoin de {0}Karim Benzema{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Imite-moi. Identifie les mentions de personnes dans la phrase suivante, en mettant \"{0}\" devant et un \"{1}\" derrière la mention dans la phrase suivante.\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : "+example+"\n"
-    prompt+= "Sortie : "
-    return prompt
+french_keywords = {
+    'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
+    'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
+    'domains_jobs' : {
+        'clinical' : "clinicien",
+        'general' : "linguiste"
+    },
+    'ner_tags' : {
+        'PER' : "personnes",
+        'DISO' : "maladies et symptômes",
+        'LOC' : "lieux"
+    },
+    'input_intro' : "Entrée : ",
+    'output_intro' : "Sortie : ",
+}
 
-def PER_en_prompt(example, begin_tag, end_tag):
+quaero_tags = {
+    "O": 0,
+    "ANAT": 1,
+    "LIVB": 2,
+    "DISO": 3,
+    "PROC": 4,
+    "CHEM": 5,
+    "GEOG": 6,
+    "PHYS": 7,
+    "PHEN": 8,
+    "OBJC": 9,
+    "DEVI": 10
+}
+
+wikiner_tags = {
+    "O": 0,
+    "LOC": 1,
+    "PER": 2,
+    "FAC": 3,
+    "ORG": 4,
+}
+
+prompt_keywords = {
+    'en' : english_keywords,
+    'fr' : french_keywords
+}
+
+def demonstrate(dataset, example_index, ner_tag_id, language, begin_tag, end_tag, test=False):
+    keywords = prompt_keywords[language]
+    example = dataset['test' if test else 'train'][example_index]
+    output = keywords['input_intro']+' '.join(example['words' if 'words' in example else 'tokens'])+'\n'
+    output+= keywords['output_intro']
+    if not test:
+        output+=example2string(example, ner_tag_id, begin_tag, end_tag)+'\n'
+    return output
+
+
+def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
     #this function takes an example and a ner tag and returns a prompt in english
-    prompt = "I am an expert linguist, I can identify mentions of people in a sentence. I can also format them. Here are some examples of sentences I can handle:\n"
-    prompt+= "Input: The President of the French Republic is Emmanuel Macron .\n"
-    prompt+= "Output: The President of the French Republic is {0}Emmanuel Macron{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Input: Barack Obama is the President of the United States .\n"
-    prompt+= "Output: {0}Barack Obama{1} is the President of the United States .\n".format(begin_tag, end_tag)
-    prompt+= "Input: Paris is the capital of France .\n"
-    prompt+= "Output: Paris is the capital of France .\n"
-    prompt+= "Input: Zinedine Zidane explains that Real Madrid needs Karim Benzema .\n"
-    prompt+= "Output: {0}Zinedine Zidane{1} explains that Real Madrid needs {0}Karim Benzema{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Imitate me. Identify the mentions of people in the following sentence, by putting \"{0}\" in front and a \"{1}\" behind the mention in the following sentence.\n".format(begin_tag, end_tag)
-    prompt+= "Input: "+example+"\n"
-    prompt+= "Output: "
+    keywords = prompt_keywords[language]
+    prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
+    #get the first example
+    prompt+= demonstrate(dataset, 0, ner_tag_id, language, begin_tag, end_tag)
+    prompt+= demonstrate(dataset, 1, ner_tag_id, language, begin_tag, end_tag)
+    prompt+= demonstrate(dataset, 2, ner_tag_id, language, begin_tag, end_tag)
+    prompt+= keywords['last_sentence'].format(keywords['ner_tags'][ner_tag], begin_tag, end_tag)
+    prompt+= demonstrate(dataset, example_index, ner_tag_id, language, begin_tag, end_tag, test=True)
     return prompt
 
-def LOC_prompt(example, begin_tag, end_tag):
-    #this function takes an example and a ner tag and returns a prompt
-    prompt = "Je suis un linguiste expert, je sais identifier les mentions des lieux dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n"
-    prompt+= "Entrée : Les portes de l' enfer sont situées en Turquie .\n"
-    prompt+= "Sortie : Les portes de l' enfer sont situées en {0}Turquie{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : Zinedine Zidane explique que le Real Madrid a besoin de Karim Benzema .\n"
-    prompt+= "Sortie : Zinedine Zidane explique que le Real Madrid a besoin de Karim Benzema .\n"
-    prompt+= "Entrée : Les manifestants se sont rassemblés sur la place République .\n"
-    prompt+= "Sortie : Les manifestants se sont rassemblés sur {0}la place République{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : La ville de Paris est située en France .\n"
-    prompt+= "Sortie : La ville de {0}Paris{1} est située en {0}France{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Imite-moi. Identifie les mentions de lieux dans la phrase suivante, en mettant \"{0}\" devant et un \"{1}\" derrière la mention dans la phrase suivante.\n".format(begin_tag, end_tag)
-    prompt+= "Entrée : "+example+"\n"
-    prompt+= "Sortie : "
-    return prompt
-
-def LOC_en_prompt(example, begin_tag, end_tag):
-    #this function takes an example and a ner tag and returns a prompt in english
-    prompt = "I am an expert linguist, I can identify mentions of places in a sentence. I can also format them. Here are some examples of sentences I can handle:\n"
-    prompt+= "Input: The gates of hell are located in Turkey .\n"
-    prompt+= "Output: The gates of hell are located in {0}Turkey{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Input: Zinedine Zidane explains that Real Madrid needs Karim Benzema .\n"
-    prompt+= "Output: Zinedine Zidane explains that Real Madrid needs Karim Benzema .\n"
-    prompt+= "Input: The demonstrators gathered in place République .\n"
-    prompt+= "Output: The demonstrators gathered in {0}place République{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Input: The city of Paris is located in France .\n"
-    prompt+= "Output: The city of {0}Paris{1} is located in {0}France{1} .\n".format(begin_tag, end_tag)
-    prompt+= "Imitate me. Identify the mentions of places in the following sentence, by putting \"{0}\" in front and a \"{1}\" behind the mention in the following sentence.\n".format(begin_tag, end_tag)
-    prompt+= "Input: "+example+"\n"
-    prompt+= "Output: "
-    return prompt
 
 def query(payload):
     API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
@@ -113,14 +116,11 @@ def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
     return response.json()
     
-def get_model_predictions(example_string, ner_tag, begin_tag, end_tag):
-    if ner_tag == 'DISO':
-        prompt = DISO_prompt(example_string, begin_tag, end_tag)
-    elif ner_tag == 'PER':
-        prompt = PER_prompt(example_string, begin_tag, end_tag)
-    else:
-        raise NotImplementedError
-
+def get_model_predictions(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
+    prompt = make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
+    print(prompt)
+    print("-"*50)
+    
     output = query({
         "inputs": prompt, "options": {"use_cache": True},
         "parameters": {"max_new_tokens": 100,"return_full_text": False,"top_p": 0.9,"top_k": 3,"temperature": 0.7,},
@@ -129,53 +129,49 @@ def get_model_predictions(example_string, ner_tag, begin_tag, end_tag):
         raise Exception(output['error'])
     return output[0]['generated_text'].split('\n')[0]
      
-def evaluate_model_prediction(example, ner_tag, ner_tag_id, begin_tag, end_tag):
-    #example is a dictionary with the keys 'doc_id', 'words', 'ner_tags'
-    words = example['words'] if 'words' in example else example['tokens']
-    ner_tags = example['ner_tags']
-    target = example2string({'words': words, 'ner_tags': ner_tags}, ner_tag_id, begin_tag, end_tag)
-    prediction = get_model_predictions(' '.join(words), ner_tag, begin_tag, end_tag)
-    print(target)
-    print(prediction)
-    print("-"*50)
-    
-    regex_begin_tag = re.escape(begin_tag)
-    regex_end_tag = re.escape(end_tag)
-    target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
-    prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
-    # print(target_mentions)
-    # print(prediction_mentions)
-    # print("-"*50)
-    
-    tp = len(set(target_mentions).intersection(set(prediction_mentions)))
-    relevant = len(target_mentions)
-    retrieved = len(prediction_mentions)
-    # print("tp: ", tp)
-    # print("relevant: ", relevant)
-    # print("retrieved: ", retrieved)
-    # print("-"*50)
-    
-    global tp_sum, relevant_sum, retrieved_sum
-    tp_sum += len(set(target_mentions).intersection(set(prediction_mentions)))
-    relevant_sum += len(target_mentions)
-    retrieved_sum += len(prediction_mentions)
-    # print("tp_sum: ", tp_sum)
-    # print("relevant_sum: ", relevant_sum)
-    # print("retrieved_sum: ", retrieved_sum)
-    # print("-"*50)
-    
-    print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
-    print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
-    print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
-    print("=====================================")
-    
-tp_sum = 0
-relevant_sum = 0
-retrieved_sum = 0
-# dataset = datasets.load_dataset('meczifho/quaero')
-dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
-examples = dataset['train']
+def evaluate_model_prediction(dataset, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
+    tp_sum = 0
+    relevant_sum = 0
+    retrieved_sum = 0
 
-for i in range(0, len(examples)):
-    # evaluate_model_prediction(examples[i], 'DISO', 3)
-    evaluate_model_prediction(examples[i], 'PER', 2, begin_tag='@@', end_tag='##')
+    for _ in range(10):
+        example_index = random.randint(0, len(dataset['test'])-1)
+        target = example2string(dataset['test'][example_index], ner_tag_id, begin_tag, end_tag)
+        prediction = get_model_predictions(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
+        print(target)
+        print(prediction)
+        print("-"*50)
+    
+        regex_begin_tag = re.escape(begin_tag)
+        regex_end_tag = re.escape(end_tag)
+        target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
+        prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
+        print(target_mentions)
+        print(prediction_mentions)
+        print("-"*50)
+        
+        tp = len(set(target_mentions).intersection(set(prediction_mentions)))
+        relevant = len(target_mentions)
+        retrieved = len(prediction_mentions)
+        print("tp: ", tp)
+        print("relevant: ", relevant)
+        print("retrieved: ", retrieved)
+        print("-"*50)
+        
+        tp_sum += len(set(target_mentions).intersection(set(prediction_mentions)))
+        relevant_sum += len(target_mentions)
+        retrieved_sum += len(prediction_mentions)
+        print("tp_sum: ", tp_sum)
+        print("relevant_sum: ", relevant_sum)
+        print("retrieved_sum: ", retrieved_sum)
+        print("-"*50)
+        
+        print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
+        print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
+        print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
+        print("=====================================")
+    
+dataset = datasets.load_dataset('meczifho/QuaeroFrenchMed','MEDLINE')
+# dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
+
+evaluate_model_prediction(dataset, 'DISO', quaero_tags["DISO"], 'en', 'clinical', '@@', '##')
