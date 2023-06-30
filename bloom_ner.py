@@ -27,12 +27,21 @@ def query(payload):
         raise Exception(response.json())
     return response.json()
 
+def sentences_with_most_occurences(dataset, example_index, ner_tag_id, n):
+    counts = [e['ner_tags'].count(ner_tag_id) for e in dataset['train']]
+    return sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
+
+def sentences_with_most_common_words(dataset, example_index, ner_tag_id, n):
+    counts = [len(set(e['words']).intersection(set(dataset['train'][example_index]['words']))) for e in dataset['train']]
+    return sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
+
+
 def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
     #this function takes an example and a ner tag and returns a prompt in english
     keywords = prompt_keywords[language]
     prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
     #get the first example
-    for i in range(100,110):
+    for i in sentences_with_most_common_words(dataset, example_index, ner_tag_id, 5):
         prompt+= keywords['input_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
         prompt+= keywords['output_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=True)+'\n'
     prompt+= keywords['last_sentence'].format(keywords['ner_tags'][ner_tag], begin_tag, end_tag)
