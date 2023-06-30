@@ -1,4 +1,3 @@
-import random
 import re
 import datasets
 import requests
@@ -19,12 +18,18 @@ def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
         string += ' '
     return string.strip()
 
+def query(payload):
+    API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
+    headers = {"Authorization": "Bearer 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"}
+    response = requests.post(API_URL, headers=headers, json=payload)
+    return response.json()
+
 def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
     #this function takes an example and a ner tag and returns a prompt in english
     keywords = prompt_keywords[language]
     prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
     #get the first example
-    for i in range(5):
+    for i in range(100,110):
         prompt+= keywords['input_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
         prompt+= keywords['output_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=True)+'\n'
     prompt+= keywords['last_sentence'].format(keywords['ner_tags'][ner_tag], begin_tag, end_tag)
@@ -32,12 +37,6 @@ def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, b
     prompt+= keywords['output_intro']
     return prompt
 
-def query(payload):
-    API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
-    headers = {"Authorization": "Bearer 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"}
-    response = requests.post(API_URL, headers=headers, json=payload)
-    return response.json()    
-     
 def evaluate_model_prediction(dataset, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
     tp_sum = 0
     relevant_sum = 0
@@ -45,7 +44,7 @@ def evaluate_model_prediction(dataset, ner_tag, ner_tag_id, language, domain, be
 
     prompt = make_prompt(dataset, 100, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
     print(prompt)
-    for i in range(100):
+    for i in range(len(dataset['test'])):
         target = example2string(dataset['test'][i], ner_tag_id, begin_tag, end_tag, tagged=True)
         prompt = make_prompt(dataset, i, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
         output = query({
