@@ -22,6 +22,9 @@ def query(payload):
     API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
     headers = {"Authorization": "Bearer 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"}
     response = requests.post(API_URL, headers=headers, json=payload)
+    #check if the response is an error
+    if response.status_code != 200:
+        raise Exception(response.json())
     return response.json()
 
 def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
