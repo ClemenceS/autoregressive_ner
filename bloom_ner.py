@@ -154,12 +154,11 @@ prompt_keywords = {
     }
 }
 
+dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
+dataset['train'] = [example for example in dataset['train'] if len(example['tokens']) < 40]
+wikiner_tags = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
+evaluate_model_prediction(dataset, 'PER', wikiner_tags["PER"], 'fr', 'general', '@@', '##')
 
-# dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
-# dataset['train'] = [example for example in dataset['train'] if len(example['tokens']) < 40]
-# wikiner_tags = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
-# evaluate_model_prediction(dataset, 'PER', wikiner_tags["PER"], 'fr', 'general', '@@', '##')
-
-dataset = datasets.load_dataset('meczifho/QuaeroFrenchMed','MEDLINE')
-quaero_tags = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}
-evaluate_model_prediction(dataset, 'DISO', quaero_tags["DISO"], 'fr', 'clinical', '@@', '##')
+# dataset = datasets.load_dataset('meczifho/QuaeroFrenchMed','MEDLINE')
+# quaero_tags = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}
+# evaluate_model_prediction(dataset, 'DISO', quaero_tags["DISO"], 'fr', 'clinical', '@@', '##')
