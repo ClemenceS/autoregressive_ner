@@ -32,7 +32,7 @@ def sentences_with_most_occurences(dataset, example_index, ner_tag_id, n):
     return sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
 
 def sentences_with_most_common_words(dataset, example_index, ner_tag_id, n):
-    counts = [len(set(e['words']).intersection(set(dataset['train'][example_index]['words']))) for e in dataset['train']]
+    counts = [len(set(e['words']).intersection(set(dataset['test'][example_index]['words']))) for e in dataset['train']]
     return sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
 
 
