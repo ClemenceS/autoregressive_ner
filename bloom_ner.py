@@ -90,34 +90,34 @@ def evaluate_model_prediction(dataset, ner_tag, ner_tag_id, language, domain, be
 
     prompt = make_prompt(dataset, 100, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
     print(prompt)
-    for i in range(len(dataset['test'])):
-        target = example2string(dataset['test'][i], ner_tag_id, begin_tag, end_tag, tagged=True)
-        prompt = make_prompt(dataset, i, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
-        output = query({
-            "inputs": prompt,
-            "parameters": {"max_new_tokens": 100,"return_full_text": False,"top_p": 0.9,"top_k": 3,"temperature": 0.7,},
-        })
-        if "error" in output:
-            raise Exception(output['error'])
-        prediction = output[0]['generated_text'].split('\n')[0]
-        #print target and predictions to a new log file
-        with open('../autoreg_logs/'+ner_tag+'_'+domain+'_'+language+'_'+begin_tag+'_'+end_tag+'.txt', 'a') as f:
+    with open(ner_tag+'_'+domain+'_'+language+'_'+begin_tag+'_'+end_tag+'.txt', 'w') as f:       
+        for i in range(len(dataset['test'])):
+            target = example2string(dataset['test'][i], ner_tag_id, begin_tag, end_tag, tagged=True)
+            prompt = make_prompt(dataset, i, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
+            output = query({
+                "inputs": prompt,
+                "parameters": {"max_new_tokens": 100,"return_full_text": False,"top_p": 0.9,"top_k": 3,"temperature": 0.7,},
+            })
+            if "error" in output:
+                raise Exception(output['error'])
+            prediction = output[0]['generated_text'].split('\n')[0]
+            #print target and predictions to a new log file
             f.write(target+'\n')
             f.write(prediction+'\n\n')
-        
-        regex_begin_tag = re.escape(begin_tag)
-        regex_end_tag = re.escape(end_tag)
-        target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
-        prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
-        
-        tp_sum += len(set(target_mentions).intersection(set(prediction_mentions)))
-        relevant_sum += len(target_mentions)
-        retrieved_sum += len(prediction_mentions)
+            
+            regex_begin_tag = re.escape(begin_tag)
+            regex_end_tag = re.escape(end_tag)
+            target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
+            prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
+            
+            tp_sum += len(set(target_mentions).intersection(set(prediction_mentions)))
+            relevant_sum += len(target_mentions)
+            retrieved_sum += len(prediction_mentions)
 
-        print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
-        print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
-        print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
-        print("=====================================")
+            print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
+            print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
+            print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
+            print("=====================================")
 
 prompt_keywords = {
     'en' : {
