@@ -72,7 +72,10 @@ def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, b
     keywords = prompt_keywords[language]
     prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
     #get the first example
-    for i in sentences_with_most_common_words(dataset, example_index, ner_tag_id, 5):
+    few_shots = sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, 3)
+    few_shots+= sentences_with_most_occurences(dataset, example_index, ner_tag_id, 2)
+    random.shuffle(few_shots)
+    for i in few_shots:
         prompt+= keywords['input_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
         prompt+= keywords['output_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=True)+'\n'
     prompt+= keywords['last_sentence'].format(keywords['ner_tags'][ner_tag], begin_tag, end_tag)
