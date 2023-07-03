@@ -1,6 +1,8 @@
 import re
 import datasets
 import requests
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
@@ -32,9 +34,38 @@ def sentences_with_most_occurences(dataset, example_index, ner_tag_id, n):
     return sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
 
 def sentences_with_most_common_words(dataset, example_index, ner_tag_id, n):
-    counts = [len(set(e['words']).intersection(set(dataset['test'][example_index]['words']))) for e in dataset['train']]
-    return sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
+    ref_words = dataset['test'][example_index]['words']
+    counts = [len(set(e['words']).intersection(set(ref_words))) for e in dataset['train']]
+    res = sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
+    print("=====================================")
+    print("the reference example is: ")
+    print(example2string(dataset['test'][example_index], ner_tag_id, '', '', tagged=False))
+    print("the most similar examples are: ")
+    print("=====================================")
+    for i in res:
+        print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False))
+        print("shared words: ", set(dataset['train'][i]['words']).intersection(set(dataset['test'][example_index]['words'])))
+        print('-------------------')
+    print("=====================================")
+    return res
 
+def sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, n):
+    tokenized_examples = [e['words' if 'words' in e else 'tokens'] for e in dataset['train']]
+    tokenized_examples.append(dataset['test'][example_index]['words' if 'words' in dataset['test'][example_index] else 'tokens'])
+    tfidf = TfidfVectorizer(tokenizer=lambda x: x, lowercase=False)
+    tfidf.fit(tokenized_examples)
+    tfidf_matrix = tfidf.transform(tokenized_examples)
+    similarities = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])
+    res = sorted(range(len(similarities[0])), key=lambda i: similarities[0][i])[-n:]
+    print("=====================================")
+    print("the reference example is: ")
+    print(example2string(dataset['test'][example_index], ner_tag_id, '', '', tagged=False))
+    print("the most similar examples are: ")
+    print("=====================================")
+    for i in res:
+        print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False), "similarity: ", similarities[0][i])
+        print('-------------------')
+    return res
 
 def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
     #this function takes an example and a ner tag and returns a prompt in english
