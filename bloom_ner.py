@@ -135,7 +135,7 @@ retrieved_sum = 0
 
 logger.info("Making prompts...")
 prompts = []
-for i in tqdm(range(250)):
+for i in tqdm(range(len(dataset['test']))):
     new_prompt = make_prompt(
         dataset, 
         i, 
