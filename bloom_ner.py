@@ -42,11 +42,10 @@ def sentences_with_most_common_words(dataset, example_index, ner_tag_id, n):
     print("the reference example is: ")
     print(example2string(dataset['test'][example_index], ner_tag_id, '', '', tagged=False))
     print("the most similar examples are: ")
-    print("=====================================")
     for i in res:
+        print('-------------------')
         print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False))
         print("shared words: ", set(dataset['train'][i]['words']).intersection(set(dataset['test'][example_index]['words'])))
-        print('-------------------')
     print("=====================================")
     return res
 
@@ -62,10 +61,9 @@ def sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, n):
     print("the reference example is: ")
     print(example2string(dataset['test'][example_index], ner_tag_id, '', '', tagged=False))
     print("the most similar examples are: ")
-    print("=====================================")
     for i in res:
-        print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False), "similarity: ", similarities[0][i])
         print('-------------------')
+        print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False), "similarity: ", similarities[0][i])
     return res
 
 def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
@@ -89,15 +87,13 @@ def evaluate_model_prediction(dataset, ner_tag, ner_tag_id, language, domain, be
     relevant_sum = 0
     retrieved_sum = 0
 
-    prompt = make_prompt(dataset, 100, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
-    print(prompt)
     with open(ner_tag+'_'+domain+'_'+language+'_'+begin_tag+'_'+end_tag+'.txt', 'w') as f:       
         for i in range(len(dataset['test'])):
             target = example2string(dataset['test'][i], ner_tag_id, begin_tag, end_tag, tagged=True)
             prompt = make_prompt(dataset, i, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
             output = query({
                 "inputs": prompt,
-                "parameters": {"max_new_tokens": 100,"return_full_text": False,"top_p": 0.9,"top_k": 3,"temperature": 0.7,},
+                "parameters": {"max_new_tokens": 100,"return_full_text": False,"top_p": 0.9,"top_k": 10,"temperature": 0.7,},
             })
             if "error" in output:
                 raise Exception(output['error'])
@@ -105,6 +101,9 @@ def evaluate_model_prediction(dataset, ner_tag, ner_tag_id, language, domain, be
             #print target and predictions to a new log file
             f.write(target+'\n')
             f.write(prediction+'\n\n')
+            print(prompt)
+            print(target)
+            print(prediction)
             
             regex_begin_tag = re.escape(begin_tag)
             regex_end_tag = re.escape(end_tag)
@@ -155,11 +154,11 @@ prompt_keywords = {
     }
 }
 
-dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
-dataset['train'] = [example for example in dataset['train'] if len(example['tokens']) < 40]
-wikiner_tags = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
-evaluate_model_prediction(dataset, 'PER', wikiner_tags["PER"], 'fr', 'general', '@@', '##')
+# dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
+# dataset['train'] = [example for example in dataset['train'] if len(example['tokens']) < 40]
+# wikiner_tags = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
+# evaluate_model_prediction(dataset, 'PER', wikiner_tags["PER"], 'fr', 'general', '@@', '##')
 
-# dataset = datasets.load_dataset('meczifho/QuaeroFrenchMed','MEDLINE')
-# quaero_tags = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}
-# evaluate_model_prediction(dataset, 'DISO', quaero_tags["DISO"], 'fr', 'clinical', '@@', '##')
+dataset = datasets.load_dataset('meczifho/QuaeroFrenchMed','MEDLINE')
+quaero_tags = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}
+evaluate_model_prediction(dataset, 'DISO', quaero_tags["DISO"], 'fr', 'clinical', '<<', '>>')
