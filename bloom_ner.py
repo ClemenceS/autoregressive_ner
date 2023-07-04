@@ -4,6 +4,8 @@ import datasets
 import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from tqdm import tqdm
 
 def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
@@ -21,14 +23,32 @@ def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
         string += ' '
     return string.strip()
 
-def query(payload):
-    API_URL = "https://api-inference.huggingface.co/models/bigscience/bloom"
-    headers = {"Authorization": "Bearer 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"}
-    response = requests.post(API_URL, headers=headers, json=payload)
-    #check if the response is an error
-    if response.status_code != 200:
-        raise Exception(response.json())
-    return response.json()
+def query(prompts, model_name, model, tokenizer, api=False):
+    res= []
+    if api:
+        for prompt in prompts:
+            API_URL = "https://api-inference.huggingface.co/models/bigscience/"+model_name
+            headers = {"Authorization": "Bearer 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"}
+            payload = {
+                    "inputs": prompt,
+                    "parameters": {"max_new_tokens": 100,"return_full_text": False,"top_p": 0.9,"top_k": 10,"temperature": 0.7}
+                }
+            response = requests.post(API_URL, headers=headers, json=payload)
+            #check if the response is an error
+            if response.status_code != 200:
+                raise Exception(response.json())
+            print(response.json())
+            res.append(response.json()[0]['generated_text'])
+        return res
+    else:
+        batch_size = 2
+        for i in tqdm(range(0, len(prompts), batch_size)):
+            batch = prompts[i:i+batch_size]
+            input_ids = tokenizer(batch, padding=True, return_tensors="pt").input_ids.to("cuda")
+            output = model.generate(input_ids, max_new_tokens=40, do_sample=True, top_p=0.9, top_k=10, temperature=0.7)
+            res.extend([tokenizer.decode(o, skip_special_tokens=True) for o in output])
+        return res
+    
 
 def sentences_with_most_occurences(dataset, example_index, ner_tag_id, n):
     counts = [e['ner_tags'].count(ner_tag_id) for e in dataset['train']]
@@ -38,15 +58,15 @@ def sentences_with_most_common_words(dataset, example_index, ner_tag_id, n):
     ref_words = dataset['test'][example_index]['words']
     counts = [len(set(e['words']).intersection(set(ref_words))) for e in dataset['train']]
     res = sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
-    print("=====================================")
-    print("the reference example is: ")
-    print(example2string(dataset['test'][example_index], ner_tag_id, '', '', tagged=False))
-    print("the most similar examples are: ")
-    for i in res:
-        print('-------------------')
-        print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False))
-        print("shared words: ", set(dataset['train'][i]['words']).intersection(set(dataset['test'][example_index]['words'])))
-    print("=====================================")
+    # print("=====================================")
+    # print("the reference example is: ")
+    # print(example2string(dataset['test'][example_index], ner_tag_id, '', '', tagged=False))
+    # print("the most similar examples are: ")
+    # for i in res:
+    #     print('-------------------')
+    #     print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False))
+    #     print("shared words: ", set(dataset['train'][i]['words']).intersection(set(dataset['test'][example_index]['words'])))
+    # print("=====================================")
     return res
 
 def sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, n):
@@ -57,13 +77,13 @@ def sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, n):
     tfidf_matrix = tfidf.transform(tokenized_examples)
     similarities = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])
     res = sorted(range(len(similarities[0])), key=lambda i: similarities[0][i])[-n:]
-    print("=====================================")
-    print("the reference example is: ")
-    print(example2string(dataset['test'][example_index], ner_tag_id, '', '', tagged=False))
-    print("the most similar examples are: ")
-    for i in res:
-        print('-------------------')
-        print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False), "similarity: ", similarities[0][i])
+    # print("=====================================")
+    # print("the reference example is: ")
+    # print(example2string(dataset['test'][example_index], ner_tag_id, '', '', tagged=False))
+    # print("the most similar examples are: ")
+    # for i in res:
+    #     print('-------------------')
+    #     print(example2string(dataset['train'][i], ner_tag_id, '', '', tagged=False), "similarity: ", similarities[0][i])
     return res
 
 def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
@@ -71,8 +91,8 @@ def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, b
     keywords = prompt_keywords[language]
     prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
     #get the first example
-    few_shots = sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, 3)
-    few_shots+= sentences_with_most_occurences(dataset, example_index, ner_tag_id, 2)
+    # few_shots = sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, 3)
+    few_shots= sentences_with_most_occurences(dataset, example_index, ner_tag_id, 5)
     random.shuffle(few_shots)
     for i in few_shots:
         prompt+= keywords['input_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
@@ -80,28 +100,32 @@ def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, b
     prompt+= keywords['last_sentence'].format(keywords['ner_tags'][ner_tag], begin_tag, end_tag)
     prompt+= keywords['input_intro']+example2string(dataset['test'][example_index], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
     prompt+= keywords['output_intro']
+    print(prompt)
     return prompt
 
 def evaluate_model_prediction(dataset, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag):
     tp_sum = 0
     relevant_sum = 0
     retrieved_sum = 0
+    
 
     with open(ner_tag+'_'+domain+'_'+language+'_'+begin_tag+'_'+end_tag+'.txt', 'w') as f:       
-        for i in range(len(dataset['test'])):
-            target = example2string(dataset['test'][i], ner_tag_id, begin_tag, end_tag, tagged=True)
-            prompt = make_prompt(dataset, i, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag)
-            output = query({
-                "inputs": prompt,
-                "parameters": {"max_new_tokens": 100,"return_full_text": False,"top_p": 0.9,"top_k": 10,"temperature": 0.7,},
-            })
-            if "error" in output:
-                raise Exception(output['error'])
-            prediction = output[0]['generated_text'].split('\n')[0]
+        prompts = []
+        #make prompts with a progress bar
+        for i in tqdm(range(50)):
+            prompts.append(make_prompt(dataset, i, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag))
+        model_name = 'bloom-1b7'
+        api = False
+        tokenizer = AutoTokenizer.from_pretrained("bigscience/"+model_name)
+        model = AutoModelForCausalLM.from_pretrained("bigscience/"+model_name).to("cuda")
+        outputs = query(prompts,model_name=model_name,api=api, model=model, tokenizer=tokenizer)
+
+        targets = [example2string(dataset['test'][i], ner_tag_id, begin_tag, end_tag, tagged=True) for i in range(len(dataset['test']))]
+        for target, o in zip(targets, outputs):
+            prediction = o.split('\n')[-1]
             #print target and predictions to a new log file
             f.write(target+'\n')
             f.write(prediction+'\n\n')
-            print(prompt)
             print(target)
             print(prediction)
             
@@ -154,11 +178,11 @@ prompt_keywords = {
     }
 }
 
-# dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
-# dataset['train'] = [example for example in dataset['train'] if len(example['tokens']) < 40]
-# wikiner_tags = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
-# evaluate_model_prediction(dataset, 'PER', wikiner_tags["PER"], 'fr', 'general', '@@', '##')
+dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
+dataset['train'] = [example for example in dataset['train'] if len(example['tokens']) < 40]
+wikiner_tags = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
+evaluate_model_prediction(dataset, 'PER', wikiner_tags["PER"], 'fr', 'general', '@@', '##')
 
-dataset = datasets.load_dataset('meczifho/QuaeroFrenchMed','MEDLINE')
-quaero_tags = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}
-evaluate_model_prediction(dataset, 'DISO', quaero_tags["DISO"], 'fr', 'clinical', '<<', '>>')
+# dataset = datasets.load_dataset('meczifho/QuaeroFrenchMed','MEDLINE')
+# quaero_tags = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}
+# evaluate_model_prediction(dataset, 'DISO', quaero_tags["DISO"], 'fr', 'clinical', '<<', '>>')
