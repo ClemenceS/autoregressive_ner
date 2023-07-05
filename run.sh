@@ -7,9 +7,12 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=10G
-#SBATCH --time=00:01:00
+#SBATCH --time=02:00:00
 #SBATCH --gres=gpu:1
 
+export http_proxy=http://webproxy.lab-ia.fr:8080
+export https_proxy=http://webproxy.lab-ia.fr:8080
+export HTTP_PROXY=http://webproxy.lab-ia.fr:8080
+export HTTPS_PROXY=http://webproxy.lab-ia.fr:8080
 
-module load python
 python3 bloom_ner.py
