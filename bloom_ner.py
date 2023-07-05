@@ -28,19 +28,19 @@ def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     return string.strip()
     
 
-def sentences_with_most_occurences(dataset, example_index, ner_tag_id, n):
+def sentences_with_most_occurences(dataset, ner_tag_id, n):
     counts = [e['ner_tags'].count(ner_tag_id) for e in dataset['train']]
     return sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
 
-def sentences_with_most_common_words(dataset, example_index, ner_tag_id, n):
-    ref_words = dataset['test'][example_index]['words']
+def sentences_with_most_common_words(dataset, example, ner_tag_id, n):
+    ref_words = example['words' if 'words' in example else 'tokens']
     counts = [len(set(e['words']).intersection(set(ref_words))) for e in dataset['train']]
     res = sorted(range(len(counts)), key=lambda i: counts[i])[-n:]
     return res
 
-def sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, n):
+def sentences_with_closest_tf_idf(dataset, example, ner_tag_id, n):
     tokenized_examples = [e['words' if 'words' in e else 'tokens'] for e in dataset['train']]
-    tokenized_examples.append(dataset['test'][example_index]['words' if 'words' in dataset['test'][example_index] else 'tokens'])
+    tokenized_examples.append(example['words' if 'words' in example else 'tokens'])
     tfidf = TfidfVectorizer(tokenizer=lambda x: x, lowercase=False)
     tfidf.fit(tokenized_examples)
     tfidf_matrix = tfidf.transform(tokenized_examples)
@@ -54,21 +54,38 @@ criteria = {
     'closest_tf_idf' : sentences_with_closest_tf_idf
 }
 
-def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag, n_few_shots, criterion):
+def make_prompts(dataset, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag, n_few_shots, criterion):
     #this function takes an example and a ner tag and returns a prompt in english
     keywords = prompt_keywords[language]
-    prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
-    #get the first example
-    # few_shots = sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, 3)
-    few_shots= criteria[criterion](dataset, example_index, ner_tag_id, n_few_shots)
-    random.shuffle(few_shots)
-    for i in few_shots:
-        prompt+= keywords['input_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
-        prompt+= keywords['output_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=True)+'\n'
-    prompt+= keywords['last_sentence'].format(keywords['ner_tags'][ner_tag], begin_tag, end_tag)
-    prompt+= keywords['input_intro']+example2string(dataset['test'][example_index], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
-    prompt+= keywords['output_intro']
-    return prompt
+    few_shots_for_all = []
+    if criterion == 'random':
+        for i in range(10):
+            few_shots_for_all.append(random.sample(range(len(dataset['train'])), n_few_shots))
+    elif criterion == 'most_occurences':
+        few_shots_for_all = [sentences_with_most_occurences(dataset, ner_tag_id, n_few_shots) for i in range(10)]
+    elif criterion == 'closest_tf_idf':
+        #get the k nearest sentences in the training set
+        tfidf = TfidfVectorizer(tokenizer=lambda x: x, lowercase=False)
+        transformed_train = tfidf.fit_transform([e['words' if 'words' in e else 'tokens'] for e in dataset['train']])
+        transformed_test = tfidf.transform([e['words' if 'words' in e else 'tokens'] for e in dataset['test']])
+        similarities = cosine_similarity(transformed_test, transformed_train)
+        few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shots:] for i in range(len(dataset['test']))]
+
+        
+    prompts = []
+    for i in range(len(dataset['test'])):
+        example = dataset['test'][i]
+        prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
+        few_shots= few_shots_for_all[i]
+        random.shuffle(few_shots)
+        for i in few_shots:
+            prompt+= keywords['input_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
+            prompt+= keywords['output_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=True)+'\n'
+        prompt+= keywords['last_sentence'].format(keywords['ner_tags'][ner_tag], begin_tag, end_tag)
+        prompt+= keywords['input_intro']+example2string(example, ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
+        prompt+= keywords['output_intro']
+        prompts.append(prompt)
+    return prompts
 
 
 prompt_keywords = {
@@ -161,22 +178,18 @@ if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwr
     logger.info("Loaded prompts.")
 else:
     logger.info("Making prompts...")
-    prompts = []
-    for i in tqdm(range(len(dataset['test']))):
-        new_prompt = make_prompt(
-            dataset, 
-            i, 
-            ner_tag, 
-            tag_to_id[ner_tag], 
-            args.language, 
-            args.domain, 
-            args.begin_tag, 
-            args.end_tag, 
-            args.n_few_shot,
-            args.criterion,
-        )
-        prompts.append(new_prompt)
-
+    prompts = make_prompts(
+        dataset, 
+        ner_tag, 
+        tag_to_id[ner_tag], 
+        args.language, 
+        args.domain, 
+        args.begin_tag, 
+        args.end_tag, 
+        args.n_few_shot,
+        args.criterion,
+    )
+    
     #cache prompts
     with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
         for prompt in prompts:
