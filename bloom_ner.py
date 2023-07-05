@@ -1,4 +1,6 @@
 import datetime
+import hashlib
+import os
 import random
 import re
 import datasets
@@ -46,13 +48,19 @@ def sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, n):
     res = sorted(range(len(similarities[0])), key=lambda i: similarities[0][i])[-n:]
     return res
 
-def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag, n_few_shots):
+criteria = {
+    'most_occurences' : sentences_with_most_occurences,
+    'most_common_words' : sentences_with_most_common_words,
+    'closest_tf_idf' : sentences_with_closest_tf_idf
+}
+
+def make_prompt(dataset, example_index, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag, n_few_shots, criterion):
     #this function takes an example and a ner tag and returns a prompt in english
     keywords = prompt_keywords[language]
     prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
     #get the first example
     # few_shots = sentences_with_closest_tf_idf(dataset, example_index, ner_tag_id, 3)
-    few_shots= sentences_with_most_occurences(dataset, example_index, ner_tag_id, n_few_shots)
+    few_shots= criteria[criterion](dataset, example_index, ner_tag_id, n_few_shots)
     random.shuffle(few_shots)
     for i in few_shots:
         prompt+= keywords['input_intro']+example2string(dataset['train'][i], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
@@ -108,18 +116,22 @@ args.add_argument("--end_tag", type=str, default="##")
 args.add_argument("--n_few_shot", type=int, default=5)
 args.add_argument("--model_name", type=str, default="bigscience/bloom-1b7")
 args.add_argument("--batch_size", type=int, default=2)
+args.add_argument("--criterion", type=str, default="most_occurences")
+args.add_argument("--overwrite_prompt_cache", action="store_true")
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("bloom_ner")
 
 if args.domain == 'general':
-    dataset = datasets.load_dataset('Jean-Baptiste/wikiner_fr')
+    dataset_name = 'Jean-Baptiste/wikiner_fr'
+    dataset = datasets.load_dataset(dataset_name)
     dataset['train'] = [example for example in dataset['train'] if len(example['tokens']) < 40]
     tag_to_id = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
     ner_tag = args.ner_tag if args.ner_tag else 'PER'
 else :
-    dataset = datasets.load_dataset('meczifho/QuaeroFrenchMed','MEDLINE')
+    dataset_name = 'meczifho/QuaeroFrenchMed'
+    dataset = datasets.load_dataset(dataset_name,'MEDLINE')
     tag_to_id = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}    
     ner_tag = args.ner_tag if args.ner_tag else 'DISO'
 
@@ -127,26 +139,48 @@ time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 logfile = open('log_'+time_date+'.txt', 'w')
 logfile.write('language: '+args.language+'\n')
 logfile.write('domain: '+args.domain+'\n')
+logfile.write('ner_tag: '+ner_tag+'\n')
+logfile.write('begin_tag: '+args.begin_tag+'\n')
+logfile.write('end_tag: '+args.end_tag+'\n')
+logfile.write('n_few_shot: '+str(args.n_few_shot)+'\n')
+logfile.write('model_name: '+args.model_name+'\n')
+logfile.write('criterion: '+args.criterion+'\n')
 logfile.write('='*50+'\n')
 
 tp_sum = 0
 relevant_sum = 0
 retrieved_sum = 0
 
-logger.info("Making prompts...")
-prompts = []
-for i in tqdm(range(len(dataset['test']))):
-    new_prompt = make_prompt(
-        dataset, 
-        i, 
-        ner_tag, 
-        tag_to_id[ner_tag], 
-        args.language, 
-        args.domain, 
-        args.begin_tag, 
-        args.end_tag, 
-        args.n_few_shot)
-    prompts.append(new_prompt)
+assert args.criterion in criteria.keys(), "criterion must be in "+str(criteria.keys())
+params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion
+hash_object = hashlib.md5(params.encode())
+if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwrite_prompt_cache:
+    logger.info("Loading prompts...")
+    with open('prompts_'+hash_object.hexdigest()+'.txt', 'r') as f:
+        prompts = f.read().split('='*50)
+    logger.info("Loaded prompts.")
+else:
+    logger.info("Making prompts...")
+    prompts = []
+    for i in tqdm(range(len(dataset['test']))):
+        new_prompt = make_prompt(
+            dataset, 
+            i, 
+            ner_tag, 
+            tag_to_id[ner_tag], 
+            args.language, 
+            args.domain, 
+            args.begin_tag, 
+            args.end_tag, 
+            args.n_few_shot,
+            args.criterion,
+        )
+        prompts.append(new_prompt)
+
+    #cache prompts
+    with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
+        for prompt in prompts:
+            f.write(prompt+'='*50)
 
 logger.info("Generating outputs...")
 tokenizer = AutoTokenizer.from_pretrained(args.model_name)
