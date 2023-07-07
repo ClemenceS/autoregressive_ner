@@ -197,15 +197,24 @@ else:
         for prompt in prompts:
             f.write(prompt+'='*50)
 
-logger.info("Generating outputs...")
+
+logger.info("Tokenizing...")
 tokenizer = AutoTokenizer.from_pretrained(args.model_name)
+input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
+
+logger.info("Generating...")
 model = AutoModelForCausalLM.from_pretrained(args.model_name).to("cuda")
+model.eval()
+
 outputs = []
 for i in tqdm(range(0, len(prompts), args.batch_size)):
-    batch = prompts[i:i+args.batch_size]
-    input_ids = tokenizer(batch, padding=True, return_tensors="pt").input_ids.to("cuda")
-    output = model.generate(input_ids, max_new_tokens=40, do_sample=True, top_p=0.9, top_k=10, temperature=0.7)
-    outputs.extend([tokenizer.decode(o, skip_special_tokens=True) for o in output])
+    input_ids_batch = input_ids[i:i+args.batch_size].to("cuda")
+    output = model.generate(input_ids_batch, max_new_tokens=40, do_sample=True, top_p=0.9, top_k=10, temperature=0.7)
+    outputs += output.tolist()
+    
+logger.info("Decoding...")
+outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
+
 
 logger.info("Evaluating...")
 targets = [example2string(dataset['test'][i], tag_to_id[ner_tag], args.begin_tag, args.end_tag, tagged=True) for i in range(len(dataset['test']))]
