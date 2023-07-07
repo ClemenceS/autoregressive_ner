@@ -58,22 +58,23 @@ def make_prompts(dataset, ner_tag, ner_tag_id, language, domain, begin_tag, end_
     #this function takes an example and a ner tag and returns a prompt in english
     keywords = prompt_keywords[language]
     few_shots_for_all = []
+    num_prompts = len(dataset['test'])
     if criterion == 'random':
-        for i in range(10):
+        for i in range(num_prompts):
             few_shots_for_all.append(random.sample(range(len(dataset['train'])), n_few_shots))
     elif criterion == 'most_occurences':
-        few_shots_for_all = [sentences_with_most_occurences(dataset, ner_tag_id, n_few_shots) for i in range(10)]
+        few_shots_for_all = [sentences_with_most_occurences(dataset, ner_tag_id, n_few_shots)] * num_prompts
     elif criterion == 'closest_tf_idf':
         #get the k nearest sentences in the training set
         tfidf = TfidfVectorizer(tokenizer=lambda x: x, lowercase=False)
         transformed_train = tfidf.fit_transform([e['words' if 'words' in e else 'tokens'] for e in dataset['train']])
         transformed_test = tfidf.transform([e['words' if 'words' in e else 'tokens'] for e in dataset['test']])
         similarities = cosine_similarity(transformed_test, transformed_train)
-        few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shots:] for i in range(len(dataset['test']))]
+        few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shots:] for i in range(num_prompts)]
 
         
     prompts = []
-    for i in range(len(dataset['test'])):
+    for i in range(num_prompts):
         example = dataset['test'][i]
         prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags'][ner_tag])
         few_shots= few_shots_for_all[i]
