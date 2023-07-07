@@ -176,6 +176,7 @@ if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwr
     logger.info("Loading prompts...")
     with open('prompts_'+hash_object.hexdigest()+'.txt', 'r') as f:
         prompts = f.read().split('='*50)
+    prompts = prompts[:-1]
     logger.info("Loaded prompts.")
 else:
     logger.info("Making prompts...")
