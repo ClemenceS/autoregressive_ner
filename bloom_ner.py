@@ -202,13 +202,14 @@ logger.info("Tokenizing...")
 tokenizer = AutoTokenizer.from_pretrained(args.model_name)
 input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logger.info("Generating...")
-model = AutoModelForCausalLM.from_pretrained(args.model_name).to("cuda")
+model = AutoModelForCausalLM.from_pretrained(args.model_name).to(device)
 model.eval()
 
 outputs = []
 for i in tqdm(range(0, len(prompts), args.batch_size)):
-    input_ids_batch = input_ids[i:i+args.batch_size].to("cuda")
+    input_ids_batch = input_ids[i:i+args.batch_size].to(device)
     output = model.generate(input_ids_batch, max_new_tokens=40, do_sample=True, top_p=0.9, top_k=10, temperature=0.7)
     outputs += output.tolist()
     
