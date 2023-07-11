@@ -211,6 +211,7 @@ outputs = []
 for i in tqdm(range(0, len(prompts), args.batch_size)):
     input_ids_batch = input_ids[i:i+args.batch_size].to(device)
     output = model.generate(input_ids_batch, max_new_tokens=40, do_sample=True, top_p=0.9, top_k=10, temperature=0.7)
+    output = output[:,input_ids_batch.size(1):]
     outputs += output.tolist()
     
 logger.info("Decoding...")
@@ -220,7 +221,9 @@ outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outp
 logger.info("Evaluating...")
 targets = [example2string(dataset['test'][i], tag_to_id[ner_tag], args.begin_tag, args.end_tag, tagged=True) for i in range(len(dataset['test']))]
 for target, o in tqdm(zip(targets, outputs)):
-    prediction = o.split('\n')[-1]
+    prediction = o.split('\n')[0]
+    target = target.lower()
+    prediction = prediction.lower()
     #print target and predictions to a new log file
     logfile.write(target+'\n')
     logfile.write(prediction+'\n')
