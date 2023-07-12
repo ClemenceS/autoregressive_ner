@@ -10,6 +10,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from tqdm import tqdm
 import argparse
 import logging
+import torch
 
 def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
