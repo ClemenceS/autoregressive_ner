@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import itertools
 import os
 import random
 import re
@@ -11,6 +12,7 @@ from tqdm import tqdm
 import argparse
 import logging
 import torch
+import requests
 
 def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
@@ -140,6 +142,7 @@ args.add_argument("--overwrite_prompt_cache", action="store_true")
 args.add_argument('--top_p', type=float, nargs='+', default=[0.9])
 args.add_argument('--top_k', type=int, nargs='+', default=[10])
 args.add_argument('--temperature', type=float, nargs='+', default=[0.7])
+args.add_argument('--api_inference', action="store_true")
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
@@ -161,107 +164,120 @@ time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 folder_name = 'hyp_search_'+time_date
 os.mkdir(folder_name)
 
+#loop over all combinations of top_p, top_k and temperature
+for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.temperature):
+    time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    logfile = open(folder_name+'/log_'+time_date+'.txt','w')
+    logfile.write('language: '+args.language+'\n')
+    logfile.write('domain: '+args.domain+'\n')
+    logfile.write('ner_tag: '+ner_tag+'\n')
+    logfile.write('begin_tag: '+args.begin_tag+'\n')
+    logfile.write('end_tag: '+args.end_tag+'\n')
+    logfile.write('n_few_shot: '+str(args.n_few_shot)+'\n')
+    logfile.write('model_name: '+args.model_name+'\n')
+    logfile.write('criterion: '+args.criterion+'\n')
+    logfile.write('top_p:' +str(top_p)+'\n')
+    logfile.write('top_k:' +str(top_k)+'\n')
+    logfile.write('temperature:' +str(temp)+'\n')
+    logfile.write('='*50+'\n')
 
-for top_p in args.top_p:
-    for top_k in args.top_k:
-            for temp in args.temperature:
-                time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-                logfile = open(folder_name+'/log_'+time_date+'.txt','w')
-                logfile.write('language: '+args.language+'\n')
-                logfile.write('domain: '+args.domain+'\n')
-                logfile.write('ner_tag: '+ner_tag+'\n')
-                logfile.write('begin_tag: '+args.begin_tag+'\n')
-                logfile.write('end_tag: '+args.end_tag+'\n')
-                logfile.write('n_few_shot: '+str(args.n_few_shot)+'\n')
-                logfile.write('model_name: '+args.model_name+'\n')
-                logfile.write('criterion: '+args.criterion+'\n')
-                logfile.write('top_p:' +str(top_p)+'\n')
-                logfile.write('top_k:' +str(top_k)+'\n')
-                logfile.write('temperature:' +str(temp)+'\n')
-                logfile.write('='*50+'\n')
+    tp_sum = 0
+    relevant_sum = 0
+    retrieved_sum = 0
 
-                tp_sum = 0
-                relevant_sum = 0
-                retrieved_sum = 0
-
-                assert args.criterion in criteria.keys(), "criterion must be in "+str(criteria.keys())
-                params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion
-                hash_object = hashlib.md5(params.encode())
-                if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwrite_prompt_cache:
-                    logger.info("Loading prompts...")
-                    with open('prompts_'+hash_object.hexdigest()+'.txt', 'r') as f:
-                        prompts = f.read().split('='*50)
-                    prompts = prompts[:-1]
-                    logger.info("Loaded prompts.")
-                else:
-                    logger.info("Making prompts...")
-                    prompts = make_prompts(
-                        dataset, 
-                        ner_tag, 
-                        tag_to_id[ner_tag], 
-                        args.language, 
-                        args.domain, 
-                        args.begin_tag, 
-                        args.end_tag, 
-                        args.n_few_shot,
-                        args.criterion,
-                    )
-                    
-                    #cache prompts
-                    with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
-                        for prompt in prompts:
-                            f.write(prompt+'='*50)
+    assert args.criterion in criteria.keys(), "criterion must be in "+str(criteria.keys())
+    params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion
+    hash_object = hashlib.md5(params.encode())
+    if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwrite_prompt_cache:
+        logger.info("Loading prompts...")
+        with open('prompts_'+hash_object.hexdigest()+'.txt', 'r') as f:
+            prompts = f.read().split('='*50)
+        prompts = prompts[:-1]
+        logger.info("Loaded prompts.")
+    else:
+        logger.info("Making prompts...")
+        prompts = make_prompts(
+            dataset, 
+            ner_tag, 
+            tag_to_id[ner_tag], 
+            args.language, 
+            args.domain, 
+            args.begin_tag, 
+            args.end_tag, 
+            args.n_few_shot,
+            args.criterion,
+        )
+        
+        #cache prompts
+        with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
+            for prompt in prompts:
+                f.write(prompt+'='*50)
                 
-                # prompts=prompts[:10]
+    
+    if args.api_inference or args.model_name == "bigscience/bloom":
+        #use huggingface inference API
+        logger.info("Generating...")
+        API_URL = "https://api-inference.huggingface.co/models/"+args.model_name
+        headers = {"Authorization": "Bearer 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"}
+        def query(payload):
+            response = requests.post(API_URL, headers=headers, json=payload)
+            return response.json()    
+        outputs = []
+        for i in tqdm(range(0, len(prompts))):
+            output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False}})
+            if 'error' in output:
+                logger.info("Error: "+output['error'])
+                logger.info("Prompt: "+prompts[i])
+                logger.info("Skipping...")
+                continue
+            outputs.append(output[0]['generated_text'])               
+    else:
+        logger.info("Tokenizing...")
+        tokenizer = AutoTokenizer.from_pretrained(args.model_name)
+        input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
 
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        logger.info("Generating...")
+        model = AutoModelForCausalLM.from_pretrained(args.model_name).to(device)
+        model.eval()
 
-                logger.info("Tokenizing...")
-                tokenizer = AutoTokenizer.from_pretrained(args.model_name)
-                input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
+        outputs = []
+        for i in tqdm(range(0, len(prompts), args.batch_size)):
+            input_ids_batch = input_ids[i:i+args.batch_size].to(device)
+            output = model.generate(input_ids_batch, max_new_tokens=40, do_sample=True, top_p=top_p, top_k=top_k, temperature=temp)
+            output = output[:,input_ids_batch.size(1):]
+            outputs += output.tolist()
+            
+        logger.info("Decoding...")
+        outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
 
-                device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-                logger.info("Generating...")
-                model = AutoModelForCausalLM.from_pretrained(args.model_name).to(device)
-                model.eval()
+    logger.info("Evaluating...")
+    targets = [example2string(dataset['test'][i], tag_to_id[ner_tag], args.begin_tag, args.end_tag, tagged=True) for i in range(len(dataset['test']))]
+    for target, o in tqdm(zip(targets, outputs)):
+        prediction = o.split('\n')[0]
+        target = target.lower()
+        prediction = prediction.lower()
+        #print target and predictions to a new log file
+        logfile.write(target+'\n')
+        logfile.write(prediction+'\n')
+        logfile.write('-'*50+'\n')
+        
+        regex_begin_tag = re.escape(args.begin_tag)
+        regex_end_tag = re.escape(args.end_tag)
+        target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
+        prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
+        
+        tp_sum += len(set(target_mentions).intersection(set(prediction_mentions)))
+        relevant_sum += len(target_mentions)
+        retrieved_sum += len(prediction_mentions)
 
-                outputs = []
-                for i in tqdm(range(0, len(prompts), args.batch_size)):
-                    input_ids_batch = input_ids[i:i+args.batch_size].to(device)
-                    output = model.generate(input_ids_batch, max_new_tokens=40, do_sample=True, top_p=top_p, top_k=top_k, temperature=temp)
-                    output = output[:,input_ids_batch.size(1):]
-                    outputs += output.tolist()
-                    
-                logger.info("Decoding...")
-                outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
+    print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
+    print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
+    print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
+    print("=====================================")
 
-
-                logger.info("Evaluating...")
-                targets = [example2string(dataset['test'][i], tag_to_id[ner_tag], args.begin_tag, args.end_tag, tagged=True) for i in range(len(dataset['test']))]
-                for target, o in tqdm(zip(targets, outputs)):
-                    prediction = o.split('\n')[0]
-                    target = target.lower()
-                    prediction = prediction.lower()
-                    #print target and predictions to a new log file
-                    logfile.write(target+'\n')
-                    logfile.write(prediction+'\n')
-                    logfile.write('-'*50+'\n')
-                    
-                    regex_begin_tag = re.escape(args.begin_tag)
-                    regex_end_tag = re.escape(args.end_tag)
-                    target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
-                    prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
-                    
-                    tp_sum += len(set(target_mentions).intersection(set(prediction_mentions)))
-                    relevant_sum += len(target_mentions)
-                    retrieved_sum += len(prediction_mentions)
-
-                print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
-                print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
-                print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
-                print("=====================================")
-
-                logfile.write("precision: "+str(tp_sum/retrieved_sum if retrieved_sum > 0 else 0)+'\n')
-                logfile.write("recall: "+str(tp_sum/relevant_sum if relevant_sum > 0 else 0)+'\n')
-                logfile.write("f1: "+str(2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)+'\n')
-                logfile.write("="*50+'\n')
-                logfile.close()
+    logfile.write("precision: "+str(tp_sum/retrieved_sum if retrieved_sum > 0 else 0)+'\n')
+    logfile.write("recall: "+str(tp_sum/relevant_sum if relevant_sum > 0 else 0)+'\n')
+    logfile.write("f1: "+str(2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)+'\n')
+    logfile.write("="*50+'\n')
+    logfile.close()
