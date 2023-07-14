@@ -224,7 +224,7 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
             return response.json()    
         outputs = []
         for i in tqdm(range(0, len(prompts))):
-            output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False}})
+            output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False, "wait_for_model":True}})
             if 'error' in output:
                 logger.info("Error: "+output['error'])
                 logger.info("Prompt: "+prompts[i])
