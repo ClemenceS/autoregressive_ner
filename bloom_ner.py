@@ -4,6 +4,7 @@ import itertools
 import os
 import random
 import re
+import time
 import datasets
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -228,8 +229,20 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
             if 'error' in output:
                 logger.info("Error: "+output['error'])
                 logger.info("Prompt: "+prompts[i])
-                logger.info("Skipping...")
-                continue
+                if 'Rate limit' in output['error']:
+                    logger.info("Rate limit exceeded. Waiting 10 minutes...")
+                    nb_retries = 0
+                    while 'Rate limit' in output['error'] and nb_retries < 10:
+                        time.sleep(600)
+                        logger.info("Retrying...")
+                        output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False, "wait_for_model":True}})
+                        nb_retries += 1
+                    if 'Rate limit' in output['error']:
+                        logger.info("Rate limit exceeded. Stopping...")
+                        break
+                else:
+                    logger.info("Skipping...")
+                    continue
             outputs.append(output[0]['generated_text'])               
     else:
         logger.info("Tokenizing...")
