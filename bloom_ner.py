@@ -232,7 +232,7 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
                 if 'Rate limit' in output['error']:
                     logger.info("Rate limit exceeded. Waiting 10 minutes...")
                     nb_retries = 0
-                    while 'Rate limit' in output['error'] and nb_retries < 10:
+                    while 'error' in output and nb_retries < 10:
                         time.sleep(600)
                         logger.info("Retrying...")
                         output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False, "wait_for_model":True}})
