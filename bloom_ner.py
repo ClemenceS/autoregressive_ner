@@ -219,25 +219,25 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         #use huggingface inference API
         logger.info("Generating...")
         API_URL = "https://api-inference.huggingface.co/models/"+args.model_name
-        headers = {"Authorization": "Bearer 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"}
+        headers = {"Authorization": "Bearer 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"}
         def query(payload):
             response = requests.post(API_URL, headers=headers, json=payload)
             return response.json()    
         outputs = []
         for i in tqdm(range(0, len(prompts))):
-            output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False, "wait_for_model":True}})
+            output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False}})
             if 'error' in output:
                 logger.info("Error: "+output['error'])
                 logger.info("Prompt: "+prompts[i])
                 if 'Rate limit' in output['error']:
                     logger.info("Rate limit exceeded. Waiting 10 minutes...")
                     nb_retries = 0
-                    while 'Rate limit' in output['error'] and nb_retries < 10:
+                    while 'error' in output and nb_retries < 10:
                         time.sleep(600)
                         logger.info("Retrying...")
                         output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False, "wait_for_model":True}})
                         nb_retries += 1
-                    if 'Rate limit' in output['error']:
+                    if 'error' in output:
                         logger.info("Rate limit exceeded. Stopping...")
                         break
                 else:
