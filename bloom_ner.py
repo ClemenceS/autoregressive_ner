@@ -222,7 +222,10 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         headers = {"Authorization": "Bearer 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"}
         def query(payload):
             response = requests.post(API_URL, headers=headers, json=payload)
-            return response.json()    
+            try:
+                return response.json()
+            except:
+                return {"error":response.text}
         outputs = []
         for i in tqdm(range(0, len(prompts))):
             output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False}})
