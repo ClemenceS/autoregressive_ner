@@ -77,7 +77,7 @@ if args.domain == 'general':
     test_dataset = [example for example in dataset['test'] if len(example['tokens']) < 40]
     traindev_dataset = [example for example in dataset['train'] if len(example['tokens']) < 40]
     #get only first 100 traindev examples
-    traindev_dataset = traindev_dataset[:50]
+    traindev_dataset = traindev_dataset[:100]
     dev_proportion = 0.5
     train_dataset = [example for i,example in enumerate(traindev_dataset) if i < int(len(traindev_dataset)*(1-dev_proportion))]
     dev_dataset = [example for i,example in enumerate(traindev_dataset) if i >= int(len(traindev_dataset)*(1-dev_proportion))]
@@ -93,7 +93,7 @@ else :
     traindev_dataset = [example for example in dataset['train'] if len(example['words']) < 40]
     test_dataset = [example for example in dataset['test'] if len(example['words']) < 40]
     #get only first 100 traindev examples
-    traindev_dataset = traindev_dataset[:(50)]
+    traindev_dataset = traindev_dataset[:100]
     dev_proportion = 0.5
     train_dataset = [example for i,example in enumerate(traindev_dataset) if i < int(len(traindev_dataset)*(1-dev_proportion))]
     dev_dataset = [example for i,example in enumerate(traindev_dataset) if i >= int(len(traindev_dataset)*(1-dev_proportion))]
@@ -111,6 +111,39 @@ else :
 time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 folder_name = 'hyp_search_'+time_date
 os.mkdir(folder_name)
+
+
+#convert prompt_keywords to string
+prompt_keywords_string = json.dumps(prompt_keywords[args.language], ensure_ascii=False)
+params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string
+hash_object = hashlib.md5(params.encode())
+if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwrite_prompt_cache:
+    logger.info("Loading prompts...")
+    with open('prompts_'+hash_object.hexdigest()+'.txt', 'r') as f:
+        prompts = f.read().split('='*50)
+    prompts = prompts[:-1]
+    logger.info("Loaded prompts.")
+else:
+    logger.info("Making prompts...")
+    prompts = make_prompts(
+        train_dataset,
+        dev_dataset,
+        ner_tag, 
+        tag_to_id[ner_tag], 
+        args.language, 
+        args.domain, 
+        args.begin_tag, 
+        args.end_tag, 
+        args.n_few_shot,
+        args.criterion,
+        prompt_keywords=prompt_keywords,
+    )
+    
+    #cache prompts
+    with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
+        for prompt in prompts:
+            f.write(prompt+'='*50)
+
 
 #loop over all combinations of top_p, top_k and temperature
 for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.temperature):
@@ -132,38 +165,7 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     tp_sum = 0
     relevant_sum = 0
     retrieved_sum = 0
-
-    #convert prompt_keywords to string
-    prompt_keywords_string = json.dumps(prompt_keywords[args.language], ensure_ascii=False)
-    params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string
-    hash_object = hashlib.md5(params.encode())
-    if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwrite_prompt_cache:
-        logger.info("Loading prompts...")
-        with open('prompts_'+hash_object.hexdigest()+'.txt', 'r') as f:
-            prompts = f.read().split('='*50)
-        prompts = prompts[:-1]
-        logger.info("Loaded prompts.")
-    else:
-        logger.info("Making prompts...")
-        prompts = make_prompts(
-            train_dataset,
-            dev_dataset,
-            ner_tag, 
-            tag_to_id[ner_tag], 
-            args.language, 
-            args.domain, 
-            args.begin_tag, 
-            args.end_tag, 
-            args.n_few_shot,
-            args.criterion,
-            prompt_keywords=prompt_keywords,
-        )
-        
-        #cache prompts
-        with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
-            for prompt in prompts:
-                f.write(prompt+'='*50)
-          
+      
     if args.api_inference or args.model_name == "bigscience/bloom":
         #use huggingface inference API
         logger.info("Generating...")
