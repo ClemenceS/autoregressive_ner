@@ -226,6 +226,9 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         relevant_sum += len(target_mentions)
         retrieved_sum += len(prediction_mentions)
 
+    print("top_p: ", top_p)
+    print("top_k: ", top_k)
+    print("temperature: ", temp)
     print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
     print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
     print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
