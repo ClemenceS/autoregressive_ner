@@ -55,8 +55,8 @@ prompt_keywords = {
     ,
     'fr' : {
         'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
-        #'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
-        'last_sentence':"",
+        'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
+        #'last_sentence':"",
         'domains_jobs' : {
             'clinical' : "clinicien",
             'general' : "linguiste"
