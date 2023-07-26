@@ -268,8 +268,8 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         logfile.write(prediction+'\n')
         logfile.write('-'*50+'\n')
         
-        regex_begin_tag = re.escape(args.begin_tag)
-        regex_end_tag = re.escape(args.end_tag)
+        regex_begin_tag = re.escape(args.begin_tag.lower())
+        regex_end_tag = re.escape(args.end_tag.lower())
         target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
         prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
         
