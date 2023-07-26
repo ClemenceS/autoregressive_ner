@@ -38,25 +38,24 @@ logger = logging.getLogger("bloom_ner")
 
 prompt_keywords = {
     'en' : {
-            'first_sentence' : "I am an expert {}, I can identify mentions of {} in a sentence. I can also format them. Here are some examples of sentences I can handle:\n",
-            'last_sentence' : "Imitate me. Identify the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind the mention in the following sentence.\n",
-            'domains_jobs' : {
-                'clinical' : "clinician",
-                'general' : "linguist"
-            },
-            'ner_tags' : {
-                'PER' : "person names",
-                'DISO' : "disorders",
-                'LOC' : "places"
-            },
-            'input_intro' : "Input: ",
-            'output_intro' : "Output: ",
+        'first_sentence' : "I am an expert {}, I can identify mentions of {} in a sentence. I can also format them. Here are some examples of sentences I can handle:\n",
+        'last_sentence' : "Imitate me. Identify the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind the mention in the following sentence.\n",
+        'domains_jobs' : {
+            'clinical' : "clinician",
+            'general' : "linguist"
+        },
+        'ner_tags' : {
+            'PER' : "person names",
+            'DISO' : "disorders",
+            'LOC' : "places"
+        },
+        'input_intro' : "Input: ",
+        'output_intro' : "Output: ",
         }
     ,
     'fr' : {
         'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
         'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
-        #'last_sentence':"",
         'domains_jobs' : {
             'clinical' : "clinicien",
             'general' : "linguiste"
