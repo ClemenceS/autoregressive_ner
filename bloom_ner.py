@@ -74,17 +74,32 @@ prompt_keywords = {
 if args.domain == 'general':
     dataset_name = 'Jean-Baptiste/wikiner_fr'
     dataset = datasets.load_dataset(dataset_name)
-    train_dataset = [example for example in dataset['train'] if len(example['tokens']) < 40]
+    test_dataset = [example for example in dataset['test'] if len(example['tokens']) < 40]
+    traindev_dataset = [example for example in dataset['train'] if len(example['tokens']) < 40]
+    #get only first 100 traindev examples
+    traindev_dataset = traindev_dataset[:50]
+    dev_proportion = 0.5
+    train_dataset = [example for i,example in enumerate(traindev_dataset) if i < int(len(traindev_dataset)*(1-dev_proportion))]
+    dev_dataset = [example for i,example in enumerate(traindev_dataset) if i >= int(len(traindev_dataset)*(1-dev_proportion))]
+    print(len(train_dataset), "examples in train set")
+    print(len(dev_dataset), "examples in dev set")
+    print(len(test_dataset), "examples in test set")
     test_dataset = [example for example in dataset['test'] if len(example['tokens']) < 40]
     tag_to_id = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
     ner_tag = args.ner_tag if args.ner_tag else 'PER'
 else :
     dataset_name = 'meczifho/QuaeroFrenchMed'
     dataset = datasets.load_dataset(dataset_name,'MEDLINE')
+    traindev_dataset = [example for example in dataset['train'] if len(example['words']) < 40]
+    test_dataset = [example for example in dataset['test'] if len(example['words']) < 40]
+    #get only first 100 traindev examples
+    traindev_dataset = traindev_dataset[:(50)]
     dev_proportion = 0.5
-    train_dataset = [example for i,example in enumerate(dataset['train']) if i < int(len(dataset['train'])*(1-dev_proportion))]
-    dev_dataset = [example for i,example in enumerate(dataset['train']) if i >= int(len(dataset['train'])*(1-dev_proportion))]
-    test_dataset = dataset['test']
+    train_dataset = [example for i,example in enumerate(traindev_dataset) if i < int(len(traindev_dataset)*(1-dev_proportion))]
+    dev_dataset = [example for i,example in enumerate(traindev_dataset) if i >= int(len(traindev_dataset)*(1-dev_proportion))]
+    print(len(train_dataset), "examples in train set")
+    print(len(dev_dataset), "examples in dev set")
+    print(len(test_dataset), "examples in test set")
     if args.debug:
         train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
         dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
