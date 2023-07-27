@@ -140,6 +140,7 @@ else:
         for prompt in prompts:
             f.write(prompt+'='*50)
 
+results = {}
 
 #loop over all combinations of top_p, top_k and temperature
 for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.temperature):
@@ -224,16 +225,27 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         relevant_sum += len(target_mentions)
         retrieved_sum += len(prediction_mentions)
 
+    precision = tp_sum/retrieved_sum if retrieved_sum > 0 else 0
+    recall = tp_sum/relevant_sum if relevant_sum > 0 else 0
+    f1 = 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0
+
     print("top_p: ", top_p)
     print("top_k: ", top_k)
     print("temperature: ", temp)
-    print("precision: ", tp_sum/retrieved_sum if retrieved_sum > 0 else 0)
-    print("recall: ", tp_sum/relevant_sum if relevant_sum > 0 else 0)
-    print("f1: ", 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)
+    print("precision: ", precision)
+    print("recall: ", recall)
+    print("f1: ", f1)
     print("=====================================")
 
-    logfile.write("precision: "+str(tp_sum/retrieved_sum if retrieved_sum > 0 else 0)+'\n')
-    logfile.write("recall: "+str(tp_sum/relevant_sum if relevant_sum > 0 else 0)+'\n')
-    logfile.write("f1: "+str(2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0)+'\n')
+    results[(top_p, top_k, temp)] = [precision, recall, f1]
+
+    logfile.write("precision: "+str(precision)+'\n')
+    logfile.write("recall: "+str(recall)+'\n')
+    logfile.write("f1: "+str(f1)+'\n')
     logfile.write("="*50+'\n')
     logfile.close()
+
+#get the hp combination with the best f1 score
+best_hp = max(results, key=lambda x: results[x][2])
+print("best hp: ", best_hp)
+print("best f1: ", results[best_hp][2])
