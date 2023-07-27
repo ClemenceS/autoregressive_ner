@@ -30,6 +30,7 @@ args.add_argument('--temperature', type=float, nargs='+', default=[0.7])
 args.add_argument('--api_inference', action="store_true")
 args.add_argument('-o', "--overwrite_prompt_cache", action="store_true")
 args.add_argument('-d', '--debug', action="store_true")
+args.add_argument('-s', '--training_size', type=int)
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
@@ -77,14 +78,6 @@ if args.domain == 'general':
     test_dataset = [example for example in dataset['test'] if len(example['tokens']) < 40]
     traindev_dataset = [example for example in dataset['train'] if len(example['tokens']) < 40]
     #get only first 100 traindev examples
-    traindev_dataset = traindev_dataset[:100]
-    dev_proportion = 0.5
-    train_dataset = [example for i,example in enumerate(traindev_dataset) if i < int(len(traindev_dataset)*(1-dev_proportion))]
-    dev_dataset = [example for i,example in enumerate(traindev_dataset) if i >= int(len(traindev_dataset)*(1-dev_proportion))]
-    print(len(train_dataset), "examples in train set")
-    print(len(dev_dataset), "examples in dev set")
-    print(len(test_dataset), "examples in test set")
-    test_dataset = [example for example in dataset['test'] if len(example['tokens']) < 40]
     tag_to_id = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
     ner_tag = args.ner_tag if args.ner_tag else 'PER'
 else :
@@ -93,19 +86,22 @@ else :
     traindev_dataset = [example for example in dataset['train'] if len(example['words']) < 40]
     test_dataset = [example for example in dataset['test'] if len(example['words']) < 40]
     #get only first 100 traindev examples
-    traindev_dataset = traindev_dataset[:100]
-    dev_proportion = 0.5
-    train_dataset = [example for i,example in enumerate(traindev_dataset) if i < int(len(traindev_dataset)*(1-dev_proportion))]
-    dev_dataset = [example for i,example in enumerate(traindev_dataset) if i >= int(len(traindev_dataset)*(1-dev_proportion))]
-    print(len(train_dataset), "examples in train set")
-    print(len(dev_dataset), "examples in dev set")
-    print(len(test_dataset), "examples in test set")
-    if args.debug:
-        train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
-        dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
-        test_dataset = [t for i,t in enumerate(test_dataset) if i < 10]
     tag_to_id = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}    
     ner_tag = args.ner_tag if args.ner_tag else 'DISO'
+if not args.training_size:
+    raise ValueError("Please specify training size")
+dev_size = 20
+#the first 20 examples of traindev_dataset are used for dev, the next args.training_size are used for training
+dev_dataset = [example for i,example in enumerate(traindev_dataset) if i < dev_size]
+train_dataset = [example for i,example in enumerate(traindev_dataset) if i >= dev_size and i < dev_size+args.training_size]
+print(len(train_dataset), "examples in train set")
+print(len(dev_dataset), "examples in dev set")
+print(len(test_dataset), "examples in test set")
+if args.debug:
+    train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
+    dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
+    test_dataset = [t for i,t in enumerate(test_dataset) if i < 10]
+
 
 
 time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
