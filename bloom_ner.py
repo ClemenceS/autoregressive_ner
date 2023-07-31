@@ -185,14 +185,11 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         prompts=prompts,
         args=args,
         logger=logger,
-        params={
-                'top_p':top_p,
-                'top_k':top_k,
-                'temperature':temp,
-                'return_full_text':False,
-                'do_sample':False,
-                'max_new_tokens':100,
-                }
+        kwargs={
+        "top_p": top_p,
+        "top_k": top_k,
+        "temperature": temp,
+        },
     )
 
     logger.info("Evaluating...")
