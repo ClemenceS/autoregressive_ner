@@ -24,10 +24,10 @@ def bloom_predict(prompts, args, logger, **kwargs):
             last_line = prompts[i].split('\n')[-2]
             prompt_length = len(tokenizer.encode(last_line))
             
-            output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":prompt_length+20, "return_full_text":False}})
+            output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":prompt_length+25, "return_full_text":False}})
             nb_retries = 0
             while 'error' in output and nb_retries < 10:
-                output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":prompt_length+20, "return_full_text":False}})
+                output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":prompt_length+25, "return_full_text":False}})
                 nb_retries += 1
             if 'error' in output:
                 outputs.append('')
