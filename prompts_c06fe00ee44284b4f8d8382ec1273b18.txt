@@ -1,0 +1,241 @@
+I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Hadrian joined Trajan 's expedition against Parthia as a legate on Trajan 's staff .
+Output: @@Hadrian## joined @@Trajan## 's expedition against Parthia as a legate on @@Trajan## 's staff .
+Input: It also may have contributed to the success of the Arab conquests .
+Output: It also may have contributed to the success of the Arab conquests .
+Input: He consolidated the conquests of Sonni Ali .
+Output: He consolidated the conquests of @@Sonni Ali## .
+Input: Trajan never officially designated a successor , but , according to his wife , Pompeia Plotina , Trajan named Hadrian emperor immediately before his death .
+Output: @@Trajan## never officially designated a successor , but , according to his wife , @@Pompeia Plotina## , @@Trajan## named @@Hadrian## emperor immediately before his death .
+Input: But you do not defend the British Army by defending the indefensible . "
+Output: But you do not defend the British Army by defending the indefensible . "
+Input: He surrendered Trajan 's conquests in Mesopotamia , considering them to be indefensible .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: As the Báb 's teachings spread , which the Islamic clergy saw as a threat , his followers came under increased persecution and torture .
+Output: As the @@Báb## 's teachings spread , which the Islamic clergy saw as a threat , his followers came under increased persecution and torture .
+Input: It is unlikely that Constantine played any role in the persecution .
+Output: It is unlikely that @@Constantine## played any role in the persecution .
+Input: The persecution hit its first peak during the Crusades .
+Output: The persecution hit its first peak during the Crusades .
+Input: Note , that the Russian Church recognized a different order of seniority , in which the Georgian church comes after the Church of Russia and the Albanian Church -- after the Church of Greece .
+Output: Note , that the Russian Church recognized a different order of seniority , in which the Georgian church comes after the Church of Russia and the Albanian Church -- after the Church of Greece .
+Input: This resulted in a campaign of persecution against the Bahá'ís .
+Output: This resulted in a campaign of persecution against the Bahá'ís .
+Input: Despite being under persecution , the Church spread .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: This can be seen in the fight between Diego Corrales and Floyd Mayweather .
+Output: This can be seen in the fight between @@Diego Corrales## and @@Floyd Mayweather## .
+Input: Floyd Mayweather Jr. employed the use of a check hook against Ricky Hatton , which sent Hatton flying head first into the corner post and being knocked down .
+Output: @@Floyd Mayweather Jr.## employed the use of a check hook against @@Ricky Hatton## , which sent @@Hatton## flying head first into the corner post and being knocked down .
+Input: Other major facilities are in Argentina , India , Brazil , Mexico , Canada , Egypt , Germany , the United Kingdom , Australia , New Zealand , Hungary , Spain , Israel , South Africa and Italy .
+Output: Other major facilities are in Argentina , India , Brazil , Mexico , Canada , Egypt , Germany , the United Kingdom , Australia , New Zealand , Hungary , Spain , Israel , South Africa and Italy .
+Input: Notable classical liberals in the 19th century include Jean-Baptiste Say , Thomas Malthus , and David Ricardo .
+Output: Notable classical liberals in the 19th century include @@Jean-Baptiste Say## , @@Thomas Malthus## , and @@David Ricardo## .
+Input: Notable examples of such cities include Mumbai , London , New York City , Paris , Tokyo , Hong Kong , Chicago , Singapore and Shanghai .
+Output: Notable examples of such cities include Mumbai , London , New York City , Paris , Tokyo , Hong Kong , Chicago , Singapore and Shanghai .
+Input: Notable counter punchers include Floyd Mayweather , Jr. , Jerry Quarry , Ricardo Lopez , Bernard Hopkins , Vitali Klitschko , James Toney , Marvin Hagler , Evander Holyfield , Juan Manuel Márquez , and Pernell Whitaker .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The Zulu had greater numbers than their opponents , but greater numbers massed together simply presented yet more lucrative , easy shooting in the age of modern firearms and artillery .
+Output: The Zulu had greater numbers than their opponents , but greater numbers massed together simply presented yet more lucrative , easy shooting in the age of modern firearms and artillery .
+Input: The districts other than New Providence are :
+Output: The districts other than New Providence are :
+Input: The tribe is endemic to Australia .
+Output: The tribe is endemic to Australia .
+Input: In the late 19th century Choctaws suffered almost daily from violent crimes , murders , thefts and assaults from whites and from other Choctaws .
+Output: In the late 19th century Choctaws suffered almost daily from violent crimes , murders , thefts and assaults from whites and from other Choctaws .
+Input: There are three other smaller financial districts in Amsterdam .
+Output: There are three other smaller financial districts in Amsterdam .
+Input: With this victory , Choctaws began to volunteer in greater numbers from the other two districts of the tribe .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Shearer portrayed Derek Smalls , the bassist , and Michael McKean and Christopher Guest played the other two members .
+Output: @@Shearer## portrayed @@Derek Smalls## , the bassist , and @@Michael McKean## and @@Christopher Guest## played the other two members .
+Input: Today , academics like Michael Flood , Michael Messner , and Michael Kimmel are involved with men 's studies and pro-feminism .
+Output: Today , academics like @@Michael Flood## , @@Michael Messner## , and @@Michael Kimmel## are involved with men 's studies and pro-feminism .
+Input: In 1984 , while promoting the film This Is Spinal Tap , Shearer , Christopher Guest and Michael McKean had a performance on Saturday Night Live .
+Output: In 1984 , while promoting the film This Is Spinal Tap , @@Shearer## , @@Christopher Guest## and @@Michael McKean## had a performance on Saturday Night Live .
+Input: He starred in the Broadway revival of The Pajama Game , produced by the Roundabout Theater Company , along with Michael McKean and Kelli O'Hara , at the American Airlines Theatre in 2006 .
+Output: He starred in the Broadway revival of The Pajama Game , produced by the Roundabout Theater Company , along with @@Michael McKean## and @@Kelli O'Hara## , at the American Airlines Theatre in 2006 .
+Input: From 1969 to 1976 , Shearer was a member of The Credibility Gap , a radio comedy group that included David Lander , Richard Beebe and Michael McKean .
+Output: From 1969 to 1976 , @@Shearer## was a member of The Credibility Gap , a radio comedy group that included @@David Lander## , @@Richard Beebe## and @@Michael McKean## .
+Input: These include Catherine O'Hara , Michael McKean , Parker Posey , Jane Lynch , John Michael Higgins , Harry Shearer , Jennifer Coolidge , Ed Begley , Jr. and Fred Willard .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: From 1936 to 1944 , DeMille hosted and acted as pitchman for Cecil B. DeMille 's Lux Radio Theater , a popular dramatic radio show of the time .
+Output: From 1936 to 1944 , @@DeMille## hosted and acted as pitchman for @@Cecil B. DeMille## 's Lux Radio Theater , a popular dramatic radio show of the time .
+Input: In 2006 , Hopkins was the recipient of the Golden Globe Cecil B. DeMille Award for lifetime achievement .
+Output: In 2006 , @@Hopkins## was the recipient of the Golden Globe Cecil B. DeMille Award for lifetime achievement .
+Input: Among his favorite directors were Luis Buñuel , Kenji Mizoguchi , Ingmar Bergman , Robert Bresson , Akira Kurosawa , Michelangelo Antonioni , Jean Vigo and Carl Theodor Dreyer .
+Output: Among his favorite directors were @@Luis Buñuel## , @@Kenji Mizoguchi## , @@Ingmar Bergman## , @@Robert Bresson## , @@Akira Kurosawa## , @@Michelangelo Antonioni## , @@Jean Vigo## and @@Carl Theodor Dreyer## .
+Input: The Golden Globe 's annual Cecil B. DeMille Award recognizes lifetime achievement in the film industry .
+Output: The Golden Globe 's annual Cecil B. DeMille Award recognizes lifetime achievement in the film industry .
+Input: Notable directors known for their existentialist films include Ingmar Bergman , François Truffaut , Jean-Luc Godard , Michelangelo Antonioni , Akira Kurosawa , Stanley Kubrick , Andrei Tarkovsky , Hideaki Anno and Woody Allen .
+Output: Notable directors known for their existentialist films include @@Ingmar Bergman## , @@François Truffaut## , @@Jean-Luc Godard## , @@Michelangelo Antonioni## , @@Akira Kurosawa## , @@Stanley Kubrick## , @@Andrei Tarkovsky## , @@Hideaki Anno## and @@Woody Allen## .
+Input: Its recipients included Stanley Kubrick , David Lean , John Huston , Woody Allen , Akira Kurosawa , John Ford , Ingmar Bergman , Alfred Hitchcock , and Griffith 's friend Cecil B. DeMille .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: He produced fewer records but could still turn out hits such as Perry Como 's pop hit " And I Love You So " .
+Output: He produced fewer records but could still turn out hits such as @@Perry Como## 's pop hit " And I Love You So " .
+Input: This video includes interviews with Keith Richards , Phil and Don Everly , Sonny Curtis , Jerry Allison , Holly 's family , and McCartney himself , among others .
+Output: This video includes interviews with @@Keith Richards## , @@Phil and Don Everly## , @@Sonny Curtis## , @@Jerry Allison## , @@Holly## 's family , and @@McCartney## himself , among others .
+Input: Leading artists in this genre included Patsy Cline , Jim Reeves and Eddy Arnold .
+Output: Leading artists in this genre included @@Patsy Cline## , @@Jim Reeves## and @@Eddy Arnold## .
+Input: This group often included Perry Robinson , clarinet , and Jerry Bergonzi , saxophone .
+Output: This group often included @@Perry Robinson## , clarinet , and @@Jerry Bergonzi## , saxophone .
+Input: He had brought Waylon Jennings , Willie Nelson , Connie Smith , Bobby Bare , Dolly Parton , Jerry Reed and John Hartford to the label in the 1960s and inspired and helped countless others .
+Output: He had brought @@Waylon Jennings## , @@Willie Nelson## , @@Connie Smith## , @@Bobby Bare## , @@Dolly Parton## , @@Jerry Reed## and @@John Hartford## to the label in the 1960s and inspired and helped countless others .
+Input: Atkins produced records for Perry Como , Elvis Presley , the Everly Brothers , Eddy Arnold , Don Gibson , Jim Reeves , Jerry Reed , Skeeter Davis , Connie Smith , Waylon Jennings and others .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Some of these ships -- the Bainbridge -- , Truxtun -- , California -- and Virginia -- classes -- were nuclear-powered .
+Output: Some of these ships -- the Bainbridge -- , Truxtun -- , California -- and Virginia -- classes -- were nuclear-powered .
+Input: In the European Parliament from 1999 to 2009 , Fianna Fáil was a leading member of Union for Europe of the Nations , a small national conservative grouping .
+Output: In the European Parliament from 1999 to 2009 , Fianna Fáil was a leading member of Union for Europe of the Nations , a small national conservative grouping .
+Input: Chile is also a founding member of both the United Nations and the Union of South American Nations .
+Output: Chile is also a founding member of both the United Nations and the Union of South American Nations .
+Input: By 1992 , however , after the collapse of the Soviet Union , the regime began to crumble .
+Output: By 1992 , however , after the collapse of the Soviet Union , the regime began to crumble .
+Input: Sexagesimal -- which the ancient Sumerians and Babylonians among others actually used -- adds the four convenient factors 4 , 12 , 20 , and 60 to this but no new prime factors .
+Output: Sexagesimal -- which the ancient Sumerians and Babylonians among others actually used -- adds the four convenient factors 4 , 12 , 20 , and 60 to this but no new prime factors .
+Input: By then , new factors -- including the collapse of the Union for Europe of the Nations group -- made conditions for forming a new political grouping much more favourable .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The commission , though , was biased , as Spalding would appoint anyone to the commission if they believed the sport was somewhat related to the english sport of rounders .
+Output: The commission , though , was biased , as @@Spalding## would appoint anyone to the commission if they believed the sport was somewhat related to the english sport of rounders .
+Input: The commission was created not under the VTsIK as it was previously anticipated , but rather under the Council of the People 's Commissars .
+Output: The commission was created not under the VTsIK as it was previously anticipated , but rather under the Council of the People 's Commissars .
+Input: Two rooms from Abbey 's commission were left undone , and the remainder of the commission was given to Violet Oakley .
+Output: Two rooms from @@Abbey## 's commission were left undone , and the remainder of the commission was given to @@Violet Oakley## .
+Input: The commission is also seen as the motor of European integration .
+Output: The commission is also seen as the motor of European integration .
+Input: Namibia has a high commission in Gaborone .
+Output: Namibia has a high commission in Gaborone .
+Input: The commission was the first presidential commission to review and evaluate the National Security Council .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The simulcasting of the main national news bulletins has led to the presenters of those bulletins appearing on the channel , with these presenters currently including Sophie Raworth , George Alagiah , Huw Edwards and Fiona Bruce .
+Output: The simulcasting of the main national news bulletins has led to the presenters of those bulletins appearing on the channel , with these presenters currently including @@Sophie Raworth## , @@George Alagiah## , @@Huw Edwards## and @@Fiona Bruce## .
+Input: The breed is popular in Germany , Austria , France , Switzerland , Hungary , Poland , the Czech Republic , Slovakia , Argentina , Chile , Brazil , Canada , Guatemala , Finland and Japan .
+Output: The breed is popular in Germany , Austria , France , Switzerland , Hungary , Poland , the Czech Republic , Slovakia , Argentina , Chile , Brazil , Canada , Guatemala , Finland and Japan .
+Input: Other major facilities are in Argentina , India , Brazil , Mexico , Canada , Egypt , Germany , the United Kingdom , Australia , New Zealand , Hungary , Spain , Israel , South Africa and Italy .
+Output: Other major facilities are in Argentina , India , Brazil , Mexico , Canada , Egypt , Germany , the United Kingdom , Australia , New Zealand , Hungary , Spain , Israel , South Africa and Italy .
+Input: The eurozone consists of Austria , Belgium , Cyprus , Finland , France , Germany , Greece , Ireland , Italy , Luxembourg , Malta , the Netherlands , Portugal , Slovakia , Slovenia and Spain .
+Output: The eurozone consists of Austria , Belgium , Cyprus , Finland , France , Germany , Greece , Ireland , Italy , Luxembourg , Malta , the Netherlands , Portugal , Slovakia , Slovenia and Spain .
+Input: They were owned by Manuel de Godoy , the Prime Minister of Spain and a favorite of the Queen , María Luisa .
+Output: They were owned by @@Manuel de Godoy## , the Prime Minister of Spain and a favorite of the Queen , @@María Luisa## .
+Input: Regular relief presenters on the channel include Ellie Crisell , Gavin Esler , Ben Geoghagen , Robert Hall , Emily Maitlis , Rachel Schofield , Sue Thearle , Roger Johnson , Luisa Baldini and Julian Worricker .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Other philosophical foundations were established by Ralph Waldo Emerson and Thomas Jefferson .
+Output: Other philosophical foundations were established by @@Ralph Waldo Emerson## and @@Thomas Jefferson## .
+Input: He could quote Plato , Pope , Ralph Waldo Emerson and over a thousand lines of Shakespeare .
+Output: He could quote @@Plato## , Pope , @@Ralph Waldo Emerson## and over a thousand lines of @@Shakespeare## .
+Input: For example , Ralph Waldo Emerson 's contempt for Jane Austen 's works often extended to the author herself , with Emerson describing her as " without genius , wit , or knowledge of the world . "
+Output: For example , @@Ralph Waldo Emerson## 's contempt for @@Jane Austen## 's works often extended to the author herself , with @@Emerson## describing her as " without genius , wit , or knowledge of the world . "
+Input: Derleth wrote several volumes of poems , as well as biographies of Zona Gale , Ralph Waldo Emerson and Henry David Thoreau .
+Output: @@Derleth## wrote several volumes of poems , as well as biographies of @@Zona Gale## , @@Ralph Waldo Emerson## and @@Henry David Thoreau## .
+Input: She was influenced by many diverse thinkers and writers , including Mikhail Bakunin , Henry David Thoreau , Peter Kropotkin , Ralph Waldo Emerson , Nikolai Chernyshevsky , and Mary Wollstonecraft .
+Output: She was influenced by many diverse thinkers and writers , including @@Mikhail Bakunin## , @@Henry David Thoreau## , @@Peter Kropotkin## , @@Ralph Waldo Emerson## , @@Nikolai Chernyshevsky## , and @@Mary Wollstonecraft## .
+Input: Other writers admired by Orwell included : Ralph Waldo Emerson , G. K. Chesterton , George Gissing , Graham Greene , Herman Melville , Henry Miller , Tobias Smollett , Mark Twain , Joseph Conrad and Yevgeny Zamyatin .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Some influence was direct , as he was a friend , inspiration , and correspondent to many of his contemporaries , such as August Derleth , Robert E. Howard , Robert Bloch and Fritz Leiber .
+Output: Some influence was direct , as he was a friend , inspiration , and correspondent to many of his contemporaries , such as @@August Derleth## , @@Robert E. Howard## , @@Robert Bloch## and @@Fritz Leiber## .
+Input: Wollheim also developed , or helped develop , Marion Zimmer Bradley , Robert Silverberg , Avram Davidson , Fritz Leiber , Andre Norton , Thomas Burnett Swann , Jack Vance , and Roger Zelazny , among others .
+Output: @@Wollheim## also developed , or helped develop , @@Marion Zimmer Bradley## , @@Robert Silverberg## , @@Avram Davidson## , @@Fritz Leiber## , @@Andre Norton## , @@Thomas Burnett Swann## , @@Jack Vance## , and @@Roger Zelazny## , among others .
+Input: T.H. White 's works exemplify it , L. Sprague de Camp and Fletcher Pratt 's Complete Enchanter stories are early exemplars .
+Output: @@T.H. White## 's works exemplify it , @@L. Sprague de Camp## and @@Fletcher Pratt## 's Complete Enchanter stories are early exemplars .
+Input: In 1923 Burroughs set up his own company , Edgar Rice Burroughs , Inc. , and began printing his own books through the 1930s .
+Output: In 1923 @@Burroughs## set up his own company , Edgar Rice Burroughs , Inc. , and began printing his own books through the 1930s .
+Input: Leiber was heavily influenced by H. P. Lovecraft and Robert Graves in the first two decades of his career .
+Output: @@Leiber## was heavily influenced by @@H. P. Lovecraft## and @@Robert Graves## in the first two decades of his career .
+Input: Other influences include the works of Robert E. Howard , Edgar Rice Burroughs , A. Merritt , H. P. Lovecraft , Fritz Leiber , L. Sprague de Camp , Fletcher Pratt , Roger Zelazny , and Michael Moorcock .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Other large airports include Manchester Airport , London Stansted Airport , Luton Airport and Birmingham International Airport .
+Output: Other large airports include Manchester Airport , London Stansted Airport , Luton Airport and Birmingham International Airport .
+Input: Erfurt Airport can be reached by plane via Munich .
+Output: Erfurt Airport can be reached by plane via Munich .
+Input: There are many regional airports including , Galway Airport , Donegal Airport , Sligo Airport , Kerry Airport and Waterford Airport .
+Output: There are many regional airports including , Galway Airport , Donegal Airport , Sligo Airport , Kerry Airport and Waterford Airport .
+Input: The other airports in the state are Visakhapatnam Airport , Vijayawada Airport , Rajahmundry Airport and Tirupati Airport .
+Output: The other airports in the state are Visakhapatnam Airport , Vijayawada Airport , Rajahmundry Airport and Tirupati Airport .
+Input: He died in 1964 in Munich .
+Output: He died in 1964 in Munich .
+Input: The aeroplane which took the United players and staff home from Zemun Airport needed to stop in Munich to refuel .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The Football Association asked Beckham for an explanation of his actions and he admitted that he had " made a mistake " and apologised .
+Output: The Football Association asked @@Beckham## for an explanation of his actions and he admitted that he had " made a mistake " and apologised .
+Input: Also of note is the Prime Minister 's Avenue which features bronze busts of every Australian Prime Minister .
+Output: Also of note is the Prime Minister 's Avenue which features bronze busts of every Australian Prime Minister .
+Input: In the meantime , McMahon would remain caretaker Prime Minister .
+Output: In the meantime , @@McMahon## would remain caretaker Prime Minister .
+Input: Some KMT officials have called efforts from DPP " fascist " ( a charge for which they later apologised ) and " racist " .
+Output: Some KMT officials have called efforts from DPP " fascist " ( a charge for which they later apologised ) and " racist " .
+Input: Yvon Neptune was appointed Prime Minister on March 4 , 2002 , but following the overthrow of the government in February 2004 , he was replaced by an interim Prime Minister , Gérard Latortue .
+Output: @@Yvon Neptune## was appointed Prime Minister on March 4 , 2002 , but following the overthrow of the government in February 2004 , he was replaced by an interim Prime Minister , @@Gérard Latortue## .
+Input: After he stated that future Prime Minister William McMahon was a " quean " , he apologised .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Whitlam stayed on as Opposition Leader , defeating a leadership challenge .
+Output: @@Whitlam## stayed on as Opposition Leader , defeating a leadership challenge .
+Input: His tenure ended in May 2010 , when he resigned as Prime Minister and Leader of the Labour Party .
+Output: His tenure ended in May 2010 , when he resigned as Prime Minister and Leader of the Labour Party .
+Input: Another officer of the body is the Leader of the House of Lords , a peer selected by the Prime Minister .
+Output: Another officer of the body is the Leader of the House of Lords , a peer selected by the Prime Minister .
+Input: He served as the Prime Minister of the U.K. and Leader of the Labour Party from 2007 until 2010 .
+Output: He served as the Prime Minister of the U.K. and Leader of the Labour Party from 2007 until 2010 .
+Input: On 11 May 2010 , Brown officially resigned as Prime Minister and Leader of the Labour Party .
+Output: On 11 May 2010 , @@Brown## officially resigned as Prime Minister and Leader of the Labour Party .
+Input: The ABC Chairman would be nominated by the Prime Minister and endorsed by the Leader of the Opposition .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Szilárd , with Enrico Fermi , patented the nuclear reactor ) .
+Output: Szilárd , with @@Enrico Fermi## , patented the nuclear reactor ) .
+Input: Noted entertainers who performed for detained aliens and for U.S. and allied servicemen at the island included Ernestine Schumann-Heink , Enrico Caruso , Rudy Vallee , Jimmy Durante , Bob Hope , and Lionel Hampton and his orchestra .
+Output: Noted entertainers who performed for detained aliens and for U.S. and allied servicemen at the island included @@Ernestine Schumann-Heink## , @@Enrico Caruso## , @@Rudy Vallee## , @@Jimmy Durante## , @@Bob Hope## , and @@Lionel Hampton## and his orchestra .
+Input: Besides attending the classes , Enrico Fermi found the time to work on his extracurricular activities , particularly with the help of his friend Enrico Persico , who remained in Rome to attend the university .
+Output: Besides attending the classes , @@Enrico Fermi## found the time to work on his extracurricular activities , particularly with the help of his friend @@Enrico Persico## , who remained in Rome to attend the university .
+Input: Wigner later won the Enrico Fermi award , and the National Medal of Science .
+Output: @@Wigner## later won the @@Enrico Fermi## award , and the National Medal of Science .
+Input: Enrico Fermi ended up at the first place in the classification of the entrance exam .
+Output: @@Enrico Fermi## ended up at the first place in the classification of the entrance exam .
+Input: His successors have included such singers as Enrico Tamberlik , Jean de Reszke , Francesco Tamagno , Enrico Caruso , Giovanni Martinelli , Beniamino Gigli , Jussi Björling , Franco Corelli and Luciano Pavarotti , among others .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: His letters to the prominent actress , Ellen Terry , to the boxer Gene Tunney , and to H.G. Wells , have also been published .
+Output: His letters to the prominent actress , @@Ellen Terry## , to the boxer @@Gene Tunney## , and to @@H.G. Wells## , have also been published .
+Input: The first inductees in 1990 included Jack Johnson , Benny Leonard , Jack Dempsey , Henry Armstrong , Sugar Ray Robinson , Archie Moore , and Muhammad Ali .
+Output: The first inductees in 1990 included @@Jack Johnson## , @@Benny Leonard## , @@Jack Dempsey## , @@Henry Armstrong## , @@Sugar Ray Robinson## , @@Archie Moore## , and @@Muhammad Ali## .
+Input: The defense included Willie Davis , Henry Jordan , Willie Wood , Ray Nitschke , Dave Robinson , and Herb Adderley .
+Output: The defense included @@Willie Davis## , @@Henry Jordan## , @@Willie Wood## , @@Ray Nitschke## , @@Dave Robinson## , and @@Herb Adderley## .
+Input: The last official presidents of the NL and AL were Leonard S. Coleman , Jr. and Dr. Gene Budig respectively .
+Output: The last official presidents of the NL and AL were @@Leonard S. Coleman , Jr.## and Dr. @@Gene Budig## respectively .
+Input: Notable examples of such cities include Mumbai , London , New York City , Paris , Tokyo , Hong Kong , Chicago , Singapore and Shanghai .
+Output: Notable examples of such cities include Mumbai , London , New York City , Paris , Tokyo , Hong Kong , Chicago , Singapore and Shanghai .
+Input: Notable out-fighters include Muhammad Ali , Gene Tunney , Ezzard Charles , Willie Pep , Meldrick Taylor , Larry Holmes , Roy Jones Jr. , Sugar Ray Leonard , Oscar de la Hoya , and Joe Calzaghe .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: There are also views of contemporary writers such as Hector Berlioz .
+Output: There are also views of contemporary writers such as @@Hector Berlioz## .
+Input: He became interested in painting after seeing some works of Eugène Delacroix .
+Output: He became interested in painting after seeing some works of @@Eugène Delacroix## .
+Input: In 1880 , he went to Budapest to study with Franz Liszt , only to find out that Liszt was in Weimar , Germany .
+Output: In 1880 , he went to Budapest to study with @@Franz Liszt## , only to find out that @@Liszt## was in Weimar , Germany .
+Input: He also admired the works of Charles-Valentin Alkan .
+Output: He also admired the works of @@Charles-Valentin Alkan## .
+Input: Marcel Proust , in an essay published in 1922 , stated that along with Alfred de Vigny , Baudelaire was ' the greatest poet of the nineteenth century ' .
+Output: @@Marcel Proust## , in an essay published in 1922 , stated that along with @@Alfred de Vigny## , @@Baudelaire## was ' the greatest poet of the nineteenth century ' .
+Input: He formed friendships with Hector Berlioz , Franz Liszt , Vincenzo Bellini , Ferdinand Hiller , Felix Mendelssohn , Heinrich Heine , Eugène Delacroix , Prince Adam Jerzy Czartoryski , Alfred de Vigny , and Charles-Valentin Alkan .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: She read and studied Nietzsche 's works , and piece by piece took control of them and of their publication .
+Output: She read and studied @@Nietzsche## 's works , and piece by piece took control of them and of their publication .
+Input: Abu Bakr next asked Aisha as to how many pieces of cloth were used for Muhammad 's shroud .
+Output: @@Abu Bakr## next asked @@Aisha## as to how many pieces of cloth were used for @@Muhammad## 's shroud .
+Input: Abu Bakr had refused to grant her a piece of land which Muhammad had given to her as a gift before his death .
+Output: @@Abu Bakr## had refused to grant her a piece of land which @@Muhammad## had given to her as a gift before his death .
+Input: As neighbors , Muhammad and Abu Bakr came in contact with each other .
+Output: As neighbors , @@Muhammad## and @@Abu Bakr## came in contact with each other .
+Input: Bonds sat out the rest of the game and was replaced in left field .
+Output: @@Bonds## sat out the rest of the game and was replaced in left field .
+Input: In his fatal illness , Muhammad came out with a piece of cloth tied around his head and sat on the pulpit .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Milton H. Erickson , M.D. is considered one of the most influential modern hypnotherapists .
+Output: @@Milton H. Erickson## , M.D. is considered one of the most influential modern hypnotherapists .
+Input: Nevertheless , Erickson 's work continues to be one of the most influential forces in modern hypnotherapy .
+Output: Nevertheless , @@Erickson## 's work continues to be one of the most influential forces in modern hypnotherapy .
+Input: However , NLP has been criticized by many eminent hypnotists as a distortion of Erickson 's work .
+Output: However , NLP has been criticized by many eminent hypnotists as a distortion of @@Erickson## 's work .
+Input: Milton H. Erickson , M.D. was one of the most influential post-war hypnotherapists .
+Output: @@Milton H. Erickson## , M.D. was one of the most influential post-war hypnotherapists .
+Input: Claude Debussy is widely regarded as one of the most influential composers of the 20th century .
+Output: @@Claude Debussy## is widely regarded as one of the most influential composers of the 20th century .
+Input: Milton H. Erickson was one of the most influential hypnotists of the 20th century .
+Output: ==================================================
