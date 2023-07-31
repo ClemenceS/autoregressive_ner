@@ -12,6 +12,8 @@ import logging
 from prompt_maker import make_prompts, example2string
 from bloom_predict import bloom_predict
 
+seed=42
+np.random.seed(seed)
 
 args = argparse.ArgumentParser()
 args.add_argument("--language", type=str, default="fr", help="language of the dataset")
