@@ -5,13 +5,12 @@ import json
 import os
 import re
 import datasets
-from transformers import AutoTokenizer, AutoModelForCausalLM
+import numpy as np
 from tqdm import tqdm
 import argparse
 import logging
-import torch
-import requests
 from prompt_maker import make_prompts, example2string
+from bloom_predict import bloom_predict
 
 
 args = argparse.ArgumentParser()
@@ -31,6 +30,7 @@ args.add_argument('--api_inference', action="store_true")
 args.add_argument('-o', "--overwrite_prompt_cache", action="store_true")
 args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int)
+args.add_argument('-t', '--test_on_test_set', action="store_true")
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
@@ -39,8 +39,9 @@ logger = logging.getLogger("bloom_ner")
 
 prompt_keywords = {
     'en' : {
-        'first_sentence' : "I am an expert {}, I can identify mentions of {} in a sentence. I can also format them. Here are some examples of sentences I can handle:\n",
-        'last_sentence' : "Imitate me. Identify the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind the mention in the following sentence.\n",
+        'first_sentence' : "I am an excellent {}. The task is to label mentions of {}. Below some examples :\n",
+        #'last_sentence' : "Imitate me. Identify the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind the mention in the following sentence.\n",
+        'last_sentence' : "",
         'domains_jobs' : {
             'clinical' : "clinician",
             'general' : "linguist"
@@ -73,27 +74,44 @@ prompt_keywords = {
 
 
 if args.domain == 'general':
-    dataset_name = 'Jean-Baptiste/wikiner_fr'
-    dataset = datasets.load_dataset(dataset_name)
-    test_dataset = [example for example in dataset['test'] if len(example['tokens']) < 40]
-    traindev_dataset = [example for example in dataset['train'] if len(example['tokens']) < 40]
-    #get only first 100 traindev examples
+    dataset_name = 'meczifho/WikiNER'
+    dataset = datasets.load_dataset(dataset_name, args.language)
     tag_to_id = {"O":0,"LOC":1,"PER":2,"FAC":3,"ORG":4}
     ner_tag = args.ner_tag if args.ner_tag else 'PER'
 else :
     dataset_name = 'meczifho/QuaeroFrenchMed'
     dataset = datasets.load_dataset(dataset_name,'MEDLINE')
-    traindev_dataset = [example for example in dataset['train'] if len(example['words']) < 40]
-    test_dataset = [example for example in dataset['test'] if len(example['words']) < 40]
-    #get only first 100 traindev examples
     tag_to_id = {"O":0,"ANAT":1,"LIVB":2,"DISO":3,"PROC":4,"CHEM":5,"GEOG":6,"PHYS":7,"PHEN":8,"OBJC":9,"DEVI":10}    
     ner_tag = args.ner_tag if args.ner_tag else 'DISO'
+
 if not args.training_size:
     raise ValueError("Please specify training size")
-dev_size = 20
-#the first 20 examples of traindev_dataset are used for dev, the next args.training_size are used for training
-dev_dataset = [example for i,example in enumerate(traindev_dataset) if i < dev_size]
-train_dataset = [example for i,example in enumerate(traindev_dataset) if i >= dev_size and i < dev_size+args.training_size]
+test_dataset = [example for example in dataset['test'] if len(example['words']) < 40]
+traindev_dataset = [example for example in dataset['train'] if len(example['words']) < 40]
+def select_dev_dataset(criterion="longest", size=50):
+    if criterion == "longest":
+        dev_indices = sorted(range(len(traindev_dataset)), key=lambda i: len(traindev_dataset[i]['words']), reverse=True)[:size]
+    elif criterion == "random":
+        dev_indices = np.random.choice(len(traindev_dataset), size=size, replace=False)
+    elif criterion == "most_entities":
+        dev_indices = sorted(range(len(traindev_dataset)), key=lambda i: traindev_dataset[i]['ner_tags'].count(tag_to_id[ner_tag]), reverse=True)[:size]
+    else:
+        raise ValueError("Criterion not recognized")
+    return dev_indices
+
+def select_dev_dataset_multiple_criteria(criteria_list, size=50):
+    dev_indices = []
+    for criterion in criteria_list:
+        dev_indices += list(set(select_dev_dataset(criterion, size=size//len(criteria_list))))
+    dev_indices = list(set(dev_indices))
+    if len(dev_indices) < size:
+        dev_indices += list(set(select_dev_dataset("random", size=size-len(dev_indices))))
+    return dev_indices
+
+dev_indices = select_dev_dataset_multiple_criteria(["random", "most_entities"], size=20)
+dev_dataset = [traindev_dataset[i] for i in dev_indices]
+train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
+
 print(len(train_dataset), "examples in train set")
 print(len(dev_dataset), "examples in dev set")
 print(len(test_dataset), "examples in test set")
@@ -111,7 +129,7 @@ os.mkdir(folder_name)
 
 #convert prompt_keywords to string
 prompt_keywords_string = json.dumps(prompt_keywords[args.language], ensure_ascii=False)
-params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string
+params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string+str(args.training_size)+str(args.test_on_test_set)
 hash_object = hashlib.md5(params.encode())
 if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwrite_prompt_cache:
     logger.info("Loading prompts...")
@@ -123,7 +141,7 @@ else:
     logger.info("Making prompts...")
     prompts = make_prompts(
         train_dataset,
-        dev_dataset,
+        test_dataset if args.test_on_test_set else dev_dataset,
         ner_tag, 
         tag_to_id[ner_tag], 
         args.language, 
@@ -162,53 +180,25 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     tp_sum = 0
     relevant_sum = 0
     retrieved_sum = 0
-      
-    if args.api_inference or args.model_name == "bigscience/bloom":
-        #use huggingface inference API
-        logger.info("Generating...")
-        API_URL = "https://api-inference.huggingface.co/models/"+args.model_name
-        headers = {"Authorization": "Bearer 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"}
-        def query(payload):
-            response = requests.post(API_URL, headers=headers, json=payload)
-            try:
-                return response.json()
-            except:
-                return {"error":response.text}
-        outputs = []
-        for i in tqdm(range(len(prompts))):
-            output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False}})
-            nb_retries = 0
-            while 'error' in output and nb_retries < 10:
-                output = query({"inputs":prompts[i],"parameters":{"top_p":top_p,"top_k":top_k,"temperature":temp, "return_full_text":False}})
-                nb_retries += 1
-            if 'error' in output:
-                outputs.append('')
-            else:
-                outputs.append(output[0]['generated_text'])               
-    else:
-        logger.info("Tokenizing...")
-        tokenizer = AutoTokenizer.from_pretrained(args.model_name)
-        input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
 
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        logger.info("Generating...")
-        model = AutoModelForCausalLM.from_pretrained(args.model_name).to(device)
-        model.eval()
-
-        outputs = []
-        for i in tqdm(range(0, len(prompts), args.batch_size)):
-            input_ids_batch = input_ids[i:i+args.batch_size].to(device)
-            output = model.generate(input_ids_batch, max_new_tokens=40, do_sample=True, top_p=top_p, top_k=top_k, temperature=temp)
-            output = output[:,input_ids_batch.size(1):]
-            outputs += output.tolist()
-            
-        logger.info("Decoding...")
-        outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
+    outputs = bloom_predict(
+        prompts=prompts,
+        args=args,
+        logger=logger,
+        params={
+                'top_p':top_p,
+                'top_k':top_k,
+                'temperature':temp,
+                'return_full_text':False,
+                'do_sample':False,
+                'max_new_tokens':100,
+                }
+    )
 
     logger.info("Evaluating...")
-    targets = [example2string(example, tag_to_id[ner_tag], args.begin_tag, args.end_tag, tagged=True) for example in dev_dataset]
+    targets = [example2string(example, tag_to_id[ner_tag], args.begin_tag, args.end_tag, tagged=True) for example in (test_dataset if args.test_on_test_set else dev_dataset)]
     for target, o in tqdm(zip(targets, outputs)):
-        prediction = o.split('\n')[0]
+        prediction = ' '.join(o.split('\n')[:1])
         target = target.lower()
         prediction = prediction.lower()
         #print target and predictions to a new log file
@@ -225,13 +215,16 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         relevant_sum += len(target_mentions)
         retrieved_sum += len(prediction_mentions)
 
+    tp_sum = float(tp_sum)
     precision = tp_sum/retrieved_sum if retrieved_sum > 0 else 0
     recall = tp_sum/relevant_sum if relevant_sum > 0 else 0
     f1 = 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0
 
+
     print("top_p: ", top_p)
     print("top_k: ", top_k)
     print("temperature: ", temp)
+    print("tp: ", tp_sum)
     print("precision: ", precision)
     print("recall: ", recall)
     print("f1: ", f1)
@@ -245,7 +238,10 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     logfile.write("="*50+'\n')
     logfile.close()
 
-#get the hp combination with the best f1 score
-best_hp = max(results, key=lambda x: results[x][2])
-print("best hp: ", best_hp)
-print("best f1: ", results[best_hp][2])
+#sort results by f1 score
+results = {k: v for k, v in sorted(results.items(), key=lambda item: item[1][2], reverse=True)}
+
+#print them in a nice table
+print("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
+for (top_p, top_k, temp), (precision, recall, f1) in results.items():
+    print(str(top_p)+'\t'+str(top_k)+'\t'+str(temp)+'\t'+str(precision)+'\t'+str(recall)+'\t'+str(f1))
