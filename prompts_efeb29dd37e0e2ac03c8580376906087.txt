@@ -1,0 +1,261 @@
+Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le collège le plus récent est Robinson , construit dans les années 1970 .
+Sortie : Le collège le plus récent est Robinson , construit dans les années 1970 .
+Entrée : Ce mécanisme a été implémenté la première fois dans les années 1960 par IBM .
+Sortie : Ce mécanisme a été implémenté la première fois dans les années 1960 par IBM .
+Entrée : L' implantation d' une distillerie industrielle et d' une distillerie coopérative devait donner un regain de prospérité à Brécey et marquer le début d' un nouvel essor économique .
+Sortie : L' implantation d' une distillerie industrielle et d' une distillerie coopérative devait donner un regain de prospérité à Brécey et marquer le début d' un nouvel essor économique .
+Entrée : Dans la culture occidentale , l' épilation de la vulve est un phénomène assez récent , surtout aux États-Unis .
+Sortie : Dans la culture occidentale , l' épilation de la vulve est un phénomène assez récent , surtout aux États-Unis .
+Entrée : Ce travail fut étendu par Alan Baker dans les années 1960 .
+Sortie : Ce travail fut étendu par @@Alan Baker## dans les années 1960 .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Ce mode de présentation , lancée par la distillerie Glenfiddich dans les années 1960 , est assez récent .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Ainsi , il y eut des commanderies templières dans les pays actuels suivants : France , Angleterre , Espagne , Portugal , Écosse , Irlande , Pologne , Hongrie , Allemagne , Italie , Belgique , Pays-Bas .
+Sortie : Ainsi , il y eut des commanderies templières dans les pays actuels suivants : France , Angleterre , Espagne , Portugal , Écosse , Irlande , Pologne , Hongrie , Allemagne , Italie , Belgique , Pays-Bas .
+Entrée : Maria Casarès et Jean-Pierre Mocky interprètent les rôles principaux .
+Sortie : @@Maria Casarès## et @@Jean-Pierre Mocky## interprètent les rôles principaux .
+Entrée : Son père est le comédien Bernard Blier .
+Sortie : Son père est le comédien @@Bernard Blier## .
+Entrée : Il fait jouer les plus grands acteurs français de l' époque Louis Jouvet , Raimu , Pierre Fresnay , Fernandel , amis avec lesquels il joue à la pétanque entre deux scènes .
+Sortie : Il fait jouer les plus grands acteurs français de l' époque @@Louis Jouvet## , @@Raimu## , @@Pierre Fresnay## , @@Fernandel## , amis avec lesquels il joue à la pétanque entre deux scènes .
+Entrée : Cette société présidée par Alfred Greven produira 30 films français jusqu' en 1944 ( dont Le Corbeau de Henri-Georges Clouzot et Les Inconnus dans la maison de Henri Decoin ) .
+Sortie : Cette société présidée par @@Alfred Greven## produira 30 films français jusqu' en 1944 ( dont Le Corbeau de @@Henri-Georges Clouzot## et Les Inconnus dans la maison de @@Henri Decoin## ) .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Ainsi que : Maria Casarès , Bernard Blier , Loleh Bellon , Joseph Kosma , Serge Lifar , Pierre Fresnay , Louis Daquin Jean Grémillon , Henri Decoin , Henri-Georges Clouzot , Georges Sadoul ...
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le 18 mai , François Truffaut , Jean-Luc Godard , Claude Lelouch , Claude Berri , Roman Polanski , Louis Malle et Jean-Pierre Léaud se mêlent au mouvement étudiant qui agite Cannes .
+Sortie : Le 18 mai , @@François Truffaut## , @@Jean-Luc Godard## , @@Claude Lelouch## , @@Claude Berri## , @@Roman Polanski## , @@Louis Malle## et @@Jean-Pierre Léaud## se mêlent au mouvement étudiant qui agite Cannes .
+Entrée : L' un d' entre eux , Roman Polanski , critiqua les journalistes lors de la conférence de presse qui les réunissaient après la projection officielle , jugeant que les questions posées n' étaient pas à la hauteur .
+Sortie : L' un d' entre eux , @@Roman Polanski## , critiqua les journalistes lors de la conférence de presse qui les réunissaient après la projection officielle , jugeant que les questions posées n' étaient pas à la hauteur .
+Entrée : Il a pour maîtres les célèbres Claude Lancelot , Pierre Nicole et Antoine Le Maistre , ainsi que Jean Hamon .
+Sortie : Il a pour maîtres les célèbres @@Claude Lancelot## , @@Pierre Nicole## et @@Antoine Le Maistre## , ainsi que @@Jean Hamon## .
+Entrée : Il tourne pour de grands cinéastes dont Luchino Visconti , Jean Renoir , Sacha Guitry .
+Sortie : Il tourne pour de grands cinéastes dont @@Luchino Visconti## , @@Jean Renoir## , @@Sacha Guitry## .
+Entrée : En 2006 , il joue dans Selon Charlie de Nicole Garcia .
+Sortie : En 2006 , il joue dans Selon Charlie de @@Nicole Garcia## .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Il jouera pour les plus grands réalisateurs , Jean Renoir , Henri-Georges Clouzot , Roman Polanski , Philippe Labro , Costa-Gavras , Claude Sautet , Nicole Garcia , Christophe Gans , Yves Boisset .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le 17 avril 2003 , la Commission des droits de l' homme de l' ONU condamne Cuba , .
+Sortie : Le 17 avril 2003 , la Commission des droits de l' homme de l' ONU condamne Cuba , .
+Entrée : Pie IX est à ce moment le pape des droits de l' homme [ réf. nécessaire ] .
+Sortie : @@Pie IX## est à ce moment le pape des droits de l' homme [ réf. nécessaire ] .
+Entrée : Roger Moore a également été ambassadeur de l' UNICEF depuis 1991 pour défendre les droits de l' enfant et soutient activement les droits des animaux avec l' association PETA .
+Sortie : @@Roger Moore## a également été ambassadeur de l' UNICEF depuis 1991 pour défendre les droits de l' enfant et soutient activement les droits des animaux avec l' association PETA .
+Entrée : En 1996 , le régime est condamné par les Nations unies pour violation des droits de l' homme .
+Sortie : En 1996 , le régime est condamné par les Nations unies pour violation des droits de l' homme .
+Entrée : Il fut membre de la Ligue des droits de l' homme .
+Sortie : Il fut membre de la Ligue des droits de l' homme .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Une société politique est fondée sous ce nom à Paris le 27 avril 1790 pour défendre et développer les principes des droits de l' homme .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : et Lucien .
+Sortie : et @@Lucien## .
+Entrée : Raymond Poulidor partage cette 5 e place avec lui .
+Sortie : @@Raymond Poulidor## partage cette 5 e place avec lui .
+Entrée : Durant 16 ans au plus haut niveau , il est l' adversaire des plus grands champions , de Fausto Coppi à Eddy Merckx en passant par Louison Bobet , Raymond Poulidor ou Felice Gimondi .
+Sortie : Durant 16 ans au plus haut niveau , il est l' adversaire des plus grands champions , de @@Fausto Coppi## à @@Eddy Merckx## en passant par @@Louison Bobet## , @@Raymond Poulidor## ou @@Felice Gimondi## .
+Entrée : Depuis , seul Cédric Vasseur a réussi une telle performance .
+Sortie : Depuis , seul @@Cédric Vasseur## a réussi une telle performance .
+Entrée : Lance Armstrong dispose de sa propre fondation pour la recherche contre le cancer : la Lance Armstrong Foundation ( Livestrong ) .
+Sortie : @@Lance Armstrong## dispose de sa propre fondation pour la recherche contre le cancer : la Lance Armstrong Foundation ( Livestrong ) .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Jean Stablinski , Raymond Poulidor , Felice Gimondi , Gerben Karstens , Ferdinand Bracke , Joaquim Agostinho , Lucien Van Impe , Lance Armstrong , Richard Virenque et Cédric Vasseur viendront ajouter leur nom à ce palmarès .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : La diversité des langues et des références culturelles en Inde a favorisé le développement d' un cinéma varié .
+Sortie : La diversité des langues et des références culturelles en Inde a favorisé le développement d' un cinéma varié .
+Entrée : Rome et Véies s' opposent pour des motifs économiques .
+Sortie : Rome et Véies s' opposent pour des motifs économiques .
+Entrée : Il y a beaucoup de thèmes récurrents dans les œuvres de Marie Darrieussecq .
+Sortie : Il y a beaucoup de thèmes récurrents dans les œuvres de @@Marie Darrieussecq## .
+Entrée : EverQuest rencontre alors des problèmes de bande passante , récurrents et entraînant régulièrement des crashs des serveurs .
+Sortie : EverQuest rencontre alors des problèmes de bande passante , récurrents et entraînant régulièrement des crashs des serveurs .
+Entrée : La compression Lempel-Ziv-Welch est dite de type dictionnaire .
+Sortie : La compression Lempel-Ziv-Welch est dite de type dictionnaire .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : La compression LZ77 remplace des motifs récurrents par des références à leur première apparition .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Strasbourg abrite plusieurs témoins de cette époque .
+Sortie : Strasbourg abrite plusieurs témoins de cette époque .
+Entrée : Riel se rendit deux mois plus tard et fut reconnu coupable de trahison .
+Sortie : @@Riel## se rendit deux mois plus tard et fut reconnu coupable de trahison .
+Entrée : Les témoins de Jéhovah ( 2 % ) sont présents depuis le début des années 1960 .
+Sortie : Les témoins de Jéhovah ( 2 % ) sont présents depuis le début des années 1960 .
+Entrée : Étienne , qui avait épousé Mathilde de Boulogne , fille d' Eustache III , essaya de faire opposition au prétendant normand .
+Sortie : @@Étienne## , qui avait épousé @@Mathilde de Boulogne## , fille d' @@Eustache III## , essaya de faire opposition au prétendant normand .
+Entrée : Elle enregistre une victoire sur le plan diplomatique quand le pape refuse de reconnaître Eustache , le fils aîné d' Étienne , comme son successeur au trône .
+Sortie : Elle enregistre une victoire sur le plan diplomatique quand le pape refuse de reconnaître @@Eustache## , le fils aîné d' @@Étienne## , comme son successeur au trône .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Les témoins sont Pierre-Louis Roederer , Étienne Eustache Bruix , Pierre Riel de Beurnonville , Maximilien Radix de Sainte-Foix et Karl Heinrich Otto de Nassau-Siegen .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Les principaux exportateurs de vins sont dans l' ordre : Italie 27,1 % , France 24 % , Espagne 13,8 % , États-Unis 4,6 % , Australie 4,5 % , Chili 4,2 % .
+Sortie : Les principaux exportateurs de vins sont dans l' ordre : Italie 27,1 % , France 24 % , Espagne 13,8 % , États-Unis 4,6 % , Australie 4,5 % , Chili 4,2 % .
+Entrée : D' après le recensement officiel , les Européens représentent 53 % de la population , les métis 39 % et les noirs environ 6 % .
+Sortie : D' après le recensement officiel , les Européens représentent 53 % de la population , les métis 39 % et les noirs environ 6 % .
+Entrée : Les proportions pour les autres pays sont les suivantes : Autriche-Hongrie 32 % , Italie 26 % , France 12 % , Allemagne 9 % et Royaume-Uni 7 % .
+Sortie : Les proportions pour les autres pays sont les suivantes : Autriche-Hongrie 32 % , Italie 26 % , France 12 % , Allemagne 9 % et Royaume-Uni 7 % .
+Entrée : L' essentiel de ce commerce se fait avec l' Union européenne ( 20,4 % ) , les États-Unis ( 17,7 % ) , Hong Kong ( 13,4 % ) et le Japon ( 8,1 % ) .
+Sortie : L' essentiel de ce commerce se fait avec l' Union européenne ( 20,4 % ) , les États-Unis ( 17,7 % ) , Hong Kong ( 13,4 % ) et le Japon ( 8,1 % ) .
+Entrée : En termes de superficie , les Alpes représentent environ 60 % du pays , le plateau 30 % et le Jura 10 % .
+Sortie : En termes de superficie , les Alpes représentent environ 60 % du pays , le plateau 30 % et le Jura 10 % .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Pourtant , les aides publiques ne représentent que 6 % environ du revenu des agriculteurs , contre 20 % aux États-Unis , 34 % dans l' Union européenne et 58 % au Japon .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Situé dans l' Océan Pacifique , il se trouve dans la mer du Japon , à l' est de la Chine , de la Corée et de la Russie , et au nord de Taïwan .
+Sortie : Situé dans l' Océan Pacifique , il se trouve dans la mer du Japon , à l' est de la Chine , de la Corée et de la Russie , et au nord de Taïwan .
+Entrée : Avant la première guerre mondiale , la capitale du cinéma chinois est Shanghaï qui concentre la quasi totalité des films chinois .
+Sortie : Avant la première guerre mondiale , la capitale du cinéma chinois est Shanghaï qui concentre la quasi totalité des films chinois .
+Entrée : Le terme " Chine continentale " fait référence à la République populaire de Chine sans Taïwan , Hong Kong et Macao .
+Sortie : Le terme " Chine continentale " fait référence à la République populaire de Chine sans Taïwan , Hong Kong et Macao .
+Entrée : Le cinéma indien désigne la production cinématographique de l' Inde .
+Sortie : Le cinéma indien désigne la production cinématographique de l' Inde .
+Entrée : Il s' agit de la première ville postindustrielle en Chine continentale .
+Sortie : Il s' agit de la première ville postindustrielle en Chine continentale .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Le cinéma chinois désigne au sens large les films provenant de la Chine continentale , de Hong-Kong et de Taïwan .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le mot υποστασις / upostasis , " hypostase " , signifiant " base " , " fondement " puis " matière " , " substance " a été employé au concile de Nicée indifféremment avec ousia .
+Sortie : Le mot υποστασις / upostasis , " hypostase " , signifiant " base " , " fondement " puis " matière " , " substance " a été employé au concile de Nicée indifféremment avec ousia .
+Entrée : " Guyane " voudrait donc dire " sans nom " , " ce qu' on ne peut nommer " .
+Sortie : " Guyane " voudrait donc dire " sans nom " , " ce qu' on ne peut nommer " .
+Entrée : Ce fils devint , à la mort d' Édouard III , le roi d' Angleterre Richard II dit " de Bordeaux " ( selon son lieu de naissance ) , parfois dit " le Gascon " .
+Sortie : Ce fils devint , à la mort d' @@Édouard III## , le roi d' Angleterre @@Richard II## dit " de Bordeaux " ( selon son lieu de naissance ) , parfois dit " le Gascon " .
+Entrée : Le nom " Scrignac " correspond en breton à " skarena " qui peut être traduit par " éclat de roche " , " pente rocheuse " ou encore " lieu rocailleux " .
+Sortie : Le nom " Scrignac " correspond en breton à " skarena " qui peut être traduit par " éclat de roche " , " pente rocheuse " ou encore " lieu rocailleux " .
+Entrée : C' est le cas par exemple pour les caractères " : " , " / " ou " \ " sous Windows .
+Sortie : C' est le cas par exemple pour les caractères " : " , " / " ou " \ " sous Windows .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Petit-fils de Charles Martel , il est fils de Pépin III dit " le Bref " et de Berthe de Laon dite " au Grand Pied " .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Les communes limitrophes sont : Erquelinnes -- Froidchapelle -- Merbes-le-Château -- Sivry-Rance -- Thuin -- Walcourt , Hestrud ...
+Sortie : Les communes limitrophes sont : Erquelinnes -- Froidchapelle -- Merbes-le-Château -- Sivry-Rance -- Thuin -- Walcourt , Hestrud ...
+Entrée : On peut noter ici , la grande voie maritime et commerciale : Méditerranée -- Gibraltar -- Gironde -- Manche -- Angleterre .
+Sortie : On peut noter ici , la grande voie maritime et commerciale : Méditerranée -- Gibraltar -- Gironde -- Manche -- Angleterre .
+Entrée : Du point de vue ferroviaire , Stuttgart est un nœud à la croisée des liaisons vers Karlsruhe -- Strasbourg -- Paris , Mannheim -- Francfort -- Cologne , Ulm -- Munich , Zurich -- Milan , Nuremberg ...
+Sortie : Du point de vue ferroviaire , Stuttgart est un nœud à la croisée des liaisons vers Karlsruhe -- Strasbourg -- Paris , Mannheim -- Francfort -- Cologne , Ulm -- Munich , Zurich -- Milan , Nuremberg ...
+Entrée : La Normandie est desservie par quatre lignes nationales : Paris -- Rouen -- Le Havre et Paris -- Caen -- Cherbourg , mais aussi Paris -- Argentan -- Granville et Caen -- Le Mans -- Tours .
+Sortie : La Normandie est desservie par quatre lignes nationales : Paris -- Rouen -- Le Havre et Paris -- Caen -- Cherbourg , mais aussi Paris -- Argentan -- Granville et Caen -- Le Mans -- Tours .
+Entrée : La commune est desservie par la route nationale N143 ainsi que par les routes départementales D40 -- D81 -- D101 -- D151 -- D920 -- D925 -- D943 -- D956 -- D990 .
+Sortie : La commune est desservie par la route nationale N143 ainsi que par les routes départementales D40 -- D81 -- D101 -- D151 -- D920 -- D925 -- D943 -- D956 -- D990 .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Achot Bagratouni , roi d' Arménie -- Al-Mundhir -- Charles III le Gros -- Eudes I er de France -- Fujiwara no Mototsune -- Léon VI le Sage -- Oleg le Sage
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : C' est au cours de cette période que Jean-Jacques Goldman s' impose par ses qualités , sa volonté et son sens de l' organisation .
+Sortie : C' est au cours de cette période que @@Jean-Jacques Goldman## s' impose par ses qualités , sa volonté et son sens de l' organisation .
+Entrée : Il fut le suppléant de l' ancien député Pierre Petit ( Martinique ) en 1993 et en 1997 .
+Sortie : Il fut le suppléant de l' ancien député @@Pierre Petit## ( Martinique ) en 1993 et en 1997 .
+Entrée : Il a été élu député de la 6e circonscription du Haut-Rhin le 21 mai 2000 , lors d' un élection législative partielle , en remplacement de Jean-Jacques Weber déchu de son mandat .
+Sortie : Il a été élu député de la 6e circonscription du Haut-Rhin le 21 mai 2000 , lors d' un élection législative partielle , en remplacement de @@Jean-Jacques Weber## déchu de son mandat .
+Entrée : Son suppléant , Arnaud Richard , lui succède à l' Assemblée nationale .
+Sortie : Son suppléant , @@Arnaud Richard## , lui succède à l' Assemblée nationale .
+Entrée : Henri Cuq est remplacé par son suppléant , Pierre Amouroux .
+Sortie : @@Henri Cuq## est remplacé par son suppléant , @@Pierre Amouroux## .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : La période 2002-2007 a été son dernier mandat , son ancien suppléant Jean-Jacques Candelier lui succèdant .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : En 1944 , il a un deuxième fils , Patrick , et , en 1949 , un troisième fils , Olivier , qui tiendra quelques rôles au côté de son père , au cinéma comme au théâtre .
+Sortie : En 1944 , il a un deuxième fils , @@Patrick## , et , en 1949 , un troisième fils , @@Olivier## , qui tiendra quelques rôles au côté de son père , au cinéma comme au théâtre .
+Entrée : Le 24 avril 1450 , Olivier de Méel , ancien écuyer d' Arthur en 1442 , assassine Gilles de Bretagne , le représentant du parti pro-anglais dans le duché .
+Sortie : Le 24 avril 1450 , @@Olivier de Méel## , ancien écuyer d' @@Arthur## en 1442 , assassine @@Gilles de Bretagne## , le représentant du parti pro-anglais dans le duché .
+Entrée : Le canton de Bayeux est composé des communes d' Agy , Arganchy , Barbeville , Cottun , Cussy , Guéron , Monceaux-en-Bessin , Nonant , Ranchy , Saint-Loup-Hors , Saint-Martin-des-Entrées , Saint-Vigor-le-Grand , Subles , Sully , Vaucelles .
+Sortie : Le canton de Bayeux est composé des communes d' Agy , Arganchy , Barbeville , Cottun , Cussy , Guéron , Monceaux-en-Bessin , Nonant , Ranchy , Saint-Loup-Hors , Saint-Martin-des-Entrées , Saint-Vigor-le-Grand , Subles , Sully , Vaucelles .
+Entrée : Le jury est composé de lecteurs de communes où Exbrayat a vécu .
+Sortie : Le jury est composé de lecteurs de communes où @@Exbrayat## a vécu .
+Entrée : Gilbert Le Bris est un homme politique français , né le 3 mars 1949 à Concarneau ( Finistère ) .
+Sortie : @@Gilbert Le Bris## est un homme politique français , né le 3 mars 1949 à Concarneau ( Finistère ) .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Le jury est composé de Tahar Ben Jelloun , Michèle Kahn , Pierre Haski , Gilles Lapouge , Jean-Marie Drot , Michel Le Bris , Patrick Rambaud , Jean-Christophe Rufin , André Velter et Olivier Weber .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Pour résoudre cette difficulté , Descartes distingue entre ce qui a une cause hors de soi ( substance au sens large ) et ce qui a sa cause en soi ( la substance per se ) .
+Sortie : Pour résoudre cette difficulté , @@Descartes## distingue entre ce qui a une cause hors de soi ( substance au sens large ) et ce qui a sa cause en soi ( la substance per se ) .
+Entrée : Ainsi , Popper s' est posé en défenseur du dualisme et plus précisément de l' interactionnisme .
+Sortie : Ainsi , @@Popper## s' est posé en défenseur du dualisme et plus précisément de l' interactionnisme .
+Entrée : L' âme est pour Descartes une substance indépendante , et seul l' homme a une âme .
+Sortie : L' âme est pour @@Descartes## une substance indépendante , et seul l' homme a une âme .
+Entrée : La France a également connu des difficultés .
+Sortie : La France a également connu des difficultés .
+Entrée : Descartes ( 1596 -- 1650 ) reconnaît ce dualisme , avec une matière autonome qui obéit à ses propres lois .
+Sortie : @@Descartes## ( 1596 -- 1650 ) reconnaît ce dualisme , avec une matière autonome qui obéit à ses propres lois .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Le dualisme de substance développé par Descartes , a posé des difficultés à ses successeurs .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Gordon Liddy , lui , est condamné à une peine de 20 ans , mais est amnistié 4 ans plus tard par le président Jimmy Carter .
+Sortie : @@Gordon Liddy## , lui , est condamné à une peine de 20 ans , mais est amnistié 4 ans plus tard par le président @@Jimmy Carter## .
+Entrée : Depuis le sommet de la Terre 2002 à Johannesburg et le projet de réforme de l' ONU initié en janvier 1997 par Kofi Annan , une réforme du PNUE est envisagée .
+Sortie : Depuis le sommet de la Terre 2002 à Johannesburg et le projet de réforme de l' ONU initié en janvier 1997 par @@Kofi Annan## , une réforme du PNUE est envisagée .
+Entrée : Il est une " icône mondiale de la réconciliation " et un " colosse moral " , selon Desmond Tutu , également prix Nobel de la paix .
+Sortie : Il est une " icône mondiale de la réconciliation " et un " colosse moral " , selon @@Desmond Tutu## , également prix Nobel de la paix .
+Entrée : Durant son mandat , l' ancien secrétaire général , Kofi Annan , a commandé de nombreuses études sur les voies à suivre pour réformer l' organisation .
+Sortie : Durant son mandat , l' ancien secrétaire général , @@Kofi Annan## , a commandé de nombreuses études sur les voies à suivre pour réformer l' organisation .
+Entrée : En novembre 1980 , Ronald Reagan est élu président face à Jimmy Carter .
+Sortie : En novembre 1980 , @@Ronald Reagan## est élu président face à @@Jimmy Carter## .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Desmond Tutu est président du conseil et ses membres fondateurs incluent également Kofi Annan , Ela Bhatt , Gro Harlem Brundtland , Jimmy Carter , Li Zhaoxing , Mary Robinson et Muhammad Yunus .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le 1 er janvier 1562 , l' édit de Saint-Germain-en-Laye permet aux protestants de pratiquer leur culte dans les campagnes et les faubourgs urbains .
+Sortie : Le 1 er janvier 1562 , l' édit de Saint-Germain-en-Laye permet aux protestants de pratiquer leur culte dans les campagnes et les faubourgs urbains .
+Entrée : Constantin finit par céder et promulgue en 321 un édit de tolérance laissant aux donatistes les églises qu' ils possèdent tout en maintenant sa condamnation de principe .
+Sortie : @@Constantin## finit par céder et promulgue en 321 un édit de tolérance laissant aux donatistes les églises qu' ils possèdent tout en maintenant sa condamnation de principe .
+Entrée : C' est donc dans la dernière province où la Ligue lui résistait , qu' Henri IV signe un édit de tolérance , l' édit de Nantes .
+Sortie : C' est donc dans la dernière province où la Ligue lui résistait , qu' @@Henri IV## signe un édit de tolérance , l' édit de Nantes .
+Entrée : L' empereur Auguste met en place le culte impérial .
+Sortie : L' empereur @@Auguste## met en place le culte impérial .
+Entrée : En 260 , son fils Gallien publie un édit de tolérance maintenu par ses successeurs pendant 40 ans .
+Sortie : En 260 , son fils @@Gallien## publie un édit de tolérance maintenu par ses successeurs pendant 40 ans .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : L' empereur Julien , acquis au paganisme , promulgue en 361 un édit de tolérance permettant de pratiquer le culte de son choix .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : 2001 : L' Odyssée de l' espace est régulièrement cité dans les classements de films par les critiques de cinéma .
+Sortie : 2001 : L' Odyssée de l' espace est régulièrement cité dans les classements de films par les critiques de cinéma .
+Entrée : 2001 : L' Odyssée de l' espace est un film de science-fiction ayant suscité beaucoup de commentaires .
+Sortie : 2001 : L' Odyssée de l' espace est un film de science-fiction ayant suscité beaucoup de commentaires .
+Entrée : La célébrité lui vient grâce à son livre 2001 , l' Odyssée de l' espace .
+Sortie : La célébrité lui vient grâce à son livre 2001 , l' Odyssée de l' espace .
+Entrée : Il va passer cinq ans à développer son film suivant 2001 , l' Odyssée de l' espace .
+Sortie : Il va passer cinq ans à développer son film suivant 2001 , l' Odyssée de l' espace .
+Entrée : Dans 2001 : L' Odyssée de l' espace , pour la première fois , Stanley Kubrick décide d' incorporer de la musique classique à un de ses films .
+Sortie : Dans 2001 : L' Odyssée de l' espace , pour la première fois , @@Stanley Kubrick## décide d' incorporer de la musique classique à un de ses films .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Aussi , assistant à la projection de 2001 : L' Odyssée de l' espace , il quitta avec bruit la salle lorsque l' ordinateur HAL 9000 viola sa première loi en s' attaquant à des humains .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Quelques-unes de ses communes ont également formé des parties des Hauts-de-Seine ( 9 communes ) , de la Seine-Saint-Denis ( 16 communes ) et du Val-de-Marne ( 18 communes ) .
+Sortie : Quelques-unes de ses communes ont également formé des parties des Hauts-de-Seine ( 9 communes ) , de la Seine-Saint-Denis ( 16 communes ) et du Val-de-Marne ( 18 communes ) .
+Entrée : En 1973 , elle a fusionné avec Angoville-en-Saire et Vrasville , qui ont gardé le statut de communes associées .
+Sortie : En 1973 , elle a fusionné avec Angoville-en-Saire et Vrasville , qui ont gardé le statut de communes associées .
+Entrée : En 1973 , la commune a fusionné avec Saint-Léger et Saint-Ursin , qui ont gardé le statut de communes associées .
+Sortie : En 1973 , la commune a fusionné avec Saint-Léger et Saint-Ursin , qui ont gardé le statut de communes associées .
+Entrée : En 1972 , Vacognes ( 109 habitants en 1968 ) absorbe Neuilly-le-Malherbe ( 137 habitants ) , au nord de son territoire , qui conserve le statut de commune associée .
+Sortie : En 1972 , Vacognes ( 109 habitants en 1968 ) absorbe Neuilly-le-Malherbe ( 137 habitants ) , au nord de son territoire , qui conserve le statut de commune associée .
+Entrée : Carolles , Saint-Michel-des-Loups et Saint-Pair-sur-Mer gardaient un statut de communes associées .
+Sortie : Carolles , Saint-Michel-des-Loups et Saint-Pair-sur-Mer gardaient un statut de communes associées .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Six conseillers représentent Neuilly-le-Malherbe et cinq Vacognes ( les deux communes ont le statut de communes associées ) .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Parmi les célébrités exposées , on retrouve Samuel L. Jackson , Elijah Wood , Rossy de Palma , Kevin Bacon ou encore Maïwenn Le Besco .
+Sortie : Parmi les célébrités exposées , on retrouve @@Samuel L. Jackson## , @@Elijah Wood## , @@Rossy de Palma## , @@Kevin Bacon## ou encore @@Maïwenn Le Besco## .
+Entrée : Ce film marque également le retour à la scène de John Travolta , et la consécration d' autres acteurs comme Samuel L. Jackson , Bruce Willis et Uma Thurman .
+Sortie : Ce film marque également le retour à la scène de @@John Travolta## , et la consécration d' autres acteurs comme @@Samuel L. Jackson## , @@Bruce Willis## et @@Uma Thurman## .
+Entrée : Gérard Depardieu s' est également engagé en politique .
+Sortie : @@Gérard Depardieu## s' est également engagé en politique .
+Entrée : Maurice Pialat , qui avait été encouragé par Souleymane Cissé lorsque le public huait son film , s' interposa .
+Sortie : @@Maurice Pialat## , qui avait été encouragé par @@Souleymane Cissé## lorsque le public huait son film , s' interposa .
+Entrée : En 2008 , Pedro Almodóvar a tourné de nouveau avec Pénélope Cruz un film sur le cinéma et la jalousie : Étreintes brisées .
+Sortie : En 2008 , @@Pedro Almodóvar## a tourné de nouveau avec @@Pénélope Cruz## un film sur le cinéma et la jalousie : Étreintes brisées .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : On retrouve Souleymane Cissé , Penélope Cruz , Wong Kar-Wai , Juliette Binoche , Jane Campion , Gérard Depardieu , Bruce Willis , Samuel L. Jackson , et Pedro Almodóvar .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : À ce sujet , voir Lynn Margulis .
+Sortie : À ce sujet , voir @@Lynn Margulis## .
+Entrée : Les principaux protagonistes furent François I er et Charles Quint .
+Sortie : Les principaux protagonistes furent @@François I## er et @@Charles Quint## .
+Entrée : Le maire de Saint-Denis est Gilbert Annette .
+Sortie : Le maire de Saint-Denis est @@Gilbert Annette## .
+Entrée : Les principaux pays producteurs sont : l' Iran , la Turquie , l' Afghanistan , l' Algérie , Israël , le Liban , l' Égypte , la Tunisie , l' Espagne , la Californie et l' Italie .
+Sortie : Les principaux pays producteurs sont : l' Iran , la Turquie , l' Afghanistan , l' Algérie , Israël , le Liban , l' Égypte , la Tunisie , l' Espagne , la Californie et l' Italie .
+Entrée : La cérémonie d' inauguration a été ouverte par Vanessa Lynn Williams , sa partenaire dans le film L' Effaceur , chantant l' hymne national américain .
+Sortie : La cérémonie d' inauguration a été ouverte par @@Vanessa Lynn Williams## , sa partenaire dans le film L' Effaceur , chantant l' hymne national américain .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Les principaux protagonistes de cette époque sont John Holmes , Kay Parker , Seka , Ginger Lynn , Annette Haven , Veronica Hart , Desiree Cousteau , Vanessa del Rio ou encore Hyapatia Lee .
+Sortie : ==================================================
