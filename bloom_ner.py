@@ -31,6 +31,7 @@ args.add_argument('-o', "--overwrite_prompt_cache", action="store_true")
 args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
+args.add_argument('-g', '--greedy', action="store_true")
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
@@ -186,9 +187,10 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         args=args,
         logger=logger,
         kwargs={
-        "top_p": top_p,
-        "top_k": top_k,
-        "temperature": temp,
+        "do_sample": not args.greedy,
+        "top_p": top_p if not args.greedy else None,
+        "top_k": top_k if not args.greedy else None,
+        "temperature": temp if not args.greedy else None,
         },
     )
 
