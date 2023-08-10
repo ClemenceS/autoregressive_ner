@@ -1,261 +1,261 @@
 Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Infections sur dispositifs intravasculaires de perfusion
-Sortie : @@Infections## sur dispositifs intravasculaires de perfusion
-Entrée : Approche à l' étude
-Sortie : Approche à l' étude
-Entrée : Image lacunaire gastrique à éclipse due à une tumeur kystique
-Sortie : Image lacunaire gastrique à éclipse due à une @@tumeur kystique##
-Entrée : La fièvre Typhoïde à Tananarive à propos de 200 observations
-Sortie : La @@fièvre## Typhoïde à Tananarive à propos de 200 observations
-Entrée : Les tumeurs séreuses de l' ovaire à malignité limite . Mise au point à partir d' une revue de la littérature internationale à propos d' un cas .
-Sortie : Les @@tumeurs## séreuses de l' ovaire à malignité limite . Mise au point à partir d' une revue de la littérature internationale à propos d' un cas .
+Entrée : Prémédication sublinguale au prazépam
+Sortie : Prémédication sublinguale au prazépam
+Entrée : L' importance du synchronisme auriculo ventriculaire dans la cardiomyopathie hypertrophique obstructive traitée par stimulation cardiaque .
+Sortie : L' importance du synchronisme auriculo ventriculaire dans la @@cardiomyopathie hypertrophique## obstructive traitée par stimulation cardiaque .
+Entrée : Evaluation des effets de l' enveloppe sonore
+Sortie : Evaluation des effets de l' enveloppe sonore
+Entrée : Rubrique iconographique . Maladie
+Sortie : Rubrique iconographique . @@Maladie##
+Entrée : Un case de hernie intra péricardique post traumatique chez l' enfant
+Sortie : Un case de @@hernie## intra péricardique post traumatique chez l' enfant
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Infections puerpéales invasives à Streptococcus
+Entrée : Cardiomyopathie hypertrophique
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Hypercalcémies des hémopathies et des cancers
-Sortie : @@Hypercalcémies## des @@hémopathies## et des @@cancers##
-Entrée : Prévalence des marqueurs des virus des hépatites A , B , C à La
-Sortie : Prévalence des marqueurs des virus des @@hépatites A## , B , C à La
-Entrée : Etude électrophysiologique de l' effet périphérique de deux substances antalgiques l' aspirine et le dibencozide
-Sortie : Etude électrophysiologique de l' effet périphérique de deux substances antalgiques l' aspirine et le dibencozide
-Entrée : Identification d' alcalöides dans quelques colchicées très rares ; substances tirées du colchique et leurs dérivés
-Sortie : Identification d' alcalöides dans quelques colchicées très rares ; substances tirées du colchique et leurs dérivés
-Entrée : Traitement des varices essentielles des membres
-Sortie : Traitement des @@varices## essentielles des membres
+Entrée : Le diagnostic de la maladie coronarienne au moyen d' une analyse quantitative des résultats de l' épreuve
+Sortie : Le diagnostic de la @@maladie## coronarienne au moyen d' une analyse quantitative des résultats de l' épreuve
+Entrée : Les manifestations oculaires dans la maladie de Recklinghausen et dans la maladie de Bourneville .
+Sortie : Les @@manifestations oculaires## dans la maladie de Recklinghausen et dans la maladie de Bourneville .
+Entrée : Anévrysme de l' aorte thoracique dans la maladie
+Sortie : @@Anévrysme## de l' aorte thoracique dans la @@maladie##
+Entrée : Apport de l' échographie dans la maladie
+Sortie : Apport de l' échographie dans la @@maladie##
+Entrée : Role du collimateur
+Sortie : Role du collimateur
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Spécificité des substances antitumorales
+Entrée : Role des facteurs neuropsychiques dans l' expression de la maladie coronarienne
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Un cas de syndrome de Sheehan avec myotonie
-Sortie : Un cas de @@syndrome## de Sheehan avec @@myotonie##
-Entrée : Le vertige dans le syndrome labyrinthique syndrome de Ménière et syndrome
-Sortie : Le @@vertige## dans le @@syndrome## labyrinthique @@syndrome## de Ménière et @@syndrome##
-Entrée : Aux confins de la rhumatologie et de la stomatologie . Le syndrome
-Sortie : Aux confins de la rhumatologie et de la stomatologie . Le @@syndrome##
 Entrée : Le syndrome
 Sortie : Le @@syndrome##
+Entrée : Le vertige dans le syndrome labyrinthique syndrome de Ménière et syndrome
+Sortie : Le @@vertige## dans le @@syndrome## labyrinthique @@syndrome## de Ménière et @@syndrome##
+Entrée : Un cas de syndrome de Sheehan avec myotonie
+Sortie : Un cas de @@syndrome## de Sheehan avec @@myotonie##
 Entrée : L' étude de la vascularisation hypothalamique chez les rats âgés
 Sortie : L' étude de la vascularisation hypothalamique chez les rats âgés
+Entrée : Aux confins de la rhumatologie et de la stomatologie . Le syndrome
+Sortie : Aux confins de la rhumatologie et de la stomatologie . Le @@syndrome##
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Gliome hypothalamique avec syndrome amnesique de Korsakoff . Le probleme de la memoire .
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Angiographie en couleur
-Sortie : Angiographie en couleur
+Entrée : Retour veineux pulmonaire anormal total dans le sinus coronaire à propos d' une observation anatomo clinique chez un nourrisson de 8 mois .
+Sortie : @@Retour veineux## pulmonaire anormal total dans le sinus coronaire à propos d' une observation anatomo clinique chez un nourrisson de 8 mois .
 Entrée : Utilisation de l' effet Doppler en pathologie et chirurgie vasculaire des membres
 Sortie : Utilisation de l' effet Doppler en pathologie et chirurgie vasculaire des membres
 Entrée : La couleur
 Sortie : La couleur
-Entrée : Retour veineux pulmonaire anormal total dans le sinus coronaire à propos d' une observation anatomo clinique chez un nourrisson de 8 mois .
-Sortie : @@Retour veineux## pulmonaire anormal total dans le sinus coronaire à propos d' une observation anatomo clinique chez un nourrisson de 8 mois .
+Entrée : Angiographie en couleur
+Sortie : Angiographie en couleur
 Entrée : Evolution de l' embolie pulmonaire .
 Sortie : Evolution de l' @@embolie pulmonaire## .
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Retour veineux pulmonaire anormal total infracardiaque . Intérêt de l' échocardiographie Doppler couleur .
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Les traumatismes de l' oesophage . Etude
-Sortie : Les @@traumatismes## de l' oesophage . Etude
-Entrée : Etude clinique du Vascoril
-Sortie : Etude clinique du Vascoril
-Entrée : Etude
-Sortie : Etude
-Entrée : Les cancers des paupières . Etude
-Sortie : Les @@cancers## des paupières . Etude
-Entrée : Etude de l' orbite par moyens
-Sortie : Etude de l' orbite par moyens
-Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Etude
-Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Syndrome
-Sortie : @@Syndrome##
-Entrée : Syndrome de MacLeod à propos d' une observation
-Sortie : @@Syndrome## de MacLeod à propos d' une observation
-Entrée : Syndrome de Peutz Jeghers . A propos de cinq observations
-Sortie : @@Syndrome## de Peutz Jeghers . A propos de cinq observations
-Entrée : A propos d' un cas de syndrome
-Sortie : A propos d' un cas de @@syndrome##
 Entrée : A propos du syndrome
 Sortie : A propos du @@syndrome##
+Entrée : A propos d' un cas de syndrome
+Sortie : A propos d' un cas de @@syndrome##
+Entrée : Syndrome de Peutz Jeghers . A propos de cinq observations
+Sortie : @@Syndrome## de Peutz Jeghers . A propos de cinq observations
+Entrée : Syndrome de MacLeod à propos d' une observation
+Sortie : @@Syndrome## de MacLeod à propos d' une observation
+Entrée : Syndrome
+Sortie : @@Syndrome##
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : A propos de Syndrome de loge aigu de jambe posttraumatique .
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Evaluation des effets de l' enveloppe sonore
-Sortie : Evaluation des effets de l' enveloppe sonore
+Entrée : Variations , en fonction de l' anesthésique , des effets de la clonidine sur la pression artérielle du rat
+Sortie : Variations , en fonction de l' anesthésique , des @@effets## de la clonidine sur la pression artérielle du rat
+Entrée : Etude randomisée multicentrique comparant la castration médicale par triptoréline à la castration chirurgicale dans le traitement du cancer de la prostate localement avancé ou métastatique
+Sortie : Etude randomisée multicentrique comparant la castration médicale par triptoréline à la castration chirurgicale dans le traitement du @@cancer## de la prostate localement avancé ou @@métastatique##
+Entrée : Etude de la validité du dosage radioimmunologique de la prolactine sérique et hypophysaire chez le rat mâle . Action de la bromocriptine et de la thyréolibérine TRH
+Sortie : Etude de la validité du dosage radioimmunologique de la prolactine sérique et hypophysaire chez le rat mâle . Action de la bromocriptine et de la thyréolibérine TRH
+Entrée : Influence de l' age , de la gestation et de la lactation sur le calcium , le phosphate inorganique et la phosphatase alcaline serique chez le zébu
+Sortie : Influence de l' age , de la gestation et de la lactation sur le calcium , le phosphate inorganique et la phosphatase alcaline serique chez le zébu
+Entrée : Actions comparées de la testostérone , de la déhydroépiandrostérone DHA et du sulfate de déhydroépiandrostérone sur la fonction gonadotrope hypophysaire de la ratte
+Sortie : Actions comparées de la testostérone , de la déhydroépiandrostérone DHA et du sulfate de déhydroépiandrostérone sur la fonction gonadotrope hypophysaire de la ratte
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Etude de la maturation de la fonction gonadotrope chez le rat mâle . Influence de la castration
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le vieillard et l' institution
+Sortie : Le vieillard et l' institution
+Entrée : Inversion et désinversion de l' étiléfrine et de l' adrénaline chez le chien et chez le lapin
+Sortie : Inversion et désinversion de l' étiléfrine et de l' adrénaline chez le chien et chez le lapin
+Entrée : Contribution a l' étude bactériologique de l' air a Paris
+Sortie : Contribution a l' étude bactériologique de l' air a Paris
+Entrée : Techniques et indications de la lithotritie
+Sortie : Techniques et indications de la lithotritie
+Entrée : Tuberculose génitale ; a propos de deux observations
+Sortie : @@Tuberculose## génitale ; a propos de deux observations
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Modalités et indications de l' analgésie péridurale basse chez le vieillard a propos de 330 observations
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Syndrome de MacLeod à propos d' une observation
+Sortie : @@Syndrome## de MacLeod à propos d' une observation
+Entrée : Utilisation de la méthode des potentiels évoqués visuels comme critère de maturation cérébrale .
+Sortie : Utilisation de la méthode des potentiels évoqués visuels comme critère de maturation cérébrale .
+Entrée : Contribution à la chimiothérapie retard de la lèpre
+Sortie : Contribution à la chimiothérapie retard de la @@lèpre##
+Entrée : Syndrome
+Sortie : @@Syndrome##
+Entrée : Syndrome de Peutz Jeghers . A propos de cinq observations
+Sortie : @@Syndrome## de Peutz Jeghers . A propos de cinq observations
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Syndrome de retard de maturation de la succion déglutition
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : La synchronisation de l' oestrus chez les ruminants
+Sortie : La synchronisation de l' oestrus chez les ruminants
+Entrée : Action de l' hormone somatotrope sur l' embryogenèse mammaire de la souris
+Sortie : Action de l' hormone somatotrope sur l' embryogenèse mammaire de la souris
+Entrée : A propos de l' anesthésie générale pour l' amygdalectomie chez l' enfant et l' adulte
+Sortie : A propos de l' anesthésie générale pour l' amygdalectomie chez l' enfant et l' adulte
+Entrée : Pronostic de l' angine de poitrine chez l' homme à l' aide de la pression artérielle et de l' électrocardiogramme .
+Sortie : Pronostic de l' @@angine de poitrine## chez l' homme à l' aide de la pression artérielle et de l' électrocardiogramme .
+Entrée : Action de l' acide acétylsalicylique sur la sensibilité au goût amer chez l' homme
+Sortie : Action de l' acide acétylsalicylique sur la sensibilité au goût amer chez l' homme
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Action de la cortisone sur l' oestrus succédant à l' accouchement et à l' ablation de l' utérus gravide chez la ratte
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
 Entrée : Apport de l' échographie dans la maladie
 Sortie : Apport de l' échographie dans la @@maladie##
-Entrée : Un case de hernie intra péricardique post traumatique chez l' enfant
-Sortie : Un case de @@hernie## intra péricardique post traumatique chez l' enfant
 Entrée : Rubrique iconographique . Maladie
 Sortie : Rubrique iconographique . @@Maladie##
+Entrée : Un case de hernie intra péricardique post traumatique chez l' enfant
+Sortie : Un case de @@hernie## intra péricardique post traumatique chez l' enfant
 Entrée : Prémédication sublinguale au prazépam
 Sortie : Prémédication sublinguale au prazépam
+Entrée : Evaluation des effets de l' enveloppe sonore
+Sortie : Evaluation des effets de l' enveloppe sonore
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Bronchiolitis obliterans organizing pneumonia BOOP
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Les glomérulonéphrites aiguës infectueuses
-Sortie : Les @@glomérulonéphrites## aiguës @@infectueuses##
-Entrée : Le diagnostic de la maladie coronarienne au moyen d' une analyse quantitative des résultats de l' épreuve
-Sortie : Le diagnostic de la @@maladie## coronarienne au moyen d' une analyse quantitative des résultats de l' épreuve
-Entrée : L' arthroscopie de l' épaule
-Sortie : L' arthroscopie de l' épaule
 Entrée : Examen programmé de l' épaule
 Sortie : Examen programmé de l' épaule
 Entrée : Résultats tonométriques à moyen terme de la trabéculectomie
 Sortie : Résultats tonométriques à moyen terme de la trabéculectomie
+Entrée : Les glomérulonéphrites aiguës infectueuses
+Sortie : Les @@glomérulonéphrites## aiguës @@infectueuses##
+Entrée : L' arthroscopie de l' épaule
+Sortie : L' arthroscopie de l' épaule
+Entrée : Le diagnostic de la maladie coronarienne au moyen d' une analyse quantitative des résultats de l' épreuve
+Sortie : Le diagnostic de la @@maladie## coronarienne au moyen d' une analyse quantitative des résultats de l' épreuve
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Les instabilités antérieures aiguës de l' épaule résultats à court et moyen terme du traitement
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Apport de la radiofréquence dans l' exérèse d' une tumeur abdominale
-Sortie : Apport de la radiofréquence dans l' exérèse d' une @@tumeur## abdominale
-Entrée : Asthme de l' enfant
-Sortie : @@Asthme## de l' enfant
-Entrée : A propos de l' anesthésie générale pour l' amygdalectomie chez l' enfant et l' adulte
-Sortie : A propos de l' anesthésie générale pour l' amygdalectomie chez l' enfant et l' adulte
-Entrée : Rhabdomyosarcomes localisés des membres de l' enfant et de l' adolescent expérience de la Société francaise des cancers de l' enfant
-Sortie : @@Rhabdomyosarcomes## localisés des membres de l' enfant et de l' adolescent expérience de la Société francaise des @@cancers## de l' enfant
-Entrée : Stratégie soignante . Quelle écoute pour l' enfant
-Sortie : Stratégie soignante . Quelle écoute pour l' enfant
-Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Vaccination de l' enfant traité pour tumeur
-Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : La maladie d' Alzheimer et la mémoire humaine .
-Sortie : @@La maladie d' Alzheimer## et la mémoire humaine .
-Entrée : Les syncopes évaluation et prise
-Sortie : Les @@syncopes## évaluation et prise
-Entrée : Le test d' Ohkuma une évaluation
-Sortie : Le test d' Ohkuma une évaluation
-Entrée : L' évaluation du coût de l' infarctus du myocarde au cours des quatre premiers mois . Etude prospective sur 100 malades
-Sortie : L' évaluation du coût de l' @@infarctus du myocarde## au cours des quatre premiers mois . Etude prospective sur 100 malades
-Entrée : Essai d' évaluation épidémiologique de la sarcoïdose
-Sortie : Essai d' évaluation épidémiologique de la @@sarcoïdose##
-Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : L' évaluation de la mémoire
-Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Cavernomes cérébraux de l' enfant et du nourrisson
-Sortie : Cavernomes cérébraux de l' enfant et du nourrisson
-Entrée : Utilisation de l' effet Doppler en pathologie et chirurgie vasculaire des membres
-Sortie : Utilisation de l' effet Doppler en pathologie et chirurgie vasculaire des membres
+Entrée : Les injections
+Sortie : Les injections
+Entrée : Allure et pronostic des tumeurs malignes chez l' enfant
+Sortie : Allure et pronostic des @@tumeurs malignes## chez l' enfant
+Entrée : Taaitement des varices oesophagiennes par injections sclérosantes
+Sortie : Taaitement des @@varices## oesophagiennes par injections sclérosantes
 Entrée : A propos de deux cas de tumeurs malignes du médiastin chez le nourrisson
 Sortie : A propos de deux cas de @@tumeurs malignes## du médiastin chez le nourrisson
-Entrée : Etude électrophysiologique de l' effet périphérique de deux substances antalgiques l' aspirine et le dibencozide
-Sortie : Etude électrophysiologique de l' effet périphérique de deux substances antalgiques l' aspirine et le dibencozide
-Entrée : Malaises du nourrisson
-Sortie : @@Malaises## du nourrisson
+Entrée : La désobstruction des tumeurs malignes de l' arbre trachéo bronchique sous endoscopie
+Sortie : La désobstruction des @@tumeurs malignes## de l' arbre trachéo bronchique sous endoscopie
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Angiome du nourrisson effet favorable de l' hydrocortisone
+Entrée : Production de tumeurs malignes hépatomes et autres par injections intrapéritonéales d' or radioactif chez le rat
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : La maladie de Behcet 11 cas et ses manifestations neurologiques 3 cas
-Sortie : La @@maladie## de Behcet 11 cas et ses @@manifestations neurologiques## 3 cas
-Entrée : Bléomycine et ses phénomènes cutanés
-Sortie : Bléomycine et ses phénomènes cutanés
 Entrée : Un nouvel anti inflammatoire l' acide
 Sortie : Un nouvel anti inflammatoire l' acide
+Entrée : La maladie de Behcet 11 cas et ses manifestations neurologiques 3 cas
+Sortie : La @@maladie## de Behcet 11 cas et ses @@manifestations neurologiques## 3 cas
 Entrée : Lésion inflammatoire du cuir
 Sortie : @@Lésion inflammatoire## du cuir
+Entrée : Bléomycine et ses phénomènes cutanés
+Sortie : Bléomycine et ses phénomènes cutanés
 Entrée : La psychologie des relations interethniques implications pour la psychiatrie sociale .
 Sortie : La psychologie des relations interethniques implications pour la psychiatrie sociale .
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : La pseudo polyarthrite rhizomélique rhumatisme inflammatoire des ceintures et ses relations avec l' artérite temporale
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : ÉTUDE DE 241 CANCERS DU COL UTÉRIN TRAITÉS
-Sortie : ÉTUDE DE 241 @@CANCERS## DU COL UTÉRIN TRAITÉS
-Entrée : LA THÉRAPEUTIQUE THROMBOLYTIQUE . ESSAI DE TRAITEMENT PAR LA STREPTOKINASE
-Sortie : LA THÉRAPEUTIQUE THROMBOLYTIQUE . ESSAI DE TRAITEMENT PAR LA STREPTOKINASE
-Entrée : EFFETS DE LA CARENCE EN LYSINE SUR LE PANCRÉAS DU RAT CONTENU EN HYDROLASES , TURNOVER DES ACIDES D' ESOXYRIBONUCLÉIQUES ET RESPIRATION
-Sortie : EFFETS DE LA @@CARENCE## EN LYSINE SUR LE PANCRÉAS DU RAT CONTENU EN HYDROLASES , TURNOVER DES ACIDES D' ESOXYRIBONUCLÉIQUES ET RESPIRATION
-Entrée : LES MICRO ANÉVRISMES DU CHAMP VASCULAIRE DE LA CONJONCTIVE BULBAIRE EN PATHOLOGIE INTERNE . ÉTUDE
-Sortie : LES @@MICRO ANÉVRISMES## DU CHAMP VASCULAIRE DE LA @@CONJONCTIVE BULBAIRE## EN PATHOLOGIE INTERNE . ÉTUDE
-Entrée : ÉTUDE DES PERTURBATIONS DU MÉTABOLISME DU SODIUM ET DE L' EAU AU COURS DE L' INSUFFISANCE SURRÉNALE .
-Sortie : ÉTUDE DES PERTURBATIONS DU MÉTABOLISME DU SODIUM ET DE L' EAU AU COURS DE L' @@INSUFFISANCE SURRÉNALE## .
-Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : ESSAI DU NIAMIDE EN RHUMATOLOGIE . ÉTUDE
-Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : ÉVOLUTION DE LA TENEUR EN CORTICOSTÉRONE DE LA SURRÉNALE FOETALE DU RAT
-Sortie : ÉVOLUTION DE LA TENEUR EN CORTICOSTÉRONE DE LA SURRÉNALE FOETALE DU RAT
-Entrée : LES INDICATIONS ET LES CONTRE INDICATIONS DE LA CORTICOTHÉRAPIE DANS LE SYNDROME NÉPHROTIQUE DE L' ENFANT
-Sortie : LES INDICATIONS ET LES CONTRE INDICATIONS DE LA CORTICOTHÉRAPIE DANS LE @@SYNDROME## NÉPHROTIQUE DE L' ENFANT
 Entrée : ÉTUDE DE LA TENEUR EN ACIDE DÉSOXYRIBONUCLÉIQUE DES NOYAUD HÉPATIQUES CHEZ LA SOURIS AU COURS DE L' ALLAITEMENT
 Sortie : ÉTUDE DE LA TENEUR EN ACIDE DÉSOXYRIBONUCLÉIQUE DES NOYAUD HÉPATIQUES CHEZ LA SOURIS AU COURS DE L' ALLAITEMENT
 Entrée : LES FACTEURS DE GRAVITÉ DANS LA STÉNOSE
 Sortie : LES FACTEURS DE GRAVITÉ DANS LA @@STÉNOSE##
+Entrée : ÉVOLUTION DE LA TENEUR EN CORTICOSTÉRONE DE LA SURRÉNALE FOETALE DU RAT
+Sortie : ÉVOLUTION DE LA TENEUR EN CORTICOSTÉRONE DE LA SURRÉNALE FOETALE DU RAT
+Entrée : LES INDICATIONS ET LES CONTRE INDICATIONS DE LA CORTICOTHÉRAPIE DANS LE SYNDROME NÉPHROTIQUE DE L' ENFANT
+Sortie : LES INDICATIONS ET LES CONTRE INDICATIONS DE LA CORTICOTHÉRAPIE DANS LE @@SYNDROME## NÉPHROTIQUE DE L' ENFANT
 Entrée : EFFETS DE LA CARENCE EN LYSINE SUR LE PANCRÉAS DU RAT CONTENU EN HYDROLASES , TURNOVER DES ACIDES D' ESOXYRIBONUCLÉIQUES ET RESPIRATION
 Sortie : EFFETS DE LA @@CARENCE## EN LYSINE SUR LE PANCRÉAS DU RAT CONTENU EN HYDROLASES , TURNOVER DES ACIDES D' ESOXYRIBONUCLÉIQUES ET RESPIRATION
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : LES CONDITIONS JURIDIQUES ET MÉDICALES DE LA RÉPARATION DU DOMMAGE CORPOREL RÉSULTANT D' ACCIDENTS DE LA VOIE PUBLIQUE EN SUISSE
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Cinquante ans . . .
+Sortie : Cinquante ans . . .
+Entrée : Le ciment au verre ionomère C . V . I . .
+Sortie : Le ciment au verre ionomère C . V . I . .
+Entrée : Technique immuno enzymatique E . L . I . S . A . appliquée au diagnostic sérologique des candidoses et aspergilloses humaines . Résultats préliminaires
+Sortie : Technique immuno enzymatique E . L . I . S . A . appliquée au diagnostic sérologique des candidoses et aspergilloses humaines . Résultats préliminaires
+Entrée : Les I . M . A . O . dans le traitement des ulcères bulbaires à porpos de 10 cas traités
+Sortie : Les I . M . A . O . dans le traitement des @@ulcères## bulbaires à porpos de 10 cas traités
+Entrée : Comment j' explore . . . Une épilepsie
+Sortie : Comment j' explore . . . Une @@épilepsie##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Piportil .
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
 Entrée : Les bêta bloquants dans les troubles du rythme cardiaque , l' anxiété et le stress
 Sortie : Les bêta bloquants dans les @@troubles## du rythme cardiaque , l' anxiété et le @@stress##
-Entrée : Troubles et comportements . Le problème des fugues
-Sortie : @@Troubles## et comportements . Le problème des @@fugues##
 Entrée : Troubles de l' absorption intestinale au cours de l' insuffisance surrénale chronique .
 Sortie : @@Troubles de l' absorption intestinale## au cours de l' insuffisance surrénale chronique .
-Entrée : Essai de l' halofantrine dans le traitement de l' accès palustre a Plasmodium
-Sortie : Essai de l' halofantrine dans le traitement de l' accès @@palustre## a Plasmodium
+Entrée : Troubles et comportements . Le problème des fugues
+Sortie : @@Troubles## et comportements . Le problème des @@fugues##
 Entrée : Anévrysmotripsie par voie haute pour un anévrysme de l' espace recto vésical ; résultat
 Sortie : Anévrysmotripsie par voie haute pour un @@anévrysme## de l' espace recto vésical ; @@résultat##
+Entrée : Essai de l' halofantrine dans le traitement de l' accès palustre a Plasmodium
+Sortie : Essai de l' halofantrine dans le traitement de l' accès @@palustre## a Plasmodium
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Troubles du rythme et allongement de l' espace QT sous halofantrine .
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : L' artérite des membres inférieurs sous l' angle chirurgical . Quand faut il opérer ? Quelle opération
-Sortie : L' @@artérite## des membres inférieurs sous l' angle chirurgical . Quand faut il opérer ? Quelle opération
-Entrée : Fibromatose solitaire infantile de l' oesophage
-Sortie : @@Fibromatose## solitaire infantile de l' oesophage
-Entrée : Le cardiogramme apexien gauche au cours de l' insuffisance mitrale . Etude critique .
-Sortie : Le cardiogramme apexien gauche au cours de l' @@insuffisance mitrale## . Etude critique .
+Entrée : Diagnostic de la toxoplasmose par héhagglutination indirecte . I . Etude comparative de la fixation par le glutaraldéhyde sur des globules rouges formolés d' un antigène soluble , d' un antigène particulaire insoluble et d' un antigène
+Sortie : Diagnostic de la @@toxoplasmose## par héhagglutination indirecte . I . Etude comparative de la fixation par le glutaraldéhyde sur des globules rouges formolés d' un antigène soluble , d' un antigène particulaire insoluble et d' un antigène
+Entrée : Effets comparés d' un beta bloqueur adrénergique et d' un ganglioplégiue sur la conduction auriculo ventriculaire du lapin .
+Sortie : Effets comparés d' un beta bloqueur adrénergique et d' un ganglioplégiue sur la conduction auriculo ventriculaire du lapin .
+Entrée : Les besoins psychosociaux des porteurs d' un défibrillateur
+Sortie : Les besoins psychosociaux des porteurs d' un défibrillateur
+Entrée : Migration intracardiaque d' un cathéter de perfusion intraveineuse découverte à l' autopsie d' un traumatisme cranien
+Sortie : Migration intracardiaque d' un cathéter de perfusion intraveineuse découverte à l' autopsie d' un @@traumatisme## cranien
+Entrée : A propos d' un cas de syndrome
+Sortie : A propos d' un cas de @@syndrome##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Dermatoglyphes d' un échantillon des rhumatisants Japonais
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
 Entrée : Réaction du côlon aux étirements répétés . Etude in vitro chez le rat . Déductions sur les territoires fonctionnels du côlon
 Sortie : Réaction du côlon aux étirements répétés . Etude in vitro chez le rat . Déductions sur les territoires fonctionnels du côlon
+Entrée : Le cardiogramme apexien gauche au cours de l' insuffisance mitrale . Etude critique .
+Sortie : Le cardiogramme apexien gauche au cours de l' @@insuffisance mitrale## . Etude critique .
+Entrée : L' artérite des membres inférieurs sous l' angle chirurgical . Quand faut il opérer ? Quelle opération
+Sortie : L' @@artérite## des membres inférieurs sous l' angle chirurgical . Quand faut il opérer ? Quelle opération
 Entrée : Etude des marqueurs de l' HBV et des populations lymphocytaires chez le polytoxicomane asymptomatique
 Sortie : Etude des marqueurs de l' @@HBV## et des populations lymphocytaires chez le polytoxicomane @@asymptomatique##
+Entrée : Fibromatose solitaire infantile de l' oesophage
+Sortie : @@Fibromatose## solitaire infantile de l' oesophage
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Ulcère simple solitaire asymptomatique de l' angle gauche du côlon .
 Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : L' encoprésie chez l' enfant
+Sortie : L' @@encoprésie## chez l' enfant
+Entrée : Anesthésie locorégionale chez l' enfant
+Sortie : Anesthésie locorégionale chez l' enfant
+Entrée : L' énurésie chez l' enfant , étude
+Sortie : L' @@énurésie## chez l' enfant , étude
+Entrée : A propos de l' anesthésie générale pour l' amygdalectomie chez l' enfant et l' adulte
+Sortie : A propos de l' anesthésie générale pour l' amygdalectomie chez l' enfant et l' adulte
+Entrée : La sclérose en plaques chez l' enfant
+Sortie : La @@sclérose en plaques## chez l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Hyperglycémie chronique non insulinoprive chez l' enfant
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Etude
+Sortie : Etude
+Entrée : Maladie de Lobstein à propos d' un cas avec étude
+Sortie : @@Maladie## de Lobstein à propos d' un cas avec étude
+Entrée : Aspergillose pseudo tumorale du sinus sphénoïdal ou l' étiologie d' une paralysie
+Sortie : @@Aspergillose## pseudo tumorale du sinus sphénoïdal ou l' étiologie d' une @@paralysie##
 Entrée : A propos d' un cas de syndrome
 Sortie : A propos d' un cas de @@syndrome##
 Entrée : Etude sialographique d' un pseudo kyste traumatique de la parotide
 Sortie : Etude sialographique d' un @@pseudo kyste traumatique## de la parotide
-Entrée : Etude
-Sortie : Etude
-Entrée : Aspergillose pseudo tumorale du sinus sphénoïdal ou l' étiologie d' une paralysie
-Sortie : @@Aspergillose## pseudo tumorale du sinus sphénoïdal ou l' étiologie d' une @@paralysie##
-Entrée : Maladie de Lobstein à propos d' un cas avec étude
-Sortie : @@Maladie## de Lobstein à propos d' un cas avec étude
 Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Etude d' un cas de xanthomatose hypercholesterolemique familiale , forme pseudo tumorale avec hyperalphalipoprotéinemie
-Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Amblyomma , Hyalomma , Boophilus , Rhipicephalus
-Sortie : Amblyomma , Hyalomma , Boophilus , Rhipicephalus
-Entrée : La première construction , par Théodore Schwann , d' un appareil
-Sortie : La première construction , par Théodore Schwann , d' un appareil
-Entrée : Cancers cutanés épithéliaux . Epidemiologie , étiologie , anatomie pathologique , diagnostic , principes de traitement
-Sortie : @@Cancers## cutanés épithéliaux . Epidemiologie , étiologie , anatomie pathologique , diagnostic , principes de traitement
-Entrée : Sécrétion d' oestrone , d' oestradiol , d' oestriol et d' épi oestriol par la gonade droite , atrophique , d' embryon de poulet femelle cultivée in
-Sortie : Sécrétion d' oestrone , d' oestradiol , d' oestriol et d' épi oestriol par la gonade droite , @@atrophique## , d' embryon de poulet femelle cultivée in
-Entrée : La biopsie hépatique
-Sortie : La biopsie hépatique
-Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Propagation cutanée , après biopsie , d' un mésothéliome
-Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Action de la cortisone sur l' oestrus succédant à l' accouchement et à l' ablation de l' utérus gravide chez la ratte
-Sortie : Action de la cortisone sur l' @@oestrus## succédant à l' accouchement et à l' ablation de l' utérus gravide chez la ratte
-Entrée : Possibilités nouvelles d' étude de l' axe hypothalamo hypophyso surrénalien et applications
-Sortie : Possibilités nouvelles d' étude de l' axe hypothalamo hypophyso surrénalien et applications
-Entrée : Effets de l' alfatésine sur l' état
-Sortie : Effets de l' alfatésine sur l' @@état##
-Entrée : la myopathie à axe central . Etude
-Sortie : la @@myopathie à axe central## . Etude
-Entrée : Considérations sur l' urgence et la consultation externe en psychiatrie à l' hôpital
-Sortie : Considérations sur l' urgence et la consultation externe en psychiatrie à l' hôpital
-Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Thermalisme et répercussions sur l' axe
-Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Les perspectives nouvelles de la chirurgie cardiaque
-Sortie : Les perspectives nouvelles de la chirurgie cardiaque
-Entrée : La chirurgie
-Sortie : La chirurgie
-Entrée : L' hypothermie provoquée en chirurgie pulmonaire .
-Sortie : L' hypothermie provoquée en chirurgie pulmonaire .
-Entrée : Les médicaments anti coagulants en chirurgie
-Sortie : Les médicaments anti coagulants en chirurgie
-Entrée : L' emploi de l' isoniazide dans le traitement local de la tuberculose oculaire
-Sortie : L' emploi de l' isoniazide dans le traitement local de la @@tuberculose## oculaire
-Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Microscopie en chirurgie oculaire . Les sutures
 Sortie : ==================================================

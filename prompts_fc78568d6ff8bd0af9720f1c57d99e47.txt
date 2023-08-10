@@ -1,0 +1,181 @@
+Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Gliome hypothalamique avec syndrome amnesique de Korsakoff . Le probleme de la memoire .
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Embolisation d' un anévrisme rompu de l' artère ovarienne
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Retour veineux pulmonaire anormal total infracardiaque . Intérêt de l' échocardiographie Doppler couleur .
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : A propos de Syndrome de loge aigu de jambe posttraumatique .
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Diabète sucré et athérosclérose . Physiopathologie de la macroangiopathie
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Anévrysmotripsie par voie haute pour un anévrysme de l' espace recto vésical ; résultat
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : A propos de trois cas de kystes calcifiés du rein
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Prothèses discales et arthrodèses dans la pathologie dégénérative du rachis
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Les instabilités antérieures aiguës de l' épaule résultats à court et moyen terme du traitement
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Les manifestations pulmonaires du syndrome d' immunodéficience
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Bronchiolitis obliterans organizing pneumonia BOOP
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Le niveau scolaire des jeunes
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : La pseudo polyarthrite rhizomélique rhumatisme inflammatoire des ceintures et ses relations avec l' artérite temporale
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : LES CONDITIONS JURIDIQUES ET MÉDICALES DE LA RÉPARATION DU DOMMAGE CORPOREL RÉSULTANT D' ACCIDENTS DE LA VOIE PUBLIQUE EN SUISSE
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Evaluation de l' aptine un nouveau bloqueur adrénergique bèta dans l' angine de poitrine
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Etude oscillographique du couple cardiorespiratoire chez les prématurés
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Bases pharmacologiques du traitement symptomatique de l' hypertension artérielle . II . Les associations d' antihypertenseurs
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Troubles du rythme et allongement de l' espace QT sous halofantrine .
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Ulcère simple solitaire asymptomatique de l' angle gauche du côlon .
+Sortie : ==================================================Je suis un clinicien expert, je sais identifier les mentions des maladies et symptômes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Le syndrome de Noonan et sa dysplasie cardio vasculaire . A propos de 64 observations
+Sortie : Le @@syndrome## de Noonan et sa @@dysplasie## cardio vasculaire . A propos de 64 observations
+Entrée : Neuropathie périphérique diabétique avec particularités sémélologiques fasclculations musculaires , myooedème avec onde secondaire , manifestation initiale et révélatrice d' un diabète
+Sortie : @@Neuropathie périphérique diabétique## avec particularités sémélologiques fasclculations musculaires , @@myooedème## avec onde secondaire , manifestation initiale et révélatrice d' un @@diabète##
+Entrée : Asthme de l' enfant
+Sortie : @@Asthme## de l' enfant
+Imite-moi. Identifie les mentions de maladies et symptômes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Etude d' un cas de xanthomatose hypercholesterolemique familiale , forme pseudo tumorale avec hyperalphalipoprotéinemie
+Sortie : ==================================================

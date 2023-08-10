@@ -1,261 +1,261 @@
 Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : La grande diversité du culte de l' Égypte antique se retrouve également dans les mythes de la création qui varient en fonction des régions .
-Sortie : La grande diversité du culte de l' Égypte antique se retrouve également dans les mythes de la création qui varient en fonction des régions .
-Entrée : Suisse
-Sortie : Suisse
-Entrée : Dans le cadre du " schéma départemental des espaces naturels " adopté en 1994 , le département des Yvelines a inscrit en zone de préemption 30000 hectares d' espaces naturels sensibles .
-Sortie : Dans le cadre du " schéma départemental des espaces naturels " adopté en 1994 , le département des Yvelines a inscrit en zone de préemption 30000 hectares d' espaces naturels sensibles .
-Entrée : La grande diversité du culte de l' Égypte antique se retrouve également dans les mythes de la création qui varient en fonction des régions .
-Sortie : La grande diversité du culte de l' Égypte antique se retrouve également dans les mythes de la création qui varient en fonction des régions .
-Entrée : La Suisse est marquée par une grande variété de reliefs , d' altitudes et de paysages , qui induit une diversité des habitats naturels .
-Sortie : La Suisse est marquée par une grande variété de reliefs , d' altitudes et de paysages , qui induit une diversité des habitats naturels .
+Entrée : Si Héraclite est d' un avis opposé concernant le mouvement , il partage l' idée que les sens sont trompeurs .
+Sortie : Si @@Héraclite## est d' un avis opposé concernant le mouvement , il partage l' idée que les sens sont trompeurs .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Entrée : Dans les années 1950 , il s' éloigne de Cocteau .
+Sortie : Dans les années 1950 , il s' éloigne de @@Cocteau## .
+Entrée : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Sortie : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Entrée : En 1890 , l' Alaska compte environ 30000 habitants , dont les ¾ sont d' origine indigène .
+Sortie : En 1890 , l' Alaska compte environ 30000 habitants , dont les ¾ sont d' origine indigène .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : La forte diversité des espaces naturels en Suisse se retrouve dans la grande variété de maisons rustiques .
+Entrée : En tant que dieu de la végétation , il menace de couper les vivres à l' Égypte .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Il étudie alors la philosophie au collège d' Harcourt .
-Sortie : Il étudie alors la philosophie au collège d' Harcourt .
-Entrée : Il étudie la philosophie à Athènes où il apprend la rhétorique .
-Sortie : Il étudie la philosophie à Athènes où il apprend la rhétorique .
-Entrée : Pour Aristote , la philosophie se divise en philosophie théorétique , philosophie pratique et philosophie poétique ; la physique est une des trois parties de la philosophie théorétique , aux côtés de la mathématique et de la théologie .
-Sortie : Pour @@Aristote## , la philosophie se divise en philosophie théorétique , philosophie pratique et philosophie poétique ; la physique est une des trois parties de la philosophie théorétique , aux côtés de la mathématique et de la théologie .
-Entrée : Heidegger étudie d' abord la théologie avant de s' orienter vers la philosophie .
-Sortie : @@Heidegger## étudie d' abord la théologie avant de s' orienter vers la philosophie .
-Entrée : Il étudie à Besançon .
-Sortie : Il étudie à Besançon .
+Entrée : Sur le sentier du succès de SimCity , Will Wright crée SimEarth en 1990 et SimAnt en 1991 , qui sont en fait des déclinaisons du concept .
+Sortie : Sur le sentier du succès de SimCity , @@Will Wright## crée SimEarth en 1990 et SimAnt en 1991 , qui sont en fait des déclinaisons du concept .
+Entrée : Son agglomération , qui a vu une augmentation de 20,5 % entre 2000 et 2006 , est l' aire urbaine des États-Unis dont la croissance est la plus rapide .
+Sortie : Son agglomération , qui a vu une augmentation de 20,5 % entre 2000 et 2006 , est l' aire urbaine des États-Unis dont la croissance est la plus rapide .
+Entrée : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Sortie : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Entrée : La relativité générale est principalement l' œuvre d' Albert Einstein , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Sortie : La relativité générale est principalement l' œuvre d' @@Albert Einstein## , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Entrée : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien Tancrède de Visan pour dater la création de la marionnette .
+Sortie : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien @@Tancrède de Visan## pour dater la création de la marionnette .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Il étudie la littérature et la philosophie aux États-Unis .
+Entrée : En Allemagne et en Italie , la coutume internationale est également applicable directement , mais il faut promulguer une loi pour qu' un traité entre en vigueur .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : La même année , l' homme d' affaires Cyrus Avery s' engagea en faveur de la création de la Route 66 .
-Sortie : La même année , l' homme d' affaires @@Cyrus Avery## s' engagea en faveur de la création de la Route 66 .
-Entrée : Elle se situe entre Brest et Quimper .
-Sortie : Elle se situe entre Brest et Quimper .
-Entrée : La ville est traversée par l' historique Route 66 .
-Sortie : La ville est traversée par l' historique Route 66 .
-Entrée : Elle se situe à la limite du département de l' Orne .
-Sortie : Elle se situe à la limite du département de l' Orne .
-Entrée : La Route 66 est terminée en 1926 .
-Sortie : La Route 66 est terminée en 1926 .
+Entrée : La relativité générale est principalement l' œuvre d' Albert Einstein , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Sortie : La relativité générale est principalement l' œuvre d' @@Albert Einstein## , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Entrée : Si Héraclite est d' un avis opposé concernant le mouvement , il partage l' idée que les sens sont trompeurs .
+Sortie : Si @@Héraclite## est d' un avis opposé concernant le mouvement , il partage l' idée que les sens sont trompeurs .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Entrée : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien Tancrède de Visan pour dater la création de la marionnette .
+Sortie : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien @@Tancrède de Visan## pour dater la création de la marionnette .
+Entrée : Dans les années 1950 , il s' éloigne de Cocteau .
+Sortie : Dans les années 1950 , il s' éloigne de @@Cocteau## .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Elle se situe sur l' historique Route 66 .
+Entrée : Créé fin 1914 , il est dirigé par Louise de Bettignies .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : De nouveaux bâtiments sont construits , notamment par l' architecte Jules Saulnier , tout le long de la Marne , entraînant la disparition , après son rachat de l' ancien village .
-Sortie : De nouveaux bâtiments sont construits , notamment par l' architecte @@Jules Saulnier## , tout le long de la Marne , entraînant la disparition , après son rachat de l' ancien village .
-Entrée : Le département de la Marne doit son nom à la rivière Marne qui le traverse , du sud-est à l' ouest .
-Sortie : Le département de la Marne doit son nom à la rivière Marne qui le traverse , du sud-est à l' ouest .
-Entrée : Beethoven , le 6 octobre 1802 .
-Sortie : @@Beethoven## , le 6 octobre 1802 .
-Entrée : Puis il publie en 1817 , son œuvre maîtresse , Des principes de l' économie politique et de l' impôt ( 1817 ) qu' il modifiera le restant de sa vie .
-Sortie : Puis il publie en 1817 , son œuvre maîtresse , Des principes de l' économie politique et de l' impôt ( 1817 ) qu' il modifiera le restant de sa vie .
-Entrée : Des crues de la Seine furent également importantes en 1830 et 1910 notamment .
-Sortie : Des crues de la Seine furent également importantes en 1830 et 1910 notamment .
-Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Les crues de la Marne sont également nombreuses et importantes tout au long du siècle ( 1802 , 1817 , 1837 , 1840 , 1841 , 1892 , 1896 ) .
-Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Ainsi , il y eut des commanderies templières dans les pays actuels suivants : France , Angleterre , Espagne , Portugal , Écosse , Irlande , Pologne , Hongrie , Allemagne , Italie , Belgique , Pays-Bas .
-Sortie : Ainsi , il y eut des commanderies templières dans les pays actuels suivants : France , Angleterre , Espagne , Portugal , Écosse , Irlande , Pologne , Hongrie , Allemagne , Italie , Belgique , Pays-Bas .
-Entrée : Son père est le comédien Bernard Blier .
-Sortie : Son père est le comédien @@Bernard Blier## .
-Entrée : Maria Casarès et Jean-Pierre Mocky interprètent les rôles principaux .
-Sortie : @@Maria Casarès## et @@Jean-Pierre Mocky## interprètent les rôles principaux .
-Entrée : Il fait jouer les plus grands acteurs français de l' époque Louis Jouvet , Raimu , Pierre Fresnay , Fernandel , amis avec lesquels il joue à la pétanque entre deux scènes .
-Sortie : Il fait jouer les plus grands acteurs français de l' époque @@Louis Jouvet## , @@Raimu## , @@Pierre Fresnay## , @@Fernandel## , amis avec lesquels il joue à la pétanque entre deux scènes .
-Entrée : Cette société présidée par Alfred Greven produira 30 films français jusqu' en 1944 ( dont Le Corbeau de Henri-Georges Clouzot et Les Inconnus dans la maison de Henri Decoin ) .
-Sortie : Cette société présidée par @@Alfred Greven## produira 30 films français jusqu' en 1944 ( dont Le Corbeau de @@Henri-Georges Clouzot## et Les Inconnus dans la maison de @@Henri Decoin## ) .
+Entrée : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Sortie : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Entrée : Les meilleures éditions de Dion Cassius , pour le Dictionnaire Bouillet , sont celles :
+Sortie : Les meilleures éditions de @@Dion Cassius## , pour le @@Dictionnaire Bouillet## , sont celles :
+Entrée : De nombreux groupes et artistes disent avoir été inspirés par Renaud comme Mano Solo , Tryo , Zebda , Mickey 3D , les Têtes Raides ou Bénabar .
+Sortie : De nombreux groupes et artistes disent avoir été inspirés par @@Renaud## comme @@Mano Solo## , Tryo , Zebda , Mickey 3D , les Têtes Raides ou @@Bénabar## .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Entrée : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , Robert Merle , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Sortie : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , @@Robert Merle## , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Ainsi que : Maria Casarès , Bernard Blier , Loleh Bellon , Joseph Kosma , Serge Lifar , Pierre Fresnay , Louis Daquin Jean Grémillon , Henri Decoin , Henri-Georges Clouzot , Georges Sadoul ...
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Le 18 mai , François Truffaut , Jean-Luc Godard , Claude Lelouch , Claude Berri , Roman Polanski , Louis Malle et Jean-Pierre Léaud se mêlent au mouvement étudiant qui agite Cannes .
-Sortie : Le 18 mai , @@François Truffaut## , @@Jean-Luc Godard## , @@Claude Lelouch## , @@Claude Berri## , @@Roman Polanski## , @@Louis Malle## et @@Jean-Pierre Léaud## se mêlent au mouvement étudiant qui agite Cannes .
-Entrée : Il tourne pour de grands cinéastes dont Luchino Visconti , Jean Renoir , Sacha Guitry .
-Sortie : Il tourne pour de grands cinéastes dont @@Luchino Visconti## , @@Jean Renoir## , @@Sacha Guitry## .
-Entrée : L' un d' entre eux , Roman Polanski , critiqua les journalistes lors de la conférence de presse qui les réunissaient après la projection officielle , jugeant que les questions posées n' étaient pas à la hauteur .
-Sortie : L' un d' entre eux , @@Roman Polanski## , critiqua les journalistes lors de la conférence de presse qui les réunissaient après la projection officielle , jugeant que les questions posées n' étaient pas à la hauteur .
-Entrée : En 2006 , il joue dans Selon Charlie de Nicole Garcia .
-Sortie : En 2006 , il joue dans Selon Charlie de @@Nicole Garcia## .
-Entrée : Il a pour maîtres les célèbres Claude Lancelot , Pierre Nicole et Antoine Le Maistre , ainsi que Jean Hamon .
-Sortie : Il a pour maîtres les célèbres @@Claude Lancelot## , @@Pierre Nicole## et @@Antoine Le Maistre## , ainsi que @@Jean Hamon## .
+Entrée : Une troisième délégation se rend à la Bastille , dans cette députation se trouve l' abbé Claude Fauchet .
+Sortie : Une troisième délégation se rend à la Bastille , dans cette députation se trouve l' abbé @@Claude Fauchet## .
+Entrée : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien Tancrède de Visan pour dater la création de la marionnette .
+Sortie : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien @@Tancrède de Visan## pour dater la création de la marionnette .
+Entrée : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Sortie : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Entrée : En 1890 , l' Alaska compte environ 30000 habitants , dont les ¾ sont d' origine indigène .
+Sortie : En 1890 , l' Alaska compte environ 30000 habitants , dont les ¾ sont d' origine indigène .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Il jouera pour les plus grands réalisateurs , Jean Renoir , Henri-Georges Clouzot , Roman Polanski , Philippe Labro , Costa-Gavras , Claude Sautet , Nicole Garcia , Christophe Gans , Yves Boisset .
+Entrée : En effet , la relation avec Freud se consolide durant l' année 1907 .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Pendant la Première Guerre mondiale , Saint-Germain-en-Laye , bien qu' incluse dans le périmètre du camp retranché de Paris , n' est pas affectée directement par les combats .
-Sortie : Pendant la Première Guerre mondiale , Saint-Germain-en-Laye , bien qu' incluse dans le périmètre du camp retranché de Paris , n' est pas affectée directement par les combats .
-Entrée : C' est le début de la Première Guerre mondiale .
-Sortie : C' est le début de la Première Guerre mondiale .
-Entrée : Pendant la Première Guerre mondiale la ville était occupée par l' armée allemande .
-Sortie : Pendant la Première Guerre mondiale la ville était occupée par l' armée allemande .
-Entrée : Le pays s' engage dans la Première Guerre mondiale .
-Sortie : Le pays s' engage dans la Première Guerre mondiale .
-Entrée : Pendant la Première Guerre mondiale , il reste neutre .
-Sortie : Pendant la Première Guerre mondiale , il reste neutre .
-Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Pendant la Première Guerre mondiale , Poissy se trouva dans le périmètre du camp retranché de Paris et divers ouvrages fortifiés furent implantés dans la commune .
-Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : À la suite de ces décès successifs et suspects , Ying Zheng monte sur le trône de Qin en -247 .
-Sortie : À la suite de ces décès successifs et suspects , @@Ying Zheng## monte sur le trône de Qin en -247 .
-Entrée : Là , ils demandèrent audience à Ying Zheng qui accepta de les recevoir , trop heureux de voir un royaume se soumettre sans combattre .
-Sortie : Là , ils demandèrent audience à @@Ying Zheng## qui accepta de les recevoir , trop heureux de voir un royaume se soumettre sans combattre .
-Entrée : Dès -238 , le roi Ying Zheng a démontré son autorité en prenant le pouvoir détenu par son ancien tuteur et sa mère .
-Sortie : Dès -238 , le roi @@Ying Zheng## a démontré son autorité en prenant le pouvoir détenu par son ancien tuteur et sa mère .
-Entrée : Or , lorsque Ying Zheng prit officiellement le pouvoir , il instruisit une enquête et découvrit la vérité .
-Sortie : Or , lorsque @@Ying Zheng## prit officiellement le pouvoir , il instruisit une enquête et découvrit la vérité .
-Entrée : Ayant promis la vie sauve à Auréolus après la mort de Gallien , Claude le laisse néanmoins massacrer par ses troupes après la reddition de Milan où ce dernier s' est réfugié après sa défaite contre Gallien .
-Sortie : Ayant promis la vie sauve à @@Auréolus## après la mort de @@Gallien## , @@Claude## le laisse néanmoins massacrer par ses troupes après la reddition de Milan où ce dernier s' est réfugié après sa défaite contre @@Gallien## .
-Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Ayant d' abord souhaité la mort de sa mère , Ying Zheng se laissa finalement convaincre de lui accorder la vie sauve .
-Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Les auteurs du magazine Astounding Stories en discutent entre eux , sans doute à l' instigation de l' éditeur John W. Campbell , friand de ces nouveautés .
-Sortie : Les auteurs du magazine Astounding Stories en discutent entre eux , sans doute à l' instigation de l' éditeur @@John W. Campbell## , friand de ces nouveautés .
-Entrée : C' est à peu près à la même période qu' il propose des nouvelles au magazine Amazing Stories que John W. Campbell vient de prendre en main .
-Sortie : C' est à peu près à la même période qu' il propose des nouvelles au magazine Amazing Stories que @@John W. Campbell## vient de prendre en main .
-Entrée : John Campbell , alors rédacteur en chef de la revue Astounding Stories , n' aura de cesse d' encourager Asimov à écrire .
-Sortie : @@John Campbell## , alors rédacteur en chef de la revue Astounding Stories , n' aura de cesse d' encourager @@Asimov## à écrire .
-Entrée : La trame en est publiée pour la première fois dans le numéro de mai 1941 d' Astounding Science-Fiction .
-Sortie : La trame en est publiée pour la première fois dans le numéro de mai 1941 d' Astounding Science-Fiction .
-Entrée : Treize jours après , il propose Robbie à John W. Campbell , éditeur d' Astounding Science-Fiction .
-Sortie : Treize jours après , il propose Robbie à @@John W. Campbell## , éditeur d' Astounding Science-Fiction .
-Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : John W. Campbell lui en donne soixante-dix dollars pour sa parution dans le magazine Astounding Science-Fiction .
-Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Durant 16 ans au plus haut niveau , il est l' adversaire des plus grands champions , de Fausto Coppi à Eddy Merckx en passant par Louison Bobet , Raymond Poulidor ou Felice Gimondi .
-Sortie : Durant 16 ans au plus haut niveau , il est l' adversaire des plus grands champions , de @@Fausto Coppi## à @@Eddy Merckx## en passant par @@Louison Bobet## , @@Raymond Poulidor## ou @@Felice Gimondi## .
-Entrée : et Lucien .
-Sortie : et @@Lucien## .
-Entrée : Raymond Poulidor partage cette 5 e place avec lui .
-Sortie : @@Raymond Poulidor## partage cette 5 e place avec lui .
-Entrée : Lance Armstrong dispose de sa propre fondation pour la recherche contre le cancer : la Lance Armstrong Foundation ( Livestrong ) .
-Sortie : @@Lance Armstrong## dispose de sa propre fondation pour la recherche contre le cancer : la Lance Armstrong Foundation ( Livestrong ) .
-Entrée : Depuis , seul Cédric Vasseur a réussi une telle performance .
-Sortie : Depuis , seul @@Cédric Vasseur## a réussi une telle performance .
+Entrée : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , Robert Merle , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Sortie : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , @@Robert Merle## , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Entrée : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Sortie : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Entrée : Les meilleures éditions de Dion Cassius , pour le Dictionnaire Bouillet , sont celles :
+Sortie : Les meilleures éditions de @@Dion Cassius## , pour le @@Dictionnaire Bouillet## , sont celles :
+Entrée : De nombreux groupes et artistes disent avoir été inspirés par Renaud comme Mano Solo , Tryo , Zebda , Mickey 3D , les Têtes Raides ou Bénabar .
+Sortie : De nombreux groupes et artistes disent avoir été inspirés par @@Renaud## comme @@Mano Solo## , Tryo , Zebda , Mickey 3D , les Têtes Raides ou @@Bénabar## .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Jean Stablinski , Raymond Poulidor , Felice Gimondi , Gerben Karstens , Ferdinand Bracke , Joaquim Agostinho , Lucien Van Impe , Lance Armstrong , Richard Virenque et Cédric Vasseur viendront ajouter leur nom à ce palmarès .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Elle enregistre une victoire sur le plan diplomatique quand le pape refuse de reconnaître Eustache , le fils aîné d' Étienne , comme son successeur au trône .
-Sortie : Elle enregistre une victoire sur le plan diplomatique quand le pape refuse de reconnaître @@Eustache## , le fils aîné d' @@Étienne## , comme son successeur au trône .
-Entrée : Les témoins de Jéhovah ( 2 % ) sont présents depuis le début des années 1960 .
-Sortie : Les témoins de Jéhovah ( 2 % ) sont présents depuis le début des années 1960 .
-Entrée : Étienne , qui avait épousé Mathilde de Boulogne , fille d' Eustache III , essaya de faire opposition au prétendant normand .
-Sortie : @@Étienne## , qui avait épousé @@Mathilde de Boulogne## , fille d' @@Eustache III## , essaya de faire opposition au prétendant normand .
-Entrée : Strasbourg abrite plusieurs témoins de cette époque .
-Sortie : Strasbourg abrite plusieurs témoins de cette époque .
-Entrée : Riel se rendit deux mois plus tard et fut reconnu coupable de trahison .
-Sortie : @@Riel## se rendit deux mois plus tard et fut reconnu coupable de trahison .
+Entrée : La relativité générale est principalement l' œuvre d' Albert Einstein , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Sortie : La relativité générale est principalement l' œuvre d' @@Albert Einstein## , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Entrée : Dans les années 1950 , il s' éloigne de Cocteau .
+Sortie : Dans les années 1950 , il s' éloigne de @@Cocteau## .
+Entrée : Contrairement à Jean-Marie Le Pen , Philippe de Villiers n' a pas de condamnation en justice à son actif .
+Sortie : Contrairement à @@Jean-Marie Le Pen## , @@Philippe de Villiers## n' a pas de condamnation en justice à son actif .
+Entrée : On peut dire qu' Uranus a une inclinaison légèrement supérieure à 90° ou bien que son axe a une inclinaison légèrement inférieure à 90° et qu' elle tourne alors sur elle-même dans le sens rétrograde .
+Sortie : On peut dire qu' Uranus a une inclinaison légèrement supérieure à 90° ou bien que son axe a une inclinaison légèrement inférieure à 90° et qu' elle tourne alors sur elle-même dans le sens rétrograde .
+Entrée : Cette situation expose fortement Boulogne aux crues centennales , telle celle de 1901 .
+Sortie : Cette situation expose fortement Boulogne aux crues centennales , telle celle de 1901 .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Les témoins sont Pierre-Louis Roederer , Étienne Eustache Bruix , Pierre Riel de Beurnonville , Maximilien Radix de Sainte-Foix et Karl Heinrich Otto de Nassau-Siegen .
+Entrée : Dès 1906 et jusqu' à 1908 , il effectue une enquête ethnographique aux îles Andaman .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : La France et l' Allemagne en sont un exemple .
-Sortie : La France et l' Allemagne en sont un exemple .
-Entrée : Élu député de la deuxième circonscription de la Nièvre en juin 1997 , il est réélu en juin 2002 et juin 2007 .
-Sortie : Élu député de la deuxième circonscription de la Nièvre en juin 1997 , il est réélu en juin 2002 et juin 2007 .
-Entrée : Il a été battu en juin 2007 par le seul député du PS élu en Maine-et-Loire .
-Sortie : Il a été battu en juin 2007 par le seul député du PS élu en Maine-et-Loire .
-Entrée : Ce dernier a été élu député de la 18 e circonscription du Nord le 16 juin 2002 et réélu le 26 juin 2007 .
-Sortie : Ce dernier a été élu député de la 18 e circonscription du Nord le 16 juin 2002 et réélu le 26 juin 2007 .
-Entrée : Sa dernière version est la " GNU GPL version 3 " publiée le 29 juin 2007 .
-Sortie : Sa dernière version est la " GNU GPL version 3 " publiée le 29 juin 2007 .
+Entrée : En 1941 Fernando Arrabal gagne un concours d ' " enfants surdoués " .
+Sortie : En 1941 @@Fernando Arrabal## gagne un concours d ' " enfants surdoués " .
+Entrée : Il a été normalisé par l' ISO .
+Sortie : Il a été normalisé par l' ISO .
+Entrée : Le Laos est membre de l' ASEAN ( Association des nations du Sud-Est asiatique ) depuis le 23 juillet 1997 .
+Sortie : Le Laos est membre de l' ASEAN ( Association des nations du Sud-Est asiatique ) depuis le 23 juillet 1997 .
+Entrée : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , Robert Merle , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Sortie : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , @@Robert Merle## , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Entrée : Quelque part dans le vingtième siècle ... " , indication superposée sur un ciel nuageux dans lequel " flotte " littéralement la caméra , allusion au célèbre film de propagande de Leni Riefenstahl .
+Sortie : Quelque part dans le vingtième siècle ... " , indication superposée sur un ciel nuageux dans lequel " flotte " littéralement la caméra , allusion au célèbre film de propagande de @@Leni Riefenstahl## .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Pour la France , par exemple , une étude-pays a été publiée en juin 2007 .
+Entrée : Vârânasî ( prononcer " varanassi " .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Ce fils devint , à la mort d' Édouard III , le roi d' Angleterre Richard II dit " de Bordeaux " ( selon son lieu de naissance ) , parfois dit " le Gascon " .
-Sortie : Ce fils devint , à la mort d' @@Édouard III## , le roi d' Angleterre @@Richard II## dit " de Bordeaux " ( selon son lieu de naissance ) , parfois dit " le Gascon " .
-Entrée : C' est le cas par exemple pour les caractères " : " , " / " ou " \ " sous Windows .
-Sortie : C' est le cas par exemple pour les caractères " : " , " / " ou " \ " sous Windows .
-Entrée : " Guyane " voudrait donc dire " sans nom " , " ce qu' on ne peut nommer " .
-Sortie : " Guyane " voudrait donc dire " sans nom " , " ce qu' on ne peut nommer " .
-Entrée : Le nom " Scrignac " correspond en breton à " skarena " qui peut être traduit par " éclat de roche " , " pente rocheuse " ou encore " lieu rocailleux " .
-Sortie : Le nom " Scrignac " correspond en breton à " skarena " qui peut être traduit par " éclat de roche " , " pente rocheuse " ou encore " lieu rocailleux " .
-Entrée : Le mot υποστασις / upostasis , " hypostase " , signifiant " base " , " fondement " puis " matière " , " substance " a été employé au concile de Nicée indifféremment avec ousia .
-Sortie : Le mot υποστασις / upostasis , " hypostase " , signifiant " base " , " fondement " puis " matière " , " substance " a été employé au concile de Nicée indifféremment avec ousia .
+Entrée : Il a été normalisé par l' ISO .
+Sortie : Il a été normalisé par l' ISO .
+Entrée : Marie-Joseph Chénier organise un spectacle à l' antique pour celui qui vient d' être assassiné par un valet du roi Louis XVI .
+Sortie : @@Marie-Joseph Chénier## organise un spectacle à l' antique pour celui qui vient d' être assassiné par un valet du roi @@Louis XVI## .
+Entrée : Son agglomération , qui a vu une augmentation de 20,5 % entre 2000 et 2006 , est l' aire urbaine des États-Unis dont la croissance est la plus rapide .
+Sortie : Son agglomération , qui a vu une augmentation de 20,5 % entre 2000 et 2006 , est l' aire urbaine des États-Unis dont la croissance est la plus rapide .
+Entrée : La relativité générale est principalement l' œuvre d' Albert Einstein , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Sortie : La relativité générale est principalement l' œuvre d' @@Albert Einstein## , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Entrée : De nombreux groupes et artistes disent avoir été inspirés par Renaud comme Mano Solo , Tryo , Zebda , Mickey 3D , les Têtes Raides ou Bénabar .
+Sortie : De nombreux groupes et artistes disent avoir été inspirés par @@Renaud## comme @@Mano Solo## , Tryo , Zebda , Mickey 3D , les Têtes Raides ou @@Bénabar## .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Petit-fils de Charles Martel , il est fils de Pépin III dit " le Bref " et de Berthe de Laon dite " au Grand Pied " .
+Entrée : L' Ethernet a originellement été développé comme l' un des projets pionniers du Xerox PARC .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : La commune est desservie par la route nationale N143 ainsi que par les routes départementales D40 -- D81 -- D101 -- D151 -- D920 -- D925 -- D943 -- D956 -- D990 .
-Sortie : La commune est desservie par la route nationale N143 ainsi que par les routes départementales D40 -- D81 -- D101 -- D151 -- D920 -- D925 -- D943 -- D956 -- D990 .
-Entrée : On peut noter ici , la grande voie maritime et commerciale : Méditerranée -- Gibraltar -- Gironde -- Manche -- Angleterre .
-Sortie : On peut noter ici , la grande voie maritime et commerciale : Méditerranée -- Gibraltar -- Gironde -- Manche -- Angleterre .
-Entrée : Les communes limitrophes sont : Erquelinnes -- Froidchapelle -- Merbes-le-Château -- Sivry-Rance -- Thuin -- Walcourt , Hestrud ...
-Sortie : Les communes limitrophes sont : Erquelinnes -- Froidchapelle -- Merbes-le-Château -- Sivry-Rance -- Thuin -- Walcourt , Hestrud ...
-Entrée : La Normandie est desservie par quatre lignes nationales : Paris -- Rouen -- Le Havre et Paris -- Caen -- Cherbourg , mais aussi Paris -- Argentan -- Granville et Caen -- Le Mans -- Tours .
-Sortie : La Normandie est desservie par quatre lignes nationales : Paris -- Rouen -- Le Havre et Paris -- Caen -- Cherbourg , mais aussi Paris -- Argentan -- Granville et Caen -- Le Mans -- Tours .
-Entrée : Du point de vue ferroviaire , Stuttgart est un nœud à la croisée des liaisons vers Karlsruhe -- Strasbourg -- Paris , Mannheim -- Francfort -- Cologne , Ulm -- Munich , Zurich -- Milan , Nuremberg ...
-Sortie : Du point de vue ferroviaire , Stuttgart est un nœud à la croisée des liaisons vers Karlsruhe -- Strasbourg -- Paris , Mannheim -- Francfort -- Cologne , Ulm -- Munich , Zurich -- Milan , Nuremberg ...
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Entrée : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , Robert Merle , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Sortie : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , @@Robert Merle## , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Entrée : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien Tancrède de Visan pour dater la création de la marionnette .
+Sortie : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien @@Tancrède de Visan## pour dater la création de la marionnette .
+Entrée : Son agglomération , qui a vu une augmentation de 20,5 % entre 2000 et 2006 , est l' aire urbaine des États-Unis dont la croissance est la plus rapide .
+Sortie : Son agglomération , qui a vu une augmentation de 20,5 % entre 2000 et 2006 , est l' aire urbaine des États-Unis dont la croissance est la plus rapide .
+Entrée : Elle est apparentée au groupe de l' Union pour un mouvement populaire .
+Sortie : Elle est apparentée au groupe de l' Union pour un mouvement populaire .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : L' usurpateur , Procope , est un cousin maternel de l' empereur Julien .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : En 1941 Fernando Arrabal gagne un concours d ' " enfants surdoués " .
+Sortie : En 1941 @@Fernando Arrabal## gagne un concours d ' " enfants surdoués " .
+Entrée : Elle est apparentée au groupe de l' Union pour un mouvement populaire .
+Sortie : Elle est apparentée au groupe de l' Union pour un mouvement populaire .
+Entrée : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien Tancrède de Visan pour dater la création de la marionnette .
+Sortie : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien @@Tancrède de Visan## pour dater la création de la marionnette .
+Entrée : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , Robert Merle , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Sortie : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , @@Robert Merle## , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Entrée : Quelque part dans le vingtième siècle ... " , indication superposée sur un ciel nuageux dans lequel " flotte " littéralement la caméra , allusion au célèbre film de propagande de Leni Riefenstahl .
+Sortie : Quelque part dans le vingtième siècle ... " , indication superposée sur un ciel nuageux dans lequel " flotte " littéralement la caméra , allusion au célèbre film de propagande de @@Leni Riefenstahl## .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : L' astrophysicien Hubert Reeves qualifie de " risquée " l' exploration de l' acausalité puisqu' un " événement est dit acausal jusqu' à ce qu' on ait découvert sa cause .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : L' Aven marque la frontière entre la commune de Melgven et le bourg de Kernevel , aujourd'hui intégré à la commune de Rosporden .
+Sortie : L' Aven marque la frontière entre la commune de Melgven et le bourg de Kernevel , aujourd'hui intégré à la commune de Rosporden .
+Entrée : Sur la Toile , la langue est gérée dans les langages de balisage qui manipulent du texte en langage naturel dans des documents .
+Sortie : Sur la Toile , la langue est gérée dans les langages de balisage qui manipulent du texte en langage naturel dans des documents .
+Entrée : Sur le sentier du succès de SimCity , Will Wright crée SimEarth en 1990 et SimAnt en 1991 , qui sont en fait des déclinaisons du concept .
+Sortie : Sur le sentier du succès de SimCity , @@Will Wright## crée SimEarth en 1990 et SimAnt en 1991 , qui sont en fait des déclinaisons du concept .
+Entrée : La ville de Châlus est située sur deux routes touristiques : la route Richard Cœur de Lion et le chemin de Compostelle .
+Sortie : La ville de Châlus est située sur deux routes touristiques : la route Richard Cœur de Lion et le chemin de Compostelle .
+Entrée : La commune de Pont-Aven englobe en outre de vastes portions de territoire non urbanisés qui appartenaient à la commune de Nizon avant qu' elle ne fusionne en 1954 avec celle de Pont-Aven .
+Sortie : La commune de Pont-Aven englobe en outre de vastes portions de territoire non urbanisés qui appartenaient à la commune de Nizon avant qu' elle ne fusionne en 1954 avec celle de Pont-Aven .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Anciennement dans la commune de Gonneville-sur-Mer , c' est en 1825 qu' après reconsidération des terres du manoir que les limites communales furent retracées et la bâtisse définitivement placée sur le territoire de Beuzeval .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : La relativité générale est principalement l' œuvre d' Albert Einstein , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Sortie : La relativité générale est principalement l' œuvre d' @@Albert Einstein## , dont elle est considérée comme la réalisation majeure , qu' il a élaborée entre 1907 et 1915 .
+Entrée : La mairie de Roubaix témoigne de la grande prospérité passée de la ville .
+Sortie : La mairie de Roubaix témoigne de la grande prospérité passée de la ville .
+Entrée : C' est le troisième film de la saga Alien .
+Sortie : C' est le troisième film de la saga Alien .
+Entrée : L' Aven marque la frontière entre la commune de Melgven et le bourg de Kernevel , aujourd'hui intégré à la commune de Rosporden .
+Sortie : L' Aven marque la frontière entre la commune de Melgven et le bourg de Kernevel , aujourd'hui intégré à la commune de Rosporden .
+Entrée : La ville de Châlus est située sur deux routes touristiques : la route Richard Cœur de Lion et le chemin de Compostelle .
+Sortie : La ville de Châlus est située sur deux routes touristiques : la route Richard Cœur de Lion et le chemin de Compostelle .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Le lynx est considéré comme un symbole de la Macédoine et est présent sur le côté pile de la pièce de 5 denars .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien Tancrède de Visan pour dater la création de la marionnette .
+Sortie : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien @@Tancrède de Visan## pour dater la création de la marionnette .
+Entrée : La commune de Pont-Aven englobe en outre de vastes portions de territoire non urbanisés qui appartenaient à la commune de Nizon avant qu' elle ne fusionne en 1954 avec celle de Pont-Aven .
+Sortie : La commune de Pont-Aven englobe en outre de vastes portions de territoire non urbanisés qui appartenaient à la commune de Nizon avant qu' elle ne fusionne en 1954 avec celle de Pont-Aven .
+Entrée : Le peuplement de la Saskatchewan continua par le biais du chemin de fer ; avec la croissance de sa population , elle devint une province en 1905 .
+Sortie : Le peuplement de la Saskatchewan continua par le biais du chemin de fer ; avec la croissance de sa population , elle devint une province en 1905 .
+Entrée : Sur le sentier du succès de SimCity , Will Wright crée SimEarth en 1990 et SimAnt en 1991 , qui sont en fait des déclinaisons du concept .
+Sortie : Sur le sentier du succès de SimCity , @@Will Wright## crée SimEarth en 1990 et SimAnt en 1991 , qui sont en fait des déclinaisons du concept .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
+Entrée : Quant à l' indice de fécondité de 2.02 en 2008 et de 1.99 en 2009 , il atteint quasiment le seuil de renouvellement de la population et est aussi l' un des plus élevés d' Europe .
+Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
+Entrée : Lorsque le débit du Rhône dépasse le débit nominal de la dérivation , les vannes du barrage sont progressivement ouvertes .
+Sortie : Lorsque le débit du Rhône dépasse le débit nominal de la dérivation , les vannes du barrage sont progressivement ouvertes .
+Entrée : Mais le fait historique le plus explicatif du symbole , serait celui de 1096 , lorsque le roi Pierre Ier d' Aragon vainquit les maures lors de la bataille d' Alcoraz .
+Sortie : Mais le fait historique le plus explicatif du symbole , serait celui de 1096 , lorsque le roi @@Pierre Ier d' Aragon## vainquit les maures lors de la bataille d' Alcoraz .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Entrée : Les meilleures éditions de Dion Cassius , pour le Dictionnaire Bouillet , sont celles :
+Sortie : Les meilleures éditions de @@Dion Cassius## , pour le @@Dictionnaire Bouillet## , sont celles :
+Entrée : C' est le troisième film de la saga Alien .
+Sortie : C' est le troisième film de la saga Alien .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Achot Bagratouni , roi d' Arménie -- Al-Mundhir -- Charles III le Gros -- Eudes I er de France -- Fujiwara no Mototsune -- Léon VI le Sage -- Oleg le Sage
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Le 24 avril 1450 , Olivier de Méel , ancien écuyer d' Arthur en 1442 , assassine Gilles de Bretagne , le représentant du parti pro-anglais dans le duché .
-Sortie : Le 24 avril 1450 , @@Olivier de Méel## , ancien écuyer d' @@Arthur## en 1442 , assassine @@Gilles de Bretagne## , le représentant du parti pro-anglais dans le duché .
-Entrée : En 1944 , il a un deuxième fils , Patrick , et , en 1949 , un troisième fils , Olivier , qui tiendra quelques rôles au côté de son père , au cinéma comme au théâtre .
-Sortie : En 1944 , il a un deuxième fils , @@Patrick## , et , en 1949 , un troisième fils , @@Olivier## , qui tiendra quelques rôles au côté de son père , au cinéma comme au théâtre .
-Entrée : Le canton de Bayeux est composé des communes d' Agy , Arganchy , Barbeville , Cottun , Cussy , Guéron , Monceaux-en-Bessin , Nonant , Ranchy , Saint-Loup-Hors , Saint-Martin-des-Entrées , Saint-Vigor-le-Grand , Subles , Sully , Vaucelles .
-Sortie : Le canton de Bayeux est composé des communes d' Agy , Arganchy , Barbeville , Cottun , Cussy , Guéron , Monceaux-en-Bessin , Nonant , Ranchy , Saint-Loup-Hors , Saint-Martin-des-Entrées , Saint-Vigor-le-Grand , Subles , Sully , Vaucelles .
-Entrée : Le jury est composé de lecteurs de communes où Exbrayat a vécu .
-Sortie : Le jury est composé de lecteurs de communes où @@Exbrayat## a vécu .
-Entrée : Gilbert Le Bris est un homme politique français , né le 3 mars 1949 à Concarneau ( Finistère ) .
-Sortie : @@Gilbert Le Bris## est un homme politique français , né le 3 mars 1949 à Concarneau ( Finistère ) .
+Entrée : De nombreux groupes et artistes disent avoir été inspirés par Renaud comme Mano Solo , Tryo , Zebda , Mickey 3D , les Têtes Raides ou Bénabar .
+Sortie : De nombreux groupes et artistes disent avoir été inspirés par @@Renaud## comme @@Mano Solo## , Tryo , Zebda , Mickey 3D , les Têtes Raides ou @@Bénabar## .
+Entrée : Contrairement à Jean-Marie Le Pen , Philippe de Villiers n' a pas de condamnation en justice à son actif .
+Sortie : Contrairement à @@Jean-Marie Le Pen## , @@Philippe de Villiers## n' a pas de condamnation en justice à son actif .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Entrée : Les meilleures éditions de Dion Cassius , pour le Dictionnaire Bouillet , sont celles :
+Sortie : Les meilleures éditions de @@Dion Cassius## , pour le @@Dictionnaire Bouillet## , sont celles :
+Entrée : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Sortie : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : Le jury est composé de Tahar Ben Jelloun , Michèle Kahn , Pierre Haski , Gilles Lapouge , Jean-Marie Drot , Michel Le Bris , Patrick Rambaud , Jean-Christophe Rufin , André Velter et Olivier Weber .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Il est une " icône mondiale de la réconciliation " et un " colosse moral " , selon Desmond Tutu , également prix Nobel de la paix .
-Sortie : Il est une " icône mondiale de la réconciliation " et un " colosse moral " , selon @@Desmond Tutu## , également prix Nobel de la paix .
-Entrée : Depuis le sommet de la Terre 2002 à Johannesburg et le projet de réforme de l' ONU initié en janvier 1997 par Kofi Annan , une réforme du PNUE est envisagée .
-Sortie : Depuis le sommet de la Terre 2002 à Johannesburg et le projet de réforme de l' ONU initié en janvier 1997 par @@Kofi Annan## , une réforme du PNUE est envisagée .
-Entrée : Durant son mandat , l' ancien secrétaire général , Kofi Annan , a commandé de nombreuses études sur les voies à suivre pour réformer l' organisation .
-Sortie : Durant son mandat , l' ancien secrétaire général , @@Kofi Annan## , a commandé de nombreuses études sur les voies à suivre pour réformer l' organisation .
-Entrée : En novembre 1980 , Ronald Reagan est élu président face à Jimmy Carter .
-Sortie : En novembre 1980 , @@Ronald Reagan## est élu président face à @@Jimmy Carter## .
-Entrée : Gordon Liddy , lui , est condamné à une peine de 20 ans , mais est amnistié 4 ans plus tard par le président Jimmy Carter .
-Sortie : @@Gordon Liddy## , lui , est condamné à une peine de 20 ans , mais est amnistié 4 ans plus tard par le président @@Jimmy Carter## .
+Entrée : Contrairement à Jean-Marie Le Pen , Philippe de Villiers n' a pas de condamnation en justice à son actif .
+Sortie : Contrairement à @@Jean-Marie Le Pen## , @@Philippe de Villiers## n' a pas de condamnation en justice à son actif .
+Entrée : Nouvelle-Ilion frappe des monnaies à son effigie et la ville d' Aphrodisias porte son nom .
+Sortie : Nouvelle-Ilion frappe des monnaies à son effigie et la ville d' Aphrodisias porte son nom .
+Entrée : Il a été normalisé par l' ISO .
+Sortie : Il a été normalisé par l' ISO .
+Entrée : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien Tancrède de Visan pour dater la création de la marionnette .
+Sortie : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien @@Tancrède de Visan## pour dater la création de la marionnette .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Desmond Tutu est président du conseil et ses membres fondateurs incluent également Kofi Annan , Ela Bhatt , Gro Harlem Brundtland , Jimmy Carter , Li Zhaoxing , Mary Robinson et Muhammad Yunus .
+Entrée : À l' œil nu , Jupiter a l' aspect d' un astre blanc très brillant , puisque de par son albédo élevé , son éclat de magnitude atteint les -2,7 en moyenne à l' opposition .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : La musique du Venezuela est influencée par ses origines amérindiennes , africaine et hispanique .
-Sortie : La musique du Venezuela est influencée par ses origines amérindiennes , africaine et hispanique .
-Entrée : Leur construction à charpente métallique s' inspire de celles de Baltard .
-Sortie : Leur construction à charpente métallique s' inspire de celles de @@Baltard## .
-Entrée : Terre-Neuve a une riche tradition folklorique dans laquelle la musique trouve une place importante .
-Sortie : Terre-Neuve a une riche tradition folklorique dans laquelle la musique trouve une place importante .
-Entrée : Il est à tort présenté comme un jeu folklorique et spécifique au département de la Vendée .
-Sortie : Il est à tort présenté comme un jeu folklorique et spécifique au département de la Vendée .
-Entrée : Dans le passé , Graveland jouait de la musique beaucoup plus crue avec une certaine humeur folklorique .
-Sortie : Dans le passé , Graveland jouait de la musique beaucoup plus crue avec une certaine humeur folklorique .
+Entrée : Pontorson et son canton profitent d' un climat océanique tempéré et se trouvent protégés par la baie du Mont-Saint-Michel .
+Sortie : Pontorson et son canton profitent d' un climat océanique tempéré et se trouvent protégés par la baie du Mont-Saint-Michel .
+Entrée : Marie-Joseph Chénier organise un spectacle à l' antique pour celui qui vient d' être assassiné par un valet du roi Louis XVI .
+Sortie : @@Marie-Joseph Chénier## organise un spectacle à l' antique pour celui qui vient d' être assassiné par un valet du roi @@Louis XVI## .
+Entrée : Contrairement à Jean-Marie Le Pen , Philippe de Villiers n' a pas de condamnation en justice à son actif .
+Sortie : Contrairement à @@Jean-Marie Le Pen## , @@Philippe de Villiers## n' a pas de condamnation en justice à son actif .
+Entrée : Nouvelle-Ilion frappe des monnaies à son effigie et la ville d' Aphrodisias porte son nom .
+Sortie : Nouvelle-Ilion frappe des monnaies à son effigie et la ville d' Aphrodisias porte son nom .
+Entrée : Si Héraclite est d' un avis opposé concernant le mouvement , il partage l' idée que les sens sont trompeurs .
+Sortie : Si @@Héraclite## est d' un avis opposé concernant le mouvement , il partage l' idée que les sens sont trompeurs .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : La musique folklorique s' inspire à la fois des mélodies amérindiennes et de celles venues d' Espagne .
+Entrée : Rimbaud n' avait pas dû être sensible à son charme , car on connaît l' épisode où il ponctuait du mot de Cambronne chaque vers d' un poème que récitait Jean Aicard .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Après avoir été membre de l' Union pour la démocratie française , il rejoint l' Union pour un mouvement populaire lors de la création de ce parti en 2002 .
-Sortie : Après avoir été membre de l' Union pour la démocratie française , il rejoint l' Union pour un mouvement populaire lors de la création de ce parti en 2002 .
-Entrée : Elle participe à la formation de Lutte ouvrière le 26 juin 1968 , puis est choisie , à 33 ans , pour en être la porte-parole nationale aux élections législatives de 1973 .
-Sortie : Elle participe à la formation de Lutte ouvrière le 26 juin 1968 , puis est choisie , à 33 ans , pour en être la porte-parole nationale aux élections législatives de 1973 .
-Entrée : Les élections semi-démocratiques de juin voient le succès de Solidarnosc .
-Sortie : Les élections semi-démocratiques de juin voient le succès de Solidarnosc .
-Entrée : Ces élections voient la victoire sur la gauche pour le nouveau parti , qui décroche un total de 365 sièges contre 141 au PS .
-Sortie : Ces élections voient la victoire sur la gauche pour le nouveau parti , qui décroche un total de 365 sièges contre 141 au PS .
-Entrée : Il adhère ensuite à l' Union des démocrates pour la République en 1968 dont il est conseiller national en 1969 .
-Sortie : Il adhère ensuite à l' Union des démocrates pour la République en 1968 dont il est conseiller national en 1969 .
+Entrée : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien Tancrède de Visan pour dater la création de la marionnette .
+Sortie : Toutefois , cette hypothèse est peu probable en raison de l' année 1808 , retenue par l' historien @@Tancrède de Visan## pour dater la création de la marionnette .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Entrée : Tandis que son frère John F. Kennedy mène campagne pour devenir sénateur , Robert Kennedy l' épaule .
+Sortie : Tandis que son frère @@John F. Kennedy## mène campagne pour devenir sénateur , @@Robert Kennedy## l' épaule .
+Entrée : Les meilleures éditions de Dion Cassius , pour le Dictionnaire Bouillet , sont celles :
+Sortie : Les meilleures éditions de @@Dion Cassius## , pour le @@Dictionnaire Bouillet## , sont celles :
+Entrée : Si Héraclite est d' un avis opposé concernant le mouvement , il partage l' idée que les sens sont trompeurs .
+Sortie : Si @@Héraclite## est d' un avis opposé concernant le mouvement , il partage l' idée que les sens sont trompeurs .
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Les élections législatives de juin 1968 voient la très large victoire des gaullistes , regroupés dans le parti renommé pour l' occasion Union pour la défense de la République .
+Entrée : Les travaux de Joseph John Thomson , découvreur de l' électron en 1897 , prouvent que l' atome est constitué de particules électriquement chargées .
 Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Parmi les célébrités exposées , on retrouve Samuel L. Jackson , Elijah Wood , Rossy de Palma , Kevin Bacon ou encore Maïwenn Le Besco .
-Sortie : Parmi les célébrités exposées , on retrouve @@Samuel L. Jackson## , @@Elijah Wood## , @@Rossy de Palma## , @@Kevin Bacon## ou encore @@Maïwenn Le Besco## .
-Entrée : Ce film marque également le retour à la scène de John Travolta , et la consécration d' autres acteurs comme Samuel L. Jackson , Bruce Willis et Uma Thurman .
-Sortie : Ce film marque également le retour à la scène de @@John Travolta## , et la consécration d' autres acteurs comme @@Samuel L. Jackson## , @@Bruce Willis## et @@Uma Thurman## .
-Entrée : Maurice Pialat , qui avait été encouragé par Souleymane Cissé lorsque le public huait son film , s' interposa .
-Sortie : @@Maurice Pialat## , qui avait été encouragé par @@Souleymane Cissé## lorsque le public huait son film , s' interposa .
-Entrée : Gérard Depardieu s' est également engagé en politique .
-Sortie : @@Gérard Depardieu## s' est également engagé en politique .
-Entrée : En 2008 , Pedro Almodóvar a tourné de nouveau avec Pénélope Cruz un film sur le cinéma et la jalousie : Étreintes brisées .
-Sortie : En 2008 , @@Pedro Almodóvar## a tourné de nouveau avec @@Pénélope Cruz## un film sur le cinéma et la jalousie : Étreintes brisées .
+Entrée : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , Robert Merle , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Sortie : L' ouvrage débute par une question : " Par quelle alchimie de hasard et de nécessité , @@Robert Merle## , ce gosse courant dans les rues d' Alger , est-il devenu un écrivain ? "
+Entrée : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Sortie : En 1303 , la ville de Lillers fut brûlée , pillée par les Flamands .
+Entrée : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Sortie : Les résistants tués durant le combat sont originaires d' Irvillac , de Hanvec , de Tréflévénez , de La Feuillée , de Brennilis , de Botmeur , de Huelgoat , de Berrien .
+Entrée : De nombreux groupes et artistes disent avoir été inspirés par Renaud comme Mano Solo , Tryo , Zebda , Mickey 3D , les Têtes Raides ou Bénabar .
+Sortie : De nombreux groupes et artistes disent avoir été inspirés par @@Renaud## comme @@Mano Solo## , Tryo , Zebda , Mickey 3D , les Têtes Raides ou @@Bénabar## .
+Entrée : Les meilleures éditions de Dion Cassius , pour le Dictionnaire Bouillet , sont celles :
+Sortie : Les meilleures éditions de @@Dion Cassius## , pour le @@Dictionnaire Bouillet## , sont celles :
 Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
 Entrée : On retrouve Souleymane Cissé , Penélope Cruz , Wong Kar-Wai , Juliette Binoche , Jane Campion , Gérard Depardieu , Bruce Willis , Samuel L. Jackson , et Pedro Almodóvar .
-Sortie : ==================================================Je suis un linguiste expert, je sais identifier les mentions des noms de personnes dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :
-Entrée : Les principaux protagonistes furent François I er et Charles Quint .
-Sortie : Les principaux protagonistes furent @@François I## er et @@Charles Quint## .
-Entrée : Les principaux pays producteurs sont : l' Iran , la Turquie , l' Afghanistan , l' Algérie , Israël , le Liban , l' Égypte , la Tunisie , l' Espagne , la Californie et l' Italie .
-Sortie : Les principaux pays producteurs sont : l' Iran , la Turquie , l' Afghanistan , l' Algérie , Israël , le Liban , l' Égypte , la Tunisie , l' Espagne , la Californie et l' Italie .
-Entrée : À ce sujet , voir Lynn Margulis .
-Sortie : À ce sujet , voir @@Lynn Margulis## .
-Entrée : La cérémonie d' inauguration a été ouverte par Vanessa Lynn Williams , sa partenaire dans le film L' Effaceur , chantant l' hymne national américain .
-Sortie : La cérémonie d' inauguration a été ouverte par @@Vanessa Lynn Williams## , sa partenaire dans le film L' Effaceur , chantant l' hymne national américain .
-Entrée : Le maire de Saint-Denis est Gilbert Annette .
-Sortie : Le maire de Saint-Denis est @@Gilbert Annette## .
-Imite-moi. Identifie les mentions de noms de personnes dans la phrase suivante, en mettant "@@" devant et un "##" derrière la mention dans la phrase suivante.
-Entrée : Les principaux protagonistes de cette époque sont John Holmes , Kay Parker , Seka , Ginger Lynn , Annette Haven , Veronica Hart , Desiree Cousteau , Vanessa del Rio ou encore Hyapatia Lee .
 Sortie : ==================================================

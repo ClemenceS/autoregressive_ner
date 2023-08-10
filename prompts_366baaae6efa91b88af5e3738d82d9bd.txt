@@ -1,0 +1,1201 @@
+I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Schweitzer died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Output: @@Schweitzer## died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Input: Lugosi would recall his amazement , since he did n't even know Sinatra .
+Output: @@Lugosi## would recall his amazement , since he did n't even know @@Sinatra## .
+Input: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Output: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Input: He defeated his good friend Vitas Gerulaitis in a semifinal 6 -- 4 , 3 -- 6 , 6 -- 3 , 3 -- 6 , 8 -- 6 .
+Output: He defeated his good friend @@Vitas Gerulaitis## in a semifinal 6 -- 4 , 3 -- 6 , 6 -- 3 , 3 -- 6 , 8 -- 6 .
+Input: As a young child , Bell , like his brothers , received his early schooling at home from his father .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Other significant commercial ports in Andalusia are the ports of the Bay of Cádiz and Huelva .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: The northeastern parts reach into the Pannonian basin , while in the south it borders the Adriatic .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Hofstadter has said that he feels " uncomfortable with the nerd culture that centers on computers . "
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: The acceptance of modernist design into everyday life was the subject of publicity campaigns , well-attended public exhibitions like the Weissenhof Estate , films , and sometimes fierce public debate .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Output: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: For more information , see the Brazilian Institute of Geography and Statistics ( IBGE ) .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: Apart from the Elgar work , which the composer conducted , the rest of the programme was conducted by Albert Coates , who overran his rehearsal time at the expense of Elgar 's .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Output: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Input: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Output: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: Other large cities include Tampere , Turku and Oulu .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: In the early 1980s in Ireland , Córas_Iompair_Éireann ( now Dublin Bus ) commissioned a range of single and double decker buses to be designed and produced .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: Disraeli became ill soon after and died in April 1881 .
+Output: @@Disraeli## became ill soon after and died in April 1881 .
+Input: Following his success in 1636 , Aurangzeb became Subahdar ( governor ) of the Deccan .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: On September 2 , 2004 , Cantor filed a civil lawsuit against the Kingdom of Saudi Arabia , one of a number of organizations to do so .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Output: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: Far less commonly , in some countries like China , coal is used as source of hydrogen through a process called coal gasification .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Output: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: Ireland is ranked as the 38th economic power in the world by the IMF .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Output: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: They would then cross to Spitsbergen where they would find a ship to take them home .
+Output: They would then cross to Spitsbergen where they would find a ship to take them home .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: This evolved and would eventually be adapted as a symbol and representation of the Kingdom of Ireland from 1542 .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The 11th century Suda lexicon states that Galen died at the age of 70 , therefore about 199 .
+Output: The 11th century Suda lexicon states that @@Galen## died at the age of 70 , therefore about 199 .
+Input: Disraeli became ill soon after and died in April 1881 .
+Output: @@Disraeli## became ill soon after and died in April 1881 .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Schweitzer died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Output: @@Schweitzer## died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: He died in Baltimore the day before yesterday .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Output: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Input: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Output: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Input: Like most formerly industrial cities of the Great Lakes region , Buffalo has suffered through several decades of population decline brought about by the loss of its industrial base .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: On his thirtieth birthday , a senior bank clerk , Josef K. , who lives in lodgings , is unexpectedly arrested by two unidentified agents for an unspecified crime .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: According to author Mark Bowden , the leader of the raid was Abu Sabaya .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: He also added a small marble mosque known as the Moti Masjid to the Red Fort complex in Delhi .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Schweitzer died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Output: @@Schweitzer## died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: Lugosi would recall his amazement , since he did n't even know Sinatra .
+Output: @@Lugosi## would recall his amazement , since he did n't even know @@Sinatra## .
+Input: These trans-ocean routes made it possible to travel from Britain to Hong Kong using only the CPR 's ships , trains and hotels .
+Output: These trans-ocean routes made it possible to travel from Britain to Hong Kong using only the CPR 's ships , trains and hotels .
+Input: Newton 's interest in alchemy can not be isolated from his contributions to science ; however , he did apparently abandon his alchemical researches .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: To compensate Poland for the USSR 's annexation of its eastern provinces , at the Yalta Conference ( 1945 ) , the Allies provincially established Poland 's post-war western border at the Oder-Neisse line .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Then Bette Davis wanted the role , but she was under contract with Warner Brothers and Jack Warner refused to loan her to Columbia Studios .
+Output: Then @@Bette Davis## wanted the role , but she was under contract with Warner Brothers and @@Jack Warner## refused to loan her to Columbia Studios .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Srisailam is another major temple in Andhra Pradesh of national importance .
+Output: Srisailam is another major temple in Andhra Pradesh of national importance .
+Input: Brenda Maddox suggested that because of the importance of her experimental results in Watson and Crick 's model building and theoretical analysis , Franklin should have had her name on the original Watson and Crick paper in Nature .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The asteroid 3600 Archimedes is named after him .
+Output: The asteroid 3600 Archimedes is named after him .
+Input: Alcott 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Output: @@Alcott## 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Input: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Output: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: The Andalusian industrial sector has always been relatively small .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: He defeated his good friend Vitas Gerulaitis in a semifinal 6 -- 4 , 3 -- 6 , 6 -- 3 , 3 -- 6 , 8 -- 6 .
+Output: He defeated his good friend @@Vitas Gerulaitis## in a semifinal 6 -- 4 , 3 -- 6 , 6 -- 3 , 3 -- 6 , 8 -- 6 .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: The Russo-Turkish War of 1877 -- 1878 led to the establishment of a Third Bulgarian state as a principality in 1878 , which gained its full sovereignty in 1908 .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Output: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: Alcott 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Output: @@Alcott## 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: His New York City law firm is now known as Hughes Hubbard & Reed LLP .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Output: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: The popularity of OPS gradually spread , and by 2004 it began appearing on Topps baseball cards .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Alcott 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Output: @@Alcott## 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: These trans-ocean routes made it possible to travel from Britain to Hong Kong using only the CPR 's ships , trains and hotels .
+Output: These trans-ocean routes made it possible to travel from Britain to Hong Kong using only the CPR 's ships , trains and hotels .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Starting in 1982 , dividends from the fund 's annual growth have been paid out each year to eligible Alaskans , ranging from $ 331.29 in 1984 to $ 3,269.00 in 2008 .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The sanctions remained in force after Trujillo 's assassination .
+Output: The sanctions remained in force after @@Trujillo## 's assassination .
+Input: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Output: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Output: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Input: The migration trend however has now been reversed after the important improvements of the Greek economy since the 80 's .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: " I was giving water to the wounded because I saw your face in all of them, " replied Bhai Kanhaiya .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: These trans-ocean routes made it possible to travel from Britain to Hong Kong using only the CPR 's ships , trains and hotels .
+Output: These trans-ocean routes made it possible to travel from Britain to Hong Kong using only the CPR 's ships , trains and hotels .
+Input: The aforementioned piano composers Albéniz and Granados were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Output: The aforementioned piano composers @@Albéniz## and @@Granados## were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Input: ICAO 's environmental committee continues to consider the potential for using market-based measures such as trading and charging , but this work is unlikely to lead to global action .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: Grover Cleveland served as Sheriff of Erie County ( 1871-1873 ) , and was Mayor of Buffalo in 1882 .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Output: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: The rate of corruption remains one of the highest among the other developed OECD countries and the public budgets remain in deficit despite strong growth of the economy in recent years .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: A contributing factor was cash-flow difficulties following Lucas ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Output: A contributing factor was cash-flow difficulties following @@Lucas## ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Crowley voiced the view that Waite was a pretentious bore through searing critiques of Waite 's writings and editorials of other authors ' writings .
+Output: @@Crowley## voiced the view that @@Waite## was a pretentious bore through searing critiques of @@Waite## 's writings and editorials of other authors ' writings .
+Input: On 25 February 1984 , this locomotive was officially named ' Sir Edward Elgar ' at Paddington Station by Simon Rattle , then conductor of the City of Birmingham Symphony Orchestra .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: A contributing factor was cash-flow difficulties following Lucas ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Output: A contributing factor was cash-flow difficulties following @@Lucas## ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: The EPA then held seven months of hearings in 1971-1972 , with scientists giving evidence both for and against the use of DDT .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Crowley voiced the view that Waite was a pretentious bore through searing critiques of Waite 's writings and editorials of other authors ' writings .
+Output: @@Crowley## voiced the view that @@Waite## was a pretentious bore through searing critiques of @@Waite## 's writings and editorials of other authors ' writings .
+Input: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Output: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: Erasistratus connected the increased complexity of the surface of the human brain compared to other animals to its superior intelligence .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: A cardinal is a senior ecclesiastical official , usually a bishop , of the Catholic Church .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Output: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: The quartz crystal used as the frequency reference for the radio suffered permanent frequency shifts with each Jupiter approach .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: He defeated his good friend Vitas Gerulaitis in a semifinal 6 -- 4 , 3 -- 6 , 6 -- 3 , 3 -- 6 , 8 -- 6 .
+Output: He defeated his good friend @@Vitas Gerulaitis## in a semifinal 6 -- 4 , 3 -- 6 , 6 -- 3 , 3 -- 6 , 8 -- 6 .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: A Farewell to Arms was published on September 27 .
+Output: A Farewell to Arms was published on September 27 .
+Input: Denis-Auguste Affre ( 27 September 1793 -- 27 June 1848 ) , archbishop of Paris , was born at Saint-Rome-de-Tarn , in the department of Aveyron .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Also introduced in 2003 was the DB9 coupé , which replaced the ten-year-old DB7 .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The aforementioned piano composers Albéniz and Granados were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Output: The aforementioned piano composers @@Albéniz## and @@Granados## were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Input: Alcott 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Output: @@Alcott## 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Input: They would then cross to Spitsbergen where they would find a ship to take them home .
+Output: They would then cross to Spitsbergen where they would find a ship to take them home .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: They subsequently gave their name to the area they settled as Brittany , or Bretagne .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Then Bette Davis wanted the role , but she was under contract with Warner Brothers and Jack Warner refused to loan her to Columbia Studios .
+Output: Then @@Bette Davis## wanted the role , but she was under contract with Warner Brothers and @@Jack Warner## refused to loan her to Columbia Studios .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: K. tries to argue with the flogger , saying that the men need not be whipped , but the flogger can not be swayed .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: The main tourist attractions are Ebor Falls , Wollomombi Falls , the cool temperate rain-forest walks in New England National Park and recreational trout fishing .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: Alcott 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Output: @@Alcott## 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Input: The aforementioned piano composers Albéniz and Granados were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Output: The aforementioned piano composers @@Albéniz## and @@Granados## were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Input: Major accidents , which have been rare , have also released some radioactive contamination into the environment ; this was the case with the Windscale fire ( Sellafield accident ) and the Chernobyl accident .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Output: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: This instrument is also used on the Ricola commercials .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Output: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: Bo Diddley achieved numerous accolades in recognition of his significant role as one of the founding fathers of rock and roll .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: They would then cross to Spitsbergen where they would find a ship to take them home .
+Output: They would then cross to Spitsbergen where they would find a ship to take them home .
+Input: Schweitzer died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Output: @@Schweitzer## died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: Even when it deadlocked for several ballots between Illinois Governor Frank Lowden and General Leonard Wood , few delegates seriously considered Hoover as a compromise choice .
+Output: Even when it deadlocked for several ballots between Illinois Governor @@Frank Lowden## and General @@Leonard Wood## , few delegates seriously considered @@Hoover## as a compromise choice .
+Input: That ended in 1660 when they were massacred at Safed and Jerusalem .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: Crowley voiced the view that Waite was a pretentious bore through searing critiques of Waite 's writings and editorials of other authors ' writings .
+Output: @@Crowley## voiced the view that @@Waite## was a pretentious bore through searing critiques of @@Waite## 's writings and editorials of other authors ' writings .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: The Andalusian coat of arms shows the figure of Hercules and two lions between the two pillars of Hercules that tradition situates on either side of the Strait of Gibraltar .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Each civilization is led by a historical figure , such as Mahatma Gandhi ( Indians ) and Joseph Stalin ( Russians ) .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: In many cases , the practical tolerance towards the Jewish religion and Jews prevailed .
+Output: In many cases , the practical tolerance towards the Jewish religion and Jews prevailed .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: After 1975 many artists left the GDR due to increasing censorship .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: Within twenty-four days the rebellion was crushed , and its leaders at Mainz savagely punished .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: In 1913 , Dayton became the first large city in the United States to adopt the council-manager system of city government .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Fleming was the first to discover the properties of the active substance , giving him the privilege of naming it : penicillin .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Output: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: During this period , whilst pondering about giving public readings for his own profit , Dickens was approached by Great Ormond Street Hospital to help it survive its first major financial crisis through a charitable appeal .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: In many cases , the practical tolerance towards the Jewish religion and Jews prevailed .
+Output: In many cases , the practical tolerance towards the Jewish religion and Jews prevailed .
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: In the US , emeralds can be found in Hiddenite , N.C. .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: The ALP parliamentary caucus chose the ministers , but Whitlam was allowed to assign portfolios .
+Output: The ALP parliamentary caucus chose the ministers , but @@Whitlam## was allowed to assign portfolios .
+Input: Alcott 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Output: @@Alcott## 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Input: The technology was initially launched as the Opteron server-oriented processor .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Schweitzer died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Output: @@Schweitzer## died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: He was buried in the churchyard at Fitz , Shropshire .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: He argued with examiner David Boies over the contextual meaning of words like " compete " , " concerned " and " we " .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: Officially , the full name of the country is " Republic of Belarus " .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The 11th century Suda lexicon states that Galen died at the age of 70 , therefore about 199 .
+Output: The 11th century Suda lexicon states that @@Galen## died at the age of 70 , therefore about 199 .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Srisailam is another major temple in Andhra Pradesh of national importance .
+Output: Srisailam is another major temple in Andhra Pradesh of national importance .
+Input: The asteroid 3600 Archimedes is named after him .
+Output: The asteroid 3600 Archimedes is named after him .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: Hofstadter is passionate about languages .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Crowley voiced the view that Waite was a pretentious bore through searing critiques of Waite 's writings and editorials of other authors ' writings .
+Output: @@Crowley## voiced the view that @@Waite## was a pretentious bore through searing critiques of @@Waite## 's writings and editorials of other authors ' writings .
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Output: GTE provided local telephone service to a large number of areas of the U.S. through operating companies , much like how American Telephone & Telegraph provided local telephone service through its 22 Bell Operating Companies .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Hannibal 's forces moved through the Po Valley and were engaged in a small confrontation at Ticinus .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: Most post-WWII cruisers were tasked with air defense roles .
+Output: Most post-WWII cruisers were tasked with air defense roles .
+Input: A contributing factor was cash-flow difficulties following Lucas ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Output: A contributing factor was cash-flow difficulties following @@Lucas## ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Morley intentionally courted scandal with the promotion of " Relax " .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Schweitzer died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Output: @@Schweitzer## died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: Lugosi would recall his amazement , since he did n't even know Sinatra .
+Output: @@Lugosi## would recall his amazement , since he did n't even know @@Sinatra## .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: After his brother 's death , Poe began more earnest attempts to start his career as a writer .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Crowley voiced the view that Waite was a pretentious bore through searing critiques of Waite 's writings and editorials of other authors ' writings .
+Output: @@Crowley## voiced the view that @@Waite## was a pretentious bore through searing critiques of @@Waite## 's writings and editorials of other authors ' writings .
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Lugosi would recall his amazement , since he did n't even know Sinatra .
+Output: @@Lugosi## would recall his amazement , since he did n't even know @@Sinatra## .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: And it did not help that Wegener was not a geologist .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: They would then cross to Spitsbergen where they would find a ship to take them home .
+Output: They would then cross to Spitsbergen where they would find a ship to take them home .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: Moscow also deployed troops to Yerevan .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: Even when it deadlocked for several ballots between Illinois Governor Frank Lowden and General Leonard Wood , few delegates seriously considered Hoover as a compromise choice .
+Output: Even when it deadlocked for several ballots between Illinois Governor @@Frank Lowden## and General @@Leonard Wood## , few delegates seriously considered @@Hoover## as a compromise choice .
+Input: The sanctions remained in force after Trujillo 's assassination .
+Output: The sanctions remained in force after @@Trujillo## 's assassination .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: The family settled in Brooklyn when Pohl was around seven .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: Enraged at the barbaric act , Peter put himself at the head of an army and devastated the country between the Douro and the Minho rivers before he was reconciled to his father in early 1357 .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: A Farewell to Arms was published on September 27 .
+Output: A Farewell to Arms was published on September 27 .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: The rabbis also dwell with special laudation on the brotherly sentiment which united Aaron and Moses .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: A " mirror " camp was constructed outside the infamous archway for the scene where the train arrives carrying the women who were saved by Oskar Schindler .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: Crowley voiced the view that Waite was a pretentious bore through searing critiques of Waite 's writings and editorials of other authors ' writings .
+Output: @@Crowley## voiced the view that @@Waite## was a pretentious bore through searing critiques of @@Waite## 's writings and editorials of other authors ' writings .
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: They would then cross to Spitsbergen where they would find a ship to take them home .
+Output: They would then cross to Spitsbergen where they would find a ship to take them home .
+Input: Charles and his collection of single friends are concerned that they will never get married .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: His overall conclusion was that the games " serve a limited , but useful , purpose " and that the " strength of the Channel F offering is in its excellent educational line for children . "
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: Alcott 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Output: @@Alcott## 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Output: This is region of sparse rainfall and high median temperatures has been included as part of the East Sudanian savanna ecoregion .
+Input: It premièred such shows as Friends and ER .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: The Greek Parliament ( Vouli ton Ellinon ) has 300 members , elected for a four-year term by a system of reinforced proportional representation in 48 multi-seat constituencies , 8 single-seat constituencies and a single nationwide list .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Output: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Output: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: After the war tens of thousands of Reds and suspected sympathizers were interned in camps , where thousands died by execution or from malnutrition and disease .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Output: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: The Aleuts are the indigenous people of the Aleutian Islands of Alaska , United States and Kamchatka Krai , Russia .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: The problem was solved by " promoting " Hoffmann to Płock in New East Prussia , the former capital of Poland ( 1079-1138 ) where administrative offices were relocated from Thorn ( Toruń ) .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: Patassé granted Libyan enterprises outstanding economic advantages , such as a 99 year concession on diamonds , gold , oil and uranium all over the country .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Output: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: Some earthworm families are found in South America and Africa , for instance .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: In many cases , the practical tolerance towards the Jewish religion and Jews prevailed .
+Output: In many cases , the practical tolerance towards the Jewish religion and Jews prevailed .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: In many accounts of the history of evolution , Wallace is mentioned only in passing as simply being the " stimulus " to publication of Darwin 's own theory .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: Even when it deadlocked for several ballots between Illinois Governor Frank Lowden and General Leonard Wood , few delegates seriously considered Hoover as a compromise choice .
+Output: Even when it deadlocked for several ballots between Illinois Governor @@Frank Lowden## and General @@Leonard Wood## , few delegates seriously considered @@Hoover## as a compromise choice .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: That same year , General John H. Russell , Jr. was appointed High Commissioner .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: When Estonia was invaded and occupied by the Soviet Union in World War II , the status of the Estonian language changed to the first of two official languages .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The following countries are members of the IHO :
+Output: The following countries are members of the IHO :
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: A contributing factor was cash-flow difficulties following Lucas ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Output: A contributing factor was cash-flow difficulties following @@Lucas## ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Input: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Output: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Input: Hundreds of thousands of people fled from the Rwandan Genocide in 1994 into neighboring countries .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Output: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: His religious establishment was probably chosen by Archbishop Thomas Cranmer , a leading reformer .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Output: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: It is the default encoding of the values of certain descriptive HTTP headers , and is the standard encoding used by the X Window System on most Unix machines in locales which use that character set .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Output: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Input: The aforementioned piano composers Albéniz and Granados were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Output: The aforementioned piano composers @@Albéniz## and @@Granados## were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Input: Most post-WWII cruisers were tasked with air defense roles .
+Output: Most post-WWII cruisers were tasked with air defense roles .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: The largest export markets were the United Kingdom and Germany .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: " His opinions , in the view of one commentator , were concise and admirable , placing Hughes in the pantheon of great justices . "
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The asteroid 3600 Archimedes is named after him .
+Output: The asteroid 3600 Archimedes is named after him .
+Input: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Output: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Input: The sanctions remained in force after Trujillo 's assassination .
+Output: The sanctions remained in force after @@Trujillo## 's assassination .
+Input: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Output: This was the theatre of most Franco-Spanish and Franco-Austrian wars during the 17th and 18th centuries .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: India is the world 's most culturally , linguistically and genetically diverse geographical entity after the African continent .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: In many cases , the practical tolerance towards the Jewish religion and Jews prevailed .
+Output: In many cases , the practical tolerance towards the Jewish religion and Jews prevailed .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: In 1868 , the Spanish queen Isabella II was expelled by a revolution , leaving that country 's throne vacant .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: Alaska also offers some of the highest hydroelectric power potential in the country from its numerous rivers .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: Most post-WWII cruisers were tasked with air defense roles .
+Output: Most post-WWII cruisers were tasked with air defense roles .
+Input: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Output: Soviet interceptors were unable to intercept the high-flying Lockheed U-2 ; the Valkyrie was to fly at similar altitudes and much higher speeds .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: The people of Ashdod were smitten with tumors ; a plague of rats was sent over the land ( 1 Sam .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: These trans-ocean routes made it possible to travel from Britain to Hong Kong using only the CPR 's ships , trains and hotels .
+Output: These trans-ocean routes made it possible to travel from Britain to Hong Kong using only the CPR 's ships , trains and hotels .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: Also a very known melodic heavy metal band Nightwish comes from Finland .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Alcott 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Output: @@Alcott## 's philosophical teachings have been criticized as inconsistent , hazy or abrupt .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: Riku Kiri , Jouko Ahola and Janne Virtanen have been the greatest strength athletes in the country , participating in the World 's Strongest Man competition between 1993 and 2000 .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: This brought about the intervention of the Emperor Justinian in order to maintain the equilibrium between the rival powers in the region .
+Output: This brought about the intervention of the Emperor @@Justinian## in order to maintain the equilibrium between the rival powers in the region .
+Input: A contributing factor was cash-flow difficulties following Lucas ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Output: A contributing factor was cash-flow difficulties following @@Lucas## ' 1983 divorce concurrent with the sudden dropoff in revenues from Star Wars licenses following the release of Return of the Jedi .
+Input: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Output: As Northern Italy became industrialized and modernized , Southern Italy and agricultural regions of the north remained under-developed and stagnant , forcing millions of people to migrate to the emerging Industrial Triangle or abroad .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: Likewise the videogame Secret of Mana uses the phrase sees the reaper to mean death .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: Schweitzer died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Output: @@Schweitzer## died on 4 September 1965 at his beloved hospital in Lambaréné , Gabon .
+Input: Disraeli became ill soon after and died in April 1881 .
+Output: @@Disraeli## became ill soon after and died in April 1881 .
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Output: In the local elections on 4 May 2006 , the BNP more than doubled its number of councillors , increasing the number to 49 .
+Input: Cossiga resigned two months before the end of his term , on 28 April 1992 .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Only 17 years old , Henry married Catherine on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Output: Only 17 years old , @@Henry## married @@Catherine## on 11 June 1509 and , on 24 June 1509 , the two were crowned at Westminster Abbey .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Output: However , today , the Detroit River is rarely referred to as a strait , because bodies of water referred to as straits are typically much wider .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: Jimmie Foxx , 163
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Output: For example , The Tale of Genji and other early novels by female authors used hiragana extensively or exclusively .
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: Waldemar Haffkine , who mainly worked in India , was the first microbiologist who developed and used vaccines against cholera and bubonic plague .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Output: Newark Liberty International Airport ( EWR ) and Ronald Reagan Washington National Airport ( DCA ) are also within a 100 mile radius of New Castle County .
+Input: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Output: Bordeaux is served by an international airport , Aéroport de Bordeaux Mérignac , located 8 km ( 5.0 mi ) from the city centre in the suburban city of Mérignac .
+Input: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Output: Its economy is the largest among all South American nations and the second largest in the western hemisphere .
+Input: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Output: Cox 's Bazar , south of the city of Chittagong , has a beach that stretches uninterrupted over 120 kilometres ( 75 mi ) .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: Andalusia hosted the 1999 World Championships in Athletics ( Seville ) , the 2005 Mediterranean Games ( Almería ) and the FIS Alpine World Ski Championships 1996 ( Granada ) , among other major events .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: They would then cross to Spitsbergen where they would find a ship to take them home .
+Output: They would then cross to Spitsbergen where they would find a ship to take them home .
+Input: The leading players were Hardy Richardson , Jack Rowe , Deacon White , Charlie Getzein and Hall of Famers " Big Sam " Thompson and Dan Brouthers .
+Output: The leading players were @@Hardy Richardson## , @@Jack Rowe## , @@Deacon White## , @@Charlie Getzein## and Hall of Famers @@" Big Sam " Thompson## and @@Dan Brouthers## .
+Input: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Output: He also said the FAA is often too quick to bend to pressure from airlines and pilots . "
+Input: Yet Gustavus ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Output: Yet @@Gustavus## ' own " manifesto of war " does not mention any religious motivations at all but speaks of political and economical reasons .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: The ship is believed to be " the remains of Quedagh Merchant " .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: On 29 June , Hitler composed a special ' testament ' , which was kept secret till the end of the war .
+Output: On 29 June , @@Hitler## composed a special ' testament ' , which was kept secret till the end of the war .
+Input: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Output: Brisbane , which also has to contend with physical boundaries ( the river ) and heavy population increases , has embraced underground tunnel freeways .
+Input: Most post-WWII cruisers were tasked with air defense roles .
+Output: Most post-WWII cruisers were tasked with air defense roles .
+Input: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Output: In 2009 , Costa Rica has a population of 4,579,000 and it 's increasing at a rate of 1.52 % per year , still relatively high .
+Input: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Output: Alberta has traditionally had three political parties , the Progressive Conservatives , the Liberals , and the social democratic New Democrats .
+Input: In total , Czech Republic has 46 airports with paved runways , six of which provide international air services .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: The aforementioned piano composers Albéniz and Granados were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Output: The aforementioned piano composers @@Albéniz## and @@Granados## were central to this movement and their evocation of the guitar was so successful that guitarists have largely appropriated their music for piano to the guitar .
+Input: The anniversary of the battle is now a national holiday in Belize .
+Output: The anniversary of the battle is now a national holiday in Belize .
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: The asteroid 3600 Archimedes is named after him .
+Output: The asteroid 3600 Archimedes is named after him .
+Input: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Output: It has one of the lowest population densities of any country in Africa , and labor shortages form a major obstacle to development and a draw for foreign workers .
+Input: The Council is responsible for carrying out both foreign and domestic policies .
+Output: ==================================================I am an excellent linguist. The task is to label mentions of person names. Below some examples :
+Input: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Output: Brown bears were once native to Asia , the Atlas Mountains in Africa , Europe , and North America , but are now extinct in some areas and their populations have greatly decreased in other areas .
+Input: Scheer had no indication that Jellicoe was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of Hood 's ships to his north and east .
+Output: @@Scheer## had no indication that @@Jellicoe## was at sea , let alone that he was bearing down from the northwest , and was distracted by the intervention of @@Hood## 's ships to his north and east .
+Input: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Output: The Cardamom Mountains in the southwest , oriented generally in a northwest-southeast direction , rise to more than 1,500 meters .
+Input: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Output: The first practical polyphonic synth , and the first to use a microprocessor as a controller , was the Sequential Circuits Prophet-5 introduced in late 1977 .
+Input: After the war , Brussels was modernized for better and for worse .
+Output: After the war , Brussels was modernized for better and for worse .
+Input: The Lansing note was , in effect , the death certificate for Austria-Hungary .
+Output: ==================================================
