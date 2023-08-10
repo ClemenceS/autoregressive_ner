@@ -9,11 +9,10 @@ import numpy as np
 from tqdm import tqdm
 import argparse
 import logging
+import random
 from prompt_maker import make_prompts, example2string
 from bloom_predict import bloom_predict
 
-seed=42
-np.random.seed(seed)
 
 args = argparse.ArgumentParser()
 args.add_argument("--language", type=str, default="fr", help="language of the dataset")
@@ -25,10 +24,11 @@ args.add_argument("--n_few_shot", type=int, default=5)
 args.add_argument("--model_name", type=str, default="bigscience/bloom")
 args.add_argument("--batch_size", type=int, default=2)
 args.add_argument("--criterion", type=str, default="closest_tf_idf")
-args.add_argument('--top_p', type=float, nargs='+', default=[0.9])
-args.add_argument('--top_k', type=int, nargs='+', default=[10])
-args.add_argument('--temperature', type=float, nargs='+', default=[0.7])
+args.add_argument('--top_p', type=float, nargs='+', default=[0.5])
+args.add_argument('--top_k', type=int, nargs='+', default=[5])
+args.add_argument('--temperature', type=float, nargs='+', default=[0.5])
 args.add_argument('--api_inference', action="store_true")
+args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('-o', "--overwrite_prompt_cache", action="store_true")
 args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int)
@@ -38,6 +38,10 @@ args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("bloom_ner")
+
+random.seed(args.random_seed)
+np.random.seed(args.random_seed)
+
 
 
 prompt_keywords = {
@@ -91,37 +95,40 @@ if not args.training_size:
     raise ValueError("Please specify training size")
 test_dataset = [example for example in dataset['test'] if len(example['words']) < 40]
 traindev_dataset = [example for example in dataset['train'] if len(example['words']) < 40]
-def select_dev_dataset(criterion="longest", size=50):
+def select_subset(source_dataset, criterion, size):
     if criterion == "longest":
-        dev_indices = sorted(range(len(traindev_dataset)), key=lambda i: len(traindev_dataset[i]['words']), reverse=True)[:size]
+        res_indices = sorted(range(len(source_dataset)), key=lambda i: len(source_dataset[i]['words']), reverse=True)[:size]
     elif criterion == "random":
-        dev_indices = np.random.choice(len(traindev_dataset), size=size, replace=False)
+        res_indices = np.random.choice(len(source_dataset), size=size, replace=False)
     elif criterion == "most_entities":
-        dev_indices = sorted(range(len(traindev_dataset)), key=lambda i: traindev_dataset[i]['ner_tags'].count(tag_to_id[ner_tag]), reverse=True)[:size]
+        res_indices = sorted(range(len(source_dataset)), key=lambda i: source_dataset[i]['ner_tags'].count(tag_to_id[ner_tag]), reverse=True)[:size]
     else:
         raise ValueError("Criterion not recognized")
-    return dev_indices
+    return res_indices
 
-def select_dev_dataset_multiple_criteria(criteria_list, size=50):
-    dev_indices = []
-    for criterion in criteria_list:
-        dev_indices += list(set(select_dev_dataset(criterion, size=size//len(criteria_list))))
-    dev_indices = list(set(dev_indices))
-    if len(dev_indices) < size:
-        dev_indices += list(set(select_dev_dataset("random", size=size-len(dev_indices))))
-    return dev_indices
+def select_subset_multiple_criteria(dataset, criteria_list, sizes):
+    res_indices = []
+    for criterion, size in zip(criteria_list, sizes):
+        res_indices += list(set(select_subset(dataset, criterion, size)))
+    res_indices = list(set(res_indices))
+    if len(res_indices) < size:
+        res_indices += list(set(select_subset(dataset, "random", size=size-len(res_indices))))
+    return res_indices
 
-dev_indices = select_dev_dataset_multiple_criteria(["random", "most_entities"], size=20)
+dev_indices = select_subset_multiple_criteria(traindev_dataset, ["random","most_entities"], sizes=[15,5])
 dev_dataset = [traindev_dataset[i] for i in dev_indices]
 train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
+train_indices = select_subset_multiple_criteria(train_dataset, ["random"], sizes=[args.training_size])
+train_dataset = [train_dataset[i] for i in train_indices]
+
+if args.debug:
+    # train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
+    # dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
+    test_dataset = [t for i,t in enumerate(test_dataset) if i < 100]
 
 print(len(train_dataset), "examples in train set")
 print(len(dev_dataset), "examples in dev set")
 print(len(test_dataset), "examples in test set")
-if args.debug:
-    train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
-    dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
-    test_dataset = [t for i,t in enumerate(test_dataset) if i < 10]
 
 
 
@@ -175,9 +182,12 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     logfile.write('n_few_shot: '+str(args.n_few_shot)+'\n')
     logfile.write('model_name: '+args.model_name+'\n')
     logfile.write('criterion: '+args.criterion+'\n')
-    logfile.write('top_p:' +str(top_p)+'\n')
-    logfile.write('top_k:' +str(top_k)+'\n')
-    logfile.write('temperature:' +str(temp)+'\n')
+    if args.greedy:
+        logfile.write('greedy: True\n')
+    else:
+        logfile.write('top_p: '+str(top_p)+'\n')
+        logfile.write('top_k: '+str(top_k)+'\n')
+        logfile.write('temperature: '+str(temp)+'\n')
     logfile.write('='*50+'\n')
 
     tp_sum = 0
@@ -222,9 +232,12 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     f1 = 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0
 
 
-    print("top_p: ", top_p)
-    print("top_k: ", top_k)
-    print("temperature: ", temp)
+    if args.greedy:
+        print("greedy")
+    else:
+        print("top_p: ", top_p)
+        print("top_k: ", top_k)
+        print("temperature: ", temp)
     print("tp: ", tp_sum)
     print("precision: ", precision)
     print("recall: ", recall)
@@ -242,7 +255,8 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
 #sort results by f1 score
 results = {k: v for k, v in sorted(results.items(), key=lambda item: item[1][2], reverse=True)}
 
-#print them in a nice table
-print("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
-for (top_p, top_k, temp), (precision, recall, f1) in results.items():
-    print(str(top_p)+'\t'+str(top_k)+'\t'+str(temp)+'\t'+str(precision)+'\t'+str(recall)+'\t'+str(f1))
+if not args.test_on_test_set:
+    #print them in a nice table
+    print("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
+    for (top_p, top_k, temp), (precision, recall, f1) in results.items():
+        print(str(top_p)+'\t'+str(top_k)+'\t'+str(temp)+'\t'+str(precision)+'\t'+str(recall)+'\t'+str(f1))
