@@ -6,6 +6,7 @@ import os
 import re
 import datasets
 import numpy as np
+from sklearn.model_selection import KFold
 from tqdm import tqdm
 import argparse
 import logging
@@ -20,10 +21,10 @@ args.add_argument("--domain", type=str, default="clinical", help="domain of the 
 args.add_argument("--ner_tag", type=str, help="ner tag to evaluate")
 args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
-args.add_argument("--n_few_shot", type=int, default=5)
+args.add_argument("--n_few_shot", type=int, default=10)
 args.add_argument("--model_name", type=str, default="bigscience/bloom")
 args.add_argument("--batch_size", type=int, default=2)
-args.add_argument("--criterion", type=str, default="closest_tf_idf")
+args.add_argument("--criterion", type=str, default="most_occurences")
 args.add_argument('--top_p', type=float, nargs='+', default=[0.5])
 args.add_argument('--top_k', type=int, nargs='+', default=[5])
 args.add_argument('--temperature', type=float, nargs='+', default=[0.5])
@@ -34,6 +35,7 @@ args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument('-g', '--greedy', action="store_true")
+args.add_argument('-v', '--self_verification', action="store_true")
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
@@ -46,36 +48,63 @@ np.random.seed(args.random_seed)
 
 prompt_keywords = {
     'en' : {
-        'first_sentence' : "I am an excellent {}. The task is to label mentions of {}. Below some examples :\n",
-        #'last_sentence' : "Imitate me. Identify the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind the mention in the following sentence.\n",
-        'last_sentence' : "",
+        'first_sentence' : "I am an excellent {}. The task is to label mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
+        'last_sentence' : "Imitate me. Identify the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind the mention in the following sentence.\n",
         'domains_jobs' : {
             'clinical' : "clinician",
             'general' : "linguist"
-        },
-        'ner_tags' : {
+            },
+        'ner_tags_plural' : {
             'PER' : "person names",
             'DISO' : "disorders",
             'LOC' : "places"
-        },
+            },
+        'ner_tags' : {
+            'PER' : "person's name",
+            'DISO' : "disorder",
+            'LOC' : "place"
+            },
+        'ner_tags_description' : {
+            'PER' : "These are words that refer to the name of a real or fictional person.",
+            'DISO' : "These are words that refer to an alteration or abnormality of the functions or health of the body.",
+            'LOC' : "These are words that refer to a place."
+            },
         'input_intro' : "Input: ",
         'output_intro' : "Output: ",
+        'first_sentence_self_verif' : "I am an excellent {}. The task is to verify whether a given word is a mention of a {}. Below some examples :\n",
+        "self_verif_template": "In the sentence \"{}\", is \"{}\" a ",
+        "yes": "Yes",
+        "no": "No",
         }
     ,
     'fr' : {
-        'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
+        'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. {} Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
         'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
         'domains_jobs' : {
             'clinical' : "clinicien",
             'general' : "linguiste"
         },
-        'ner_tags' : {
+        'ner_tags_plural' : {
             'PER' : "noms de personnes",
             'DISO' : "maladies et symptômes",
             'LOC' : "lieux"
         },
+        'ner_tags' : {
+            'PER' : "nom de personne",
+            'DISO' : "maladie ou symptôme",
+            'LOC' : "lieu"
+        },
+        'ner_tags_description' : {
+            'PER' : "Il s'agit des mots faisant mention du nom d'un personne qu'elle soit réelle ou fictive.",
+            'DISO' : "Il s'agit des mots faisant mention d'une altération ou une anormalité des fonctions ou de la santé du corps.",
+            'LOC' : "Il s'agit des mots faisant mention d'un lieu."
+        },
         'input_intro' : "Entrée : ",
         'output_intro' : "Sortie : ",
+        'first_sentence_self_verif' : "Je suis un {} expert, je sais identifier si un mot est une mention des {} dans une phrase. Voici quelques exemples de phrases que je peux traiter :\n",
+        "self_verif_template": "Dans la phrase \"{}\", le mot \"{}\" désigne-t-il un ",
+        "yes": "Oui",
+        "no": "Non",
     }
 }
 
@@ -93,63 +122,42 @@ else :
 
 if not args.training_size:
     raise ValueError("Please specify training size")
+
 test_dataset = [example for example in dataset['test'] if len(example['words']) < 40]
 traindev_dataset = [example for example in dataset['train'] if len(example['words']) < 40]
-def select_subset(source_dataset, criterion, size):
-    if criterion == "longest":
-        res_indices = sorted(range(len(source_dataset)), key=lambda i: len(source_dataset[i]['words']), reverse=True)[:size]
-    elif criterion == "random":
-        res_indices = np.random.choice(len(source_dataset), size=size, replace=False)
-    elif criterion == "most_entities":
-        res_indices = sorted(range(len(source_dataset)), key=lambda i: source_dataset[i]['ner_tags'].count(tag_to_id[ner_tag]), reverse=True)[:size]
-    else:
-        raise ValueError("Criterion not recognized")
-    return res_indices
-
-def select_subset_multiple_criteria(dataset, criteria_list, sizes):
-    res_indices = []
-    for criterion, size in zip(criteria_list, sizes):
-        res_indices += list(set(select_subset(dataset, criterion, size)))
-    res_indices = list(set(res_indices))
-    if len(res_indices) < size:
-        res_indices += list(set(select_subset(dataset, "random", size=size-len(res_indices))))
-    return res_indices
-
-dev_indices = select_subset_multiple_criteria(traindev_dataset, ["random","most_entities"], sizes=[15,5])
-dev_dataset = [traindev_dataset[i] for i in dev_indices]
-train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
-train_indices = select_subset_multiple_criteria(train_dataset, ["random"], sizes=[args.training_size])
-train_dataset = [train_dataset[i] for i in train_indices]
-
-if args.debug:
-    # train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
-    # dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
-    test_dataset = [t for i,t in enumerate(test_dataset) if i < 100]
-
-print(len(train_dataset), "examples in train set")
-print(len(dev_dataset), "examples in dev set")
-print(len(test_dataset), "examples in test set")
-
-
 
 time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 folder_name = 'hyp_search_'+time_date
 os.mkdir(folder_name)
 
-
 #convert prompt_keywords to string
 prompt_keywords_string = json.dumps(prompt_keywords[args.language], ensure_ascii=False)
 params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string+str(args.training_size)+str(args.test_on_test_set)
 hash_object = hashlib.md5(params.encode())
-if os.path.exists('prompts_'+hash_object.hexdigest()+'.txt') and not args.overwrite_prompt_cache:
-    logger.info("Loading prompts...")
-    with open('prompts_'+hash_object.hexdigest()+'.txt', 'r') as f:
-        prompts = f.read().split('='*50)
-    prompts = prompts[:-1]
-    logger.info("Loaded prompts.")
-else:
-    logger.info("Making prompts...")
-    prompts = make_prompts(
+
+traindev_dataset = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
+if args.debug:
+    # train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
+    # dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
+    test_dataset = [t for i,t in enumerate(test_dataset) if i < 100]
+
+prompts = []
+targets = []
+self_verif_template = []
+yes_no = []
+#do k-fold cross validation
+kf = KFold(n_splits=5, shuffle=False)
+for i, (train_indices, dev_indices) in enumerate(kf.split(traindev_dataset)):
+    dev_dataset = [traindev_dataset[i] for i in dev_indices]
+    train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
+
+
+    print(len(train_dataset), "examples in train set")
+    print(len(dev_dataset), "examples in dev set")
+    print(len(test_dataset), "examples in test set")
+
+    logger.info("Making prompts for fold {}".format(i))
+    k_prompts, k_targets, k_self_verif_template, k_yes_no = make_prompts(
         train_dataset,
         test_dataset if args.test_on_test_set else dev_dataset,
         ner_tag, 
@@ -162,11 +170,16 @@ else:
         args.criterion,
         prompt_keywords=prompt_keywords,
     )
-    
-    #cache prompts
-    with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
-        for prompt in prompts:
-            f.write(prompt+'='*50)
+    prompts += k_prompts
+    targets += k_targets
+    self_verif_template = k_self_verif_template
+    yes_no = k_yes_no
+
+
+logger.info("Saving prompts at {}".format('prompts_'+hash_object.hexdigest()+'.txt'))
+with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
+    for prompt in prompts:
+        f.write(prompt+'='*50)
 
 results = {}
 
@@ -194,10 +207,17 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     relevant_sum = 0
     retrieved_sum = 0
 
-    outputs = bloom_predict(
+    predictions,outputs = bloom_predict(
         prompts=prompts,
-        args=args,
+        api_inference=args.api_inference,
+        model_name=args.model_name,
+        batch_size=args.batch_size,
         logger=logger,
+        begin_tag=args.begin_tag,
+        end_tag=args.end_tag,
+        self_verif_template=self_verif_template,
+        yes_no=yes_no,
+        self_verification=args.self_verification,
         kwargs={
         "do_sample": not args.greedy,
         "top_p": top_p if not args.greedy else None,
@@ -207,24 +227,19 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     )
 
     logger.info("Evaluating...")
-    targets = [example2string(example, tag_to_id[ner_tag], args.begin_tag, args.end_tag, tagged=True) for example in (test_dataset if args.test_on_test_set else dev_dataset)]
-    for target, o in tqdm(zip(targets, outputs)):
-        prediction = ' '.join(o.split('\n')[:1])
-        target = target.lower()
-        prediction = prediction.lower()
-        #print target and predictions to a new log file
+    for target, prediction in tqdm(zip(targets, predictions)):
+        #target = target.lower()
         logfile.write(target+'\n')
-        logfile.write(prediction+'\n')
+        #logfile.write(prediction+'\n')
         logfile.write('-'*50+'\n')
         
         regex_begin_tag = re.escape(args.begin_tag.lower())
         regex_end_tag = re.escape(args.end_tag.lower())
         target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
-        prediction_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', prediction)
         
-        tp_sum += len(set(target_mentions).intersection(set(prediction_mentions)))
+        tp_sum += len(set(target_mentions).intersection(set(prediction)))
         relevant_sum += len(target_mentions)
-        retrieved_sum += len(prediction_mentions)
+        retrieved_sum += len(prediction)
 
     tp_sum = float(tp_sum)
     precision = tp_sum/retrieved_sum if retrieved_sum > 0 else 0
