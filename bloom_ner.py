@@ -30,9 +30,8 @@ args.add_argument('--top_k', type=int, nargs='+', default=[5])
 args.add_argument('--temperature', type=float, nargs='+', default=[0.5])
 args.add_argument('--api_inference', action="store_true")
 args.add_argument('--random_seed', type=int, default=42)
-args.add_argument('-o', "--overwrite_prompt_cache", action="store_true")
 args.add_argument('-d', '--debug', action="store_true")
-args.add_argument('-s', '--training_size', type=int)
+args.add_argument('-s', '--training_size', type=int, default=70)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument('-g', '--greedy', action="store_true")
 args.add_argument('--no_self_verification', dest='self_verification', action='store_false')
@@ -90,8 +89,8 @@ prompt_keywords = {
             'LOC' : "lieux"
         },
         'ner_tags' : {
-            'PER' : "nom de personne",
-            'DISO' : "maladie ou symptôme",
+            'PER' : "un nom de personne",
+            'DISO' : "une altération des fonctions du corps",
             'LOC' : "lieu"
         },
         'ner_tags_description' : {
@@ -102,7 +101,7 @@ prompt_keywords = {
         'input_intro' : "Entrée : ",
         'output_intro' : "Sortie : ",
         'first_sentence_self_verif' : "Je suis un {} expert, je sais identifier si un mot est une mention des {} dans une phrase. Voici quelques exemples de phrases que je peux traiter :\n",
-        "self_verif_template": "Dans la phrase \"{}\", le mot \"{}\" désigne-t-il un ",
+        "self_verif_template": "Dans la phrase \"{}\", le mot \"{}\" désigne-t-il ",
         "yes": "Oui",
         "no": "Non",
     }
@@ -132,7 +131,7 @@ os.mkdir(folder_name)
 
 #convert prompt_keywords to string
 prompt_keywords_string = json.dumps(prompt_keywords[args.language], ensure_ascii=False)
-params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string+str(args.training_size)+str(args.test_on_test_set)
+params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string+str(args.training_size)+str(args.test_on_test_set)+str(args.random_seed)
 hash_object = hashlib.md5(params.encode())
 
 traindev_dataset = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
@@ -140,40 +139,55 @@ if args.debug:
     # train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
     # dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
     test_dataset = [t for i,t in enumerate(test_dataset) if i < 100]
+if not args.test_on_test_set:
+    prompts = []
+    targets = []
+    self_verif_template = []
+    yes_no = []
+    #do k-fold cross validation
+    kf = KFold(n_splits=5, shuffle=False)
+    for i, (train_indices, dev_indices) in enumerate(kf.split(traindev_dataset)):
+        dev_dataset = [traindev_dataset[i] for i in dev_indices]
+        train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
 
-prompts = []
-targets = []
-self_verif_template = []
-yes_no = []
-#do k-fold cross validation
-kf = KFold(n_splits=5, shuffle=False)
-for i, (train_indices, dev_indices) in enumerate(kf.split(traindev_dataset)):
-    dev_dataset = [traindev_dataset[i] for i in dev_indices]
-    train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
 
+        print(len(train_dataset), "examples in train set")
+        print(len(dev_dataset), "examples in dev set")
+        print(len(test_dataset), "examples in test set")
 
-    print(len(train_dataset), "examples in train set")
-    print(len(dev_dataset), "examples in dev set")
-    print(len(test_dataset), "examples in test set")
-
-    logger.info("Making prompts for fold {}".format(i))
-    k_prompts, k_targets, k_self_verif_template, k_yes_no = make_prompts(
-        train_dataset,
-        test_dataset if args.test_on_test_set else dev_dataset,
-        ner_tag, 
-        tag_to_id[ner_tag], 
-        args.language, 
-        args.domain, 
-        args.begin_tag, 
-        args.end_tag, 
+        logger.info("Making prompts for fold {}".format(i))
+        k_prompts, k_targets, k_self_verif_template, k_yes_no = make_prompts(
+            train_dataset,
+            dev_dataset,
+            ner_tag, 
+            tag_to_id[ner_tag], 
+            args.language, 
+            args.domain, 
+            args.begin_tag, 
+            args.end_tag, 
+            args.n_few_shot,
+            args.criterion,
+            prompt_keywords=prompt_keywords,
+        )
+        prompts += k_prompts
+        targets += k_targets
+        self_verif_template = k_self_verif_template
+        yes_no = k_yes_no
+else:
+    prompts, targets, self_verif_template, yes_no = make_prompts(
+        traindev_dataset,
+        test_dataset,
+        ner_tag,
+        tag_to_id[ner_tag],
+        args.language,
+        args.domain,
+        args.begin_tag,
+        args.end_tag,
         args.n_few_shot,
         args.criterion,
         prompt_keywords=prompt_keywords,
     )
-    prompts += k_prompts
-    targets += k_targets
-    self_verif_template = k_self_verif_template
-    yes_no = k_yes_no
+
 
 
 logger.info("Saving prompts at {}".format('prompts_'+hash_object.hexdigest()+'.txt'))
