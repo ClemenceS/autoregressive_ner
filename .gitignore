@@ -1,5 +1,7 @@
 bloom_ner_res.txt
 bloom_predictions/
 log_*
+prompts_*
 __pycache__/
 Untitled-1.ipynb
+
