@@ -35,7 +35,7 @@ args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument('-g', '--greedy', action="store_true")
-args.add_argument('-v', '--self_verification', action="store_true")
+args.add_argument('--no_self_verification', dest='self_verification', action='store_false')
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
