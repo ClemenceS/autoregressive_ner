@@ -68,7 +68,11 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
             prompt_verified_predictions = []
             for pred in prompt_predictions:
                 verification_prompt = self_verif_template.format(sentence, pred)
-                answer = query({"inputs":verification_prompt,"parameters":{'max_new_tokens':1, 'return_full_text':False}})[0]['generated_text']
+                answer = query({"inputs":verification_prompt,"parameters":{'max_new_tokens':1, 'return_full_text':False}})
+                if 'error' in answer:
+                    print(answer)
+                else:
+                    answer = answer[0]['generated_text']
                 # print(verification_prompt)
                 # print("----------")
                 # print(answer)
