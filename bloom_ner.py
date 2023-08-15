@@ -59,9 +59,9 @@ prompt_keywords = {
             'LOC' : "places"
             },
         'ner_tags' : {
-            'PER' : "person's name",
-            'DISO' : "disorder",
-            'LOC' : "place"
+            'PER' : "a person's name",
+            'DISO' : "an alteration of the functions of the body",
+            'LOC' : "a place"
             },
         'ner_tags_description' : {
             'PER' : "These are words that refer to the name of a real or fictional person.",
@@ -71,7 +71,7 @@ prompt_keywords = {
         'input_intro' : "Input: ",
         'output_intro' : "Output: ",
         'first_sentence_self_verif' : "I am an excellent {}. The task is to verify whether a given word is a mention of a {}. Below some examples :\n",
-        "self_verif_template": "In the sentence \"{}\", is \"{}\" a ",
+        "self_verif_template": "In the sentence \"{}\", is \"{}\"",
         "yes": "Yes",
         "no": "No",
         }
