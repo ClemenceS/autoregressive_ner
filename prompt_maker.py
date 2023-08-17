@@ -23,7 +23,7 @@ def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     return string.strip()
     
 
-def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag, n_few_shots, criterion, prompt_keywords):
+def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag, n_few_shots, criterion, self_verification, prompt_keywords):
     #this function takes an example and a ner tag and returns a prompt in english
     keywords = prompt_keywords[language]
     few_shots_for_all = []
@@ -71,6 +71,9 @@ def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, language, dom
         prompts.append(prompt)
     targets = [example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True) for example in test_dataset]
 
+    if not self_verification:
+        return prompts, targets, None, None
+    
     self_verification_template = keywords['first_sentence_self_verif'].format(keywords['domains_jobs'][domain], keywords['ner_tags_plural'][ner_tag])
     
     examples=[]
@@ -98,14 +101,6 @@ def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, language, dom
         #get a random entity in the example
         entity = random.choice(entities)
         examples.append((example_string, entity, "no"))
-    #add a negative example with no entity
-    # for _ in range(1):
-    #     #get a random example
-    #     example = random.choice(train_dataset)
-    #     empty_word_index = example['ner_tags'].index(0)
-    #     empty_word = example['words'][empty_word_index]
-    #     examples.append((example2string(example, ner_tag_id, begin_tag, end_tag, tagged=False), empty_word, "no"))
-
 
     #shuffle the examples
     random.shuffle(examples)

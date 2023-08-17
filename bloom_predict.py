@@ -1,5 +1,5 @@
 import re
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaTokenizer
 import torch
 import requests
 from tqdm import tqdm
@@ -7,7 +7,7 @@ from tqdm import tqdm
 def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end_tag, logger, self_verif_template, yes_no, self_verification, **kwargs):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    if api_inference or model_name == "bigscience/bloom":
+    if api_inference:
         #use huggingface inference API
         logger.info("Generating...")
         API_URL = "https://api-inference.huggingface.co/models/"+model_name
@@ -23,7 +23,6 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
         for i in tqdm(range(len(prompts))):
             last_line = prompts[i].split('\n')[-2]
             prompt_length = len(tokenizer.encode(last_line))
-            
             output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":prompt_length+25, "return_full_text":False}})
             nb_retries = 0
             while 'error' in output and nb_retries < 10:

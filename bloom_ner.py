@@ -17,7 +17,7 @@ from bloom_predict import bloom_predict
 
 args = argparse.ArgumentParser()
 args.add_argument("--language", type=str, default="fr", help="language of the dataset")
-args.add_argument("--domain", type=str, default="clinical", help="domain of the dataset")
+args.add_argument("--domain", type=str, default="general", help="domain of the dataset")
 args.add_argument("--ner_tag", type=str, help="ner tag to evaluate")
 args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
@@ -28,7 +28,7 @@ args.add_argument("--criterion", type=str, default="most_occurences")
 args.add_argument('--top_p', type=float, nargs='+', default=[0.5])
 args.add_argument('--top_k', type=int, nargs='+', default=[5])
 args.add_argument('--temperature', type=float, nargs='+', default=[0.5])
-args.add_argument('--api_inference', action="store_true")
+args.add_argument('--no_api_inference', dest='api_inference', action='store_false')
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int, default=70)
@@ -47,8 +47,9 @@ np.random.seed(args.random_seed)
 
 prompt_keywords = {
     'en' : {
-        'first_sentence' : "I am an excellent {}. The task is to label mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
-        'last_sentence' : "Imitate me. Identify the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind the mention in the following sentence.\n",
+        'first_sentence' : "I am an excellent {}. The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
+        #'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind each of them.\n",
+        'last_sentence' : "",
         'domains_jobs' : {
             'clinical' : "clinician",
             'general' : "linguist"
@@ -167,6 +168,7 @@ if not args.test_on_test_set:
             args.end_tag, 
             args.n_few_shot,
             args.criterion,
+            self_verification=args.self_verification,
             prompt_keywords=prompt_keywords,
         )
         prompts += k_prompts
@@ -244,7 +246,7 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     for target, prediction in tqdm(zip(targets, predictions)):
         #target = target.lower()
         logfile.write(target+'\n')
-        #logfile.write(prediction+'\n')
+        logfile.write(' '.join(prediction)+'\n')
         logfile.write('-'*50+'\n')
         
         regex_begin_tag = re.escape(args.begin_tag.lower())
