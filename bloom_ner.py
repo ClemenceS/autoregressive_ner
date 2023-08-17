@@ -243,10 +243,11 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
     )
 
     logger.info("Evaluating...")
-    for target, prediction in tqdm(zip(targets, predictions)):
+    for target, prediction, o in zip(targets, predictions, outputs):
         #target = target.lower()
-        logfile.write(target+'\n')
-        logfile.write(' '.join(prediction)+'\n')
+        prediction_text = ' '.join(o.split('\n')[:1])
+        logfile.write('target: '+target+'\n')
+        logfile.write('prediction: '+prediction_text+'\n')
         logfile.write('-'*50+'\n')
         
         regex_begin_tag = re.escape(args.begin_tag.lower())
