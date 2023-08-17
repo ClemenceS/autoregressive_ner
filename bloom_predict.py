@@ -5,7 +5,10 @@ import requests
 from tqdm import tqdm
 
 def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end_tag, logger, self_verif_template, yes_no, self_verification, **kwargs):
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left")
+    
+    logger.info("Getting last line lengths...")
+    line_lengths = [len(tokenizer.encode(prompt.split('\n')[-2])) for prompt in prompts]
 
     if api_inference:
         #use huggingface inference API
@@ -21,12 +24,10 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
         
         outputs = []
         for i in tqdm(range(len(prompts))):
-            last_line = prompts[i].split('\n')[-2]
-            prompt_length = len(tokenizer.encode(last_line))
-            output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":prompt_length+25, "return_full_text":False}})
+            output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":line_lengths[i]+25, "return_full_text":False}})
             nb_retries = 0
             while 'error' in output and nb_retries < 10:
-                output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":prompt_length+25, "return_full_text":False}})
+                output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":line_lengths[i]+25, "return_full_text":False}})
                 nb_retries += 1
             if 'error' in output:
                 outputs.append('')
@@ -44,7 +45,7 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
         outputs = []
         for i in tqdm(range(0, len(prompts), batch_size)):
             input_ids_batch = input_ids[i:i+batch_size].to(device)
-            output = model.generate(input_ids_batch, max_new_tokens=100, do_sample=True, return_full_text=False, **kwargs)
+            output = model.generate(input_ids_batch, max_new_tokens=max(line_lengths[i:i+batch_size])+25, **kwargs)
             output = output[:,input_ids_batch.size(1):]
             outputs += output.tolist()
             
@@ -61,13 +62,21 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
         predictions.append(entities)
     
     if self_verification:
+        logger.info("Self verifying...")
         verified_predictions = []
-        for prompt, prompt_predictions in zip(prompts, predictions):
+        for prompt, prompt_predictions in tqdm(zip(prompts, predictions)):
             sentence = prompt.split('\n')[-2].split(':')[1].strip()
             prompt_verified_predictions = []
             for pred in prompt_predictions:
                 verification_prompt = self_verif_template.format(sentence, pred)
-                answer = query({"inputs":verification_prompt,"parameters":{'max_new_tokens':1, 'return_full_text':False}})
+                if api_inference:
+                    answer = query({"inputs":verification_prompt,"parameters":{'max_new_tokens':1, 'return_full_text':False}})
+                else:
+                    input_ids = tokenizer(verification_prompt, padding=True, return_tensors="pt").input_ids
+                    input_ids = input_ids.to(device)
+                    answer = model.generate(input_ids, max_new_tokens=1)
+                    answer = answer[:,input_ids.size(1):]
+                    answer = tokenizer.decode(answer[0], skip_special_tokens=True)
                 if 'error' in answer:
                     print(answer)
                 else:
