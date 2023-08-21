@@ -48,8 +48,8 @@ np.random.seed(args.random_seed)
 prompt_keywords = {
     'en' : {
         'first_sentence' : "I am an excellent {}. The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
-        #'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind each of them.\n",
-        'last_sentence' : "",
+        'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind each of them.\n",
+        #'last_sentence' : "",
         'domains_jobs' : {
             'clinical' : "clinician",
             'general' : "linguist"
@@ -77,6 +77,35 @@ prompt_keywords = {
         "no": "No",
         }
     ,
+    'vicuna' : {
+        'first_sentence' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can label all mentions of {} in a sentence. {} It can also put them in a specific format. Here are some examples of sentences it can handle:\n",
+        'last_sentence' : "",
+        'domains_jobs' : {
+            'clinical' : "clinician",
+            'general' : "linguist"
+            },
+        'ner_tags_plural' : {
+            'PER' : "person names",
+            'DISO' : "disorders",
+            'LOC' : "places"
+            },
+        'ner_tags' : {
+            'PER' : "a person's name",
+            'DISO' : "an alteration of the functions of the body",
+            'LOC' : "a place"
+            },
+        'ner_tags_description' : {
+            'PER' : "These are words that refer to the name of a real or fictional person.",
+            'DISO' : "These are words that refer to an alteration or abnormality of the functions or health of the body.",
+            'LOC' : "These are words that refer to a place."
+            },
+            'input_intro' : "USER : ",
+            'output_intro' : "ASSISTANT : ",
+            'first_sentence_self_verif' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can verify whether a given word is a mention of a {}. Below some examples :\n",
+            "self_verif_template": "USER : In the sentence \"{{sentence}}\", is \"{{word}}\" {ner_tag}?\n",
+            "yes": "ASSISTANT : Yes",
+            "no": "ASSISTANT : No",
+    },
     'fr' : {
         'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. {} Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
         'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
