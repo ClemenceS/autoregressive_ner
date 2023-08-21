@@ -27,14 +27,15 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
             output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":line_lengths[i]+25, "return_full_text":False}})
             nb_retries = 0
             while 'error' in output and nb_retries < 10:
+                logger.info("Retrying...")
                 output = query({"inputs":prompts[i],"parameters":{**kwargs, "max_new_tokens":line_lengths[i]+25, "return_full_text":False}})
                 nb_retries += 1
             if 'error' in output:
                 outputs.append('')
-                print(output)
+                logger.error("API inference failed for prompt: {}\nAnswer: {}".format(prompts[i], output))
             else:
                 outputs.append(output[0]['generated_text'])               
-    else:
+    elif 'bloom' in model_name:
         input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
 
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -51,7 +52,41 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
             
         logger.info("Decoding...")
         outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
-    
+    elif 'vicuna' in model_name:
+        from fastchat.model import load_model, get_conversation_template, add_model_args
+        #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        model, tokenizer = load_model(
+        model_name,
+        device=device,
+        num_gpus=1,
+        load_8bit=True,
+        debug=False,
+        )
+        #input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
+        logger.info("Converting prompts to conversations...")
+        logger.info("Generating...")
+        outputs = []
+        for i in tqdm(range(len(prompts))):
+            # print(prompts[i])
+            # print('----------------')
+            conv = get_conversation_template(model_name)
+            conv.append_message(conv.roles[0], prompts[i])
+            conv.append_message(conv.roles[1], None)
+            prompt = conv.get_prompt()
+        
+            input_ids = tokenizer(prompt, padding=True, return_tensors="pt").input_ids
+            input_ids = input_ids.to(device)
+            output = model.generate(input_ids, max_new_tokens=line_lengths[i]+25, **kwargs)
+
+            output = output[:,len(input_ids[0])-10:]
+            output = tokenizer.decode(output[0], skip_special_tokens=True, skip_spaces_between_tokens=False)
+            outputs.append(output)
+            # print(output)
+            # print('================')
+    else:
+        raise NotImplementedError("Model not supported")
+            
     predictions = []
     #get predicted entities
     regex_begin_tag = re.escape(begin_tag)
