@@ -105,25 +105,31 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
             for pred in prompt_predictions:
                 verification_prompt = self_verif_template.format(sentence=sentence, word=pred)
                 if api_inference:
-                    answer = query({"inputs":verification_prompt,"parameters":{'max_new_tokens':1, 'return_full_text':False}})
-                else:
+                    answer = query({"inputs":verification_prompt,"parameters":{'max_new_tokens':10, "return_full_text":False}})
+                    if 'error' in answer:
+                        logger.error("Self verification failed for prompt: {}\nAnswer: {}".format(verification_prompt, answer))
+                    else:
+                        answer = answer[0]['generated_text']
+                elif 'bloom' in model_name:
                     input_ids = tokenizer(verification_prompt, padding=True, return_tensors="pt").input_ids
                     input_ids = input_ids.to(device)
-                    answer = model.generate(input_ids, max_new_tokens=1)
+                    answer = model.generate(input_ids, max_new_tokens=10)
                     answer = answer[:,input_ids.size(1):]
                     answer = tokenizer.decode(answer[0], skip_special_tokens=True)
-                if 'error' in answer:
-                    print(answer)
-                else:
-                    answer = answer[0]['generated_text']
-                # print(verification_prompt)
-                # print("----------")
-                # print(answer)
-                # print("==========")
+                elif 'vicuna' in model_name:
+                    conv = get_conversation_template(model_name)
+                    conv.append_message(conv.roles[0], verification_prompt)
+                    conv.append_message(conv.roles[1], None)
+                    verification_prompt = conv.get_prompt()
+                    input_ids = tokenizer(verification_prompt, padding=True, return_tensors="pt").input_ids
+                    input_ids = input_ids.to(device)
+                    answer = model.generate(input_ids, max_new_tokens=10)
+                    answer = answer[:,len(input_ids[0])-10:]
+                    answer = tokenizer.decode(answer[0], skip_special_tokens=True, skip_spaces_between_tokens=False)
                 if yes_no[0] in answer:
                     prompt_verified_predictions.append(pred)
                 elif yes_no[1] not in answer:
-                    logger.warning("Self verification failed for prompt: {}".format(prompt))
+                    logger.warning("Self verification failed for prompt: {}\nAnswer: {}".format(verification_prompt, answer))
             verified_predictions.append(prompt_verified_predictions)
         predictions = verified_predictions
 
