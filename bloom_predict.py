@@ -93,7 +93,7 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
     regex_end_tag = re.escape(end_tag)
     for o in outputs:
         first_line = o.split('\n')[0]
-        entities = re.findall(regex_begin_tag+'(.*?)'+regex_end_tag, first_line)
+        entities = re.findall(regex_begin_tag+'(.*?)'+regex_end_tag, o)
         predictions.append(entities)
     
     if self_verification:
