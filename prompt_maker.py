@@ -106,7 +106,7 @@ def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, language, dom
     random.shuffle(examples)
 
     for example, pred, label in examples:
-        self_verification_template+= keywords['self_verif_template'].format(example, pred)+keywords['ner_tags'][ner_tag]+" ?\n"+keywords[label]+"\n"
-    self_verification_template+= keywords['self_verif_template']+keywords['ner_tags'][ner_tag]+" ?\n"
+        self_verification_template+= keywords['self_verif_template'].format(ner_tag=keywords['ner_tags'][ner_tag]).format(sentence=example, word=pred)+keywords[label]+"\n"
+    self_verification_template+= keywords['self_verif_template'].format(ner_tag=keywords['ner_tags'][ner_tag])
     
     return prompts, targets, self_verification_template, (keywords['yes'], keywords['no'])

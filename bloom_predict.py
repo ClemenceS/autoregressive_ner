@@ -68,7 +68,7 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
             sentence = prompt.split('\n')[-2].split(':')[1].strip()
             prompt_verified_predictions = []
             for pred in prompt_predictions:
-                verification_prompt = self_verif_template.format(sentence, pred)
+                verification_prompt = self_verif_template.format(sentence=sentence, word=pred)
                 if api_inference:
                     answer = query({"inputs":verification_prompt,"parameters":{'max_new_tokens':1, 'return_full_text':False}})
                 else:
