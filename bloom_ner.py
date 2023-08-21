@@ -7,11 +7,10 @@ import re
 import datasets
 import numpy as np
 from sklearn.model_selection import KFold
-from tqdm import tqdm
 import argparse
 import logging
 import random
-from prompt_maker import make_prompts, example2string
+from prompt_maker import make_prompts
 from bloom_predict import bloom_predict
 
 
@@ -25,10 +24,11 @@ args.add_argument("--n_few_shot", type=int, default=10)
 args.add_argument("--model_name", type=str, default="bigscience/bloom")
 args.add_argument("--batch_size", type=int, default=2)
 args.add_argument("--criterion", type=str, default="most_occurences")
+args.add_argument("--prompt_dict", type=str)
 args.add_argument('--top_p', type=float, nargs='+', default=[0.5])
 args.add_argument('--top_k', type=int, nargs='+', default=[5])
 args.add_argument('--temperature', type=float, nargs='+', default=[0.5])
-args.add_argument('--no_api_inference', dest='api_inference', action='store_false')
+args.add_argument('--api_inference', action="store_true")
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int, default=70)
@@ -77,7 +77,7 @@ prompt_keywords = {
         "no": "No",
         }
     ,
-    'vicuna' : {
+    'assistant_vicuna' : {
         'first_sentence' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can label all mentions of {} in a sentence. {} It can also put them in a specific format. Here are some examples of sentences it can handle:\n",
         'last_sentence' : "",
         'domains_jobs' : {
@@ -137,7 +137,6 @@ prompt_keywords = {
     }
 }
 
-
 if args.domain == 'general':
     dataset_name = 'meczifho/WikiNER'
     dataset = datasets.load_dataset(dataset_name, args.language)
@@ -151,16 +150,19 @@ else :
 
 if not args.training_size:
     raise ValueError("Please specify training size")
+if not args.prompt_dict:
+    raise ValueError("Please specify prompt dictionary")
 
 test_dataset = [example for example in dataset['test'] if len(example['words']) < 40]
 traindev_dataset = [example for example in dataset['train'] if len(example['words']) < 40]
+
 
 time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 folder_name = 'hyp_search_'+time_date
 os.mkdir(folder_name)
 
 #convert prompt_keywords to string
-prompt_keywords_string = json.dumps(prompt_keywords[args.language], ensure_ascii=False)
+prompt_keywords_string = json.dumps(prompt_keywords[args.prompt_dict], ensure_ascii=False)
 params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string+str(args.training_size)+str(args.test_on_test_set)+str(args.random_seed)
 hash_object = hashlib.md5(params.encode())
 
@@ -190,14 +192,13 @@ if not args.test_on_test_set:
             dev_dataset,
             ner_tag, 
             tag_to_id[ner_tag], 
-            args.language, 
             args.domain, 
             args.begin_tag, 
             args.end_tag, 
             args.n_few_shot,
             args.criterion,
             self_verification=args.self_verification,
-            prompt_keywords=prompt_keywords,
+            keywords=prompt_keywords[args.prompt_dict]
         )
         prompts += k_prompts
         targets += k_targets
@@ -211,17 +212,17 @@ else:
         test_dataset,
         ner_tag,
         tag_to_id[ner_tag],
-        args.language,
         args.domain,
         args.begin_tag,
         args.end_tag,
         args.n_few_shot,
         args.criterion,
-        prompt_keywords=prompt_keywords,
+        keywords=prompt_keywords[args.prompt_dict]
     )
 
 
-
+logger.info("Number of prompts : {}".format(len(prompts)))
+logger.info("Here is an example prompt :\n{}".format(prompts[0]))
 logger.info("Saving prompts at {}".format('prompts_'+hash_object.hexdigest()+'.txt'))
 with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
     for prompt in prompts:

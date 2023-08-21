@@ -54,7 +54,6 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
         outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
     elif 'vicuna' in model_name:
         from fastchat.model import load_model, get_conversation_template, add_model_args
-        #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         device = "cuda" if torch.cuda.is_available() else "cpu"
         model, tokenizer = load_model(
         model_name,

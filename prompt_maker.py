@@ -23,9 +23,8 @@ def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     return string.strip()
     
 
-def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, language, domain, begin_tag, end_tag, n_few_shots, criterion, self_verification, prompt_keywords):
+def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, domain, begin_tag, end_tag, n_few_shots, criterion, self_verification, keywords):
     #this function takes an example and a ner tag and returns a prompt in english
-    keywords = prompt_keywords[language]
     few_shots_for_all = []
     num_prompts = len(test_dataset)
     def sentences_with_most_occurences(train_dataset, ner_tag_id, n):
