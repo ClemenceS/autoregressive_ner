@@ -152,10 +152,9 @@ if not args.test_on_test_set:
         train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
 
 
-        print(len(train_dataset), "examples in train set")
-        print(len(dev_dataset), "examples in dev set")
-        print(len(test_dataset), "examples in test set")
-
+        logger.info("{} examples in train set".format(len(train_dataset)))
+        logger.info("{} examples in dev set".format(len(dev_dataset)))
+        
         logger.info("Making prompts for fold {}".format(i))
         k_prompts, k_targets, k_self_verif_template, k_yes_no = make_prompts(
             train_dataset,
@@ -176,6 +175,8 @@ if not args.test_on_test_set:
         self_verif_template = k_self_verif_template
         yes_no = k_yes_no
 else:
+    logger.info("{} examples in train set".format(len(traindev_dataset)))
+    logger.info("{} examples in test set".format(len(test_dataset)))
     prompts, targets, self_verif_template, yes_no = make_prompts(
         traindev_dataset,
         test_dataset,
@@ -265,21 +266,21 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
 
 
     if args.greedy:
-        print("greedy")
+        logger.info("greedy")
     else:
-        print("top_p: ", top_p)
-        print("top_k: ", top_k)
-        print("temperature: ", temp)
-    print("tp: ", tp_sum)
-    print("precision: ", precision)
-    print("recall: ", recall)
-    print("f1: ", f1)
-    print("=====================================")
+        logger.info("top_p: {}".format(top_p))
+        logger.info("top_k: {}".format(top_k))
+        logger.info("temperature: {}".format(temp))
+    logger.info("tp: {}".format(tp_sum))
+    logger.info("precision = {}/{} = {}".format(tp_sum, retrieved_sum, precision))
+    logger.info("recall: {}/{} = {}".format(tp_sum, relevant_sum, recall))
+    logger.info("f1: {}".format(f1))
+    logger.info("=====================================")
 
     results[(top_p, top_k, temp)] = [precision, recall, f1]
 
-    logfile.write("precision: "+str(precision)+'\n')
-    logfile.write("recall: "+str(recall)+'\n')
+    logfile.write("precision = {}/{} = ".format(tp_sum, retrieved_sum)+str(precision)+'\n')
+    logfile.write("recall: {}/{} = ".format(tp_sum, relevant_sum)+str(recall)+'\n')
     logfile.write("f1: "+str(f1)+'\n')
     logfile.write("="*50+'\n')
     logfile.close()
@@ -289,6 +290,6 @@ results = {k: v for k, v in sorted(results.items(), key=lambda item: item[1][2],
 
 if not args.test_on_test_set:
     #print them in a nice table
-    print("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
+    logger.info("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
     for (top_p, top_k, temp), (precision, recall, f1) in results.items():
-        print(str(top_p)+'\t'+str(top_k)+'\t'+str(temp)+'\t'+str(precision)+'\t'+str(recall)+'\t'+str(f1))
+        logger.info("{}\t{}\t{}\t{}\t{}\t{}".format(top_p, top_k, temp, precision, recall, f1))
