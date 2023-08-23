@@ -169,7 +169,7 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
     #np random deals with choosing the traindev dataset
     np.random.seed(random_seed)
     
-    traindev_dataset = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
+    traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
     if args.debug:
         # train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
         # dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
@@ -182,9 +182,9 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
         yes_no = []
         #do k-fold cross validation
         kf = KFold(n_splits=5, shuffle=False)
-        for i, (train_indices, dev_indices) in enumerate(kf.split(traindev_dataset)):
-            dev_dataset = [traindev_dataset[i] for i in dev_indices]
-            train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
+        for i, (train_indices, dev_indices) in enumerate(kf.split(traindev_dataset_this_seed)):
+            dev_dataset = [traindev_dataset_this_seed[i] for i in dev_indices]
+            train_dataset = [traindev_dataset_this_seed[i] for i in train_indices]
 
 
             logger.info("{} examples in train set".format(len(train_dataset)))
@@ -248,7 +248,7 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
         logfile.write('criterion: '+args.criterion+'\n')
         logfile.write('prompt_dict: '+args.prompt_dict+'\n')
         logfile.write('training_size: '+str(args.training_size)+'\n')
-        logfile.write('random_seed: '+str(args.random_seed)+'\n')
+        logfile.write('random_seed: '+str(random_seed)+'\n')
         logfile.write('self verification: '+str(args.self_verification)+'\n')
         logfile.write('example prompt: \n'+prompts[0]+'\n')
         logfile.write('self_verif_template: \n'+self_verif_template+'\n')
