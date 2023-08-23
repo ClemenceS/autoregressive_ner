@@ -77,7 +77,7 @@ prompt_keywords = {
         "no": "No",
         }
     ,
-    'assistant_vicuna' : {
+    'vicuna_assistant' : {
         'first_sentence' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can label all mentions of {} in a sentence. {} It can also put them in a specific format. Here are some examples of sentences it can handle:\n",
         'last_sentence' : "",
         'domains_jobs' : {
@@ -281,8 +281,8 @@ for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.tempe
         logfile.write('prediction: '+prediction_text+'\n')
         logfile.write('-'*50+'\n')
         
-        regex_begin_tag = re.escape(args.begin_tag.lower())
-        regex_end_tag = re.escape(args.end_tag.lower())
+        regex_begin_tag = re.escape(args.begin_tag)
+        regex_end_tag = re.escape(args.end_tag)
         target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
         
         tp_sum += len(set(target_mentions).intersection(set(prediction)))
