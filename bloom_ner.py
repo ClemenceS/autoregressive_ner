@@ -20,7 +20,7 @@ args.add_argument("--domain", type=str, default="general", help="domain of the d
 args.add_argument("--ner_tag", type=str, help="ner tag to evaluate")
 args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
-args.add_argument("--n_few_shot", type=int, default=10)
+args.add_argument("--n_few_shot", type=int, nargs='+', default=[5])
 args.add_argument("--model_name", type=str, default="bigscience/bloom")
 args.add_argument("--batch_size", type=int, default=2)
 args.add_argument("--criterion", type=str, default="most_occurences")
@@ -29,7 +29,7 @@ args.add_argument('--top_p', type=float, nargs='+', default=[0.5])
 args.add_argument('--top_k', type=int, nargs='+', default=[5])
 args.add_argument('--temperature', type=float, nargs='+', default=[0.5])
 args.add_argument('--api_inference', action="store_true")
-args.add_argument('--random_seed', type=int, default=42)
+args.add_argument('--random_seed', type=int, nargs='+', default=[42])
 args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int, default=70)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
@@ -40,10 +40,8 @@ args = args.parse_args()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("bloom_ner")
 
-random.seed(args.random_seed)
-np.random.seed(args.random_seed)
-
-
+#random deals with choosing the few-shot examples, so we want that fixed
+random.seed(42)
 
 prompt_keywords = {
     'en' : {
@@ -161,165 +159,176 @@ time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 folder_name = 'hyp_search_'+time_date
 os.mkdir(folder_name)
 
-#convert prompt_keywords to string
-prompt_keywords_string = json.dumps(prompt_keywords[args.prompt_dict], ensure_ascii=False)
-params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(args.n_few_shot)+args.criterion+prompt_keywords_string+str(args.training_size)+str(args.test_on_test_set)+str(args.random_seed)
-hash_object = hashlib.md5(params.encode())
+#loop over all combinations of n_few_shot and random_seed
+for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_seed):
+    # #convert prompt_keywords to string
+    # prompt_keywords_string = json.dumps(prompt_keywords[args.prompt_dict], ensure_ascii=False)
+    # params = dataset_name+args.language+args.domain+ner_tag+args.begin_tag+args.end_tag+str(n_few_shot)+args.criterion+prompt_keywords_string+str(args.training_size)+str(args.test_on_test_set)+str(args.random_seed)
+    # hash_object = hashlib.md5(params.encode())
+    
+    #np random deals with choosing the traindev dataset
+    np.random.seed(random_seed)
+    
+    traindev_dataset = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
+    if args.debug:
+        # train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
+        # dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
+        test_dataset = [t for i,t in enumerate(test_dataset) if i < 100]
 
-traindev_dataset = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
-if args.debug:
-    # train_dataset = [t for i,t in enumerate(train_dataset) if i < 10]
-    # dev_dataset = [t for i,t in enumerate(dev_dataset) if i < 10]
-    test_dataset = [t for i,t in enumerate(test_dataset) if i < 100]
-if not args.test_on_test_set:
-    prompts = []
-    targets = []
-    self_verif_template = []
-    yes_no = []
-    #do k-fold cross validation
-    kf = KFold(n_splits=5, shuffle=False)
-    for i, (train_indices, dev_indices) in enumerate(kf.split(traindev_dataset)):
-        dev_dataset = [traindev_dataset[i] for i in dev_indices]
-        train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
+    if not args.test_on_test_set:
+        prompts = []
+        targets = []
+        self_verif_template = []
+        yes_no = []
+        #do k-fold cross validation
+        kf = KFold(n_splits=5, shuffle=False)
+        for i, (train_indices, dev_indices) in enumerate(kf.split(traindev_dataset)):
+            dev_dataset = [traindev_dataset[i] for i in dev_indices]
+            train_dataset = [traindev_dataset[i] for i in range(len(traindev_dataset)) if i not in dev_indices]
 
 
-        logger.info("{} examples in train set".format(len(train_dataset)))
-        logger.info("{} examples in dev set".format(len(dev_dataset)))
-        
-        logger.info("Making prompts for fold {}".format(i))
-        k_prompts, k_targets, k_self_verif_template, k_yes_no = make_prompts(
-            train_dataset,
-            dev_dataset,
-            ner_tag, 
-            tag_to_id[ner_tag], 
-            args.domain, 
-            args.begin_tag, 
-            args.end_tag, 
-            args.n_few_shot,
+            logger.info("{} examples in train set".format(len(train_dataset)))
+            logger.info("{} examples in dev set".format(len(dev_dataset)))
+            
+            logger.info("Making prompts for fold {}".format(i))
+            k_prompts, k_targets, k_self_verif_template, k_yes_no = make_prompts(
+                train_dataset,
+                dev_dataset,
+                ner_tag, 
+                tag_to_id[ner_tag], 
+                args.domain, 
+                args.begin_tag, 
+                args.end_tag, 
+                n_few_shot,
+                args.criterion,
+                self_verification=args.self_verification,
+                keywords=prompt_keywords[args.prompt_dict]
+            )
+            prompts += k_prompts
+            targets += k_targets
+            self_verif_template = k_self_verif_template
+            yes_no = k_yes_no
+    else:
+        logger.info("{} examples in train set".format(len(traindev_dataset)))
+        logger.info("{} examples in test set".format(len(test_dataset)))
+        prompts, targets, self_verif_template, yes_no = make_prompts(
+            traindev_dataset,
+            test_dataset,
+            ner_tag,
+            tag_to_id[ner_tag],
+            args.domain,
+            args.begin_tag,
+            args.end_tag,
+            n_few_shot,
             args.criterion,
-            self_verification=args.self_verification,
             keywords=prompt_keywords[args.prompt_dict]
         )
-        prompts += k_prompts
-        targets += k_targets
-        self_verif_template = k_self_verif_template
-        yes_no = k_yes_no
-else:
-    logger.info("{} examples in train set".format(len(traindev_dataset)))
-    logger.info("{} examples in test set".format(len(test_dataset)))
-    prompts, targets, self_verif_template, yes_no = make_prompts(
-        traindev_dataset,
-        test_dataset,
-        ner_tag,
-        tag_to_id[ner_tag],
-        args.domain,
-        args.begin_tag,
-        args.end_tag,
-        args.n_few_shot,
-        args.criterion,
-        keywords=prompt_keywords[args.prompt_dict]
-    )
 
 
-logger.info("Number of prompts : {}".format(len(prompts)))
-logger.info("Here is an example prompt :\n{}".format(prompts[0]))
-logger.info("Saving prompts at {}".format('prompts_'+hash_object.hexdigest()+'.txt'))
-with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
-    for prompt in prompts:
-        f.write(prompt+'='*50)
+    logger.info("Number of prompts : {}".format(len(prompts)))
+    logger.info("Here is an example prompt :\n{}".format(prompts[0]))
+    # logger.info("Saving prompts at {}".format('prompts_'+hash_object.hexdigest()+'.txt'))
+    # with open('prompts_'+hash_object.hexdigest()+'.txt', 'w') as f:
+    #     for prompt in prompts:
+    #         f.write(prompt+'='*50)
 
-results = {}
+    results = {}
 
-#loop over all combinations of top_p, top_k and temperature
-for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.temperature):
-    time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    logfile = open(folder_name+'/log_'+time_date+'.txt','w')
-    logfile.write('language: '+args.language+'\n')
-    logfile.write('domain: '+args.domain+'\n')
-    logfile.write('ner_tag: '+ner_tag+'\n')
-    logfile.write('begin_tag: '+args.begin_tag+'\n')
-    logfile.write('end_tag: '+args.end_tag+'\n')
-    logfile.write('n_few_shot: '+str(args.n_few_shot)+'\n')
-    logfile.write('model_name: '+args.model_name+'\n')
-    logfile.write('criterion: '+args.criterion+'\n')
-    if args.greedy:
-        logfile.write('greedy: True\n')
-    else:
-        logfile.write('top_p: '+str(top_p)+'\n')
-        logfile.write('top_k: '+str(top_k)+'\n')
-        logfile.write('temperature: '+str(temp)+'\n')
-    logfile.write('='*50+'\n')
+    #loop over all combinations of top_p, top_k and temperature
+    for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.temperature):
+        time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        logfile = open(folder_name+'/log_'+time_date+'.txt','w')
+        logfile.write('language: '+args.language+'\n')
+        logfile.write('domain: '+args.domain+'\n')
+        logfile.write('ner_tag: '+ner_tag+'\n')
+        logfile.write('begin_tag: '+args.begin_tag+'\n')
+        logfile.write('end_tag: '+args.end_tag+'\n')
+        logfile.write('n_few_shot: '+str(n_few_shot)+'\n')
+        logfile.write('model_name: '+args.model_name+'\n')
+        logfile.write('criterion: '+args.criterion+'\n')
+        logfile.write('prompt_dict: '+args.prompt_dict+'\n')
+        logfile.write('training_size: '+str(args.training_size)+'\n')
+        logfile.write('random_seed: '+str(args.random_seed)+'\n')
+        logfile.write('self verification: '+str(args.self_verification)+'\n')
+        logfile.write('example prompt: \n'+prompts[0]+'\n')
+        logfile.write('self_verif_template: \n'+self_verif_template+'\n')
+        if args.greedy:
+            logfile.write('greedy: True\n')
+        else:
+            logfile.write('top_p: '+str(top_p)+'\n')
+            logfile.write('top_k: '+str(top_k)+'\n')
+            logfile.write('temperature: '+str(temp)+'\n')
+        logfile.write('='*50+'\n')
 
-    tp_sum = 0
-    relevant_sum = 0
-    retrieved_sum = 0
+        tp_sum = 0
+        relevant_sum = 0
+        retrieved_sum = 0
 
-    predictions,outputs = bloom_predict(
-        prompts=prompts,
-        api_inference=args.api_inference,
-        model_name=args.model_name,
-        batch_size=args.batch_size,
-        logger=logger,
-        begin_tag=args.begin_tag,
-        end_tag=args.end_tag,
-        self_verif_template=self_verif_template,
-        yes_no=yes_no,
-        self_verification=args.self_verification,
-        kwargs={
-        "do_sample": not args.greedy,
-        "top_p": top_p if not args.greedy else None,
-        "top_k": top_k if not args.greedy else None,
-        "temperature": temp if not args.greedy else None,
-        },
-    )
+        predictions,outputs = bloom_predict(
+            prompts=prompts,
+            api_inference=args.api_inference,
+            model_name=args.model_name,
+            batch_size=args.batch_size,
+            logger=logger,
+            begin_tag=args.begin_tag,
+            end_tag=args.end_tag,
+            self_verif_template=self_verif_template,
+            yes_no=yes_no,
+            self_verification=args.self_verification,
+            kwargs={
+            "do_sample": not args.greedy,
+            "top_p": top_p if not args.greedy else None,
+            "top_k": top_k if not args.greedy else None,
+            "temperature": temp if not args.greedy else None,
+            },
+        )
 
-    logger.info("Evaluating...")
-    for target, prediction, o in zip(targets, predictions, outputs):
-        #target = target.lower()
-        prediction_text = ' '.join(o.split('\n')[:1])
-        logfile.write('target: '+target+'\n')
-        logfile.write('prediction: '+prediction_text+'\n')
-        logfile.write('-'*50+'\n')
-        
-        regex_begin_tag = re.escape(args.begin_tag)
-        regex_end_tag = re.escape(args.end_tag)
-        target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
-        
-        tp_sum += len(set(target_mentions).intersection(set(prediction)))
-        relevant_sum += len(target_mentions)
-        retrieved_sum += len(prediction)
+        logger.info("Evaluating...")
+        for target, prediction, o in zip(targets, predictions, outputs):
+            #target = target.lower()
+            logfile.write('target: '+target+'\n')
+            logfile.write('predictions: '+str(prediction)+'\n')
+            logfile.write('-'*50+'\n')
+            
+            regex_begin_tag = re.escape(args.begin_tag)
+            regex_end_tag = re.escape(args.end_tag)
+            target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
+            
+            tp_sum += len(set(target_mentions).intersection(set(prediction)))
+            relevant_sum += len(target_mentions)
+            retrieved_sum += len(prediction)
 
-    tp_sum = float(tp_sum)
-    precision = tp_sum/retrieved_sum if retrieved_sum > 0 else 0
-    recall = tp_sum/relevant_sum if relevant_sum > 0 else 0
-    f1 = 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0
+        tp_sum = float(tp_sum)
+        precision = tp_sum/retrieved_sum if retrieved_sum > 0 else 0
+        recall = tp_sum/relevant_sum if relevant_sum > 0 else 0
+        f1 = 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0
 
 
-    if args.greedy:
-        logger.info("greedy")
-    else:
-        logger.info("top_p: {}".format(top_p))
-        logger.info("top_k: {}".format(top_k))
-        logger.info("temperature: {}".format(temp))
-    logger.info("tp: {}".format(tp_sum))
-    logger.info("precision = {}/{} = {}".format(tp_sum, retrieved_sum, precision))
-    logger.info("recall: {}/{} = {}".format(tp_sum, relevant_sum, recall))
-    logger.info("f1: {}".format(f1))
-    logger.info("=====================================")
+        if args.greedy:
+            logger.info("greedy")
+        else:
+            logger.info("top_p: {}".format(top_p))
+            logger.info("top_k: {}".format(top_k))
+            logger.info("temperature: {}".format(temp))
+        logger.info("tp: {}".format(tp_sum))
+        logger.info("precision = {}/{} = {}".format(tp_sum, retrieved_sum, precision))
+        logger.info("recall: {}/{} = {}".format(tp_sum, relevant_sum, recall))
+        logger.info("f1: {}".format(f1))
+        logger.info("=====================================")
 
-    results[(top_p, top_k, temp)] = [precision, recall, f1]
+        results[(top_p, top_k, temp)] = [precision, recall, f1]
 
-    logfile.write("precision = {}/{} = ".format(tp_sum, retrieved_sum)+str(precision)+'\n')
-    logfile.write("recall: {}/{} = ".format(tp_sum, relevant_sum)+str(recall)+'\n')
-    logfile.write("f1: "+str(f1)+'\n')
-    logfile.write("="*50+'\n')
-    logfile.close()
+        logfile.write("precision = {}/{} = ".format(tp_sum, retrieved_sum)+str(precision)+'\n')
+        logfile.write("recall: {}/{} = ".format(tp_sum, relevant_sum)+str(recall)+'\n')
+        logfile.write("f1: "+str(f1)+'\n')
+        logfile.write("="*50+'\n')
+        logfile.close()
 
-#sort results by f1 score
-results = {k: v for k, v in sorted(results.items(), key=lambda item: item[1][2], reverse=True)}
+    #sort results by f1 score
+    results = {k: v for k, v in sorted(results.items(), key=lambda item: item[1][2], reverse=True)}
 
-if not args.test_on_test_set:
-    #print them in a nice table
-    logger.info("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
-    for (top_p, top_k, temp), (precision, recall, f1) in results.items():
-        logger.info("{}\t{}\t{}\t{}\t{}\t{}".format(top_p, top_k, temp, precision, recall, f1))
+    if not args.test_on_test_set:
+        #print them in a nice table
+        logger.info("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
+        for (top_p, top_k, temp), (precision, recall, f1) in results.items():
+            logger.info("{}\t{}\t{}\t{}\t{}\t{}".format(top_p, top_k, temp, precision, recall, f1))
