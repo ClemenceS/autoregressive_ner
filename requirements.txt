@@ -1,0 +1,7 @@
+datasets
+scikit-learn
+transformers
+torch
+protobuf
+sentencepiece
+fschat[model_worker,webui]
