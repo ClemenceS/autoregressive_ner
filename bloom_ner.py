@@ -47,7 +47,6 @@ prompt_keywords = {
     'en' : {
         'first_sentence' : "I am an excellent {}. The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
         'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind each of them.\n",
-        #'last_sentence' : "",
         'domains_jobs' : {
             'clinical' : "clinician",
             'general' : "linguist"
@@ -55,17 +54,23 @@ prompt_keywords = {
         'ner_tags_plural' : {
             'PER' : "person names",
             'DISO' : "disorders",
-            'LOC' : "places"
+            'LOC' : "places",
+            'ORG' : "organizations",
+            'ANAT' : "parts of the body",
             },
         'ner_tags' : {
             'PER' : "a person's name",
             'DISO' : "an alteration of the functions of the body",
-            'LOC' : "a place"
+            'LOC' : "a place",
+            'ORG' : "an organization",
+            'ANAT' : "a part of the body",
             },
         'ner_tags_description' : {
             'PER' : "These are words that refer to the name of a real or fictional person.",
             'DISO' : "These are words that refer to an alteration or abnormality of the functions or health of the body.",
-            'LOC' : "These are words that refer to a place."
+            'LOC' : "These are words that refer to the name of a place.",
+            'ORG' : "These are words that refer to the name of an organization.",
+            'ANAT' : "These are words that refer to a part of the human body.",
             },
         'input_intro' : "Input: ",
         'output_intro' : "Output: ",
@@ -85,17 +90,23 @@ prompt_keywords = {
         'ner_tags_plural' : {
             'PER' : "person names",
             'DISO' : "disorders",
-            'LOC' : "places"
+            'LOC' : "places",
+            'ORG' : "organizations",
+            'ANAT' : "parts of the body",
             },
         'ner_tags' : {
             'PER' : "a person's name",
             'DISO' : "an alteration of the functions of the body",
-            'LOC' : "a place"
+            'LOC' : "a place",
+            'ORG' : "an organization",
+            'ANAT' : "a part of the body",
             },
         'ner_tags_description' : {
             'PER' : "These are words that refer to the name of a real or fictional person.",
             'DISO' : "These are words that refer to an alteration or abnormality of the functions or health of the body.",
-            'LOC' : "These are words that refer to a place."
+            'LOC' : "These are words that refer to the name of a place.",
+            'ORG' : "These are words that refer to the name of an organization.",
+            'ANAT' : "These are words that refer to a part of the human body.",
             },
             'input_intro' : "USER : ",
             'output_intro' : "ASSISTANT : ",
@@ -114,17 +125,23 @@ prompt_keywords = {
         'ner_tags_plural' : {
             'PER' : "noms de personnes",
             'DISO' : "maladies et symptômes",
-            'LOC' : "lieux"
+            'LOC' : "lieux",
+            'ORG' : "organisations",
+            'ANAT' : "parties du corps",
         },
         'ner_tags' : {
             'PER' : "un nom de personne",
             'DISO' : "une altération des fonctions du corps",
-            'LOC' : "lieu"
+            'LOC' : "lieu",
+            'ORG' : "une organisation",
+            'ANAT' : "une partie du corps",
         },
         'ner_tags_description' : {
             'PER' : "Il s'agit des mots faisant mention du nom d'un personne qu'elle soit réelle ou fictive.",
             'DISO' : "Il s'agit des mots faisant mention d'une altération ou une anormalité des fonctions ou de la santé du corps.",
-            'LOC' : "Il s'agit des mots faisant mention d'un lieu."
+            'LOC' : "Il s'agit des mots faisant mention du nom d'un lieu.",
+            'ORG' : "Il s'agit des mots faisant mention du nom d'une organisation.",
+            'ANAT' : "Il s'agit des mots faisant mention d'une partie du corps humain.",
         },
         'input_intro' : "Entrée : ",
         'output_intro' : "Sortie : ",

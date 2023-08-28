@@ -15,5 +15,8 @@ export https_proxy=http://webproxy.lab-ia.fr:8080
 export HTTP_PROXY=http://webproxy.lab-ia.fr:8080
 export HTTPS_PROXY=http://webproxy.lab-ia.fr:8080
 
-python3 bloom_ner.py --model_name lmsys/vicuna-13b-v1.5 -g --prompt_dict en --begin_tag "<PER>" --end_tag "</PER>" --language en 
-python3 bloom_ner.py --model_name lmsys/vicuna-13b-v1.5 -g --prompt_dict en --begin_tag "<Person's Name>" --end_tag "</Person's Name>" --language en
+#python3 ~/autoregressive_ner/bloom_ner.py --model_name "lmsys/vicuna-13b-v1.5" -g --prompt_dict fr --language fr --n_few_shot 5 10 --random_seed 1 2 3 --ner_tag PER
+python3 ~/autoregressive_ner/bloom_ner.py --model_name "lmsys/vicuna-13b-v1.5" -g --prompt_dict fr --language fr --n_few_shot 5 10 --random_seed 1 2 3 --ner_tag LOC
+#python3 ~/autoregressive_ner/bloom_ner.py --model_name "lmsys/vicuna-13b-v1.5" -g --prompt_dict en --language en --n_few_shot 5 10 --random_seed 1 2 3 --ner_tag PER
+python3 ~/autoregressive_ner/bloom_ner.py --model_name "lmsys/vicuna-13b-v1.5" -g --prompt_dict en --language en --n_few_shot 5 10 --random_seed 1 2 3 --ner_tag LOC
+python3 ~/autoregressive_ner/bloom_ner.py --model_name "lmsys/vicuna-13b-v1.5" -g --prompt_dict fr --language fr --n_few_shot 5 10 --random_seed 1 2 3  --domain clinical
