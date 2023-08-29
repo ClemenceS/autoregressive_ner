@@ -15,10 +15,10 @@ def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     string = ''
     for i, (word, ner_tag) in enumerate(zip(words, ner_tags)):
         if tagged and ner_tag == ner_tag_id and (ner_tags[i-1] != ner_tag_id if i > 0 else True):
-            string += begin_tag
+            string += begin_tag + ' '
         string += word
         if tagged and ner_tag == ner_tag_id and (ner_tags[i+1] != ner_tag_id if i < len(ner_tags)-1 else True):
-            string += end_tag
+            string += ' ' + end_tag
         string += ' '
     return string.strip()
     
