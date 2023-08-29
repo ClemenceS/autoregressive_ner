@@ -74,32 +74,37 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
         
             input_ids = tokenizer(prompt, padding=True, return_tensors="pt").input_ids
             input_ids = input_ids.to(device)
-            output = model.generate(input_ids, max_new_tokens=line_lengths[i]+25, **kwargs, output_scores=True, return_dict_in_generate=True)
+            if True:
+                output = model.generate(input_ids, max_new_tokens=line_lengths[i]+25, **kwargs)
+                output = output[:,len(input_ids[0])-10:]
+                output = tokenizer.decode(output[0], skip_special_tokens=True, skip_spaces_between_tokens=False)                
+            else:
+                output = model.generate(input_ids, max_new_tokens=line_lengths[i]+25, **kwargs, output_scores=True, return_dict_in_generate=True)
 
-            begin_tag_id = tokenizer.encode(" "+begin_tag)[0]
-            end_tag_id = tokenizer.encode(" "+end_tag)[0]
-            last_line = prompts[i].split('\n')[-2].split(':',2)[1]+'\n'
-            encoded_last_line = tokenizer.encode(last_line, return_tensors="pt")[0].tolist()
+                begin_tag_id = tokenizer.encode(" "+begin_tag)[0]
+                end_tag_id = tokenizer.encode(" "+end_tag)[0]
+                last_line = prompts[i].split('\n')[-2].split(':',2)[1]+'\n'
+                encoded_last_line = tokenizer.encode(last_line, return_tensors="pt")[0].tolist()
 
-            print(len(output.scores))
-            print(output.scores[0].size())
+                print(len(output.scores))
+                print(output.scores[0].size())
 
-            kept_tokens = []
-            while len(encoded_last_line):
-                scores_at_step = output.scores[len(kept_tokens)][0]
-                allowed_token = encoded_last_line[0]
-                allowed_scores = scores_at_step[[allowed_token, begin_tag_id, end_tag_id]]
-                argm = allowed_scores.argmax()
-                if argm == 0:
-                    kept_tokens.append(allowed_token)
-                    encoded_last_line.pop(0)
-                elif argm == 1:
-                    kept_tokens.append(begin_tag_id)
-                elif argm == 2:
-                    kept_tokens.append(end_tag_id)
-                print(tokenizer.decode(kept_tokens))
-                
-            output = tokenizer.decode(kept_tokens, skip_special_tokens=True)
+                kept_tokens = []
+                while len(encoded_last_line):
+                    scores_at_step = output.scores[len(kept_tokens)][0]
+                    allowed_token = encoded_last_line[0]
+                    allowed_scores = scores_at_step[[allowed_token, begin_tag_id, end_tag_id]]
+                    argm = allowed_scores.argmax()
+                    if argm == 0:
+                        kept_tokens.append(allowed_token)
+                        encoded_last_line.pop(0)
+                    elif argm == 1:
+                        kept_tokens.append(begin_tag_id)
+                    elif argm == 2:
+                        kept_tokens.append(end_tag_id)
+                    print(tokenizer.decode(kept_tokens))
+                    
+                output = tokenizer.decode(kept_tokens, skip_special_tokens=True)
             outputs.append(output)
             # print(output)
             # print('================')
