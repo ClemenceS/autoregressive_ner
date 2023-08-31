@@ -308,7 +308,7 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
             self_verification=args.self_verification,
             model=model,
             tokenizer=tokenizer,
-            contol=args.control,
+            control=args.control,
             kwargs={
             "do_sample": not args.greedy,
             "top_p": top_p if not args.greedy else None,
