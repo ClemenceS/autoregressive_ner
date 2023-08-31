@@ -77,7 +77,7 @@ def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, domain, begin
     
     examples=[]
     #add positive examples
-    pos_examples = random.sample([e for e in train_dataset if ner_tag_id in e['ner_tags']], n_few_shots//2)
+    pos_examples = random.sample([e for e in train_dataset if ner_tag_id in e['ner_tags']], n_few_shots)
     for example in pos_examples:
         example_string = example2string(example, ner_tag_id, begin_tag, end_tag, tagged=False)
         target = example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True)
@@ -88,7 +88,7 @@ def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, domain, begin
         entity = random.choice(entities)
         examples.append((example_string, entity, "yes"))
     #add negative examples with another entity
-    neg_examples = random.sample([e for e in train_dataset if set(e['ner_tags'])-{0,ner_tag_id}], n_few_shots//2)
+    neg_examples = random.sample([e for e in train_dataset if set(e['ner_tags'])-{0,ner_tag_id}], n_few_shots)
     for example in neg_examples:
         #get the tag in the example that is not ner_tag_id
         other_tag = list(set(example['ner_tags'])-{0,ner_tag_id})[0]
