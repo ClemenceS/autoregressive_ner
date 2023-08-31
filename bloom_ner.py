@@ -12,6 +12,8 @@ import logging
 import random
 from prompt_maker import make_prompts
 from bloom_predict import bloom_predict
+from fastchat.model import load_model
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 args = argparse.ArgumentParser()
@@ -175,6 +177,15 @@ traindev_dataset = [example for example in dataset['train'] if len(example['word
 time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 folder_name = 'hyp_search_'+time_date
 os.mkdir(folder_name)
+
+logger.info("Loading model...")
+model, tokenizer = load_model(
+        args.model_name,
+        device=args.device,
+        num_gpus=1,
+        load_8bit=True,
+        debug=False,
+        )
 
 #loop over all combinations of n_few_shot and random_seed
 for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_seed):
