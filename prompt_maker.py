@@ -3,7 +3,7 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
+def example2string(example, ner_tag_id, begin_tag, end_tag, sticked, tagged=True):
     # if ner_tag_id = 3 and 3 stands for LOC, beginning tag = @@ and ending tag = ##
     # and the example is {'id': 0, 'words': ['I', 'love', 'Paris', 'and', 'Berlin'], 'ner_tags': [0, 0, 3, 0, 3]}
     # the returned string will be 'I love @@Paris## and @@Berlin##'
@@ -15,20 +15,20 @@ def example2string(example, ner_tag_id, begin_tag, end_tag, tagged=True):
     string = ''
     for i, (word, ner_tag) in enumerate(zip(words, ner_tags)):
         if tagged and ner_tag == ner_tag_id and (ner_tags[i-1] != ner_tag_id if i > 0 else True):
-            string += begin_tag + ' '
+            string += begin_tag + ('' if not sticked else ' ')
         string += word
         if tagged and ner_tag == ner_tag_id and (ner_tags[i+1] != ner_tag_id if i < len(ner_tags)-1 else True):
-            string += ' ' + end_tag
+            string += ('' if not sticked else ' ') + end_tag
         string += ' '
     return string.strip()
     
 
-def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, domain, begin_tag, end_tag, n_few_shots, criterion, self_verification, keywords):
+def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, domain, begin_tag, end_tag, n_few_shots, criterion, self_verification, keywords, sticked=True):
     #this function takes an example and a ner tag and returns a prompt in english
     few_shots_for_all = []
     num_prompts = len(test_dataset)
     def sentences_with_most_occurences(train_dataset, ner_tag_id, n):
-        strings = [example2string(e, ner_tag_id, begin_tag, end_tag, tagged=True) for e in train_dataset]
+        strings = [example2string(e, ner_tag_id, begin_tag, end_tag, tagged=True, sticked=sticked) for e in train_dataset]
         begin_tag_regex = re.escape(begin_tag)
         end_tag_regex = re.escape(end_tag)
         entities = [re.findall(begin_tag_regex+'(.*?)'+end_tag_regex, s) for s in strings]
