@@ -233,7 +233,6 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
                 n_few_shot,
                 args.criterion,
                 self_verification=args.self_verification,
-                sticked=True,
                 keywords=prompt_keywords[args.prompt_dict]
             )
             prompts += k_prompts
