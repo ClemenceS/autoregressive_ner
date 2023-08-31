@@ -320,7 +320,8 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
         for target, prediction, o in zip(targets, predictions, outputs):
             #target = target.lower()
             logfile.write('target: '+target+'\n')
-            logfile.write('predictions: '+str(prediction)+'\n')
+            logfile.write('output: '+o.replace('\n','')+'\n')
+            logfile.write('post-verif: '+str(prediction)+'\n')
             logfile.write('-'*50+'\n')
             
             regex_begin_tag = re.escape(args.begin_tag)
