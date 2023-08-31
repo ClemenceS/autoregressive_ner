@@ -10,6 +10,8 @@ from sklearn.model_selection import KFold
 import argparse
 import logging
 import random
+
+import torch
 from prompt_maker import make_prompts
 from bloom_predict import bloom_predict
 from fastchat.model import load_model
@@ -182,7 +184,7 @@ os.mkdir(folder_name)
 logger.info("Loading model...")
 model, tokenizer = load_model(
         args.model_name,
-        device=args.device,
+        device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
         num_gpus=1,
         load_8bit=True,
         debug=False,
