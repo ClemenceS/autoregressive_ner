@@ -72,32 +72,53 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
                 output = output[:,len(input_ids[0])-10:]
                 output = tokenizer.decode(output[0], skip_special_tokens=True, skip_spaces_between_tokens=False)                
             else:
-                output = model.generate(input_ids, max_new_tokens=line_lengths[i]+25, **kwargs, output_scores=True, return_dict_in_generate=True)
+                entry = tokenizer.encode(prompts[i].split('\n')[-2].split(':',2)[1].strip()+'\n', add_special_tokens=False)
+                sticked = True
+                
+                begin_tag_toks = tokenizer.encode(begin_tag,add_special_tokens=False)
+                if sticked:
+                    end_tag_toks = tokenizer.encode('@'+end_tag,add_special_tokens=False)[1:]
+                else :
+                    end_tag_toks = tokenizer.encode(end_tag,add_special_tokens=False)
+                nb_open_entites = 0
+                while input_ids[0,-1]!=tokenizer.eos_token_id and len(entry)>1:
+                    output = model.generate(input_ids,max_new_tokens=1,output_scores=True, return_dict_in_generate=True, **kwargs)
+                    scores = output.scores
+                    sequences = output.sequences
+                    next_entry_id = entry[0]
+                    #print('================')
+                    #print('next_entry id: ',next_entry_id,' word: ',tokenizer.decode(next_entry_id))
+                    allowed_tokens = [next_entry_id,begin_tag_toks[0]]
+                    if nb_open_entites>0:
+                        allowed_tokens.append(end_tag_toks[0])
+                    next_scores = {k:v for k,v in zip(allowed_tokens, scores[0][0][[allowed_tokens]])}
+                    #next_scores_readble = {k:v for k,v in zip([tokenizer.convert_ids_to_tokens(t) for t in allowed_tokens], [x.item() for x in scores[0][0][[allowed_tokens]]])}
+                    #print('----- scores ---------')
+                    #print(next_scores_readble)
 
-                begin_tag_id = tokenizer.encode(" "+begin_tag)[0]
-                end_tag_id = tokenizer.encode(" "+end_tag)[0]
-                last_line = prompts[i].split('\n')[-2].split(':',2)[1]+'\n'
-                encoded_last_line = tokenizer.encode(last_line, return_tensors="pt")[0].tolist()
+                    #print('------- generation -------------')    
+                    generated_id = max(next_scores, key=next_scores.get)
 
-                print(len(output.scores))
-                print(output.scores[0].size())
+                    #print(next_entry_id)
+                    if generated_id==next_entry_id:
+                        entry = entry[1:]
+                        all_generated_ids = [generated_id]
+                    elif generated_id==begin_tag_toks[0]:
+                        nb_open_entites+=1
+                        all_generated_ids = begin_tag_toks
+                        if sticked:
+                            entry = tokenizer.encode("@"+tokenizer.decode(entry), add_special_tokens=False)[1:]
+                    else:
+                        assert generated_id==end_tag_toks[0], generated_id
+                        nb_open_entites-=1
+                        all_generated_ids = end_tag_toks
 
-                kept_tokens = []
-                while len(encoded_last_line):
-                    scores_at_step = output.scores[len(kept_tokens)][0]
-                    allowed_token = encoded_last_line[0]
-                    allowed_scores = scores_at_step[[allowed_token, begin_tag_id, end_tag_id]]
-                    argm = allowed_scores.argmax()
-                    if argm == 0:
-                        kept_tokens.append(allowed_token)
-                        encoded_last_line.pop(0)
-                    elif argm == 1:
-                        kept_tokens.append(begin_tag_id)
-                    elif argm == 2:
-                        kept_tokens.append(end_tag_id)
-                    print(tokenizer.decode(kept_tokens))
-                    
-                output = tokenizer.decode(kept_tokens, skip_special_tokens=True)
+                    generated_words = tokenizer.convert_ids_to_tokens(all_generated_ids)
+                    #print('generated id: ',all_generated_ids, 'word:',generated_words)
+                    input_ids = torch.cat([input_ids,torch.tensor(all_generated_ids).unsqueeze(0).to(device)], dim=1)
+
+
+                output = tokenizer.decode(sequences[0],skip_special_tokens=True).replace(prompt,'').strip()
             outputs.append(output)
             # print(output)
             # print('================')
@@ -121,32 +142,24 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
             prompt_verified_predictions = []
             for pred in prompt_predictions:
                 verification_prompt = self_verif_template.format(sentence=sentence, word=pred)
-                if api_inference:
-                    answer = query({"inputs":verification_prompt,"parameters":{'max_new_tokens':10, "return_full_text":False}})
-                    if 'error' in answer:
-                        logger.error("Self verification failed for prompt: {}\nAnswer: {}".format(verification_prompt, answer))
-                    else:
-                        answer = answer[0]['generated_text']
-                elif 'bloom' in model_name:
-                    input_ids = tokenizer(verification_prompt, padding=True, return_tensors="pt").input_ids
-                    input_ids = input_ids.to(device)
-                    answer = model.generate(input_ids, max_new_tokens=10)
-                    answer = answer[:,input_ids.size(1):]
-                    answer = tokenizer.decode(answer[0], skip_special_tokens=True)
-                elif 'vicuna' in model_name:
-                    conv = get_conversation_template(model_name)
-                    conv.append_message(conv.roles[0], verification_prompt)
-                    conv.append_message(conv.roles[1], None)
-                    verification_prompt = conv.get_prompt()
-                    input_ids = tokenizer(verification_prompt, padding=True, return_tensors="pt").input_ids
-                    input_ids = input_ids.to(device)
-                    answer = model.generate(input_ids, max_new_tokens=10)
-                    answer = answer[:,len(input_ids[0])-10:]
-                    answer = tokenizer.decode(answer[0], skip_special_tokens=True, skip_spaces_between_tokens=False)
-                if yes_no[0] in answer:
+                conv = get_conversation_template(model_name)
+                conv.append_message(conv.roles[0], verification_prompt)
+                conv.append_message(conv.roles[1], None)
+                verification_prompt = conv.get_prompt()
+                input_ids = tokenizer(verification_prompt, padding=True, return_tensors="pt").input_ids
+                input_ids = input_ids.to(device)
+                answer = model.generate(input_ids, max_new_tokens=1, output_scores=True, return_dict_in_generate=True)
+                yes_tok = tokenizer.encode(yes_no[0],add_special_tokens=False)[0]
+                no_tok = tokenizer.encode(yes_no[1],add_special_tokens=False)[0]
+                allowed_tokens = [yes_tok, no_tok]
+                scores = answer.scores[0][0][[allowed_tokens]]
+                if scores[0] > scores[1]:
                     prompt_verified_predictions.append(pred)
-                elif yes_no[1] not in answer:
-                    logger.warning("Self verification failed for prompt: {}\nAnswer: {}".format(verification_prompt, answer))
+                #answer = tokenizer.decode(answer[0], skip_special_tokens=True, skip_spaces_between_tokens=False)
+                #if yes_no[0] in answer:
+                #    prompt_verified_predictions.append(pred)
+                #elif yes_no[1] not in answer:
+                #    print("Self verification failed for prompt: {}\nAnswer: {}".format(verification_prompt, answer))
             verified_predictions.append(prompt_verified_predictions)
         predictions = verified_predictions
 
