@@ -36,6 +36,7 @@ args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int, default=70)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument('-g', '--greedy', action="store_true")
+args.add_argument('--no_control', dest='control', action='store_false')
 args.add_argument('--no_self_verification', dest='self_verification', action='store_false')
 args = args.parse_args()
 
@@ -304,6 +305,9 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
             self_verif_template=self_verif_template,
             yes_no=yes_no,
             self_verification=args.self_verification,
+            model=model,
+            tokenizer=tokenizer,
+            contol=args.control,
             kwargs={
             "do_sample": not args.greedy,
             "top_p": top_p if not args.greedy else None,
