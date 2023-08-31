@@ -184,7 +184,7 @@ os.mkdir(folder_name)
 logger.info("Loading model...")
 model, tokenizer = load_model(
         args.model_name,
-        device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
+        device="cuda",
         num_gpus=1,
         load_8bit=True,
         debug=False,
