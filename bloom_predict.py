@@ -3,8 +3,10 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaTokenizer
 import torch
 import requests
 from tqdm import tqdm
+from fastchat.model import get_conversation_template
 
-def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end_tag, logger, self_verif_template, yes_no, self_verification, **kwargs):
+def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end_tag, logger, self_verif_template, yes_no, self_verification,
+                  model, tokenizer, control, **kwargs):
     tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left")
     
     logger.info("Getting last line lengths...")
@@ -53,17 +55,8 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
         logger.info("Decoding...")
         outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
     elif 'vicuna' in model_name:
-        from fastchat.model import load_model, get_conversation_template, add_model_args
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        model, tokenizer = load_model(
-        model_name,
-        device=device,
-        num_gpus=1,
-        load_8bit=True,
-        debug=False,
-        )
         #input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
-        logger.info("Converting prompts to conversations...")
         logger.info("Generating...")
         outputs = []
         for i in tqdm(range(len(prompts))):
@@ -74,7 +67,7 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
         
             input_ids = tokenizer(prompt, padding=True, return_tensors="pt").input_ids
             input_ids = input_ids.to(device)
-            if True:
+            if not control:
                 output = model.generate(input_ids, max_new_tokens=line_lengths[i]+25, **kwargs)
                 output = output[:,len(input_ids[0])-10:]
                 output = tokenizer.decode(output[0], skip_special_tokens=True, skip_spaces_between_tokens=False)                
