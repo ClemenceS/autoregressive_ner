@@ -280,6 +280,7 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
         logfile.write('prompt_dict: '+args.prompt_dict+'\n')
         logfile.write('training_size: '+str(args.training_size)+'\n')
         logfile.write('random_seed: '+str(random_seed)+'\n')
+        logfile.write('control: '+str(args.control)+'\n')
         logfile.write('self verification: '+str(args.self_verification)+'\n')
         logfile.write('example prompt: \n'+prompts[0]+'\n')
         logfile.write('self_verif_template: \n'+self_verif_template+'\n')
