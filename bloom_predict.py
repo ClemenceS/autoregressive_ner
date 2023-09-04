@@ -6,7 +6,7 @@ from tqdm import tqdm
 from fastchat.model import get_conversation_template
 
 def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end_tag, logger, self_verif_template, yes_no, self_verification,
-                  model, tokenizer, control, prompt_dict, **kwargs):
+                  model, tokenizer, control, **kwargs):
     tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left")
     
     logger.info("Getting last line lengths...")
@@ -72,7 +72,7 @@ def bloom_predict(prompts, api_inference, model_name, batch_size, begin_tag, end
                 output = output[:,len(input_ids[0])-10:]
                 output = tokenizer.decode(output[0], skip_special_tokens=True, skip_spaces_between_tokens=False)                
             else:
-                entry = tokenizer.encode(prompts[i].split('\n')[-2].replace(prompt_dict['input_intro'],prompt_dict['output_intro']).strip()+'\n', add_special_tokens=False)
+                entry = tokenizer.encode(prompts[i].split('\n')[-2].split(':',2)[1].strip()+'\n', add_special_tokens=False)
                 sticked = True
                 
                 begin_tag_toks = tokenizer.encode(begin_tag,add_special_tokens=False)
