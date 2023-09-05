@@ -64,7 +64,7 @@ def make_prompts(train_dataset, test_dataset, ner_tag, ner_tag_id, domain, begin
         for i in few_shots:
             prompt+= keywords['input_intro']+example2string(train_dataset[i], ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
             prompt+= keywords['output_intro']+example2string(train_dataset[i], ner_tag_id, begin_tag, end_tag, tagged=True)+'\n'
-        prompt+= keywords['last_sentence'].format(keywords['ner_tags_plural'][ner_tag], keywords['ner_tags_description'][ner_tag], begin_tag, end_tag)
+        prompt+= keywords['last_sentence'].format(keywords['ner_tags_plural'][ner_tag], begin_tag, end_tag)
         prompt+= keywords['input_intro']+example2string(example, ner_tag_id, begin_tag, end_tag, tagged=False)+'\n'
         prompt+= keywords['output_intro']
         prompts.append(prompt)
