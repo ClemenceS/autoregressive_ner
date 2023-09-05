@@ -312,13 +312,11 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
             model=model,
             tokenizer=tokenizer,
             control=args.control,
-            kwargs={
-            "do_sample": not args.greedy,
-            "top_p": top_p if not args.greedy else None,
-            "top_k": top_k if not args.greedy else None,
-            "temperature": temp if not args.greedy else None,
-            "num_beams": args.num_beams,
-            },
+            num_beams=args.num_beams,
+            do_sample=not args.greedy,
+            top_p=top_p if not args.greedy else None,
+            top_k=top_k if not args.greedy else None,
+            temperature=temp if not args.greedy else None,
         )
 
         logger.info("Evaluating...")
