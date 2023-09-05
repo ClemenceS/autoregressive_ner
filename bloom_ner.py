@@ -29,16 +29,16 @@ args.add_argument("--model_name", type=str, default="bigscience/bloom")
 args.add_argument("--batch_size", type=int, default=2)
 args.add_argument("--criterion", type=str, default="most_occurences")
 args.add_argument("--prompt_dict", type=str)
-args.add_argument('--top_p', type=float, nargs='+', default=[0.5])
-args.add_argument('--top_k', type=int, nargs='+', default=[5])
-args.add_argument('--temperature', type=float, nargs='+', default=[0.5])
+args.add_argument('--top_p', type=float, default=1.0)
+args.add_argument('--top_k', type=int, default=50)
+args.add_argument('--temperature', type=float, default=1.0)
 args.add_argument('--num_beams', type=int, default=1)
 args.add_argument('--api_inference', action="store_true")
 args.add_argument('--random_seed', type=int, nargs='+', default=[42])
 args.add_argument('-d', '--debug', action="store_true")
 args.add_argument('-s', '--training_size', type=int, default=70)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
-args.add_argument('-g', '--greedy', action="store_true")
+args.add_argument('--do_sample', action="store_true")
 args.add_argument('--no_control', dest='control', action='store_false')
 args.add_argument('--no_self_verification', dest='self_verification', action='store_false')
 args = args.parse_args()
@@ -266,106 +266,104 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
 
     results = {}
 
-    #loop over all combinations of top_p, top_k and temperature
-    for (top_p, top_k, temp) in itertools.product(args.top_p, args.top_k, args.temperature):
-        time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        logfile = open(folder_name+'/log_'+time_date+'.txt','w')
-        logfile.write('language: '+args.language+'\n')
-        logfile.write('domain: '+args.domain+'\n')
-        logfile.write('ner_tag: '+ner_tag+'\n')
-        logfile.write('begin_tag: '+args.begin_tag+'\n')
-        logfile.write('end_tag: '+args.end_tag+'\n')
-        logfile.write('n_few_shot: '+str(n_few_shot)+'\n')
-        logfile.write('model_name: '+args.model_name+'\n')
-        logfile.write('criterion: '+args.criterion+'\n')
-        logfile.write('prompt_dict: '+args.prompt_dict+'\n')
-        logfile.write('training_size: '+str(args.training_size)+'\n')
-        logfile.write('random_seed: '+str(random_seed)+'\n')
-        logfile.write('control: '+str(args.control)+'\n')
-        logfile.write('num_beams: '+str(args.num_beams)+'\n')
-        logfile.write('self verification: '+str(args.self_verification)+'\n')
-        logfile.write('example prompt: \n'+prompts[0]+'\n')
-        logfile.write('self_verif_template: \n'+self_verif_template+'\n')
-        if args.greedy:
-            logfile.write('greedy: True\n')
-        else:
-            logfile.write('top_p: '+str(top_p)+'\n')
-            logfile.write('top_k: '+str(top_k)+'\n')
-            logfile.write('temperature: '+str(temp)+'\n')
-        logfile.write('='*50+'\n')
+    time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    logfile = open(folder_name+'/log_'+time_date+'.txt','w')
+    logfile.write('language: '+args.language+'\n')
+    logfile.write('domain: '+args.domain+'\n')
+    logfile.write('ner_tag: '+ner_tag+'\n')
+    logfile.write('begin_tag: '+args.begin_tag+'\n')
+    logfile.write('end_tag: '+args.end_tag+'\n')
+    logfile.write('n_few_shot: '+str(n_few_shot)+'\n')
+    logfile.write('model_name: '+args.model_name+'\n')
+    logfile.write('criterion: '+args.criterion+'\n')
+    logfile.write('prompt_dict: '+args.prompt_dict+'\n')
+    logfile.write('training_size: '+str(args.training_size)+'\n')
+    logfile.write('random_seed: '+str(random_seed)+'\n')
+    logfile.write('control: '+str(args.control)+'\n')
+    logfile.write('num_beams: '+str(args.num_beams)+'\n')
+    logfile.write('self verification: '+str(args.self_verification)+'\n')
+    logfile.write('example prompt: \n'+prompts[0]+'\n')
+    logfile.write('self_verif_template: \n'+self_verif_template+'\n')
+    if args.do_sample:
+        logfile.write('top_p: '+str(top_p)+'\n')
+        logfile.write('top_k: '+str(top_k)+'\n')
+        logfile.write('temperature: '+str(temp)+'\n')
+    else:
+        logfile.write('greedy'+'\n')
+    logfile.write('='*50+'\n')
 
-        tp_sum = 0
-        relevant_sum = 0
-        retrieved_sum = 0
+    tp_sum = 0
+    relevant_sum = 0
+    retrieved_sum = 0
 
-        predictions,outputs = bloom_predict(
-            prompts=prompts,
-            api_inference=args.api_inference,
-            model_name=args.model_name,
-            batch_size=args.batch_size,
-            logger=logger,
-            begin_tag=args.begin_tag,
-            end_tag=args.end_tag,
-            self_verif_template=self_verif_template,
-            yes_no=yes_no,
-            self_verification=args.self_verification,
-            model=model,
-            tokenizer=tokenizer,
-            control=args.control,
-            num_beams=args.num_beams,
-            do_sample=not args.greedy,
-            top_p=top_p if not args.greedy else None,
-            top_k=top_k if not args.greedy else None,
-            temperature=temp if not args.greedy else None,
-        )
+    predictions,outputs = bloom_predict(
+        prompts=prompts,
+        api_inference=args.api_inference,
+        model_name=args.model_name,
+        batch_size=args.batch_size,
+        logger=logger,
+        begin_tag=args.begin_tag,
+        end_tag=args.end_tag,
+        self_verif_template=self_verif_template,
+        yes_no=yes_no,
+        self_verification=args.self_verification,
+        model=model,
+        tokenizer=tokenizer,
+        control=args.control,
+        num_beams=args.num_beams,
+        do_sample=args.do_sample,
+        top_p=args.top_p,
+        top_k=args.top_k,
+        temperature=args.temperature,
+    )
 
-        logger.info("Evaluating...")
-        for target, prediction, o in zip(targets, predictions, outputs):
-            #target = target.lower()
-            logfile.write('target: '+target+'\n')
-            logfile.write('output: '+o.replace('\n','')+'\n')
-            logfile.write('post-verif: '+str(prediction)+'\n')
-            logfile.write('-'*50+'\n')
-            
-            regex_begin_tag = re.escape(args.begin_tag)
-            regex_end_tag = re.escape(args.end_tag)
-            target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
-            
-            tp_sum += len(set(target_mentions).intersection(set(prediction)))
-            relevant_sum += len(target_mentions)
-            retrieved_sum += len(prediction)
+    logger.info("Evaluating...")
+    for target, prediction, o in zip(targets, predictions, outputs):
+        #target = target.lower()
+        logfile.write('target: '+target+'\n')
+        logfile.write('output: '+o.replace('\n','')+'\n')
+        logfile.write('post-verif: '+str(prediction)+'\n')
+        logfile.write('-'*50+'\n')
+        
+        regex_begin_tag = re.escape(args.begin_tag)
+        regex_end_tag = re.escape(args.end_tag)
+        target_mentions = re.findall(r'(?<='+regex_begin_tag+').*?(?='+regex_end_tag+')', target)
+        
+        tp_sum += len(set(target_mentions).intersection(set(prediction)))
+        relevant_sum += len(target_mentions)
+        retrieved_sum += len(prediction)
 
-        tp_sum = float(tp_sum)
-        precision = tp_sum/retrieved_sum if retrieved_sum > 0 else 0
-        recall = tp_sum/relevant_sum if relevant_sum > 0 else 0
-        f1 = 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0
+    tp_sum = float(tp_sum)
+    precision = tp_sum/retrieved_sum if retrieved_sum > 0 else 0
+    recall = tp_sum/relevant_sum if relevant_sum > 0 else 0
+    f1 = 2*tp_sum/(relevant_sum+retrieved_sum) if relevant_sum+retrieved_sum > 0 else 0
 
 
-        if args.greedy:
-            logger.info("greedy")
-        else:
-            logger.info("top_p: {}".format(top_p))
-            logger.info("top_k: {}".format(top_k))
-            logger.info("temperature: {}".format(temp))
-        logger.info("tp: {}".format(tp_sum))
-        logger.info("precision = {}/{} = {}".format(tp_sum, retrieved_sum, precision))
-        logger.info("recall: {}/{} = {}".format(tp_sum, relevant_sum, recall))
-        logger.info("f1: {}".format(f1))
-        logger.info("=====================================")
+    if args.do_sample:
+        logger.info("top_p: {}".format(args.top_p))
+        logger.info("top_k: {}".format(args.top_k))
+        logger.info("temperature: {}".format(args.temperature))
+    else:
+        logger.info("greedy")
+    logger.info("tp: {}".format(tp_sum))
+    logger.info("precision = {}/{} = {}".format(tp_sum, retrieved_sum, precision))
+    logger.info("recall: {}/{} = {}".format(tp_sum, relevant_sum, recall))
+    logger.info("f1: {}".format(f1))
+    logger.info("=====================================")
 
-        results[(top_p, top_k, temp)] = [precision, recall, f1]
+    logfile.write("precision = {}/{} = ".format(tp_sum, retrieved_sum)+str(precision)+'\n')
+    logfile.write("recall: {}/{} = ".format(tp_sum, relevant_sum)+str(recall)+'\n')
+    logfile.write("f1: "+str(f1)+'\n')
+    logfile.write("="*50+'\n')
+    logfile.close()
 
-        logfile.write("precision = {}/{} = ".format(tp_sum, retrieved_sum)+str(precision)+'\n')
-        logfile.write("recall: {}/{} = ".format(tp_sum, relevant_sum)+str(recall)+'\n')
-        logfile.write("f1: "+str(f1)+'\n')
-        logfile.write("="*50+'\n')
-        logfile.close()
+    #results[(top_p, top_k, temp)] = [precision, recall, f1]
 
-    #sort results by f1 score
-    results = {k: v for k, v in sorted(results.items(), key=lambda item: item[1][2], reverse=True)}
+    # #sort results by f1 score
+    # results = {k: v for k, v in sorted(results.items(), key=lambda item: item[1][2], reverse=True)}
 
-    if not args.test_on_test_set:
-        #print them in a nice table
-        logger.info("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
-        for (top_p, top_k, temp), (precision, recall, f1) in results.items():
-            logger.info("{}\t{}\t{}\t{}\t{}\t{}".format(top_p, top_k, temp, precision, recall, f1))
+    # if not args.test_on_test_set:
+    #     #print them in a nice table
+    #     logger.info("top_p\ttop_k\ttemperature\tprecision\trecall\tf1")
+    #     for (top_p, top_k, temp), (precision, recall, f1) in results.items():
+    #         logger.info("{}\t{}\t{}\t{}\t{}\t{}".format(top_p, top_k, temp, precision, recall, f1))
