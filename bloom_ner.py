@@ -52,7 +52,7 @@ random.seed(42)
 prompt_keywords = {
     'en' : {
         'first_sentence' : "I am an excellent {}. The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
-        'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence ({}), by putting \"{}\" in front and a \"{}\" behind each of them.\n",
+        'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind each of them.\n",
         'domains_jobs' : {
             'clinical' : "clinician",
             'general' : "linguist"
