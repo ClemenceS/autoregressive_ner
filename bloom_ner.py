@@ -32,6 +32,7 @@ args.add_argument("--prompt_dict", type=str)
 args.add_argument('--top_p', type=float, nargs='+', default=[0.5])
 args.add_argument('--top_k', type=int, nargs='+', default=[5])
 args.add_argument('--temperature', type=float, nargs='+', default=[0.5])
+args.add_argument('--num_beams', type=int, nargs='+', default=[1])
 args.add_argument('--api_inference', action="store_true")
 args.add_argument('--random_seed', type=int, nargs='+', default=[42])
 args.add_argument('-d', '--debug', action="store_true")
@@ -51,7 +52,7 @@ random.seed(42)
 prompt_keywords = {
     'en' : {
         'first_sentence' : "I am an excellent {}. The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
-        'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind each of them.\n",
+        'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence ({}), by putting \"{}\" in front and a \"{}\" behind each of them.\n",
         'domains_jobs' : {
             'clinical' : "clinician",
             'general' : "linguist"
@@ -281,6 +282,7 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
         logfile.write('training_size: '+str(args.training_size)+'\n')
         logfile.write('random_seed: '+str(random_seed)+'\n')
         logfile.write('control: '+str(args.control)+'\n')
+        logfile.write('num_beams: '+str(args.num_beams)+'\n')
         logfile.write('self verification: '+str(args.self_verification)+'\n')
         logfile.write('example prompt: \n'+prompts[0]+'\n')
         logfile.write('self_verif_template: \n'+self_verif_template+'\n')
@@ -315,6 +317,7 @@ for n_few_shot, random_seed in itertools.product(args.n_few_shot, args.random_se
             "top_p": top_p if not args.greedy else None,
             "top_k": top_k if not args.greedy else None,
             "temperature": temp if not args.greedy else None,
+            "num_beams": args.num_beams,
             },
         )
 
