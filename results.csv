@@ -42,12 +42,12 @@ wn,fr,LOC,en,10,1,y,n,n,0.51,0.54,0.52
 wn,fr,LOC,en,10,2,y,n,n,0.57,0.71,0.63
 wn,fr,LOC,en,10,3,y,n,n,0.64,0.62,0.63
 wn,fr,PER,en,5,1,n,n,n,0.78,0.88,0.83
-wn,fr,PER,en,5,1,y,n,n,0.79,0.79,0.79
 wn,fr,PER,en,5,2,n,n,n,0.55,0.64,0.59
-wn,fr,PER,en,5,2,y,n,n,0.55,0.61,0.58
 wn,fr,PER,en,5,3,n,n,n,0.68,0.68,0.68
-wn,fr,PER,fr,5,1,y,n,n,0.56,0.73,0.64
 wn,fr,PER,en,10,1,n,n,n,0.89,0.73,0.80
+wn,fr,PER,en,10,2,n,n,n,0.61,0.61,0.61
+wn,fr,PER,fr,5,1,y,n,n,0.56,0.73,0.64
+wn,fr,PER,en,10,3,n,n,n,0.47,0.75,0.58
 wn,fr,PER,fr,10,1,y,n,n,0.67,0.61,0.64
 wn,fr,LOC,fr,5,1,y,n,n,0.45,0.51,0.48
 wn,fr,LOC,fr,5,2,y,n,n,0.58,0.76,0.66
@@ -55,9 +55,9 @@ wn,fr,LOC,fr,5,3,y,n,n,0.60,0.61,0.60
 wn,fr,LOC,fr,10,1,y,n,n,0.74,0.57,0.64
 wn,fr,LOC,fr,10,2,y,n,n,0.52,0.67,0.59
 wn,fr,LOC,fr,10,3,y,n,n,0.62,0.56,0.59
-wn,fr,PER,en,10,2,n,n,n,0.61,0.61,0.61
+wn,fr,PER,en,5,1,y,n,n,0.79,0.79,0.79
+wn,fr,PER,en,5,2,y,n,n,0.55,0.61,0.58
 wn,fr,PER,en,5,3,y,n,n,0.72,0.62,0.66
-wn,fr,PER,en,10,3,n,n,n,0.47,0.75,0.58
 wn,fr,PER,en,10,1,y,n,n,0.92,0.67,0.77
 wn,fr,PER,fr,5,1,n,n,n,0.46,0.76,0.57
 wn,fr,PER,fr,5,2,y,n,n,0.47,0.64,0.54
@@ -1023,3 +1023,9 @@ wn,fr,LOC,fr,5,3,n,y,n,0.52,0.55,0.54
 wn,fr,LOC,fr,10,1,n,y,n,0.76,0.57,0.65
 wn,fr,LOC,fr,10,2,n,y,n,0.65,0.68,0.59
 wn,fr,LOC,fr,10,3,n,y,n,0.54,0.53,0.54
+wn,fr,PER,en,5,1,n,y,n,0.83,0.91,0.87
+wn,fr,PER,en,5,2,n,y,n,0.51,0.61,0.55
+wn,fr,PER,en,5,3,n,y,n,0.71,0.79,0.75
+wn,fr,PER,en,10,1,n,y,n,0.91,0.91,0.91
+wn,fr,PER,en,10,2,n,y,n,0.54,0.61,0.57
+wn,fr,PER,en,10,3,n,y,n,,,0.66
