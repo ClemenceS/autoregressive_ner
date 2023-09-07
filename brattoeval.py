@@ -62,9 +62,8 @@ for dir in os.listdir(args.dir):
                 output['docid'] = filename.replace('.ann', '')
                 output['words'] = []
                 output['ner_tags'] = []
-
                 #split text into words using the french conventions
-                WORD_RE = re.compile(r"[\w']+|[.,!?;]")
+                WORD_RE = re.compile(r'(?:[\w]+(?:[’\'])?)|[!"#$%&\'’\(\)*+,-./:;<=>?@\[\]^_`{|}~]')
                 words = re.findall(WORD_RE, text)
                 #for each word, get the start and end char in text
                 word_idx_to_char_span = {}
@@ -95,10 +94,13 @@ for dir in os.listdir(args.dir):
                         ann_span = [int(x) for x in ann_span]
                         ann_text = ann[2]
                         span2label[(ann_span[0], ann_span[1])] = ann_type
+                
 
                 #sort span2label by start char then by descending end char
                 span2label = sorted(span2label.items(), key=lambda x: (x[0][0], -x[0][1]))
                 
+                
+
                 #remove spans that are subsets of other spans
                 i = 0
                 while i < len(span2label)-1:
@@ -106,30 +108,57 @@ for dir in os.listdir(args.dir):
                         span2label.pop(i)
                     else:
                         i += 1
+
                 
-                if len(span2label) > 0:               
-                    next_span = span2label.pop(0)
-                    for i, w in enumerate(words):
-                        output['words'].append(w)
-                        if word_idx_to_char_span[i][0] >= next_span[0][0] and word_idx_to_char_span[i][1] <= next_span[0][1]:
+                # if len(span2label) > 0:               
+                #     if "Analyse minéralogique" in text:
+                #         print(words)
+                #         print(word_idx_to_char_span)
+                #         print(span2label)
+                #     next_span = span2label.pop(0)
+                #     for i, w in enumerate(words):
+                #         output['words'].append(w)
+                #         if word_idx_to_char_span[i][0] >= next_span[0][0] and word_idx_to_char_span[i][1] <= next_span[0][1]:
+                #             #word is in span
+                #             #if type is not in label2id, add it
+                #             if next_span[1] not in label2id:
+                #                 label2id[next_span[1]] = len(label2id)
+                #             output['ner_tags'].append(label2id[next_span[1]])
+                #             #make sure next_span is not empty yet and that next word is not in actual next_span
+                #             # if len(span2label) > 0 :
+                #             #     if word_idx_to_char_span[i][1] >= next_span[0][1]:
+                #             #         next_span = span2label.pop(0)
+                #             # else:
+                                
+                #         else:
+                #             #word is not in span
+                #             output['ner_tags'].append(0)
+
+                # else:
+                #     for i, w in enumerate(words):
+                #         output['words'].append(w)
+                #         output['ner_tags'].append(0)
+
+                for i, w in enumerate(words):
+                    output['words'].append(w)
+                    for span in span2label:
+                        if span[0][0] <= word_idx_to_char_span[i][0] and word_idx_to_char_span[i][1] <= span[0][1]:
                             #word is in span
                             #if type is not in label2id, add it
-                            if next_span[1] not in label2id:
-                                label2id[next_span[1]] = len(label2id)
-                            output['ner_tags'].append(label2id[next_span[1]])
-                            #make sure next_span is not empty yet and that next word is not in actual next_span
-                            if len(span2label) > 0 :
-                                if word_idx_to_char_span[i][1] >= next_span[0][1]:
-                                    next_span = span2label.pop(0)
-                            else:
-                                break
-                        else:
-                            #word is not in span
-                            output['ner_tags'].append(0)
-                else:
-                    for i, w in enumerate(words):
-                        output['words'].append(w)
+                            if span[1] not in label2id:
+                                label2id[span[1]] = len(label2id)
+                            output['ner_tags'].append(label2id[span[1]])
+                            break
+                    else:
+                        #word is not in span
                         output['ner_tags'].append(0)
+                
+                if "Analyse minéralogique" in text:
+                    print(output['ner_tags'])
+                # if "RETENTISSEMENTS" in text:
+                #     print(output['words'])
+                #     print(output['ner_tags'])
+ 
                         
                 #write output to file, making sure encoding allows for french characters
                 #json.dump(output, out_file, ensure_ascii=False)
@@ -142,10 +171,13 @@ for dir in os.listdir(args.dir):
         #write all_outputs to Parquet file inside directory
         import pandas as pd
         df = pd.DataFrame(all_outputs)
+        print("========")
         splitname = "train" if dir.startswith("train") else "test"
         output_filename = os.path.join("quaero_test/data", splitname+'.parquet')
         df.to_parquet(output_filename)
-        print(label2id)
+        for k,v in label2id.items():
+            print("{}: \"{}\"".format(v, k))
+        
         #with open(os.path.join(args.dir, dir+'.json'), 'w', encoding='utf-8') as out_file:
         #    json.dump(all_outputs, out_file, ensure_ascii=False)
 
