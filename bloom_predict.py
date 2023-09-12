@@ -67,9 +67,9 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
     first_prompts = []
     self_verif_templates = []
     if testing_data is None:
+        logger.info(f"Making a {len(training_data)}-fold cross validation over the training data for each tag...")
         for ner_tag in ner_tags:
             kf = KFold(n_splits=len(training_data), shuffle=False)
-            logger.info(f"Making a {len(training_data)}-fold cross validation over the training data.")
             for i, (train_indices, dev_indices) in enumerate(kf.split(training_data)):
                 dev_dataset = [training_data[i] for i in dev_indices]
                 train_dataset = [training_data[i] for i in train_indices]
@@ -84,6 +84,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                 )
                 first_prompts.extend(first_prompts_fold)
                 self_verif_templates.extend(self_verif_templates_fold)
+            logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
     else:
         logger.info("{} examples in train set".format(len(training_data)))
         logger.info("{} examples in test set".format(len(testing_data)))
@@ -99,9 +100,8 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
             )
             first_prompts.extend(first_prompts_ner_tag)
             self_verif_templates.extend(self_verif_templates_ner_tag)
-    logger.info("Number of prompts : {}".format(len(first_prompts)))
-    logger.info("Here is an example prompt :\n{}".format(first_prompts[0]))
-
+        logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
+    
     logger.info("Getting last line lengths...")
     #line_lengths = [len(tokenizer.encode(prompt.split('\n')[-2])) for prompt in first_prompts]
     #line_lengths = [len(tokenizer.encode(text)) for text in [example['text'] for example in testing_data]] if testing_data is not None else [len(tokenizer.encode(text)) for text in [example['text'] for example in training_data]]
@@ -124,8 +124,8 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
         input_ids = tokenizer(prompt, padding=True, return_tensors="pt").input_ids
         input_ids = input_ids.to(device)
         if not control:
-            criteria = Newline(check_start=len(input_ids[i]), newline_token=newline_token)
-            output = model.generate(input_ids, max_new_tokens=512, stopping_criteria=[criteria], output_scores=True, return_dict_in_generate=True, **model_kwargs)
+            criteria = Newline(check_start=len(input_ids[0]), newline_token=newline_token)
+            output = model.generate(input_ids, max_new_tokens=512, stopping_criteria=[criteria], **model_kwargs)
             output = output[:,len(input_ids[0]):]
             output = tokenizer.decode(output[0], skip_special_tokens=True, skip_spaces_between_tokens=False)                
         else:

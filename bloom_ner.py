@@ -29,9 +29,8 @@ args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
 args.add_argument("--n_few_shot", type=int, default=5)
 args.add_argument("--model_name", type=str, default="bigscience/bloom")
-args.add_argument("--batch_size", type=int, default=2)
 args.add_argument("--criterion", type=str, default="most_occurences")
-args.add_argument("--prompt_dict", type=str)
+args.add_argument("--prompt_dict", type=str, default="en")
 args.add_argument('--top_p', type=float, default=1.0)
 args.add_argument('--top_k', type=int, default=50)
 args.add_argument('--temperature', type=float, default=1.0)
@@ -39,7 +38,7 @@ args.add_argument('--num_beams', type=int, default=1)
 args.add_argument('--api_inference', action="store_true")
 args.add_argument('--random_seed_acquisition', type=int, default=1)
 args.add_argument('--random_seed_prompt_generation', type=int, default=42)
-args.add_argument('-s', '--training_size', type=int, default=70)
+args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument('--do_sample', action="store_true")
 args.add_argument('--no_control', dest='control', action='store_false')
@@ -98,47 +97,47 @@ prompt_keywords = {
         "no": "No",
         }
     ,
-    'vicuna_assistant' : {
-        'first_sentence' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can label all mentions of {} in a sentence. {} It can also put them in a specific format. Here are some examples of sentences it can handle:\n",
-        'last_sentence' : "",
-        'domains_jobs' : {
-            'clinical' : "clinician",
-            'general' : "linguist"
-            },
-        'ner_tags_plural' : {
-            'PER' : "person names",
-            'DISO' : "disorders",
-            'LOC' : "places",
-            'ORG' : "organizations",
-            'ANAT' : "parts of the body",
-            'LIVB' : "living beings",
-            'PROC' : "procedures",
-            },
-        'ner_tags' : {
-            'PER' : "a person's name",
-            'DISO' : "an alteration of the functions of the body",
-            'LOC' : "a place",
-            'ORG' : "an organization",
-            'ANAT' : "a part of the body",
-            'LIVB' : "a living being",
-            'PROC' : "a procedure",
-            },
-        'ner_tags_description' : {
-            'PER' : "These are words that refer to the name of a real or fictional person.",
-            'DISO' : "These are words that refer to an alteration or abnormality of the functions or health of the body.",
-            'LOC' : "These are words that refer to the name of a place.",
-            'ORG' : "These are words that refer to the name of an organization.",
-            'ANAT' : "These are words that refer to a part of the human body.",
-            'LIVB' : "These are words that refer to a living being.",
-            'PROC' : "These are words that refer to a medical procedure.",
-            },
-            'input_intro' : "USER : ",
-            'output_intro' : "ASSISTANT : ",
-            'first_sentence_self_verif' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can verify whether a given word is a mention of a {}. Below some examples :\n",
-            "self_verif_template": "USER : In the sentence \"{sentence}\", is \"{{word}}\" {ner_tag}?\n",
-            "yes": "ASSISTANT : Yes",
-            "no": "ASSISTANT : No",
-    },
+    # 'vicuna_assistant' : {
+    #     'first_sentence' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can label all mentions of {} in a sentence. {} It can also put them in a specific format. Here are some examples of sentences it can handle:\n",
+    #     'last_sentence' : "",
+    #     'domains_jobs' : {
+    #         'clinical' : "clinician",
+    #         'general' : "linguist"
+    #         },
+    #     'ner_tags_plural' : {
+    #         'PER' : "person names",
+    #         'DISO' : "disorders",
+    #         'LOC' : "places",
+    #         'ORG' : "organizations",
+    #         'ANAT' : "parts of the body",
+    #         'LIVB' : "living beings",
+    #         'PROC' : "procedures",
+    #         },
+    #     'ner_tags' : {
+    #         'PER' : "a person's name",
+    #         'DISO' : "an alteration of the functions of the body",
+    #         'LOC' : "a place",
+    #         'ORG' : "an organization",
+    #         'ANAT' : "a part of the body",
+    #         'LIVB' : "a living being",
+    #         'PROC' : "a procedure",
+    #         },
+    #     'ner_tags_description' : {
+    #         'PER' : "These are words that refer to the name of a real or fictional person.",
+    #         'DISO' : "These are words that refer to an alteration or abnormality of the functions or health of the body.",
+    #         'LOC' : "These are words that refer to the name of a place.",
+    #         'ORG' : "These are words that refer to the name of an organization.",
+    #         'ANAT' : "These are words that refer to a part of the human body.",
+    #         'LIVB' : "These are words that refer to a living being.",
+    #         'PROC' : "These are words that refer to a medical procedure.",
+    #         },
+    #         'input_intro' : "USER : ",
+    #         'output_intro' : "ASSISTANT : ",
+    #         'first_sentence_self_verif' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can verify whether a given word is a mention of a {}. Below some examples :\n",
+    #         "self_verif_template": "USER : In the sentence \"{sentence}\", is \"{{word}}\" {ner_tag}?\n",
+    #         "yes": "ASSISTANT : Yes",
+    #         "no": "ASSISTANT : No",
+    # },
     'fr' : {
         'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. {} Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
         'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
@@ -198,7 +197,7 @@ if args.domain == 'general':
         },
         doc_id_colname="id",
     )
-    ner_tags = ['PER', 'LOC', 'ORG', 'FAC']
+    ner_tags = ['PER', 'LOC', 'ORG']
 else :
     dataset = BRATDataset(
         train= "/mnt/beegfs/home/naguib/autoregressive_ner/quaero/training",
@@ -207,17 +206,11 @@ else :
     )
     ner_tags = ['DISO', 'ANAT', 'PROC', 'LIVB']
 
-if not args.training_size:
-    raise ValueError("Please specify training size")
-if not args.prompt_dict:
-    raise ValueError("Please specify prompt dictionary")
-
 traindev_dataset = [e for e in dataset.train_data if len(e['text']) < 512]
 test_dataset = [e for e in dataset.test_data if len(e['text']) < 512]
 
-time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-folder_name = 'hyp_search_'+time_date
-os.mkdir(folder_name)
+folder_name = 'results'
+os.makedirs(folder_name, exist_ok=True)
 
 logger.info("Loading model...")
 model, tokenizer = load_model(
@@ -233,8 +226,8 @@ traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(
 
 results = {}
 
-time_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-logfile = open(folder_name+'/log_'+time_date+'.txt','w')
+time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+logfile = open(folder_name+f'/log_{args.domain}_{args.language}_{args.random_seed_prompt_generation}_{time_str}.txt', 'w')
 logfile.write('language: '+args.language+'\n')
 logfile.write('domain: '+args.domain+'\n')
 logfile.write('begin_tag: '+args.begin_tag+'\n')
@@ -304,9 +297,9 @@ for metric in metrics.values():
 for i, (o, pred, gold) in enumerate(zip(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)):
         logfile.write('='*50+'\n')
         logfile.write('input: '+pred['text']+'\n')
-        logfile.write('-'*50+'\n')
-        for j,tag in ner_tags:
-            logfile.write(tag+' output: '+textual_outputs[i+len(textual_outputs)*j]+'\n')
+        for j,tag in enumerate(ner_tags):
+            logfile.write('-'*50+'\n')
+            logfile.write(tag+' output: '+textual_outputs[j*len(predicted_dataset)+i]+'\n')
             logfile.write('final: '+str([p['text'] for p in pred['entities'] if p['label']==tag])+'\n')
             logfile.write('gold: '+str([g['text'] for g in gold['entities'] if g['label']==tag])+'\n')
 

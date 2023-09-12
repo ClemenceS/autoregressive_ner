@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
     
 def example2string(example, ner_tag, begin_tag, end_tag, sticked, tagged):
     if not tagged:
-        return example['text']
+        return example['text'].rstrip()
     begins = [e['fragments'][0]['begin'] for e in example['entities'] if e['label'] == ner_tag]
     ends = [e['fragments'][0]['end'] for e in example['entities'] if e['label'] == ner_tag]
     res_text = ''
@@ -15,7 +15,7 @@ def example2string(example, ner_tag, begin_tag, end_tag, sticked, tagged):
         for _ in range(ends.count(i)):
             res_text+=('' if sticked else ' ') + end_tag
         res_text+=c
-    return res_text
+    return res_text.rstrip()
 
 def make_prompts(train_dataset, test_dataset, ner_tag, domain, begin_tag, end_tag, n_few_shot, criterion, keywords, self_verification):
     #this function takes an example and a ner tag and returns a prompt in english
@@ -101,7 +101,7 @@ def make_prompts(train_dataset, test_dataset, ner_tag, domain, begin_tag, end_ta
 
         for example, pred, label in examples:
             self_verification_template+= keywords['self_verif_template'].format(ner_tag=keywords['ner_tags'][ner_tag],sentence=example,).format(word=pred)+keywords[label]+"\n"
-        self_verification_template+= keywords['self_verif_template'].format(ner_tag=keywords['ner_tags'][ner_tag],sentence=test_dataset[p]['text'],)
+        self_verification_template+= keywords['self_verif_template'].format(ner_tag=keywords['ner_tags'][ner_tag],sentence=example2string(test_dataset[p], ner_tag, begin_tag, end_tag, sticked=True, tagged=False))
         templates.append(self_verification_template)
     return prompts, templates
 
