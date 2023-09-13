@@ -68,6 +68,13 @@ prompt_keywords = {
             "LIVB" : "living beings",
             "PROC" : "procedures",
             "FAC" : "facilities",
+            "CHEM" : "chemicals",
+            "DEVI" : "medical devices",
+            "GEOG" : "geographical zones",
+            "OBJC" : "medical objects",
+            "PHEN" : "physiolocal phenomema",
+            "PHYS" : "human physiology",
+
             },
         'ner_tags' : {
             'PER' : "a person's name",
@@ -78,6 +85,12 @@ prompt_keywords = {
             "LIVB" : "a living being",
             "PROC" : "a procedure",
             "FAC" : "a facility",
+            "CHEM" : "a chemical",
+            "DEVI" : "a medical device",
+            "GEOG" : "a geographical zone",
+            "OBJC" : "a medical object",
+            "PHEN" : "a physiolocal phenomemon",
+            "PHYS" : "a human physiology",
             },
         'ner_tags_description' : {
             'PER' : "These are words that refer to the name of a real or fictional person.",
@@ -88,6 +101,12 @@ prompt_keywords = {
             "LIVB" : "These are words that refer to a living being.",
             "PROC" : "These are words that refer to a medical procedure.",
             "FAC" : "These are words that refer to a facility made by humans.",
+            "CHEM" : "These are words that refer to a drug or a chemical substance.",
+            "DEVI" : "These are words that refer to a medical device or a medical instrument.",
+            "GEOG" : "These are words that refer to a geographical zone.",
+            "OBJC" : "These are words that refer to a medical object or a medical tool.",
+            "PHEN" : "These are words that refer to a physiolocal phenomemon or a physiolocal function.",
+            "PHYS" : "These are words that refer to a human physiology.",
             },
         'input_intro' : "Input: ",
         'output_intro' : "Output: ",
@@ -138,50 +157,50 @@ prompt_keywords = {
     #         "yes": "ASSISTANT : Yes",
     #         "no": "ASSISTANT : No",
     # },
-    'fr' : {
-        'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. {} Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
-        'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
-        'domains_jobs' : {
-            'clinical' : "clinicien",
-            'general' : "linguiste"
-        },
-        'ner_tags_plural' : {
-            'PER' : "noms de personnes",
-            'DISO' : "maladies et symptômes",
-            'LOC' : "lieux",
-            'ORG' : "organisations",
-            'ANAT' : "parties du corps",
-            'LIVB' : "êtres vivants",
-            'PROC' : "procédures médicales",
-            "FAC" : "installations",
-        },
-        'ner_tags' : {
-            'PER' : "un nom de personne",
-            'DISO' : "une altération des fonctions du corps",
-            'LOC' : "lieu",
-            'ORG' : "une organisation",
-            'ANAT' : "une partie du corps",
-            'LIVB' : "un être vivant",
-            'PROC' : "une procédure médicale",
-            "FAC" : "une installation",
-        },
-        'ner_tags_description' : {
-            'PER' : "Il s'agit des mots faisant mention du nom d'un personne qu'elle soit réelle ou fictive.",
-            'DISO' : "Il s'agit des mots faisant mention d'une altération ou une anormalité des fonctions ou de la santé du corps.",
-            'LOC' : "Il s'agit des mots faisant mention du nom d'un lieu.",
-            'ORG' : "Il s'agit des mots faisant mention du nom d'une organisation.",
-            'ANAT' : "Il s'agit des mots faisant mention d'une partie du corps humain.",
-            'LIVB' : "Il s'agit des mots faisant mention d'un être vivant.",
-            'PROC' : "Il s'agit des mots faisant mention d'une procédure médicale.",
-            "FAC" : "Il s'agit des mots faisant mention d'une installation faite/construite par les humains.",
-        },
-        'input_intro' : "Entrée : ",
-        'output_intro' : "Sortie : ",
-        'first_sentence_self_verif' : "Je suis un {} expert, je sais identifier si un mot est une mention des {} dans une phrase. Voici quelques exemples de phrases que je peux traiter :\n",
-        "self_verif_template": "Dans la phrase \"{sentence}\", le mot \"{{word}}\" désigne-t-il {ner_tag} ?\n",
-        "yes": "Oui",
-        "no": "Non",
-    }
+    # 'fr' : {
+    #     'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. {} Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
+    #     'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
+    #     'domains_jobs' : {
+    #         'clinical' : "clinicien",
+    #         'general' : "linguiste"
+    #     },
+    #     'ner_tags_plural' : {
+    #         'PER' : "noms de personnes",
+    #         'DISO' : "maladies et symptômes",
+    #         'LOC' : "lieux",
+    #         'ORG' : "organisations",
+    #         'ANAT' : "parties du corps",
+    #         'LIVB' : "êtres vivants",
+    #         'PROC' : "procédures médicales",
+    #         "FAC" : "installations",
+    #     },
+    #     'ner_tags' : {
+    #         'PER' : "un nom de personne",
+    #         'DISO' : "une altération des fonctions du corps",
+    #         'LOC' : "lieu",
+    #         'ORG' : "une organisation",
+    #         'ANAT' : "une partie du corps",
+    #         'LIVB' : "un être vivant",
+    #         'PROC' : "une procédure médicale",
+    #         "FAC" : "une installation",
+    #     },
+    #     'ner_tags_description' : {
+    #         'PER' : "Il s'agit des mots faisant mention du nom d'un personne qu'elle soit réelle ou fictive.",
+    #         'DISO' : "Il s'agit des mots faisant mention d'une altération ou une anormalité des fonctions ou de la santé du corps.",
+    #         'LOC' : "Il s'agit des mots faisant mention du nom d'un lieu.",
+    #         'ORG' : "Il s'agit des mots faisant mention du nom d'une organisation.",
+    #         'ANAT' : "Il s'agit des mots faisant mention d'une partie du corps humain.",
+    #         'LIVB' : "Il s'agit des mots faisant mention d'un être vivant.",
+    #         'PROC' : "Il s'agit des mots faisant mention d'une procédure médicale.",
+    #         "FAC" : "Il s'agit des mots faisant mention d'une installation faite/construite par les humains.",
+    #     },
+    #     'input_intro' : "Entrée : ",
+    #     'output_intro' : "Sortie : ",
+    #     'first_sentence_self_verif' : "Je suis un {} expert, je sais identifier si un mot est une mention des {} dans une phrase. Voici quelques exemples de phrases que je peux traiter :\n",
+    #     "self_verif_template": "Dans la phrase \"{sentence}\", le mot \"{{word}}\" désigne-t-il {ner_tag} ?\n",
+    #     "yes": "Oui",
+    #     "no": "Non",
+    # }
 }
 
 if args.domain == 'general':
@@ -204,7 +223,7 @@ else :
         val= 0, 
         test= "/mnt/beegfs/home/naguib/autoregressive_ner/quaero/test",
     )
-    ner_tags = ['DISO', 'ANAT', 'PROC', 'LIVB']
+    ner_tags = ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"]
 
 traindev_dataset = [e for e in dataset.train_data if len(e['text']) < 512]
 test_dataset = [e for e in dataset.test_data if len(e['text']) < 512]
@@ -278,8 +297,8 @@ textual_outputs, predicted_dataset = bloom_predict(
 
 logger.info("Evaluating...")
 metric_names = {
-        "exact": dict(module="dem", binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags),
-        "partial": dict(module="dem", binarize_tag_threshold=1e-5, binarize_label_threshold=1., add_label_specific_metrics=ner_tags),
+        "exact": dict(module="dem", binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
+        "partial": dict(module="dem", binarize_tag_threshold=1e-5, binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
 }
 metrics = MetricsCollection({k: get_instance(m) for k, m in metric_names.items()})
 
