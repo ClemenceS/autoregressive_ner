@@ -34,6 +34,31 @@ parser.add_argument('-d','--dir', help='directory of brat annotation files', req
 
 args = parser.parse_args()
 
+
+def sentencize(example):
+    #this function takes an example and splits it into a list of examples, each with a single sentence
+    #the example is a dictionary with the following format:
+    #{
+    #	"docid": "docid",
+    #	"words": ["word1", "word2", "word3", ...],
+    #	"ner_tags": ["0", "0", "0", "0", "0", "0", "1", "1", "1", "0", ...]
+    #}
+    #the ner_tags are a list of numbers, with each number corresponding to a label type (eg. 0 = O, 1 = PERSON, 2 = LOCATION, etc.)
+    #the list is the same length as the list of words, and each number corresponds to the word at the same index in the words list
+    
+    #we start by finding the indices of the words that are sentence boundaries
+    sentence_separator = '.'
+    indices = [i for i, x in enumerate(example['words']) if x == sentence_separator]
+    #we then split the words and ner_tags into a list of lists, with each list corresponding to a sentence
+    words = [example['words'][i+1:(j+1 if j else None)] for i, j in zip([-1]+indices, indices+[None])]
+    ner_tags = [example['ner_tags'][i+1:(j+1 if j else None)] for i, j in zip([-1]+indices, indices+[None])]
+    #we then create a list of examples, each with a single sentence
+    examples = []
+    for i in range(len(words)):
+        if len(words[i]) > 0:
+            examples.append({'docid': example['docid']+'_'+str(len(examples)), 'words': words[i], 'ner_tags': ner_tags[i]})
+    return examples
+
 label2id = {'O': 0}
 #loop through all directories in directory
 for dir in os.listdir(args.dir):
@@ -153,21 +178,26 @@ for dir in os.listdir(args.dir):
                         #word is not in span
                         output['ner_tags'].append(0)
                 
-                if "Analyse minéralogique" in text:
-                    print(output['ner_tags'])
-                # if "RETENTISSEMENTS" in text:
-                #     print(output['words'])
-                #     print(output['ner_tags'])
- 
-                        
                 #write output to file, making sure encoding allows for french characters
                 #json.dump(output, out_file, ensure_ascii=False)
-                all_outputs.append(output)
+                if len(output['docid'].split('_')[0]) <4:
+                    all_outputs.extend(sentencize(output))
+                else:
+                    all_outputs.append(output)
                 
                 #close files
                 ann_file.close()
                 txt_file.close()
 
+
+        #print the first output in a nice format
+        print("========")
+        print("Example output:")
+        for i, w in enumerate(all_outputs):
+            if len(w['docid'].split('_')[0]) <4:
+                break
+        print(json.dumps(all_outputs[0], indent=4, ensure_ascii=False))
+        # print(json.dumps(all_outputs[0], indent=4, ensure_ascii=False))
         #write all_outputs to Parquet file inside directory
         import pandas as pd
         df = pd.DataFrame(all_outputs)
@@ -177,6 +207,7 @@ for dir in os.listdir(args.dir):
         df.to_parquet(output_filename)
         for k,v in label2id.items():
             print("{}: \"{}\"".format(v, k))
+
         
         #with open(os.path.join(args.dir, dir+'.json'), 'w', encoding='utf-8') as out_file:
         #    json.dump(all_outputs, out_file, ensure_ascii=False)
