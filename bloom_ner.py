@@ -241,15 +241,14 @@ folder_name = 'results'
 os.makedirs(folder_name, exist_ok=True)
 
 logger.info("Loading model...")
-# model, tokenizer = load_model(
-#         args.model_name,
-#         device="cuda" if torch.cuda.is_available() else "cpu",
-#         num_gpus=1,
-#         load_8bit='vicuna' in args.model_name or 'vigogne' in args.model_name,
-#         debug=False,
-#         )
-tokenizer = AutoTokenizer.from_pretrained(args.model_name, use_fast=False)
-model = AutoModelForCausalLM.from_pretrained(args.model_name, device_map="auto", load_in_8bit=True)
+model, tokenizer = load_model(
+        args.model_name,
+        device="cuda" if torch.cuda.is_available() else "cpu",
+        num_gpus=1,
+        load_8bit='vicuna' in args.model_name or 'vigogne' in args.model_name,
+        debug=False,
+        )
+tokenizer = AutoTokenizer.from_pretrained(args.model_name, use_fast=False, padding_side='left')
 
 #np random deals with choosing the traindev dataset
 np.random.seed(args.partition_seed)
