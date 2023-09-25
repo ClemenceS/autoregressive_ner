@@ -102,7 +102,7 @@ prompt_keywords = {
         'input_intro' : "Input: ",
         'output_intro' : "Output: ",
         'first_sentence_self_verif' : "I am an excellent {}. The task is to verify whether a given word is a mention of a {}. Below some examples :\n",
-        "self_verif_template": "In the sentence \"{sentence}\", is \"{{word}}\" {ner_tag}?\n",
+        "self_verif_template": "In the sentence \"{{sentence}}\", is \"{{word}}\" {ner_tag}?\n",
         "yes": "Yes",
         "no": "No",
         }
@@ -206,7 +206,7 @@ prompt_keywords = {
         'input_intro' : "Entrée : ",
         'output_intro' : "Sortie : ",
         'first_sentence_self_verif' : "Je suis un {} expert, je sais identifier si un mot est une mention des {} dans une phrase. Voici quelques exemples de phrases que je peux traiter :\n",
-        "self_verif_template": "Dans la phrase \"{sentence}\", le mot \"{{word}}\" désigne-t-il {ner_tag} ?\n",
+        "self_verif_template": "Dans la phrase \"{{sentence}}\", le mot \"{{word}}\" désigne-t-il {ner_tag} ?\n",
         "yes": "Oui",
         "no": "Non",
     }

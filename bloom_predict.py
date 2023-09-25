@@ -3,7 +3,7 @@ import torch
 from tqdm import tqdm
 from fastchat.model import get_conversation_template
 from sklearn.model_selection import KFold
-from prompt_maker import make_prompts, get_yes_no_words
+from prompt_maker import example2string, make_prompts, get_yes_no_words
 from transformers import StoppingCriteria
 
 def get_prompt_for_model(model_name, prompts):
@@ -69,7 +69,7 @@ class Newline(StoppingCriteria):
 
 def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, model, tokenizer, control, self_verification, begin_tag, end_tag, model_kwargs, **kwargs):
     first_prompts = []
-    self_verif_templates = []
+    self_verif_templates = {}
     if testing_data is None:
         logger.info(f"Making a {len(training_data)}-fold cross validation over the training data for each tag...")
         for ner_tag in ner_tags:
@@ -87,7 +87,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                     **kwargs
                 )
                 first_prompts.extend(first_prompts_fold)
-                self_verif_templates.extend(self_verif_templates_fold)
+                self_verif_templates[ner_tag] = self_verif_templates_fold
             logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
     else:
         logger.info("{} examples in train set".format(len(training_data)))
@@ -103,7 +103,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                 **kwargs
             )
             first_prompts.extend(first_prompts_ner_tag)
-            self_verif_templates.extend(self_verif_templates_ner_tag)
+            self_verif_templates[ner_tag] = self_verif_templates_ner_tag
         logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
     
     reference = testing_data if testing_data is not None else training_data
@@ -133,16 +133,18 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                     }
                     for example in reference
                 ]
-    for i in tqdm(range(0,len(first_prompts))):
-        prompt = get_prompt_for_model(model_name, [first_prompts[i]])
-        input_ids = tokenizer(prompt, padding=True, return_tensors="pt").input_ids
+    batch_size = 2
+    for i in tqdm(range(0,len(first_prompts),batch_size)):
+        prompts = get_prompt_for_model(model_name, first_prompts[i:i+batch_size])
+        input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
         input_ids = input_ids.to(device)
         if not control:
-            criteria = Newline(check_start=len(input_ids[0]), newline_token=newline_token)
-            output = model.generate(input_ids, max_new_tokens=512, stopping_criteria=[criteria], **model_kwargs)
-            output = output[:,len(input_ids[0]):]
-            output = tokenizer.decode(output[0],skip_special_tokens=True).strip()
+            #criteria = Newline(check_starts=len(input_ids[0]), newline_token=newline_token)
+            output_batch = model.generate(input_ids, max_new_tokens=512, **model_kwargs)
+            output_batch = output_batch[:,len(input_ids[0]):]
+            output_batch_text = [tokenizer.decode(output,skip_special_tokens=True).strip() for output in output_batch]
         else:
+            raise NotImplementedError("Control not supported")
             entry = entries[i%len(reference)]
 
             nb_open_entites = 0
@@ -175,8 +177,9 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                 input_ids = torch.cat([input_ids,torch.tensor(all_generated_ids).unsqueeze(0).to(device)], dim=1)
 
             output = tokenizer.decode(sequences[0],skip_special_tokens=True).replace(prompt,'').strip()
-        outputs.append(output)
+        outputs.extend(output_batch_text)
         
+    for i, output in enumerate(outputs):
         predictions[i%len(reference)]['entities'].extend([
             {
                 'entity_id': 'T{}'.format(ent_idx),
@@ -190,23 +193,51 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
             }
             for ent_idx, (begin, end) in enumerate(get_indices(reference[i%len(reference)]['text'], output, begin_tag, end_tag))
         ])
+
     if self_verification:
-        for i in range(len(predictions)):
-            verified_entities = []
-            for pred in predictions[i%len(reference)]['entities']:
-                if pred['label']!=ner_tags[i//len(reference)]:
-                    verified_entities.append(pred)
-                    continue
-                verification_prompt = self_verif_templates[i].format(word=pred['text'])
-                verification_prompt = get_prompt_for_model(model_name, [verification_prompt])[0]
-                input_ids = tokenizer(verification_prompt, padding=True, return_tensors="pt").input_ids
-                input_ids = input_ids.to(device)
-                answer = model.generate(input_ids, max_new_tokens=1, output_scores=True, return_dict_in_generate=True)
-                scores = answer.scores[0][0][[yes_tok, no_tok]]
-                if scores[0]>scores[1]:
-                    verified_entities.append(pred)
-            predictions[i%len(reference)]['entities'] = verified_entities
+        # for i in range(len(first_prompts)):
+        #     verified_entities = []
+        #     for pred in predictions[i%len(reference)]['entities']:
+        #         if pred['label']!=ner_tags[i//len(reference)]:
+        #             verified_entities.append(pred)
+        #             continue
+        #         verification_prompt = self_verif_templates[i].format(word=pred['text'])
+        #         verification_prompt = get_prompt_for_model(model_name, [verification_prompt])[0]
+        #         input_ids = tokenizer(verification_prompt, padding=True, return_tensors="pt").input_ids
+        #         input_ids = input_ids.to(device)
+        #         answer = model.generate(input_ids, max_new_tokens=1, output_scores=True, return_dict_in_generate=True)
+        #         scores = answer.scores[0][0][[yes_tok, no_tok]]
+        #         if scores[0]>scores[1]:
+        #             verified_entities.append(pred)
+        #     predictions[i%len(reference)]['entities'] = verified_entities
         
-    
+        for i in range(len(predictions)):
+            sentences = []
+            addresses = []
+            for pred in predictions[i]['entities']:
+                type = pred['label']
+                id = pred['entity_id']
+                prompting_sentence = example2string(predictions[i], type, begin_tag, end_tag, sticked=True, tagged=False)
+                verification_sentence = self_verif_templates[type].format(word=pred['text'], sentence=prompting_sentence)
+                sentences.append(verification_sentence)
+                addresses.append((i, id))
+        prompts = get_prompt_for_model(model_name, sentences)
+        
+        yes_scores = []
+        no_scores = []
+        batch_size = 8
+        for i in tqdm(range(0,len(prompts),batch_size)):
+            prompts_batch = prompts[i:i+batch_size]
+            input_ids = tokenizer(prompts_batch, padding=True, return_tensors="pt").input_ids
+            input_ids = input_ids.to(device)
+            output_batch = model.generate(input_ids, max_new_tokens=1, output_scores=True, return_dict_in_generate=True)
+            scores = output_batch.scores[0]
+            yes_scores.extend(scores[:,yes_tok])
+            no_scores.extend(scores[:,no_tok])
+        for i, (y, n) in enumerate(zip(yes_scores, no_scores)):
+            if y<n:
+                sent_idx, ent_id = addresses[i]
+                predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
+
     return outputs, predictions   
     
