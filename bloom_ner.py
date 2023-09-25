@@ -11,6 +11,7 @@ from fastchat.model import load_model
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
 args = argparse.ArgumentParser()
 args.add_argument("--language", type=str, default="fr", help="language of the dataset")
@@ -222,13 +223,16 @@ folder_name = 'results'
 os.makedirs(folder_name, exist_ok=True)
 
 logger.info("Loading model...")
-model, tokenizer = load_model(
-        args.model_name,
-        device="cuda" if torch.cuda.is_available() else "cpu",
-        num_gpus=1,
-        load_8bit='vicuna' in args.model_name,
-        debug=False,
-        )
+# model, tokenizer = load_model(
+#         args.model_name,
+#         device="cuda" if torch.cuda.is_available() else "cpu",
+#         num_gpus=1,
+#         load_8bit='vicuna' in args.model_name or 'vigogne' in args.model_name,
+#         debug=False,
+#         )
+tokenizer = AutoTokenizer.from_pretrained(args.model_name, use_fast=False)
+model = AutoModelForCausalLM.from_pretrained(args.model_name, device_map="auto", load_in_8bit=True)
+
 #np random deals with choosing the traindev dataset
 np.random.seed(args.partition_seed)
 traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
@@ -278,9 +282,9 @@ textual_outputs, predicted_dataset = bloom_predict(
     model_kwargs={
         "num_beams": args.num_beams,
         "do_sample": args.do_sample,
-        "top_p": args.top_p,
-        "top_k": args.top_k,
-        "temperature": args.temperature,
+        "top_p": args.top_p if args.do_sample else None,
+        "top_k": args.top_k if args.do_sample else None,
+        "temperature": args.temperature if args.do_sample else None,
     }
 )
 
