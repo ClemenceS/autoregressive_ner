@@ -1,12 +1,6 @@
 import datetime
-import hashlib
-import itertools
-import json
 import os
-import re
-import datasets
 import numpy as np
-from sklearn.model_selection import KFold
 import argparse
 import logging
 import random
@@ -14,17 +8,13 @@ import random
 import torch
 from bloom_predict import bloom_predict
 from fastchat.model import load_model
-from transformers import AutoModelForCausalLM, AutoTokenizer
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
 
-
-
 args = argparse.ArgumentParser()
 args.add_argument("--language", type=str, default="fr", help="language of the dataset")
 args.add_argument("--domain", type=str, default="general", help="domain of the dataset")
-args.add_argument("--ner_tag", type=str, help="ner tag to evaluate")
 args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
 args.add_argument("--n_few_shot", type=int, default=5)
@@ -36,8 +26,8 @@ args.add_argument('--top_k', type=int, default=50)
 args.add_argument('--temperature', type=float, default=1.0)
 args.add_argument('--num_beams', type=int, default=1)
 args.add_argument('--api_inference', action="store_true")
-args.add_argument('--random_seed_acquisition', type=int, default=1)
-args.add_argument('--random_seed_prompt_generation', type=int, default=42)
+args.add_argument('--partition_seed', type=int, default=1)
+args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument('--do_sample', action="store_true")
@@ -49,7 +39,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("bloom_ner")
 
 #random deals with choosing the few-shot examples, so we want that fixed
-random.seed(args.random_seed_prompt_generation)
+random.seed(args.random_seed)
 
 prompt_keywords = {
     'en' : {
@@ -240,13 +230,11 @@ model, tokenizer = load_model(
         debug=False,
         )
 #np random deals with choosing the traindev dataset
-np.random.seed(args.random_seed_acquisition)
+np.random.seed(args.partition_seed)
 traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
 
-results = {}
-
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-logfile = open(folder_name+f'/log_{args.domain}_{args.language}_{args.random_seed_prompt_generation}_{time_str}.txt', 'w')
+logfile = open(folder_name+f'/log_{args.domain}_{args.language}_{args.random_seed}_{time_str}.txt', 'w')
 logfile.write('language: '+args.language+'\n')
 logfile.write('domain: '+args.domain+'\n')
 logfile.write('begin_tag: '+args.begin_tag+'\n')
@@ -256,8 +244,8 @@ logfile.write('model_name: '+args.model_name+'\n')
 logfile.write('criterion: '+args.criterion+'\n')
 logfile.write('prompt_dict: '+args.prompt_dict+'\n')
 logfile.write('training_size: '+str(args.training_size)+'\n')
-logfile.write('random_seed_acquisition: '+str(args.random_seed_acquisition)+'\n')
-logfile.write('random_seed_prompt_generation: '+str(args.random_seed_prompt_generation)+'\n')
+logfile.write('partition_seed: '+str(args.partition_seed)+'\n')
+logfile.write('random_seed: '+str(args.random_seed)+'\n')
 logfile.write('control: '+str(args.control)+'\n')
 logfile.write('num_beams: '+str(args.num_beams)+'\n')
 logfile.write('self verification: '+str(args.self_verification)+'\n')
