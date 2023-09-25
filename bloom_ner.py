@@ -296,12 +296,6 @@ for metric in metrics.values():
         print(metric.compute())
         logfile.write(str(metric.compute())+'\n')
 
-# for o, pred, gold in zip(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed):
-#     logfile.write('='*50+'\n')
-#     logfile.write('input: '+pred['text']+'\n')
-#     logfile.write('output: '+o+'\n')
-#     logfile.write('final: '+str([p['text'] for p in pred['entities']])+'\n')
-#     logfile.write('gold: '+str([g['text'] for g in gold['entities'] if g['label']=='PER'])+'\n')
 for i, (o, pred, gold) in enumerate(zip(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)):
         logfile.write('='*50+'\n')
         logfile.write('input: '+pred['text']+'\n')

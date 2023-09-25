@@ -7,16 +7,6 @@ from prompt_maker import make_prompts, get_yes_no_words
 from transformers import StoppingCriteria
 
 def get_prompt_for_model(model_name, prompts):
-    # if 'vicuna' in model_name:
-    #     conv = get_conversation_template(model_name)
-    #     conv.append_message(conv.roles[0], prompt)
-    #     conv.append_message(conv.roles[1], None)
-    #     prompt = conv.get_prompt()
-    # elif 'bloom' in model_name:    
-    #     pass
-    # else:
-    #     raise NotImplementedError("Model not supported")
-    # return prompt
     new_prompts = []
     for prompt in prompts:
         if 'vicuna' in model_name:
