@@ -5,3 +5,4 @@ torch
 protobuf
 sentencepiece
 fschat[model_worker,webui]
+bitsandbytes

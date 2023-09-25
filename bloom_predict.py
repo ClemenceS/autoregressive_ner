@@ -9,7 +9,7 @@ from transformers import StoppingCriteria
 def get_prompt_for_model(model_name, prompts):
     new_prompts = []
     for prompt in prompts:
-        if 'vicuna' in model_name:
+        if 'vicuna' in model_name or 'vigogne' in model_name:
             conv = get_conversation_template(model_name)
             conv.append_message(conv.roles[0], prompt)
             conv.append_message(conv.roles[1], None)
@@ -64,7 +64,7 @@ class Newline(StoppingCriteria):
         self.newline_token = newline_token
     
     def __call__(self, input_ids: torch.LongTensor, score: torch.FloatTensor, **kwargs) -> bool:
-        return self.newline_token in input_ids[0, self.check_start:]
+        return all([self.newline_token in input_ids[i, self.check_start:] for i in range(input_ids.shape[0])])
 
 
 def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, model, tokenizer, control, self_verification, begin_tag, end_tag, model_kwargs, **kwargs):
@@ -133,49 +133,52 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                     }
                     for example in reference
                 ]
-    for i in tqdm(range(len(first_prompts))):
-        prompt = get_prompt_for_model(model_name, [first_prompts[i]])[0]
-        input_ids = tokenizer(prompt, padding=True, return_tensors="pt").input_ids
+    batch_size = 4
+    for i in tqdm(range(0,len(first_prompts),batch_size)):
+        prompts = get_prompt_for_model(model_name, first_prompts[i:i+batch_size])
+        input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
         input_ids = input_ids.to(device)
         if not control:
             criteria = Newline(check_start=len(input_ids[0]), newline_token=newline_token)
-            output = model.generate(input_ids, max_new_tokens=512, stopping_criteria=[criteria], **model_kwargs)
-            output = output[:,len(input_ids[0]):]
-            output = tokenizer.decode(output[0], skip_special_tokens=True, skip_spaces_between_tokens=False)                
+            batch_outputs = model.generate(input_ids, max_new_tokens=512, stopping_criteria=[criteria], **model_kwargs)
+            batch_outputs = batch_outputs[:,len(input_ids[0]):]
+            batch_outputs = [tokenizer.decode(batch_outputs[i], skip_special_tokens=True).strip() for i in range(len(batch_outputs))]
         else:
-            entry = entries[i%len(reference)]
+            raise NotImplementedError("Control not supported")    
+            # entry = entries[i%len(reference)]
 
-            nb_open_entites = 0
-            all_generated_ids = []
-            num_new_tokens = 0
-            while input_ids[0,-1] not in [newline_token, eos_token] and len(entry)>1 and num_new_tokens<512:
-                output = model.generate(input_ids,max_new_tokens=1,output_scores=True, return_dict_in_generate=True, **model_kwargs)
-                scores = output.scores
-                sequences = output.sequences
-                next_entry_id = entry[0]
-                if nb_open_entites<=0:
-                    allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0]]).to(device)
-                else:
-                    allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0], end_tag_toks[0]]).to(device)
-                next_scores = scores[0][0][[allowed_tokens]]
-                generated_id = allowed_tokens[torch.argmax(next_scores)]
-                if generated_id==next_entry_id:
-                    entry = entry[1:]
-                    all_generated_ids = [generated_id]
-                elif generated_id==begin_tag_toks[0]:
-                    nb_open_entites+=1
-                    all_generated_ids = begin_tag_toks
-                    if sticked:
-                        entry = tokenizer.encode("@"+tokenizer.decode(entry), add_special_tokens=False)[1:]
-                else:
-                    nb_open_entites-=1
-                    all_generated_ids = end_tag_toks
-                num_new_tokens+=len(all_generated_ids)
+            # nb_open_entites = 0
+            # all_generated_ids = []
+            # num_new_tokens = 0
+            # while input_ids[0,-1] not in [newline_token, eos_token] and len(entry)>1 and num_new_tokens<512:
+            #     output = model.generate(input_ids,max_new_tokens=1,output_scores=True, return_dict_in_generate=True, **model_kwargs)
+            #     scores = output.scores
+            #     sequences = output.sequences
+            #     next_entry_id = entry[0]
+            #     if nb_open_entites<=0:
+            #         allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0]]).to(device)
+            #     else:
+            #         allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0], end_tag_toks[0]]).to(device)
+            #     next_scores = scores[0][0][[allowed_tokens]]
+            #     generated_id = allowed_tokens[torch.argmax(next_scores)]
+            #     if generated_id==next_entry_id:
+            #         entry = entry[1:]
+            #         all_generated_ids = [generated_id]
+            #     elif generated_id==begin_tag_toks[0]:
+            #         nb_open_entites+=1
+            #         all_generated_ids = begin_tag_toks
+            #         if sticked:
+            #             entry = tokenizer.encode("@"+tokenizer.decode(entry), add_special_tokens=False)[1:]
+            #     else:
+            #         nb_open_entites-=1
+            #         all_generated_ids = end_tag_toks
+            #     num_new_tokens+=len(all_generated_ids)
 
-                input_ids = torch.cat([input_ids,torch.tensor(all_generated_ids).unsqueeze(0).to(device)], dim=1)
+            #     input_ids = torch.cat([input_ids,torch.tensor(all_generated_ids).unsqueeze(0).to(device)], dim=1)
 
-            output = tokenizer.decode(sequences[0],skip_special_tokens=True).replace(prompt,'').strip()
-        outputs.append(output)
+            # output = tokenizer.decode(sequences[0],skip_special_tokens=True).replace(prompt,'').strip()
+            # batch_outputs = [output]
+        outputs.extend(batch_outputs)
         
         predictions[i%len(reference)]['entities'].extend([
             {
@@ -190,7 +193,8 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
             }
             for ent_idx, (begin, end) in enumerate(get_indices(reference[i%len(reference)]['text'], output, begin_tag, end_tag))
         ])
-        if self_verification:
+    if self_verification:
+        for i in range(len(predictions)):
             verified_entities = []
             for pred in predictions[i%len(reference)]['entities']:
                 if pred['label']!=ner_tags[i//len(reference)]:

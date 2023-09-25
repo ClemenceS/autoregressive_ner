@@ -281,6 +281,20 @@ else:
     logfile.write('greedy'+'\n')
 logfile.write('='*50+'\n')
 
+model_kwargs = {
+    "num_beams": args.num_beams,
+}
+if args.do_sample:
+    model_kwargs.update({
+        "do_sample": args.do_sample,
+        "top_p": args.top_p,
+        "top_k": args.top_k,
+        "temperature": args.temperature,
+    })
+else:
+    model_kwargs.update({
+        "do_sample": False,
+    })
 textual_outputs, predicted_dataset = bloom_predict(
     training_data=traindev_dataset_this_seed,
     testing_data=test_dataset if args.test_on_test_set else None,
@@ -297,13 +311,7 @@ textual_outputs, predicted_dataset = bloom_predict(
     criterion=args.criterion,
     keywords=prompt_keywords[args.prompt_dict],
     domain=args.domain,
-    model_kwargs={
-        "num_beams": args.num_beams,
-        "do_sample": args.do_sample,
-        "top_p": args.top_p if args.do_sample else None,
-        "top_k": args.top_k if args.do_sample else None,
-        "temperature": args.temperature if args.do_sample else None,
-    }
+    model_kwargs=model_kwargs,
 )
 
 logger.info("Evaluating...")
