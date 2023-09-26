@@ -77,7 +77,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
             for i, (train_indices, dev_indices) in enumerate(kf.split(training_data)):
                 dev_dataset = [training_data[i] for i in dev_indices]
                 train_dataset = [training_data[i] for i in train_indices]
-                first_prompts_fold, self_verif_templates_fold = make_prompts(
+                first_prompts_fold, self_verif_template_fold = make_prompts(
                     train_dataset,
                     dev_dataset,
                     ner_tag,
@@ -87,13 +87,14 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                     **kwargs
                 )
                 first_prompts.extend(first_prompts_fold)
-                self_verif_templates[ner_tag] = self_verif_templates_fold
+                self_verif_templates[ner_tag] = self_verif_template_fold
             logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
+            logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
     else:
         logger.info("{} examples in train set".format(len(training_data)))
         logger.info("{} examples in test set".format(len(testing_data)))
         for ner_tag in ner_tags:
-            first_prompts_ner_tag, self_verif_templates_ner_tag= make_prompts(
+            first_prompts_ner_tag, self_verif_template_ner_tag = make_prompts(
                 training_data,
                 testing_data,
                 ner_tag,
@@ -103,8 +104,9 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                 **kwargs
             )
             first_prompts.extend(first_prompts_ner_tag)
-            self_verif_templates[ner_tag] = self_verif_templates_ner_tag
+            self_verif_templates[ner_tag] = self_verif_template_ner_tag
         logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
+        logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
     
     reference = testing_data if testing_data is not None else training_data
     newline_token = tokenizer.encode('\n', add_special_tokens=False)[0]
@@ -211,21 +213,22 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
         #             verified_entities.append(pred)
         #     predictions[i%len(reference)]['entities'] = verified_entities
         
-        for i in range(len(predictions)):
-            sentences = []
-            addresses = []
-            for pred in predictions[i]['entities']:
+        sentences = []
+        addresses = []
+        for i,predicted_example in enumerate(predictions):
+            for pred in predicted_example['entities']:
                 type = pred['label']
                 id = pred['entity_id']
-                prompting_sentence = example2string(predictions[i], type, begin_tag, end_tag, sticked=True, tagged=False)
+                prompting_sentence = example2string(predicted_example, type, begin_tag, end_tag, sticked=True, tagged=False)
                 verification_sentence = self_verif_templates[type].format(word=pred['text'], sentence=prompting_sentence)
                 sentences.append(verification_sentence)
-                addresses.append((i, id))
+                addresses.append((i,id))
         prompts = get_prompt_for_model(model_name, sentences)
+        print(f"{len(prompts)} prompts generated for self verification")
         
         yes_scores = []
         no_scores = []
-        batch_size = 8
+        batch_size = 2
         for i in tqdm(range(0,len(prompts),batch_size)):
             prompts_batch = prompts[i:i+batch_size]
             input_ids = tokenizer(prompts_batch, padding=True, return_tensors="pt").input_ids
@@ -235,7 +238,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
             yes_scores.extend(scores[:,yes_tok])
             no_scores.extend(scores[:,no_tok])
         for i, (y, n) in enumerate(zip(yes_scores, no_scores)):
-            if y<n:
+            if n>y:
                 sent_idx, ent_id = addresses[i]
                 predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
 
