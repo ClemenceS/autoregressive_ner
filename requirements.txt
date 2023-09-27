@@ -4,5 +4,6 @@ transformers
 torch
 protobuf
 sentencepiece
+nlstruct
 fschat[model_worker,webui]
 bitsandbytes
