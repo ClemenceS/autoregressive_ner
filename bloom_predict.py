@@ -226,21 +226,17 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
         prompts = get_prompt_for_model(model_name, sentences)
         print(f"{len(prompts)} prompts generated for self verification")
         
-        yes_scores = []
-        no_scores = []
-        batch_size = 2
+        batch_size = 4
         for i in tqdm(range(0,len(prompts),batch_size)):
             prompts_batch = prompts[i:i+batch_size]
             input_ids = tokenizer(prompts_batch, padding=True, return_tensors="pt").input_ids
             input_ids = input_ids.to(device)
             output_batch = model.generate(input_ids, max_new_tokens=1, output_scores=True, return_dict_in_generate=True)
-            scores = output_batch.scores[0]
-            yes_scores.extend(scores[:,yes_tok])
-            no_scores.extend(scores[:,no_tok])
-        for i, (y, n) in enumerate(zip(yes_scores, no_scores)):
-            if n>y:
-                sent_idx, ent_id = addresses[i]
-                predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
+            for j in range(len(prompts_batch)):
+                scores = output_batch.scores[0][j][[yes_tok, no_tok]]
+                sent_idx, ent_id = addresses[i+j]
+                if scores[0]<scores[1]:
+                    predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
 
     return outputs, predictions   
     
