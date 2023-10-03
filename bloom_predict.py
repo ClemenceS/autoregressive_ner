@@ -1,7 +1,6 @@
 import re
 import torch
 from tqdm import tqdm
-from fastchat.model import get_conversation_template
 from sklearn.model_selection import KFold
 from prompt_maker import example2string, make_prompts, get_yes_no_words
 from transformers import StoppingCriteria
@@ -10,6 +9,7 @@ def get_prompt_for_model(model_name, prompts):
     new_prompts = []
     for prompt in prompts:
         if 'vicuna' in model_name or 'vigogne' in model_name:
+            from fastchat.model import get_conversation_template
             conv = get_conversation_template(model_name)
             conv.append_message(conv.roles[0], prompt)
             conv.append_message(conv.roles[1], None)
