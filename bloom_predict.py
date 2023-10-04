@@ -138,47 +138,48 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
     batch_size = 2
     for i in tqdm(range(0,len(first_prompts),batch_size)):
         prompts = get_prompt_for_model(model_name, first_prompts[i:i+batch_size])
-        input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
-        input_ids = input_ids.to(device)
+        all_input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
+        all_input_ids = all_input_ids.to(device)
         if not control:
-            #criteria = Newline(check_starts=len(input_ids[0]), newline_token=newline_token)
-            output_batch = model.generate(input_ids, max_new_tokens=512, **model_kwargs)
-            output_batch = output_batch[:,len(input_ids[0]):]
+            #criteria = Newline(check_starts=len(all_input_ids[0]), newline_token=newline_token)
+            output_batch = model.generate(all_input_ids, max_new_tokens=512, **model_kwargs)
+            output_batch = output_batch[:,len(all_input_ids[0]):]
             output_batch_text = [tokenizer.decode(output,skip_special_tokens=True).strip() for output in output_batch]
         else:
-            raise NotImplementedError("Control not supported")
-            entry = entries[i%len(reference)]
+            output_batch_text = []
+            for j in range(len(all_input_ids)):
+                input_ids = all_input_ids[j].unsqueeze(0)
+                entry = entries[(i+j)%len(reference)]
 
-            nb_open_entites = 0
-            all_generated_ids = []
-            num_new_tokens = 0
-            while input_ids[0,-1] not in [newline_token, eos_token] and len(entry)>1 and num_new_tokens<512:
-                output = model.generate(input_ids,max_new_tokens=1,output_scores=True, return_dict_in_generate=True, **model_kwargs)
-                scores = output.scores
-                sequences = output.sequences
-                next_entry_id = entry[0]
-                if nb_open_entites<=0:
-                    allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0]]).to(device)
-                else:
-                    allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0], end_tag_toks[0]]).to(device)
-                next_scores = scores[0][0][[allowed_tokens]]
-                generated_id = allowed_tokens[torch.argmax(next_scores)]
-                if generated_id==next_entry_id:
-                    entry = entry[1:]
-                    all_generated_ids = [generated_id]
-                elif generated_id==begin_tag_toks[0]:
-                    nb_open_entites+=1
-                    all_generated_ids = begin_tag_toks
-                    if sticked:
-                        entry = tokenizer.encode("@"+tokenizer.decode(entry), add_special_tokens=False)[1:]
-                else:
-                    nb_open_entites-=1
-                    all_generated_ids = end_tag_toks
-                num_new_tokens+=len(all_generated_ids)
+                nb_open_entites = 0
+                all_generated_ids = []
+                num_new_tokens = 0
+                while input_ids[0,-1] not in [newline_token, eos_token] and len(entry)>1 and num_new_tokens<512:
+                    output = model.generate(input_ids,max_new_tokens=1,output_scores=True, return_dict_in_generate=True, **model_kwargs)
+                    scores = output.scores
+                    sequences = output.sequences
+                    next_entry_id = entry[0]
+                    if nb_open_entites<=0:
+                        allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0]]).to(device)
+                    else:
+                        allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0], end_tag_toks[0]]).to(device)
+                    next_scores = scores[0][0][[allowed_tokens]]
+                    generated_id = allowed_tokens[torch.argmax(next_scores)]
+                    if generated_id==next_entry_id:
+                        entry = entry[1:]
+                        all_generated_ids = [generated_id]
+                    elif generated_id==begin_tag_toks[0]:
+                        nb_open_entites+=1
+                        all_generated_ids = begin_tag_toks
+                        if sticked:
+                            entry = tokenizer.encode("@"+tokenizer.decode(entry), add_special_tokens=False)[1:]
+                    else:
+                        nb_open_entites-=1
+                        all_generated_ids = end_tag_toks
+                    num_new_tokens+=len(all_generated_ids)
 
-                input_ids = torch.cat([input_ids,torch.tensor(all_generated_ids).unsqueeze(0).to(device)], dim=1)
-
-            output = tokenizer.decode(sequences[0],skip_special_tokens=True).replace(prompt,'').strip()
+                    input_ids = torch.cat([input_ids,torch.tensor(all_generated_ids).unsqueeze(0).to(device)], dim=1)
+                output_batch_text.append(tokenizer.decode(input_ids[0],skip_special_tokens=True).replace(prompts[j],'').strip()) 
         outputs.extend(output_batch_text)
         
     for i, output in enumerate(outputs):
