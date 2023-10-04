@@ -184,7 +184,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
     for i, output in enumerate(outputs):
         predictions[i%len(reference)]['entities'].extend([
             {
-                'entity_id': 'T{}'.format(ent_idx),
+                'entity_id': 'T{}'.format(len(predictions[i%len(reference)]['entities'])+ent_idx+1),
                 'label': ner_tags[i//len(reference)],
                 'fragments': [
                     {
