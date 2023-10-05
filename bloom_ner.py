@@ -15,6 +15,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 args = argparse.ArgumentParser()
 args.add_argument("--language", type=str, default="fr", help="language of the dataset")
 args.add_argument("--domain", type=str, default="general", help="domain of the dataset")
+args.add_argument("--dataset_name", type=str, help="dataset name")
+args.add_argument('-d', "--load_dataset_from_disk", action="store_true")
 args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
 args.add_argument("--n_few_shot", type=int, default=5)
@@ -213,27 +215,39 @@ prompt_keywords = {
     }
 }
 
-if args.domain == 'general':
+ner_tags_by_dataset = {
+    "WikiNER" : ["PER", "LOC", "ORG"],
+    "quaero" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
+}
+tag_map_by_dataset = {
+    "WikiNER" : {
+        0: "O",
+        1: "LOC",
+        2: "PER",
+        3: "FAC",
+        4: "ORG",
+    },
+}
+
+def get_if_key_in_x(dict, x):
+    return next((dict[key] for key in dict if key in x), None)
+
+try:
     dataset = HuggingfaceNERDataset(
-        dataset_name='meczifho/WikiNER',
+        dataset_name=args.dataset_name,
         subset=args.language,
-        tag_map={
-            0: "O",
-            1: "LOC",
-            2: "PER",
-            3: "FAC",
-            4: "ORG",
-        },
+        tag_map=get_if_key_in_x(tag_map_by_dataset, args.dataset_name),
         doc_id_colname="id",
+        load_from_disk=args.load_dataset_from_disk,
     )
-    ner_tags = ['PER', 'LOC', 'ORG']
-else :
+except:
     dataset = BRATDataset(
-        train= "/mnt/beegfs/home/naguib/autoregressive_ner/quaero/training",
+        train= f"{args.dataset_name}/train",
         val= 0, 
-        test= "/mnt/beegfs/home/naguib/autoregressive_ner/quaero/test",
+        test= f"{args.dataset_name}/test",
     )
-    ner_tags = ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"]
+ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
+
 
 traindev_dataset = [e for e in dataset.train_data if len(e['text']) < 512]
 test_dataset = [e for e in dataset.test_data if len(e['text']) < 512]
@@ -253,7 +267,7 @@ if "bloom" not in args.model_name:
             )
 else:
     model = AutoModelForCausalLM.from_pretrained(args.model_name, device_map="auto")
-tokenizer = AutoTokenizer.from_pretrained(args.model_name, use_fast=False, padding_side='left')
+tokenizer = AutoTokenizer.from_pretrained(args.model_name, use_fast="bloom" in args.model_name, padding_side='left')
 
 #np random deals with choosing the traindev dataset
 np.random.seed(args.partition_seed)
