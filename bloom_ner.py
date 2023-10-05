@@ -7,7 +7,6 @@ import random
 
 import torch
 from bloom_predict import bloom_predict
-from fastchat.model import load_model
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
@@ -241,13 +240,17 @@ folder_name = 'results'
 os.makedirs(folder_name, exist_ok=True)
 
 logger.info("Loading model...")
-model, tokenizer = load_model(
-        args.model_name,
-        device="cuda" if torch.cuda.is_available() else "cpu",
-        num_gpus=1,
-        load_8bit='vicuna' in args.model_name or 'vigogne' in args.model_name,
-        debug=False,
-        )
+if "bloom" not in args.model_name:
+    from fastchat.model import load_model
+    model, _ = load_model(
+            args.model_name,
+            device="cuda" if torch.cuda.is_available() else "cpu",
+            num_gpus=1,
+            load_8bit='vicuna' in args.model_name or 'vigogne' in args.model_name,
+            debug=False,
+            )
+else:
+    model = AutoModelForCausalLM.from_pretrained(args.model_name, device_map="auto")
 tokenizer = AutoTokenizer.from_pretrained(args.model_name, use_fast=False, padding_side='left')
 
 #np random deals with choosing the traindev dataset
