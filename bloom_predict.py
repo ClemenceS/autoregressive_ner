@@ -109,7 +109,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
         logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
     
     reference = testing_data if testing_data is not None else training_data
-    newline_token = tokenizer.encode('\n', add_special_tokens=False)[0]
+    newline_token = tokenizer.encode('\n', add_special_tokens=False)[-1]
     eos_token = tokenizer.eos_token_id
     yes_no = get_yes_no_words(keywords=kwargs['keywords'])
     yes_tok = tokenizer.encode(yes_no[0],add_special_tokens=False)[0]
@@ -157,15 +157,18 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                 while input_ids[0,-1] not in [newline_token, eos_token] and len(entry)>1 and num_new_tokens<512:
                     output = model.generate(input_ids,max_new_tokens=1,output_scores=True, return_dict_in_generate=True, **model_kwargs)
                     scores = output.scores
-                    sequences = output.sequences
                     next_entry_id = entry[0]
                     if nb_open_entites<=0:
-                        allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0]]).to(device)
+                        allowed_tokens = torch.tensor([
+                            next_entry_id, 
+                            begin_tag_toks[0],
+                            eos_token,
+                            ]).to(device)
                     else:
                         allowed_tokens = torch.tensor([next_entry_id, begin_tag_toks[0], end_tag_toks[0]]).to(device)
                     next_scores = scores[0][0][[allowed_tokens]]
                     generated_id = allowed_tokens[torch.argmax(next_scores)]
-                    if generated_id==next_entry_id:
+                    if generated_id in [next_entry_id, eos_token]:
                         entry = entry[1:]
                         all_generated_ids = [generated_id]
                     elif generated_id==begin_tag_toks[0]:
@@ -176,6 +179,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                     else:
                         nb_open_entites-=1
                         all_generated_ids = end_tag_toks
+
                     num_new_tokens+=len(all_generated_ids)
 
                     input_ids = torch.cat([input_ids,torch.tensor(all_generated_ids).unsqueeze(0).to(device)], dim=1)
