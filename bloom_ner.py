@@ -43,11 +43,13 @@ random.seed(args.random_seed)
 
 prompt_keywords = {
     'en' : {
-        'first_sentence' : "I am an excellent {}. The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
+        'first_sentence' : "{}The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
         'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind each of them.\n",
         'domains_jobs' : {
-            'clinical' : "clinician",
-            'general' : "linguist"
+            # 'clinical' : "I am an excellent clinician. ",
+            'clinical' : "",
+            #'general' : "I am an excellent linguist. "
+            'general' : "",
             },
         'ner_tags_plural' : {
             'PER' : "person names",
@@ -100,7 +102,7 @@ prompt_keywords = {
             },
         'input_intro' : "Input: ",
         'output_intro' : "Output: ",
-        'first_sentence_self_verif' : "I am an excellent {}. The task is to verify whether a given word is a mention of a {}. Below some examples :\n",
+        'first_sentence_self_verif' : "{}The task is to verify whether a given word is a mention of a {}. Below some examples :\n",
         "self_verif_template": "In the sentence \"{{sentence}}\", is \"{{word}}\" {ner_tag}?\n",
         "yes": "Yes",
         "no": "No",
