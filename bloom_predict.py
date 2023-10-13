@@ -4,22 +4,23 @@ from tqdm import tqdm
 from sklearn.model_selection import KFold
 from prompt_maker import example2string, make_prompts, get_yes_no_words
 from transformers import StoppingCriteria
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
-def get_prompt_for_model(model_name, prompts):
-    new_prompts = []
+
+def get_prompts_for_model(model_name, prompts):
+    prompts_for_model = []
     for prompt in prompts:
         if 'vicuna' in model_name or 'vigogne' in model_name:
             from fastchat.model import get_conversation_template
             conv = get_conversation_template(model_name)
             conv.append_message(conv.roles[0], prompt)
             conv.append_message(conv.roles[1], None)
-            prompt = conv.get_prompt()
+            prompts_for_model.append(conv.get_prompt())
         elif 'bloom' in model_name:    
-            pass
+            prompts_for_model.append(prompt)
         else:
             raise NotImplementedError("Model not supported")
-        new_prompts.append(prompt)
-    return new_prompts
+    return prompts_for_model
         
 
 def validate_sentence(s, begin_tag, end_tag):
@@ -67,7 +68,28 @@ class Newline(StoppingCriteria):
         return all([self.newline_token in input_ids[i, self.check_start:] for i in range(input_ids.shape[0])])
 
 
-def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, model, tokenizer, control, self_verification, begin_tag, end_tag, model_kwargs, **kwargs):
+def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus,  **kwargs):
+    vllm = True
+    if n_gpus==0:
+        vllm = False
+    if not vllm:
+        logger.info("Loading model...")
+        if "bloom" not in model_name:
+            from fastchat.model import load_model
+            model, _ = load_model(
+                    model_name,
+                    device="cuda" if torch.cuda.is_available() else "cpu",
+                    num_gpus=1,
+                    load_8bit='vicuna' in model_name or 'vigogne' in model_name,
+                    debug=False,
+                    )
+        else:
+            model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+    else:
+        from vllm import LLM, SamplingParams
+        llm = LLM(model_name, tensor_parallel_size=n_gpus)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast="bloom" in model_name, padding_side='left')
+
     first_prompts = []
     self_verif_templates = {}
     if testing_data is None:
@@ -135,21 +157,30 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                     }
                     for example in reference
                 ]
-    batch_size = 2
-    for i in tqdm(range(0,len(first_prompts),batch_size)):
-        prompts = get_prompt_for_model(model_name, first_prompts[i:i+batch_size])
-        all_input_ids = tokenizer(prompts, padding=True, return_tensors="pt").input_ids
-        all_input_ids = all_input_ids.to(device)
-        if not control:
-            #criteria = Newline(check_starts=len(all_input_ids[0]), newline_token=newline_token)
-            output_batch = model.generate(all_input_ids, max_new_tokens=512, **model_kwargs)
-            output_batch = output_batch[:,len(all_input_ids[0]):]
-            output_batch_text = [tokenizer.decode(output,skip_special_tokens=True).strip() for output in output_batch]
-        else:
-            output_batch_text = []
-            for j in range(len(all_input_ids)):
-                input_ids = all_input_ids[j].unsqueeze(0)
-                entry = entries[(i+j)%len(reference)]
+    if vllm:
+        #first_prompts_prep = [get_prompts_for_model(model_name, prompt) for prompt in first_prompts]
+        model_prompts = get_prompts_for_model(model_name, first_prompts)
+        sampling_params = SamplingParams(
+            use_beam_search=model_kwargs["num_beams"]>1,
+            best_of=model_kwargs["num_beams"],
+            stop=['\n'],
+            temperature=0,
+            max_tokens=128,
+        )
+        pre_outputs = llm.generate(model_prompts, sampling_params)
+        outputs = [o.outputs[0].text for o in pre_outputs]
+    else:
+        model_prompts = get_prompts_for_model(model_name, first_prompts)
+        for i in tqdm(range(0,len(first_prompts))):
+            prompt = model_prompts[i]
+            input_ids = tokenizer(prompt, padding=True, return_tensors="pt").input_ids
+            input_ids = input_ids.to(device)
+            if not control:
+                output = model.generate(input_ids, max_new_tokens=128, output_scores=True, return_dict_in_generate=True, **model_kwargs)
+                output = output[0][len(input_ids[0]):]
+                output_text = tokenizer.decode(output,skip_special_tokens=True)
+            else:
+                entry = entries[i%len(reference)]
 
                 nb_open_entites = 0
                 all_generated_ids = []
@@ -183,8 +214,8 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                     num_new_tokens+=len(all_generated_ids)
 
                     input_ids = torch.cat([input_ids,torch.tensor(all_generated_ids).unsqueeze(0).to(device)], dim=1)
-                output_batch_text.append(tokenizer.decode(input_ids[0],skip_special_tokens=True).replace(prompts[j],'').strip()) 
-        outputs.extend(output_batch_text)
+                output_text = tokenizer.decode(input_ids[0],skip_special_tokens=True).replace(prompt,'').strip()
+            outputs.append(output_text)
         
     for i, output in enumerate(outputs):
         predictions[i%len(reference)]['entities'].extend([
@@ -228,20 +259,33 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, mod
                 verification_sentence = self_verif_templates[type].format(word=pred['text'], sentence=prompting_sentence)
                 sentences.append(verification_sentence)
                 addresses.append((i,id))
-        prompts = get_prompt_for_model(model_name, sentences)
+        prompts = get_prompts_for_model(model_name, sentences)
         print(f"{len(prompts)} prompts generated for self verification")
         
-        batch_size = 4
-        for i in tqdm(range(0,len(prompts),batch_size)):
-            prompts_batch = prompts[i:i+batch_size]
-            input_ids = tokenizer(prompts_batch, padding=True, return_tensors="pt").input_ids
-            input_ids = input_ids.to(device)
-            output_batch = model.generate(input_ids, max_new_tokens=1, output_scores=True, return_dict_in_generate=True)
-            for j in range(len(prompts_batch)):
-                scores = output_batch.scores[0][j][[yes_tok, no_tok]]
-                sent_idx, ent_id = addresses[i+j]
-                if scores[0]<scores[1]:
+        if vllm:
+            sampling_params = SamplingParams(
+                stop=['\n'],
+                temperature=0,
+                max_tokens=2,
+            )
+            pre_outputs = llm.generate(prompts, sampling_params)
+            verif_outputs = [o.outputs[0].text for o in pre_outputs]
+            for i, output in enumerate(verif_outputs):
+                if "no" in output.lower():
+                    sent_idx, ent_id = addresses[i]
                     predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
+        else:
+            batch_size = 4
+            for i in tqdm(range(0,len(prompts),batch_size)):
+                prompts_batch = prompts[i:i+batch_size]
+                input_ids = tokenizer(prompts_batch, padding=True, return_tensors="pt").input_ids
+                input_ids = input_ids.to(device)
+                output_batch = model.generate(input_ids, max_new_tokens=1, output_scores=True, return_dict_in_generate=True)
+                for j in range(len(prompts_batch)):
+                    scores = output_batch.scores[0][j][[yes_tok, no_tok]]
+                    sent_idx, ent_id = addresses[i+j]
+                    if scores[0]<scores[1]:
+                        predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
 
     return outputs, predictions   
     

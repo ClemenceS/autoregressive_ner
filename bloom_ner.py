@@ -258,20 +258,6 @@ test_dataset = [e for e in dataset.test_data if len(e['text']) < 512]
 folder_name = 'results'
 os.makedirs(folder_name, exist_ok=True)
 
-logger.info("Loading model...")
-if "bloom" not in args.model_name:
-    from fastchat.model import load_model
-    model, _ = load_model(
-            args.model_name,
-            device="cuda" if torch.cuda.is_available() else "cpu",
-            num_gpus=1,
-            load_8bit='vicuna' in args.model_name or 'vigogne' in args.model_name,
-            debug=False,
-            )
-else:
-    model = AutoModelForCausalLM.from_pretrained(args.model_name, device_map="auto")
-tokenizer = AutoTokenizer.from_pretrained(args.model_name, use_fast="bloom" in args.model_name, padding_side='left')
-
 #np random deals with choosing the traindev dataset
 np.random.seed(args.partition_seed)
 traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
