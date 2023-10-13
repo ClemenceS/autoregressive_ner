@@ -311,8 +311,6 @@ textual_outputs, predicted_dataset = bloom_predict(
     begin_tag=args.begin_tag,
     end_tag=args.end_tag,
     self_verification=args.self_verification,
-    model=model,
-    tokenizer=tokenizer,
     control=args.control,
     n_few_shot=args.n_few_shot,
     criterion=args.criterion,
@@ -329,10 +327,16 @@ metric_names = {
 }
 metrics = MetricsCollection({k: get_instance(m) for k, m in metric_names.items()})
 
-for metric in metrics.values():
-        metric(predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)
-        print(metric.compute())
-        logfile.write(str(metric.compute())+'\n')
+s_metrics = ""
+for metric_name, metric in metrics.items():
+    metric(predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)
+    metric_dict = metric.compute()
+    s_metrics+="="*20+metric_name+"="*20+'\n'
+    s_metrics+='ALL    tp: '+str(int(metric_dict['tp'].item()))+'    precision: '+str(round(metric_dict['precision'].item(), 3))+'    recall: '+str(round(metric_dict['recall'].item(), 3))+'    f1: '+str(round(metric_dict['f1'].item(), 3))+'\n'
+    for tag in ner_tags:
+        s_metrics+=tag+'    tp: '+str(int(metric_dict[tag+'_tp'].item()))+'    precision: '+str(round(metric_dict[tag+'_precision'].item(), 3))+'    recall: '+str(round(metric_dict[tag+'_recall'].item(), 3))+'    f1: '+str(round(metric_dict[tag+'_f1'].item(), 3))+'\n'
+logfile.write(s_metrics)
+print(s_metrics)
 
 for i, (o, pred, gold) in enumerate(zip(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)):
         logfile.write('='*50+'\n')
