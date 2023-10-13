@@ -10,7 +10,6 @@ from bloom_predict import bloom_predict
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
-from transformers import AutoTokenizer, AutoModelForCausalLM
 
 args = argparse.ArgumentParser()
 args.add_argument("--language", type=str, default="fr", help="language of the dataset")
@@ -30,6 +29,7 @@ args.add_argument('--num_beams', type=int, default=1)
 args.add_argument('--api_inference', action="store_true")
 args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument('--random_seed', type=int, default=42)
+args.add_argument('-n', '--n_gpus', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument('--do_sample', action="store_true")
@@ -319,6 +319,7 @@ textual_outputs, predicted_dataset = bloom_predict(
     keywords=prompt_keywords[args.prompt_dict],
     domain=args.domain,
     model_kwargs=model_kwargs,
+    n_gpus=args.n_gpus,
 )
 
 logger.info("Evaluating...")
