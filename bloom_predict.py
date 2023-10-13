@@ -65,7 +65,7 @@ class Newline(StoppingCriteria):
         self.newline_token = newline_token
     
     def __call__(self, input_ids: torch.LongTensor, score: torch.FloatTensor, **kwargs) -> bool:
-        return all([self.newline_token in input_ids[i, self.check_start:] for i in range(input_ids.shape[0])])
+        return self.newline_token in input_ids[0, self.check_start:]
 
 
 def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus,  **kwargs):
