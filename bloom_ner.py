@@ -12,7 +12,6 @@ from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
 
 args = argparse.ArgumentParser()
-args.add_argument("--language", type=str, default="fr", help="language of the dataset")
 args.add_argument("--domain", type=str, default="general", help="domain of the dataset")
 args.add_argument("--dataset_name", type=str, help="dataset name")
 args.add_argument('-d', "--load_dataset_from_disk", action="store_true")
@@ -238,7 +237,6 @@ def get_if_key_in_x(dict, x):
 try:
     dataset = HuggingfaceNERDataset(
         dataset_name=args.dataset_name,
-        subset=args.language,
         tag_map=get_if_key_in_x(tag_map_by_dataset, args.dataset_name),
         doc_id_colname="id",
         load_from_disk=args.load_dataset_from_disk,
@@ -263,8 +261,9 @@ np.random.seed(args.partition_seed)
 traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
 
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-logfile = open(folder_name+f'/log_{args.domain}_{args.language}_{args.random_seed}_{time_str}.txt', 'w')
-logfile.write('language: '+args.language+'\n')
+last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
+logfile = open(folder_name+f'/log_{args.domain}_{last_two_dirs}_{args.random_seed}_{time_str}.txt', 'w')
+logfile.write('dataset_name: '+last_two_dirs+'\n')
 logfile.write('domain: '+args.domain+'\n')
 logfile.write('begin_tag: '+args.begin_tag+'\n')
 logfile.write('end_tag: '+args.end_tag+'\n')
