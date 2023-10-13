@@ -43,6 +43,9 @@ logger = logging.getLogger("bloom_ner")
 #random deals with choosing the few-shot examples, so we want that fixed
 random.seed(args.random_seed)
 
+#assert dataset_name is not None
+assert args.dataset_name is not None
+
 prompt_keywords = {
     'en' : {
         'first_sentence' : "{}The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
