@@ -133,13 +133,13 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, con
     logger.info("Generating...")
     outputs = []
     predictions = [
-                    {
-                        'doc_id': example['doc_id'],
-                        'text': example['text'],
-                        'entities': [],
-                    }
-                    for example in reference
-                ]
+        {
+            'doc_id': example['doc_id'],
+            'text': example['text'],
+            'entities': [],
+        }
+        for example in reference
+    ]
     if not control:
         model_prompts = get_prompts_for_model(model_name, first_prompts)
         sampling_params = SamplingParams(
@@ -147,6 +147,10 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, con
             best_of=model_kwargs["num_beams"],
             stop=['\n'],
             temperature=0,
+            #no tested yet...
+            # temperature=model_kwargs["temperature"] if model_kwargs["do_sample"] else 0,
+            # top_p=model_kwargs["top_p"] if model_kwargs["do_sample"] else None,
+            # top_k=model_kwargs["top_k"] if model_kwargs["do_sample"] else None,
             max_tokens=128,
         )
         pre_outputs = llm.generate(model_prompts, sampling_params)
