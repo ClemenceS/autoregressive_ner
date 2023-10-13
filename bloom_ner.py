@@ -5,7 +5,6 @@ import argparse
 import logging
 import random
 
-import torch
 from bloom_predict import bloom_predict
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
@@ -218,7 +217,8 @@ prompt_keywords = {
 }
 
 ner_tags_by_dataset = {
-    "WikiNER" : ["PER", "LOC", "ORG"],
+    "WikiNER/en" : ["PER", "LOC", "ORG"],
+    "WikiNER/fr" : ["PER", "LOC", "ORG"],
     "quaero" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
 }
 tag_map_by_dataset = {
