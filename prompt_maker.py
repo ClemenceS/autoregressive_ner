@@ -68,29 +68,19 @@ def make_prompts(train_dataset, test_dataset, ner_tag, domain, begin_tag, end_ta
         pos_examples = random.sample([e for e in train_dataset if ner_tag in [ent['label'] for ent in e['entities']] ], n_few_shot)
     for example in pos_examples:
         example_string = example2string(example, ner_tag, begin_tag, end_tag, sticked=True, tagged=False)
-        target = example2string(example, ner_tag, begin_tag, end_tag, sticked=True, tagged=True)
-        regex_begin_tag = re.escape(begin_tag)
-        regex_end_tag = re.escape(end_tag)
-        entities = re.findall(regex_begin_tag+'(.*?)'+regex_end_tag, target)
-        #get a random entity in the example
-        entity = random.choice(entities)
+        entities = [ent for ent in example['entities'] if ent['label'] == ner_tag]
+        entity = random.choice(entities)['text']
         examples.append((example_string, entity, "yes"))
     #add negative examples with another entity
-    #neg_examples = random.sample([e for e in train_dataset if set([ent['label'] for ent in e['entities']])-{'O',ner_tag}], n_few_shot)
     if n_few_shot > len([e for e in train_dataset if set([ent['label'] for ent in e['entities']])-{'O',ner_tag} ]):
         neg_examples = [e for e in train_dataset if set([ent['label'] for ent in e['entities']])-{'O',ner_tag} ]
     else:
         neg_examples = random.sample([e for e in train_dataset if set([ent['label'] for ent in e['entities']])-{'O',ner_tag} ], n_few_shot)
     for example in neg_examples:
-        #get the tag in the example that is not ner_tag_id
-        other_tag = list(set([ent['label'] for ent in example['entities']])-{'O',ner_tag})[0]
-        example_string = example2string(example, other_tag, begin_tag, end_tag, sticked=True, tagged=False)
-        target = example2string(example, other_tag, begin_tag, end_tag, sticked=True, tagged=True)
-        regex_begin_tag = re.escape(begin_tag)
-        regex_end_tag = re.escape(end_tag)
-        entities = re.findall(regex_begin_tag+'(.*?)'+regex_end_tag, target)
-        #get a random entity in the example
-        entity = random.choice(entities)
+        other_label = list(set([ent['label'] for ent in example['entities']])-{'O',ner_tag})[0]
+        example_string = example2string(example, other_label, begin_tag, end_tag, sticked=True, tagged=False)
+        other_entities = [ent for ent in example['entities'] if ent['label'] == other_label]
+        entity = random.choice(other_entities)['text']
         examples.append((example_string, entity, "no"))
 
     #shuffle the examples

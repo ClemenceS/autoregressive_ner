@@ -219,9 +219,14 @@ prompt_keywords = {
 ner_tags_by_dataset = {
     "WikiNER/en" : ["PER", "LOC", "ORG"],
     "WikiNER/fr" : ["PER", "LOC", "ORG"],
+    "conll2003" : ["PER", "LOC", "ORG"],
     "quaero" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
 }
-tag_map_by_dataset = {
+colnames_by_hf_dataset = {
+    "WikiNER" : ("id", "words", "ner_tags"),
+    "conll2003" : ("id", "tokens", "ner_tags"),
+}
+tag_map_by_hf_dataset = {
     "WikiNER" : {
         0: "O",
         1: "LOC",
@@ -229,16 +234,30 @@ tag_map_by_dataset = {
         3: "FAC",
         4: "ORG",
     },
+    "conll2003" : {
+        0: "O",
+        1: "PER",
+        2: "PER",
+        3: "ORG",
+        4: "ORG",
+        5: "LOC",
+        6: "LOC",
+        7: "O",
+        8: "O",
+    },
 }
 
 def get_if_key_in_x(dict, x):
     return next((dict[key] for key in dict if key in x), None)
 
 try:
+    doc_id_colname, words_colname, ner_tags_colname = get_if_key_in_x(colnames_by_hf_dataset, args.dataset_name)
     dataset = HuggingfaceNERDataset(
         dataset_name=args.dataset_name,
-        tag_map=get_if_key_in_x(tag_map_by_dataset, args.dataset_name),
-        doc_id_colname="id",
+        tag_map=get_if_key_in_x(tag_map_by_hf_dataset, args.dataset_name),
+        doc_id_colname=doc_id_colname,
+        words_colname=words_colname,
+        ner_tags_colname=ner_tags_colname,
         load_from_disk=args.load_dataset_from_disk,
     )
 except:
