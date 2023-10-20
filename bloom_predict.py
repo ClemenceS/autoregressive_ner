@@ -9,18 +9,15 @@ from vllm import LLM, SamplingParams
 
 
 def get_prompts_for_model(model_name, prompts):
+    if 'bloom' in model_name:
+        return prompts
+    from fastchat.model import get_conversation_template
     prompts_for_model = []
     for prompt in prompts:
-        if 'vicuna' in model_name or 'vigogne' in model_name:
-            from fastchat.model import get_conversation_template
-            conv = get_conversation_template(model_name)
-            conv.append_message(conv.roles[0], prompt)
-            conv.append_message(conv.roles[1], None)
-            prompts_for_model.append(conv.get_prompt())
-        elif 'bloom' in model_name:    
-            prompts_for_model.append(prompt)
-        else:
-            raise NotImplementedError("Model not supported")
+        conv = get_conversation_template(model_name)
+        conv.append_message(conv.roles[0], prompt)
+        conv.append_message(conv.roles[1], None)
+        prompts_for_model.append(conv.get_prompt())
     return prompts_for_model
         
 
@@ -236,7 +233,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, con
         pre_outputs = llm.generate(prompts, sampling_params)
         verif_outputs = [o.outputs[0].text for o in pre_outputs]
         for i, output in enumerate(verif_outputs):
-            if "no" in output.lower():
+            if yes_no[1].lower() in output.lower():
                 sent_idx, ent_id = addresses[i]
                 predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
         # batch_size = 4
