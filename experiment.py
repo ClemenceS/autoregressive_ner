@@ -5,7 +5,7 @@ import argparse
 import logging
 import random
 
-from bloom_predict import bloom_predict
+from predict import predict_for_dataset
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
@@ -319,7 +319,7 @@ else:
     model_kwargs.update({
         "do_sample": False,
     })
-textual_outputs, predicted_dataset = bloom_predict(
+textual_outputs, predicted_dataset = predict_for_dataset(
     training_data=traindev_dataset_this_seed,
     testing_data=test_dataset if args.test_on_test_set else None,
     ner_tags=ner_tags,

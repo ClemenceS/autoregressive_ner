@@ -63,7 +63,7 @@ class Newline(StoppingCriteria):
         return self.newline_token in input_ids[0, self.check_start:]
 
 
-def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus,  **kwargs):
+def predict_for_dataset(training_data, testing_data, ner_tags, model_name, logger, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus,  **kwargs):
     llm = LLM(model_name, tensor_parallel_size=n_gpus)
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, padding_side='left')
 
