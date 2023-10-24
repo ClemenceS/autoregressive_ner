@@ -217,8 +217,7 @@ prompt_keywords = {
 }
 
 ner_tags_by_dataset = {
-    "WikiNER/en" : ["PER", "LOC", "ORG"],
-    "WikiNER/fr" : ["PER", "LOC", "ORG"],
+    "WikiNER" : ["PER", "LOC", "ORG"],
     "conll2003" : ["PER", "LOC", "ORG"],
     "quaero" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
 }

@@ -7,19 +7,16 @@ from transformers import StoppingCriteria
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from vllm import LLM, SamplingParams
 
+MODEL_INSTRUCTION_TEMPLATES = {
+    "lmsys/vicuna-13b-v1.5" : "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: {} ASSISTANT:",
+    "mistralai/Mistral-7B-Instruct-v0.1" : "[INST] {} [/INST]",
+    "tiiuae/falcon-40b":"<|im_start|>user\n{}<|im_end|>\n",
+}
 
 def get_prompts_for_model(model_name, prompts):
-    if 'bloom' in model_name:
+    if model_name not in MODEL_INSTRUCTION_TEMPLATES:
         return prompts
-    from fastchat.model import get_conversation_template
-    prompts_for_model = []
-    for prompt in prompts:
-        conv = get_conversation_template(model_name)
-        conv.append_message(conv.roles[0], prompt)
-        conv.append_message(conv.roles[1], None)
-        prompts_for_model.append(conv.get_prompt())
-    return prompts_for_model
-        
+    return [MODEL_INSTRUCTION_TEMPLATES[model_name].format(prompt) for prompt in prompts]
 
 def validate_sentence(s, begin_tag, end_tag):
     return (
@@ -90,8 +87,8 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, con
                 )
                 first_prompts.extend(first_prompts_fold)
                 self_verif_templates[ner_tag] = self_verif_template_fold
-            logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
-            logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
+            # logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
+            # logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
     else:
         logger.info("{} examples in train set".format(len(training_data)))
         logger.info("{} examples in test set".format(len(testing_data)))
@@ -107,8 +104,8 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, con
             )
             first_prompts.extend(first_prompts_ner_tag)
             self_verif_templates[ner_tag] = self_verif_template_ner_tag
-        logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
-        logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
+        # logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
+        # logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
     
     reference = testing_data if testing_data is not None else training_data
     newline_token = tokenizer.encode('\n', add_special_tokens=False)[-1]
@@ -142,7 +139,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, con
         sampling_params = SamplingParams(
             use_beam_search=model_kwargs["num_beams"]>1,
             best_of=model_kwargs["num_beams"],
-            stop=['\n'],
+            # stop=['\n'],
             temperature=0,
             #no tested yet...
             # temperature=model_kwargs["temperature"] if model_kwargs["do_sample"] else 0,
@@ -226,7 +223,7 @@ def bloom_predict(training_data, testing_data, ner_tags, model_name, logger, con
         print(f"{len(prompts)} prompts generated for self verification")
         
         sampling_params = SamplingParams(
-            stop=['\n'],
+            # stop=['\n'],
             temperature=0,
             max_tokens=2,
         )
