@@ -12,7 +12,7 @@ import logging
 MODEL_INSTRUCTION_TEMPLATES = {
     "lmsys/vicuna-13b-v1.5" : "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: {} ASSISTANT:",
     "mistralai/Mistral-7B-Instruct-v0.1" : "<s>[INST] {} [/INST]",
-    "tiiuae/falcon-40b":"<|im_start|>user\n{}<|im_end|>\n",
+    "tiiuae/falcon-40b-instruct":"<|im_start|>user\n{}<|im_end|>\n",
 }
 
 logging.basicConfig(level=logging.INFO)
