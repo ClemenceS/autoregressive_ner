@@ -11,7 +11,6 @@ from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
 
 args = argparse.ArgumentParser()
-args.add_argument("--domain", type=str, default="general", help="domain of the dataset")
 args.add_argument("--dataset_name", type=str, help="dataset name")
 args.add_argument('-d', "--load_dataset_from_disk", action="store_true")
 args.add_argument("--begin_tag", type=str, default="@@")
@@ -36,7 +35,7 @@ args.add_argument('--no_self_verification', dest='self_verification', action='st
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("bloom_ner")
+logger = logging.getLogger("experiment")
 
 #random deals with choosing the few-shot examples, so we want that fixed
 random.seed(args.random_seed)
@@ -46,14 +45,8 @@ assert args.dataset_name is not None
 
 prompt_keywords = {
     'en' : {
-        'first_sentence' : "{}The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
+        'first_sentence' : "The task is to label all mentions of {} in a sentence. {} I can also put them in a specific format. Here are some examples of sentences I can handle:\n",
         'last_sentence' : "Imitate me. Identify all the mentions of {} in the following sentence, by putting \"{}\" in front and a \"{}\" behind each of them.\n",
-        'domains_jobs' : {
-            # 'clinical' : "I am an excellent clinician. ",
-            'clinical' : "",
-            #'general' : "I am an excellent linguist. "
-            'general' : "",
-            },
         'ner_tags_plural' : {
             'PER' : "person names",
             'DISO' : "disorders",
@@ -105,7 +98,7 @@ prompt_keywords = {
             },
         'input_intro' : "Input: ",
         'output_intro' : "Output: ",
-        'first_sentence_self_verif' : "{}The task is to verify whether a given word is a mention of a {}. Below some examples :\n",
+        'first_sentence_self_verif' : "The task is to verify whether a given word is a mention of a {}. Below some examples :\n",
         "self_verif_template": "In the sentence \"{{sentence}}\", is \"{{word}}\" {ner_tag}?\n",
         "yes": "Yes",
         "no": "No",
@@ -114,10 +107,6 @@ prompt_keywords = {
     # 'vicuna_assistant' : {
     #     'first_sentence' : "A chat between a curious {} and an artificial intelligence assistant. The assistant can label all mentions of {} in a sentence. {} It can also put them in a specific format. Here are some examples of sentences it can handle:\n",
     #     'last_sentence' : "",
-    #     'domains_jobs' : {
-    #         'clinical' : "clinician",
-    #         'general' : "linguist"
-    #         },
     #     'ner_tags_plural' : {
     #         'PER' : "person names",
     #         'DISO' : "disorders",
@@ -153,12 +142,8 @@ prompt_keywords = {
     #         "no": "ASSISTANT : No",
     # },
     'fr' : {
-        'first_sentence' : "Je suis un {} expert, je sais identifier les mentions des {} dans une phrase. {} Je peux aussi les mettre en forme. Voici quelques exemples de phrases que je peux traiter :\n",
+        'first_sentence' : "La tâche est d'identifier toutes les mentions de {} dans une phrase. {} Il faut aussi les mettre en forme. Voici quelques exemples :\n",
         'last_sentence' : "Imite-moi. Identifie les mentions de {} dans la phrase suivante, en mettant \"{}\" devant et un \"{}\" derrière la mention dans la phrase suivante.\n",
-        'domains_jobs' : {
-            'clinical' : "clinicien",
-            'general' : "linguiste"
-        },
         'ner_tags_plural' : {
             'PER' : "noms de personnes",
             'DISO' : "maladies et symptômes",
@@ -209,7 +194,7 @@ prompt_keywords = {
         },
         'input_intro' : "Entrée : ",
         'output_intro' : "Sortie : ",
-        'first_sentence_self_verif' : "Je suis un {} expert, je sais identifier si un mot est une mention des {} dans une phrase. Voici quelques exemples de phrases que je peux traiter :\n",
+        "first_sentence_self_verif" : "La tâche est de vérifier si un mot est une mention des {} dans une phrase. Voici quelques exemples :\n",
         "self_verif_template": "Dans la phrase \"{{sentence}}\", le mot \"{{word}}\" désigne-t-il {ner_tag} ?\n",
         "yes": "Oui",
         "no": "Non",
@@ -280,9 +265,8 @@ traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(
 
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
-logfile = open(folder_name+f'/log_{args.domain}_{last_two_dirs}_{args.random_seed}_{time_str}.txt', 'w')
+logfile = open(folder_name+f'/log_{last_two_dirs}_{args.random_seed}_{time_str}.txt', 'w')
 logfile.write('dataset_name: '+last_two_dirs+'\n')
-logfile.write('domain: '+args.domain+'\n')
 logfile.write('begin_tag: '+args.begin_tag+'\n')
 logfile.write('end_tag: '+args.end_tag+'\n')
 logfile.write('n_few_shot: '+str(args.n_few_shot)+'\n')
@@ -332,7 +316,6 @@ textual_outputs, predicted_dataset = predict_for_dataset(
     n_few_shot=args.n_few_shot,
     criterion=args.criterion,
     keywords=prompt_keywords[args.prompt_dict],
-    domain=args.domain,
     model_kwargs=model_kwargs,
     n_gpus=args.n_gpus,
 )

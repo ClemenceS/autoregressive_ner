@@ -17,7 +17,7 @@ def example2string(example, ner_tag, begin_tag, end_tag, sticked, tagged):
         res_text+=c
     return res_text.rstrip()
 
-def make_prompts(train_dataset, test_dataset, ner_tag, domain, begin_tag, end_tag, n_few_shot, criterion, keywords, self_verification):
+def make_prompts(train_dataset, test_dataset, ner_tag, begin_tag, end_tag, n_few_shot, criterion, keywords, self_verification):
     #this function takes an example and a ner tag and returns a prompt in english
     few_shots_for_all = []
     num_prompts = len(test_dataset)
@@ -45,7 +45,7 @@ def make_prompts(train_dataset, test_dataset, ner_tag, domain, begin_tag, end_ta
     prompts = []
     for p in range(num_prompts):
         example = test_dataset[p]
-        prompt = keywords['first_sentence'].format(keywords['domains_jobs'][domain], keywords['ner_tags_plural'][ner_tag], keywords['ner_tags_description'][ner_tag])
+        prompt = keywords['first_sentence'].format(keywords['ner_tags_plural'][ner_tag], keywords['ner_tags_description'][ner_tag])
         few_shots= few_shots_for_all[p]
         random.shuffle(few_shots)
         for i in few_shots:
@@ -59,7 +59,7 @@ def make_prompts(train_dataset, test_dataset, ner_tag, domain, begin_tag, end_ta
     if not self_verification:
         return prompts, None
     
-    self_verification_template = keywords['first_sentence_self_verif'].format(keywords['domains_jobs'][domain], keywords['ner_tags_plural'][ner_tag])
+    self_verification_template = keywords['first_sentence_self_verif'].format(keywords['ner_tags_plural'][ner_tag])
     examples=[]
     #add positive examples
     if n_few_shot > len([e for e in train_dataset if ner_tag in [ent['label'] for ent in e['entities']] ]):
