@@ -6,12 +6,17 @@ from prompt_maker import example2string, make_prompts, get_yes_no_words
 from transformers import StoppingCriteria
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from vllm import LLM, SamplingParams
+import logging
+
 
 MODEL_INSTRUCTION_TEMPLATES = {
     "lmsys/vicuna-13b-v1.5" : "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: {} ASSISTANT:",
     "mistralai/Mistral-7B-Instruct-v0.1" : "<s>[INST] {} [/INST]",
     "tiiuae/falcon-40b":"<|im_start|>user\n{}<|im_end|>\n",
 }
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("predict")
 
 def get_prompts_for_model(model_name, prompts):
     if model_name not in MODEL_INSTRUCTION_TEMPLATES:
@@ -63,7 +68,7 @@ class Newline(StoppingCriteria):
         return self.newline_token in input_ids[0, self.check_start:]
 
 
-def predict_for_dataset(training_data, testing_data, ner_tags, model_name, logger, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus,  **kwargs):
+def predict_for_dataset(training_data, testing_data, ner_tags, model_name, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus,  **kwargs):
     llm = LLM(model_name, tensor_parallel_size=n_gpus)
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, padding_side='left')
 
@@ -87,8 +92,8 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, logge
                 )
                 first_prompts.extend(first_prompts_fold)
                 self_verif_templates[ner_tag] = self_verif_template_fold
-            # logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
-            # logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
+            logger.debug("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
+            logger.debug("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
     else:
         logger.info("{} examples in train set".format(len(training_data)))
         logger.info("{} examples in test set".format(len(testing_data)))
@@ -104,8 +109,8 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, logge
             )
             first_prompts.extend(first_prompts_ner_tag)
             self_verif_templates[ner_tag] = self_verif_template_ner_tag
-        # logger.info("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
-        # logger.info("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
+        logger.debug("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
+        logger.debug("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
     
     reference = testing_data if testing_data is not None else training_data
     newline_token = tokenizer.encode('\n', add_special_tokens=False)[-1]
