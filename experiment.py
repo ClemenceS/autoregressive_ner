@@ -308,7 +308,6 @@ textual_outputs, predicted_dataset = predict_for_dataset(
     testing_data=test_dataset if args.test_on_test_set else None,
     ner_tags=ner_tags,
     model_name=args.model_name,
-    logger=logger,
     begin_tag=args.begin_tag,
     end_tag=args.end_tag,
     self_verification=args.self_verification,
