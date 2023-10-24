@@ -144,7 +144,7 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
         sampling_params = SamplingParams(
             use_beam_search=model_kwargs["num_beams"]>1,
             best_of=model_kwargs["num_beams"],
-            # stop=['\n'],
+            stop=['\n'],
             temperature=0,
             #no tested yet...
             # temperature=model_kwargs["temperature"] if model_kwargs["do_sample"] else 0,
@@ -225,7 +225,7 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
                 sentences.append(verification_sentence)
                 addresses.append((i,id))
         prompts = get_prompts_for_model(model_name, sentences)
-        print(f"{len(prompts)} prompts generated for self verification")
+        logger.info(f"{len(prompts)} prompts generated for self verification")
         
         sampling_params = SamplingParams(
             # stop=['\n'],
