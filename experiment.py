@@ -318,6 +318,7 @@ textual_outputs, predicted_dataset = predict_for_dataset(
     keywords=prompt_keywords[args.prompt_dict],
     model_kwargs=model_kwargs,
     n_gpus=args.n_gpus,
+    random_seed=args.random_seed,
 )
 
 logger.info("Evaluating...")

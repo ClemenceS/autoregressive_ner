@@ -68,8 +68,10 @@ class Newline(StoppingCriteria):
         return self.newline_token in input_ids[0, self.check_start:]
 
 
-def predict_for_dataset(training_data, testing_data, ner_tags, model_name, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus,  **kwargs):
-    llm = LLM(model_name, tensor_parallel_size=n_gpus)
+def predict_for_dataset(training_data, testing_data, ner_tags, model_name, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus, random_seed, **kwargs):
+    compute_capability = torch.cuda.get_device_capability()
+    llm = LLM(model_name, tensor_parallel_size=n_gpus, seed=random_seed,dtype="float16" if compute_capability[0]<8 else "auto")
+        
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, padding_side='left')
 
     first_prompts = []
@@ -88,6 +90,7 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
                     begin_tag=begin_tag,
                     end_tag=end_tag,
                     self_verification=self_verification,
+                    random_seed=random_seed,
                     **kwargs
                 )
                 first_prompts.extend(first_prompts_fold)
@@ -145,7 +148,9 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
             use_beam_search=model_kwargs["num_beams"]>1,
             best_of=model_kwargs["num_beams"],
             stop=['\n'],
-            temperature=0,
+            temperature=0.0,
+            top_k=-1,
+            top_p=1,
             #no tested yet...
             # temperature=model_kwargs["temperature"] if model_kwargs["do_sample"] else 0,
             # top_p=model_kwargs["top_p"] if model_kwargs["do_sample"] else None,
@@ -229,8 +234,10 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
         
         sampling_params = SamplingParams(
             # stop=['\n'],
-            temperature=0,
+            temperature=0.0,
             max_tokens=2,
+            top_k=-1,
+            top_p=1,
         )
         pre_outputs = llm.generate(prompts, sampling_params)
         verif_outputs = [o.outputs[0].text for o in pre_outputs]

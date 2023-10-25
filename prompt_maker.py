@@ -17,7 +17,8 @@ def example2string(example, ner_tag, begin_tag, end_tag, sticked, tagged):
         res_text+=c
     return res_text.rstrip()
 
-def make_prompts(train_dataset, test_dataset, ner_tag, begin_tag, end_tag, n_few_shot, criterion, keywords, self_verification):
+def make_prompts(train_dataset, test_dataset, ner_tag, begin_tag, end_tag, n_few_shot, criterion, keywords, self_verification, random_seed):
+    random.seed(random_seed)
     #this function takes an example and a ner tag and returns a prompt in english
     few_shots_for_all = []
     num_prompts = len(test_dataset)
