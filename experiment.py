@@ -265,7 +265,8 @@ traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(
 
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
-logfile = open(folder_name+f'/log_{last_two_dirs}_{args.random_seed}_{time_str}.txt', 'w')
+model_base_name = os.path.basename(args.model_name)
+logfile = open(folder_name+f'/log_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.txt', 'w')
 logfile.write('dataset_name: '+last_two_dirs+'\n')
 logfile.write('begin_tag: '+args.begin_tag+'\n')
 logfile.write('end_tag: '+args.end_tag+'\n')
