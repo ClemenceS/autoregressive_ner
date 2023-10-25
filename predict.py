@@ -7,6 +7,7 @@ from transformers import StoppingCriteria
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from vllm import LLM, SamplingParams
 import logging
+import datetime
 
 
 MODEL_INSTRUCTION_TEMPLATES = {
@@ -144,6 +145,10 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
     ]
     if not control:
         model_prompts = get_prompts_for_model(model_name, first_prompts)
+        if "vicuna" in model_name:
+            timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            with open(f"repro/prompts_{timedate}.txt", "w") as f:
+                f.write("\n".join(model_prompts))
         sampling_params = SamplingParams(
             use_beam_search=model_kwargs["num_beams"]>1,
             best_of=model_kwargs["num_beams"],
@@ -256,6 +261,10 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
         #         sent_idx, ent_id = addresses[i+j]
         #         if scores[0]<scores[1]:
         #             predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
+    if "vicuna" in model_name:
+        timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        with open(f"repro/outputs_{timedate}.txt", "w") as f:
+            f.write("\n".join(outputs))
 
     return outputs, predictions   
     
