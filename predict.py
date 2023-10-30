@@ -1,3 +1,4 @@
+import os
 import re
 import torch
 from tqdm import tqdm
@@ -147,7 +148,10 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
         model_prompts = get_prompts_for_model(model_name, first_prompts)
         if "vicuna" in model_name:
             timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            with open(f"repro/prompts_{timedate}.txt", "w") as f:
+            script_dir = os.path.dirname(__file__)
+            folder_name = "repro"
+            os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
+            with open(os.path.join(script_dir, folder_name, f"prompts_{timedate}.txt"), "w") as f:
                 f.write("\n".join(model_prompts))
         sampling_params = SamplingParams(
             use_beam_search=model_kwargs["num_beams"]>1,
@@ -263,7 +267,10 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
         #             predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
     if "vicuna" in model_name:
         timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        with open(f"repro/outputs_{timedate}.txt", "w") as f:
+        script_dir = os.path.dirname(__file__)
+        folder_name = "repro"
+        os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
+        with open(os.path.join(script_dir, folder_name, f"outputs_{timedate}.txt"), "w") as f:
             f.write("\n".join(outputs))
 
     return outputs, predictions   
