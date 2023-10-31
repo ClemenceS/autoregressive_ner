@@ -14,23 +14,143 @@ def read_jsons(path):
 data = read_jsons('results')
 df = pd.DataFrame(data)
 
-scores = {}
+dataset_names = {
+    "conll2002-es":{
+        "name": "CoNLL2002",
+        "lang": "es",
+        "domain": "general"
+    },
+    "conll2003": {
+        "name": "CoNLL2003",
+        "lang": "en",
+        "domain": "general"
+    },
+    "naguib-emea": {
+        "name": "EMEA",
+        "lang": "fr",
+        "domain": "clinical"
+    },
+    "naguib-medline": {
+        "name": "MEDLINE",
+        "lang": "fr",
+        "domain": "clinical"
+    },
+    "WikiNER-en": {
+        "name": "WikiNER",
+        "lang": "en",
+        "domain": "general"
+    },
+    "WikiNER-fr": {
+        "name": "WikiNER",
+        "lang": "fr",
+        "domain": "general"
+    },
+    "WikiNER-es": {
+        "name": "WikiNER",
+        "lang": "es",
+        "domain": "general"
+    },
+    "naguib-n2c2": {
+        "name": "n2c2",
+        "lang": "en",
+        "domain": "clinical"
+    },
+    # "Mistral-7B-Instruct-v0.1" :{
+    #     "name": "Mistral-Instruct-7B",
+    #     "lang": "en",
+    #     "domain": "general",
+    # },
+    # "Mistral-7B-v0.1" :{
+    #     "name": "Mistral-7B",
+    #     "lang": "en",
+    #     "domain": "general",
+    # },
+    # "bloom-7b1": {
+    #     "name": "Bloom-7B",
+    #     "lang": "en",
+    #     "domain": "general"
+    # },
+    # "vicuna-13b-v1.5": {
+    #     "name": "Vicuna-13B",
+    #     "lang": "en",
+    #     "domain": "general"
+    # },
+}
 
-#replace each model_name with a shorter version, which is the name.split('/')[-1]
+os.makedirs('tables', exist_ok=True)
+
+
+df['lang'] = df['dataset_name'].apply(lambda name: dataset_names[name]['lang'])
+df['dataset_domain'] = df['dataset_name'].apply(lambda name: dataset_names[name]['domain'])
 df['model_name'] = df['model_name'].apply(lambda name: name.split('/')[-1])
-#for each pair of dataset_name and model_name, print all the lines containing the pair, if any
-for dataset_name in df['dataset_name'].unique():
-    for model_name in df['model_name'].unique():
-        if len(df[(df['dataset_name'] == dataset_name) & (df['model_name'] == model_name)]) > 0:
-            # print('dataset_name: ', dataset_name, ' model_name: ', model_name)
-            #if more than one line, get the most recent one
-            line = df[(df['dataset_name'] == dataset_name) & (df['model_name'] == model_name)].iloc[-1]
-            scores[(dataset_name, model_name)] = line['metrics']['f1']
+gdf = df[df['dataset_domain'] == 'general']
+print(gdf)
+gscores = {}
+n_discarded_general = 0
+for dataset_name in gdf['dataset_name'].unique():
+    for model_name in gdf['model_name'].unique():
+        if len(gdf[(gdf['dataset_name'] == dataset_name) & (gdf['model_name'] == model_name)]) > 0:
+            line = gdf[(gdf['dataset_name'] == dataset_name) & (gdf['model_name'] == model_name)].iloc[-1]
+            n_discarded_general += len(gdf[(gdf['dataset_name'] == dataset_name) & (gdf['model_name'] == model_name)]) - 1
+            gscores[(dataset_name, model_name)] = round(line['exact']['f1'],3)
+print('n_discarded: ', n_discarded_general)
 
-#print a latex table where each row is a dataset and each column is a model
-print('\\begin{tabular}{l|' + 'c|' * len(df['model_name'].unique()) + '}')
-print(' & ' + ' & '.join(df['model_name'].unique()) + '\\\\')
-print('\\hline')
-for dataset_name in df['dataset_name'].unique():
-    print(dataset_name + ' & ' + ' & '.join([str(scores[(dataset_name, model_name)]) if (dataset_name, model_name) in scores else '-' for model_name in df['model_name'].unique()]) + '\\\\')
-print('\\end{tabular}')
+with open("tables/general_results.tex", 'w') as f:
+    f.write('\\begin{table}')
+    f.write('\\resizebox{\\textwidth}{!}{')
+    f.write('\\begin{tabular}{l|l|' + 'c|' * len(gdf['model_name'].unique()) + '}')
+    f.write('\\toprule')
+    f.write(' & & ' + ' & '.join([model_name for model_name in gdf['model_name'].unique()]) + '\\\\')
+    f.write('\\midrule')
+    for lang in ['en', 'es', 'fr']:
+        nb_lines = len(gdf.query('lang == @lang and dataset_domain == "general"')['dataset_name'].unique())
+        if nb_lines > 0:
+            f.write('\\multirow{' + str(nb_lines) + '}{*}{' + lang + '} & ')
+            for dataset_name in gdf[gdf['lang'] == lang]['dataset_name'].unique():
+                if dataset_names[dataset_name]['domain'] == 'general':
+                    f.write(dataset_names[dataset_name]['name'] + ' & ' + ' & '.join([str(gscores[(dataset_name, model_name)]) if (dataset_name, model_name) in gscores else '-' for model_name in gdf['model_name'].unique()]) + '\\\\')
+                    #if last line, don't write '&'
+                    if dataset_name != gdf[gdf['lang'] == lang]['dataset_name'].unique()[-1]:
+                        f.write(' & ')
+        if lang != 'fr':
+            f.write('\\midrule')
+    f.write('\\bottomrule')
+    f.write('\\end{tabular}')
+    f.write('}')
+    f.write('\\end{table}')
+
+
+cdf = df[df['dataset_domain'] == 'clinical']
+cscores = {}
+n_discarded_clinical = 0
+for dataset_name in cdf['dataset_name'].unique():
+    for model_name in cdf['model_name'].unique():
+        if len(cdf[(cdf['dataset_name'] == dataset_name) & (cdf['model_name'] == model_name)]) > 0:
+            line = cdf[(cdf['dataset_name'] == dataset_name) & (cdf['model_name'] == model_name)].iloc[-1]
+            n_discarded_clinical += len(cdf[(cdf['dataset_name'] == dataset_name) & (cdf['model_name'] == model_name)]) - 1
+            cscores[(dataset_name, model_name)] = round(line['exact']['f1'],3)
+print('n_discarded: ', n_discarded_clinical)
+
+with open("tables/clinical_results.tex", 'w') as f:
+    f.write('\\begin{table}')
+    f.write('\\resizebox{\\textwidth}{!}{')
+    f.write('\\begin{tabular}{l|l|' + 'c|' * len(cdf['model_name'].unique()) + '}')
+    f.write('\\toprule')
+    f.write(' & & ' + ' & '.join([model_name for model_name in cdf['model_name'].unique()]) + '\\\\')
+    f.write('\\midrule')
+    for lang in ['en', 'fr']:
+        nb_lines = len(cdf.query('lang == @lang and dataset_domain == "clinical"')['dataset_name'].unique())
+        if nb_lines > 0:
+            f.write('\\multirow{' + str(nb_lines) + '}{*}{' + lang + '} & ')
+            for dataset_name in cdf[cdf['lang'] == lang]['dataset_name'].unique():
+                if dataset_names[dataset_name]['domain'] == 'clinical':
+                    f.write(dataset_names[dataset_name]['name'] + ' & ' + ' & '.join([str(cscores[(dataset_name, model_name)]) if (dataset_name, model_name) in cscores else '-' for model_name in cdf['model_name'].unique()]) + '\\\\')
+                    #if last line, don't write '&'
+                    if dataset_name != cdf[cdf['lang'] == lang]['dataset_name'].unique()[-1]:
+                        f.write(' & ')
+        if lang != 'fr':
+            f.write('\\midrule')
+    f.write('\\bottomrule')
+    f.write('\\end{tabular}')
+    f.write('}')
+    f.write('\\end{table}')
