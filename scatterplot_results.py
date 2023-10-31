@@ -83,7 +83,7 @@ sns.scatterplot(
     size="model_size",
     style="model_type",
     style_order=["Causal","", "Masked"],
-    sizes=(1000,10000),
+    sizes=(500,10000),
     data=dummy)
 
 #add labels
