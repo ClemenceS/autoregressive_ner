@@ -6,6 +6,8 @@ import logging
 import random
 import json
 
+import torch
+
 from predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
@@ -211,7 +213,8 @@ ner_tags_by_dataset = {
     "WikiNER" : ["PER", "LOC", "ORG"],
     "conll2003" : ["PER", "LOC", "ORG"],
     "conll2002" : ["PER", "LOC", "ORG"],
-    "quaero" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
+    "medline" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
+    "emea" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
     "n2c2" : ["ACTI", "ANAT", "CHEM", "CONC", "DEVI", "DISO", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
 }
 colnames_by_hf_dataset = {
@@ -399,16 +402,16 @@ s_metrics = ""
 for metric_name, metric in metrics.items():
     metric(predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)
     metric_dict = metric.compute()
+    for k,v in metric_dict.items():
+        if not isinstance(v, int) and not isinstance(v, float):
+            metric_dict[k] = v.item()
+        metric_dict[k] = round(metric_dict[k], 3)
+    res_dict[metric_name] = metric_dict
     s_metrics+="="*20+metric_name+"="*20+'\n'
-    s_metrics+='ALL    tp: '+str(int(metric_dict['tp'].item()))+'    precision: '+str(round(metric_dict['precision'].item(), 3))+'    recall: '+str(round(metric_dict['recall'].item(), 3))+'    f1: '+str(round(metric_dict['f1'].item(), 3))+'\n'
+    s_metrics+=f'ALL    tp: {metric_dict["tp"]}    precision: {metric_dict["precision"]}    recall: {metric_dict["recall"]}    f1: {metric_dict["f1"]}\n'
     for tag in ner_tags:
-        s_metrics+=tag+'    tp: '+str(int(metric_dict[tag+'_tp'].item()))+'    precision: '+str(round(metric_dict[tag+'_precision'].item(), 3))+'    recall: '+str(round(metric_dict[tag+'_recall'].item(), 3))+'    f1: '+str(round(metric_dict[tag+'_f1'].item(), 3))+'\n'
-# logfile.write(s_metrics)
+        s_metrics+=f'{tag}    tp: {metric_dict[tag+"_tp"]}    precision: {metric_dict[tag+"_precision"]}    recall: {metric_dict[tag+"_recall"]}    f1: {metric_dict[tag+"_f1"]}\n'
 print(s_metrics)
-#convert all tensors to python types
-for k,v in metric_dict.items():
-    metric_dict[k] = round(v.item(), 3)
-res_dict['metrics'] = metric_dict
 
 full_preds = ""
 for i, (o, pred, gold) in enumerate(zip(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)):
