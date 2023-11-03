@@ -60,7 +60,7 @@ def make_prompts(train_dataset, test_dataset, ner_tag, begin_tag, end_tag, n_few
     if not self_verification:
         return prompts, None
     
-    self_verification_template = keywords['first_sentence_self_verif'].format(keywords['ner_tags_plural'][ner_tag])
+    self_verification_template = keywords['first_sentence_self_verif'].format(keywords['ner_tags_plural'][ner_tag], keywords['ner_tags_description'][ner_tag])
     examples=[]
     #add positive examples
     if n_few_shot > len([e for e in train_dataset if ner_tag in [ent['label'] for ent in e['entities']] ]):
