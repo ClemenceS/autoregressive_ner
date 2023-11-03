@@ -296,9 +296,9 @@ with logger.printer:
             predicted_dataset = model.predict(dataset.test_data)
 
         s_metrics = ""
-        for metric_name, metric in metrics.items():
-            final_metrics(predicted_dataset, dataset.test_data)
-            metric_dict = final_metrics.compute()
+        for metric_name, metric in final_metrics.items():
+            metric(predicted_dataset, dataset.test_data)
+            metric_dict = metric.compute()
             for k,v in metric_dict.items():
                 if not isinstance(v, int) and not isinstance(v, float):
                     metric_dict[k] = v.item()
