@@ -30,16 +30,16 @@ def make_prompts(train_dataset, test_dataset, ner_tag, begin_tag, end_tag, n_few
     elif criterion == 'most_occurences':
         few_shots_for_all = [sentences_with_most_occurences(train_dataset, ner_tag, n_few_shot)] * num_prompts
     elif criterion == 'closest_tf_idf':
-        #get the k nearest sentences in the training set
+        #get the k nearest sentences in the training set tf-idf wise
         tfidf = TfidfVectorizer(tokenizer=lambda x: x, lowercase=False)
-        transformed_train = tfidf.fit_transform([e['words' if 'words' in e else 'tokens'] for e in train_dataset])
-        transformed_test = tfidf.transform([e['words' if 'words' in e else 'tokens'] for e in test_dataset])
+        transformed_train = tfidf.fit_transform([e['text'] for e in train_dataset])
+        transformed_test = tfidf.transform([e['text'] for e in test_dataset])
         similarities = cosine_similarity(transformed_test, transformed_train)
         few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shot:] for i in range(num_prompts)]
     elif criterion == 'closest_tf_idf_and_most_occurences':
         tfidf = TfidfVectorizer(tokenizer=lambda x: x, lowercase=False)
-        transformed_train = tfidf.fit_transform([e['words' if 'words' in e else 'tokens'] for e in train_dataset])
-        transformed_test = tfidf.transform([e['words' if 'words' in e else 'tokens'] for e in test_dataset])
+        transformed_train = tfidf.fit_transform([e['text'] for e in train_dataset])
+        transformed_test = tfidf.transform([e['text'] for e in test_dataset])
         similarities = cosine_similarity(transformed_test, transformed_train)
         few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shot//2:]+sentences_with_most_occurences(train_dataset, ner_tag, n_few_shot//2) for i in range(num_prompts)]
 
