@@ -35,6 +35,7 @@ args.add_argument('-n', '--n_gpus', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument('--do_sample', action="store_true")
+args.add_argument('--no_write_log', dest='write_log', action='store_false')
 args.add_argument('--no_control', dest='control', action='store_false')
 args.add_argument('--no_self_verification', dest='self_verification', action='store_false')
 args = args.parse_args()
@@ -429,12 +430,12 @@ for i, (o, pred, gold) in enumerate(zip(textual_outputs, predicted_dataset, test
             full_preds += 'final: '+str([p['text'] for p in pred['entities'] if p['label']==tag])+'\n'
             full_preds += 'gold: '+str([g['text'] for g in gold['entities'] if g['label']==tag])+'\n'
 
-full_preds_path = os.path.join(script_dir, folder_name)+f'/full_preds_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.txt'
-res_dict['full_preds_path'] = full_preds_path
-with open(full_preds_path, 'w') as f:
-    f.write(full_preds)
+if args.write_log:
+    full_preds_path = os.path.join(script_dir, folder_name)+f'/full_preds_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.txt'
+    res_dict['full_preds_path'] = full_preds_path
+    with open(full_preds_path, 'w') as f:
+        f.write(full_preds)
 
-res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
-with open(res_dict_path, 'w') as f:
-    json.dump(res_dict, f)
-# logfile.close()
+    res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
+    with open(res_dict_path, 'w') as f:
+        json.dump(res_dict, f)
