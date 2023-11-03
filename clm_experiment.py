@@ -6,7 +6,7 @@ import logging
 import random
 import json
 
-from predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
+from clm_predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
@@ -60,41 +60,21 @@ colnames_by_hf_dataset = {
     "conll2002" : ("id", "tokens", "ner_tags"),
 }
 tag_map_by_hf_dataset = {
-    "WikiNER" : {
-        0: "O",
-        1: "LOC",
-        2: "PER",
-        3: "FAC",
-        4: "ORG",
-    },
-    "conll2003" : {
-        0: "O",
-        1: "PER",
-        2: "PER",
-        3: "ORG",
-        4: "ORG",
-        5: "LOC",
-        6: "LOC",
-        7: "O",
-        8: "O",
-    },
-    "conll2002" : {
-        0: "O",
-        1: "PER",
-        2: "PER",
-        3: "ORG",
-        4: "ORG",
-        5: "LOC",
-        6: "LOC",
-        7: "O",
-        8: "O",
-    },
+    "WikiNER" : {0: "O", 1: "LOC", 2: "PER", 3: "FAC", 4: "ORG", }, 
+    "conll2003" : {0: "O", 1: "PER", 2: "PER", 3: "ORG", 4: "ORG", 5: "LOC", 6: "LOC", 7: "O", 8: "O", },
+    "conll2002" : {0: "O", 1: "PER", 2: "PER", 3: "ORG", 4: "ORG", 5: "LOC", 6: "LOC", 7: "O", 8: "O", },
 }
 
 def get_if_key_in_x(dict, x):
     return next((dict[key] for key in dict if key in x), None)
 
-try:
+if os.path.exists(args.dataset_name):
+    dataset = BRATDataset(
+        train= f"{args.dataset_name}/train",
+        val= 0, 
+        test= f"{args.dataset_name}/test",
+    )
+else:
     doc_id_colname, words_colname, ner_tags_colname = get_if_key_in_x(colnames_by_hf_dataset, args.dataset_name)
     dataset = HuggingfaceNERDataset(
         dataset_name=args.dataset_name,
@@ -111,12 +91,7 @@ try:
         dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('fr')]
     elif args.dataset_name.endswith("WikiNER/es"):
         dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('es')]
-except:
-    dataset = BRATDataset(
-        train= f"{args.dataset_name}/train",
-        val= 0, 
-        test= f"{args.dataset_name}/test",
-    )
+    
 ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
 
 traindev_dataset = []
@@ -157,22 +132,6 @@ res_dict['do_sample'] = args.do_sample
 res_dict['top_p'] = args.top_p
 res_dict['top_k'] = args.top_k
 res_dict['temperature'] = args.temperature
-
-model_kwargs = {
-    "num_beams": args.num_beams,
-}
-if args.do_sample:
-    model_kwargs.update({
-        "do_sample": args.do_sample,
-        "top_p": args.top_p,
-        "top_k": args.top_k,
-        "temperature": args.temperature,
-    })
-else:
-    model_kwargs.update({
-        "do_sample": False,
-    })
-
 res_dict['prompt'] = prompt_templates[args.prompt_dict]
 res_dict['chat_template'] = MODEL_INSTRUCTION_TEMPLATES[args.model_name] if args.model_name in MODEL_INSTRUCTION_TEMPLATES else ""
 res_dict['ner_tags'] = ner_tags
@@ -180,6 +139,19 @@ res_dict['first_sentence'] = traindev_dataset_this_seed[0]['text']
 res_dict['last_sentence'] = traindev_dataset_this_seed[-1]['text']
 res_dict['test_on_test_set'] = args.test_on_test_set
 
+
+model_kwargs = {
+    "num_beams": args.num_beams,
+    "do_sample": args.do_sample,
+}
+if args.do_sample:
+    model_kwargs.update({
+        "top_p": args.top_p,
+        "top_k": args.top_k,
+        "temperature": args.temperature,
+    })
+
+logger.info("Generating...")
 textual_outputs, predicted_dataset = predict_for_dataset(
     training_data=traindev_dataset_this_seed,
     testing_data=test_dataset if args.test_on_test_set else None,
@@ -217,7 +189,7 @@ for metric_name, metric in metrics.items():
     s_metrics+=f'ALL    tp: {metric_dict["tp"]}    precision: {metric_dict["precision"]}    recall: {metric_dict["recall"]}    f1: {metric_dict["f1"]}\n'
     for tag in ner_tags:
         s_metrics+=f'{tag}    tp: {metric_dict[tag+"_tp"]}    precision: {metric_dict[tag+"_precision"]}    recall: {metric_dict[tag+"_recall"]}    f1: {metric_dict[tag+"_f1"]}\n'
-print(s_metrics)
+logger.info(s_metrics)
 
 full_preds = ""
 for i, (o, pred, gold) in enumerate(zip(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)):

@@ -29,7 +29,7 @@ args.add_argument("--model_name", type=str, default="camembert-base", help="mode
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
-args.add_argument('-t', '--test_on_test_set', action="store_true")
+# args.add_argument('-t', '--test_on_test_set', action="store_true")
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
@@ -50,37 +50,9 @@ colnames_by_hf_dataset = {
     "conll2002" : ("id", "tokens", "ner_tags"),
 }
 tag_map_by_hf_dataset = {
-    "WikiNER" : {
-        0: "O",
-        1: "LOC",
-        2: "PER",
-        3: "FAC",
-        4: "ORG",
-    },
-    "conll2003" : {
-        0: "O",
-        1: "PER",
-        2: "PER",
-        3: "ORG",
-        4: "ORG",
-        5: "LOC",
-        6: "LOC",
-        7: "O",
-        8: "O",
-    },
-    #"O", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "B-MISC", "I-MISC",
-    "conll2002" : {
-        0: "O",
-        1: "PER",
-        2: "PER",
-        3: "ORG",
-        4: "ORG",
-        5: "LOC",
-        6: "LOC",
-        7: "O",
-        8: "O",
-    },
-
+    "WikiNER" : {0: "O", 1: "LOC", 2: "PER", 3: "FAC", 4: "ORG", }, 
+    "conll2003" : {0: "O", 1: "PER", 2: "PER", 3: "ORG", 4: "ORG", 5: "LOC", 6: "LOC", 7: "O", 8: "O", },
+    "conll2002" : {0: "O", 1: "PER", 2: "PER", 3: "ORG", 4: "ORG", 5: "LOC", 6: "LOC", 7: "O", 8: "O", },
 }
 def get_if_key_in_x(dict, x):
     return next((dict[key] for key in dict if key in x), None)
@@ -149,7 +121,7 @@ res_dict['training_size'] = args.training_size
 res_dict['time_str'] = time_str
 res_dict['last_two_dirs'] = last_two_dirs
 res_dict['model_base_name'] = model_base_name
-res_dict['test_on_test_set'] = args.test_on_test_set
+# res_dict['test_on_test_set'] = args.test_on_test_set
 res_dict['partition_seed'] = args.partition_seed
 
 
@@ -276,7 +248,7 @@ model = InformationExtractor(
     bert_lr=5e-5,
 
     # Optimizer, can be class or str
-    # optimizer_cls="transformers.AdamW",
+    optimizer_cls="transformers.AdamW",
     metrics=metrics,
 ).train()
 
@@ -314,78 +286,35 @@ with logger.printer:
         trainer.logger[0].finalize(True)
 
         result_output_filename = "checkpoints/{}.json".format(trainer.callbacks[0].hashkey)
-        if not os.path.exists(result_output_filename):
-            model.cuda()
-            if dataset.test_data:
-                print("TEST RESULTS:")
-            else:
-                print("VALIDATION RESULTS (NO TEST SET):")
-            eval_data = dataset.test_data if dataset.test_data else dataset.val_data
+        model.cuda()
+        model.eval()
+        model.encoder.encoders[0].cache = shared_cache
 
-            final_metrics = MetricsCollection({
-                **{metric_name: get_instance(metric_config) for metric_name, metric_config in metrics.items()},
-                **{
-                    metric_name: get_instance(metric_config)
-                    for label in model.preprocessor.vocabularies['entity_label'].values
-                    for metric_name, metric_config in
-                    {
-                        f"{label}_exact": dict(module="dem", binarize_tag_threshold=1., binarize_label_threshold=1., filter_entities=[label], word_regex=word_regex),
-                        f"{label}_partial": dict(module="dem", binarize_tag_threshold=1e-5, binarize_label_threshold=1., filter_entities=[label], word_regex=word_regex),
-                    }.items()
-                }
-            })
+        final_metrics = MetricsCollection({k: get_instance(m) for k, m in metric_names.items()})
+        
+        with torch.no_grad():
+            predicted_dataset = model.predict(dataset.test_data)
 
-            predicted_dataset = model.predict(eval_data)
+        s_metrics = ""
+        for metric_name, metric in metrics.items():
+            final_metrics(predicted_dataset, dataset.test_data)
+            metric_dict = final_metrics.compute()
+            for k,v in metric_dict.items():
+                if not isinstance(v, int) and not isinstance(v, float):
+                    metric_dict[k] = v.item()
+                metric_dict[k] = round(metric_dict[k], 3)
+            res_dict[metric_name] = metric_dict
+            s_metrics+="="*20+metric_name+"="*20+'\n'
+            s_metrics+=f'ALL    tp: {metric_dict["tp"]}    precision: {metric_dict["precision"]}    recall: {metric_dict["recall"]}    f1: {metric_dict["f1"]}\n'
+            for tag in ner_tags:
+                s_metrics+=f'{tag}    tp: {metric_dict[tag+"_tp"]}    precision: {metric_dict[tag+"_precision"]}    recall: {metric_dict[tag+"_recall"]}    f1: {metric_dict[tag+"_f1"]}\n'
+        print(s_metrics)
 
-            s_metrics = ""
-            for metric_name, metric in metrics.items():
-                final_metrics(predicted_dataset, eval_data)
-                metric_dict = final_metrics.compute()
-                for k,v in metric_dict.items():
-                    if not isinstance(v, int) and not isinstance(v, float):
-                        metric_dict[k] = v.item()
-                    metric_dict[k] = round(metric_dict[k], 3)
-                res_dict[metric_name] = metric_dict
-                s_metrics+="="*20+metric_name+"="*20+'\n'
-                s_metrics+=f'ALL    tp: {metric_dict["tp"]}    precision: {metric_dict["precision"]}    recall: {metric_dict["recall"]}    f1: {metric_dict["f1"]}\n'
-                for tag in ner_tags:
-                    s_metrics+=f'{tag}    tp: {metric_dict[tag+"_tp"]}    precision: {metric_dict[tag+"_precision"]}    recall: {metric_dict[tag+"_recall"]}    f1: {metric_dict[tag+"_f1"]}\n'
-            print(s_metrics)
-
-            res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
-            with open(res_dict_path, 'w') as f:
-                json.dump(res_dict, f)
-
-            # def json_default(o):
-            #     if isinstance(o, slice):
-            #         return str(o)
-            #     raise
-
-            # with open(result_output_filename, 'w') as json_file:
-            #     json.dump({
-            #         "config": {**get_config(model), "max_steps": 400},
-            #         "results": results,
-            #     }, json_file, default=json_default)
-        else:
-            with open(result_output_filename, 'r') as json_file:
-                results = json.load(json_file)["results"]
-                print(pd.DataFrame(results).T)
+        res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
+        with open(res_dict_path, 'w') as f:
+            json.dump(res_dict, f)
     except AlreadyRunningException as e:
         model = None
         print("Experiment was already running")
         print(e)
 
-
-# logger.info("Predicting on test set")
-# model = load_model("checkpoints/{}.ckpt".format(trainer.callbacks[0].hashkey))
-# model.cuda()
-# model.eval()
-# model.encoder.encoders[0].cache = shared_cache
-# with torch.no_grad():
-#     predicted_dataset = model.predict(dataset.test_data)
-#     predicted_dataset = [e for e in predicted_dataset if len(e['words']) < 512
-
-# for metric in metrics.values():
-#         metric(predicted_dataset, dataset.test_data)
-#         print(metric.compute())
-#         logfile.write(str(metric.compute())+'\n')

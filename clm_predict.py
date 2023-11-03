@@ -134,7 +134,6 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
 
     
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    logger.info("Generating...")
     outputs = []
     predictions = [
         {
