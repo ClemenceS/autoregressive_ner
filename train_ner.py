@@ -10,21 +10,21 @@ import random
 from typing import Dict
 import string
 import torch
-from bloom_predict import bloom_predict
-from fastchat.model import load_model
 from nlstruct import BRATDataset, HuggingfaceNERDataset, get_instance, get_config, InformationExtractor
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
 from rich_logger import RichTableLogger
 from torch.utils.data import DataLoader
+from nlstruct.data_utils import sentencize
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import EarlyStopping
 from nlstruct.checkpoint import ModelCheckpoint, AlreadyRunningException
 import pandas as pd
 
 args = argparse.ArgumentParser()
-args.add_argument("--language", type=str, default="fr", help="language of the dataset")
-args.add_argument("--domain", type=str, default="general", help="domain of the dataset")
+# args.add_argument("--dataset_name", type=str, default="meczifho/WikiNER/en", help="dataset name")
+args.add_argument("--dataset_name", type=str, default="/people/mnaguib/medline", help="dataset name")
+args.add_argument('-d', "--load_dataset_from_disk", action="store_true")
 args.add_argument("--model_name", type=str, default="camembert-base", help="model name")
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('--partition_seed', type=int, default=1)
@@ -36,52 +36,121 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("train_ner")
 
 shared_cache = {}
-#random deals with choosing the few-shot examples, so we want that fixed
-random.seed(args.random_seed)
+ner_tags_by_dataset = {
+    "WikiNER" : ["PER", "LOC", "ORG"],
+    "conll2003" : ["PER", "LOC", "ORG"],
+    "conll2002" : ["PER", "LOC", "ORG"],
+    "medline" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
+    "emea" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
+    "n2c2" : ["ACTI", "ANAT", "CHEM", "CONC", "DEVI", "DISO", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
+}
+colnames_by_hf_dataset = {
+    "WikiNER" : ("id", "words", "ner_tags"),
+    "conll2003" : ("id", "tokens", "ner_tags"),
+    "conll2002" : ("id", "tokens", "ner_tags"),
+}
+tag_map_by_hf_dataset = {
+    "WikiNER" : {
+        0: "O",
+        1: "LOC",
+        2: "PER",
+        3: "FAC",
+        4: "ORG",
+    },
+    "conll2003" : {
+        0: "O",
+        1: "PER",
+        2: "PER",
+        3: "ORG",
+        4: "ORG",
+        5: "LOC",
+        6: "LOC",
+        7: "O",
+        8: "O",
+    },
+    #"O", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "B-MISC", "I-MISC",
+    "conll2002" : {
+        0: "O",
+        1: "PER",
+        2: "PER",
+        3: "ORG",
+        4: "ORG",
+        5: "LOC",
+        6: "LOC",
+        7: "O",
+        8: "O",
+    },
 
-if args.domain == 'general':
+}
+def get_if_key_in_x(dict, x):
+    return next((dict[key] for key in dict if key in x), None)
+
+try:
+    doc_id_colname, words_colname, ner_tags_colname = get_if_key_in_x(colnames_by_hf_dataset, args.dataset_name)
     dataset = HuggingfaceNERDataset(
-        dataset_name='meczifho/WikiNER',
-        subset=args.language,
-        tag_map={
-            0: "O",
-            1: "LOC",
-            2: "PER",
-            3: "FAC",
-            4: "ORG",
-        },
-        doc_id_colname="id",
+        dataset_name=args.dataset_name,
+        tag_map=get_if_key_in_x(tag_map_by_hf_dataset, args.dataset_name),
+        doc_id_colname=doc_id_colname,
+        words_colname=words_colname,
+        ner_tags_colname=ner_tags_colname,
+        load_from_disk=args.load_dataset_from_disk,
     )
-    ner_tags = ['PER', 'LOC', 'ORG']
-else :
+    #This is not supposed to be here, but WikiNER is a mess for now and I have no time to fix it
+    if args.dataset_name.endswith("WikiNER/en"):
+        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('en')]
+    elif args.dataset_name.endswith("WikiNER/fr"):
+        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('fr')]
+    elif args.dataset_name.endswith("WikiNER/es"):
+        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('es')]
+except:
     dataset = BRATDataset(
-        train= "/people/mnaguib/medline/training",
+        train= f"{args.dataset_name}/train",
         val= 0, 
-        test= "/people/mnaguib/medline/test",
+        test= f"{args.dataset_name}/test",
     )
-    ner_tags = ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"]
 
-dataset.train_data = [e for e in dataset.train_data if len(e['text']) < 512]
-dataset.test_data = [e for e in dataset.test_data if len(e['text']) < 512]
+ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
+
+
+traindev_dataset = []
+for e in dataset.train_data:
+    sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
+    traindev_dataset.extend([s for s in sentences if len(s['text']) < 512])
+test_dataset = []
+for e in dataset.test_data:
+    sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
+    test_dataset.extend([s for s in sentences if len(s['text']) < 512])
 
 folder_name = 'results'
-os.makedirs(folder_name, exist_ok=True)
+#get script directory
+script_dir = os.path.dirname(__file__)
+#make the results folder if it doesn't exist
+os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
 
 #np random deals with choosing the traindev dataset
 np.random.seed(args.partition_seed)
-traindev_dataset_this_seed = [dataset.train_data[i] for i in np.random.choice(len(dataset.train_data), size=args.training_size, replace=False)]
-dataset.train_data = traindev_dataset_this_seed[:int(0.8*len(traindev_dataset_this_seed))]
-dataset.val_data = traindev_dataset_this_seed[int(0.8*len(traindev_dataset_this_seed)):]
+#randomy select training_size number of sentences from traindev dataset
+traindev_dataset_this_seed = np.random.choice(traindev_dataset, args.training_size, replace=False)
+limit=0.8
+dataset.train_data = traindev_dataset_this_seed[:int(limit*len(traindev_dataset_this_seed))]
+dataset.val_data = traindev_dataset_this_seed[int(limit*len(traindev_dataset_this_seed)):]
+dataset.test_data = test_dataset
+
+res_dict = {}
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-logfile = open(folder_name+f'/log_{args.domain}_{args.language}_{args.random_seed}_{time_str}.txt', 'w')
-logfile.write('language: '+args.language+'\n')
-logfile.write('domain: '+args.domain+'\n')
-logfile.write('model_name: '+args.model_name+'\n')
-logfile.write('training_size: '+str(args.training_size)+'\n')
-logfile.write('random_seed: '+str(args.random_seed)+'\n')
-logfile.write('partition_seed: '+str(args.partition_seed)+'\n')
+last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
+model_base_name = os.path.basename(args.model_name)
 
 print(dataset.describe())
+
+res_dict['dataset_name'] = args.dataset_name
+res_dict['model_name'] = args.model_name
+res_dict['training_size'] = args.training_size
+res_dict['time_str'] = time_str
+res_dict['last_two_dirs'] = last_two_dirs
+res_dict['model_base_name'] = model_base_name
+res_dict['test_on_test_set'] = args.test_on_test_set
+res_dict['partition_seed'] = args.partition_seed
 
 
 word_regex = r'(?:[\w]+(?:[’\'])?)|[!"#$%&\'’\(\)*+,-./:;<=>?@\[\]^_`{|}~]'
@@ -207,7 +276,7 @@ model = InformationExtractor(
     bert_lr=5e-5,
 
     # Optimizer, can be class or str
-    optimizer_cls="transformers.AdamW",
+    # optimizer_cls="transformers.AdamW",
     metrics=metrics,
 ).train()
 
@@ -266,19 +335,37 @@ with logger.printer:
                 }
             })
 
-            results = final_metrics(list(model.predict(eval_data)), eval_data)
-            print(pd.DataFrame(results).T)
+            predicted_dataset = model.predict(eval_data)
 
-            def json_default(o):
-                if isinstance(o, slice):
-                    return str(o)
-                raise
+            s_metrics = ""
+            for metric_name, metric in metrics.items():
+                final_metrics(predicted_dataset, eval_data)
+                metric_dict = final_metrics.compute()
+                for k,v in metric_dict.items():
+                    if not isinstance(v, int) and not isinstance(v, float):
+                        metric_dict[k] = v.item()
+                    metric_dict[k] = round(metric_dict[k], 3)
+                res_dict[metric_name] = metric_dict
+                s_metrics+="="*20+metric_name+"="*20+'\n'
+                s_metrics+=f'ALL    tp: {metric_dict["tp"]}    precision: {metric_dict["precision"]}    recall: {metric_dict["recall"]}    f1: {metric_dict["f1"]}\n'
+                for tag in ner_tags:
+                    s_metrics+=f'{tag}    tp: {metric_dict[tag+"_tp"]}    precision: {metric_dict[tag+"_precision"]}    recall: {metric_dict[tag+"_recall"]}    f1: {metric_dict[tag+"_f1"]}\n'
+            print(s_metrics)
 
-            with open(result_output_filename, 'w') as json_file:
-                json.dump({
-                    "config": {**get_config(model), "max_steps": 400},
-                    "results": results,
-                }, json_file, default=json_default)
+            res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
+            with open(res_dict_path, 'w') as f:
+                json.dump(res_dict, f)
+
+            # def json_default(o):
+            #     if isinstance(o, slice):
+            #         return str(o)
+            #     raise
+
+            # with open(result_output_filename, 'w') as json_file:
+            #     json.dump({
+            #         "config": {**get_config(model), "max_steps": 400},
+            #         "results": results,
+            #     }, json_file, default=json_default)
         else:
             with open(result_output_filename, 'r') as json_file:
                 results = json.load(json_file)["results"]
@@ -289,15 +376,16 @@ with logger.printer:
         print(e)
 
 
-logger.info("Predicting on test set")
-model = load_model("checkpoints/{}.ckpt".format(trainer.callbacks[0].hashkey))
-model.cuda()
-model.eval()
-model.encoder.encoders[0].cache = shared_cache
-with torch.no_grad():
-    predicted_dataset = model.predict(dataset.test_data)
+# logger.info("Predicting on test set")
+# model = load_model("checkpoints/{}.ckpt".format(trainer.callbacks[0].hashkey))
+# model.cuda()
+# model.eval()
+# model.encoder.encoders[0].cache = shared_cache
+# with torch.no_grad():
+#     predicted_dataset = model.predict(dataset.test_data)
+#     predicted_dataset = [e for e in predicted_dataset if len(e['words']) < 512
 
-for metric in metrics.values():
-        metric(predicted_dataset, dataset.test_data)
-        print(metric.compute())
-        logfile.write(str(metric.compute())+'\n')
+# for metric in metrics.values():
+#         metric(predicted_dataset, dataset.test_data)
+#         print(metric.compute())
+#         logfile.write(str(metric.compute())+'\n')
