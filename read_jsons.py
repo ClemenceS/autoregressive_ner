@@ -1,7 +1,188 @@
+from glob import glob
 import json
 import os
 import pandas as pd
-from glob import glob
+
+B=10**9
+M=10**6
+
+dataset_hierarchy = {
+    "en":{
+        "General": [
+            {"conll2003": "CoNLL2003"},
+            {"WikiNER-en": "WikiNER"}
+        ],
+        "Clinical": [
+            {"naguib-n2c2": "n2c2"}
+        ],
+        },
+    "fr": {
+        "General": [
+            {"WikiNER-fr": "WikiNER"}
+        ],
+        "Clinical": [
+            {"naguib-emea": "EMEA"},
+            {"naguib-medline": "MEDLINE"}
+        ],
+    },
+    "es": {
+        "General": [
+            {"conll2002-es": "CoNLL2002"},
+            {"WikiNER-es": "WikiNER"}
+        ],
+        "Clinical": []
+    }
+}
+model_hierarchy = {
+    "Masked": {
+        "General":[
+            {
+                "name": "roberta-large", 
+                "clean_name": "RoBERTa-large",
+                "size": 355*M,
+                "languages" : ["en",],
+            },
+            {
+                "name": "camembert-base",
+                "clean_name": "CamemBERT-base",
+                "size": 110*M,
+                "languages" : ["fr",],
+            },
+            {
+                "name": "camembert-large",
+                "clean_name": "CamemBERT-large",
+                "size": 355*M,
+                "languages" : ["fr",],
+            },
+            {
+                "name": "bert-large-cased",
+                "clean_name": "BERT-large",
+                "size": 340*M,
+                "languages" : ["en",],
+            },
+            {
+                "name": "tulio-chilean-spanish-bert",
+                "clean_name": "TulioBERT",
+                "size": 110*M,
+                "languages" : ["es",],
+            },
+            {
+                "name": "patana-chilean-spanish-bert",
+                "clean_name": "PatanaBERT",
+                "size": 110*M,
+                "languages" : ["es",],
+            },
+            {
+                "name": "bert-base-spanish-wwm-cased",
+                "clean_name": "BERT-base-Spanish",
+                "size": 110*M,
+                "languages" : ["es",],
+            },
+            {
+                "name": "xlm-roberta-large",
+                "clean_name": "XLM-RoBERTa-large",
+                "size": 355*M,
+                "languages" : ["en", "fr", "es"],
+            }
+        ],
+        "Clinical":[
+            {
+                "name": "ClinicalBERT",
+                "clean_name": "ClinicalBERT",
+                "size": 110*M,
+                "languages" : ["en",],
+            },
+            {
+                "name": "MedBERT",
+                "clean_name": "MedBERT",
+                "size": 110*M,
+                "languages" : ["en",],
+            },
+            {
+                "name": "camembert-bio-base",
+                "clean_name": "CamemBERT-bio",
+                "size": 110*M,
+                "languages" : ["en",],
+            },
+            {
+                "name": "DrBERT-4GB-CP-PubMedBERT",
+                "clean_name": "DrBERT",
+                "size": 110*M,
+                "languages" : ["en",],
+            },
+
+        ],
+    },
+    "Causal": {
+        "General":[
+            {
+                "name": "bloom-560m",
+                "clean_name": "BLOOM-560M",
+                "size": 560*M,
+                "languages" : ["en", "fr", "es"],
+            },
+            {
+                "name": "Mistral-7B-Instruct-v0.1",
+                "clean_name": "Mistral-7B-Instruct",
+                "size": 7*B,
+                "languages" : ["en", "fr", "es"],
+            },
+            {
+                "name": "bloom-7b1",
+                "clean_name": "BLOOM-7B1",
+                "size": 7*B,
+                "languages" : ["en", "fr", "es"],
+            },
+            {
+                "name": "falcon-40b-instruct",
+                "clean_name": "Falcon-40B-Instruct",
+                "size": 40*B,
+                "languages" : ["en", "fr", "es"],
+            },
+            {
+                "name": "Mistral-7B-v0.1",
+                "clean_name": "Mistral-7B",
+                "size": 7*B,
+                "languages" : ["en", "fr", "es"],
+            },
+            {
+                "name": "vicuna-13b-v1.5",
+                "clean_name": "Vicuna-13B",
+                "size": 13*B,
+                "languages" : ["en", "fr", "es"],
+            },
+            {
+                "name": "falcon-40b",
+                "clean_name": "Falcon-40B",
+                "size": 40*B,
+                "languages" : ["en", "fr", "es"],
+            },
+        ],
+    }
+}
+
+dataset_domains = {}
+dataset_langs = {}
+model_domains = {}
+model_types = {}
+model_sizes = {}
+model_clean_names = {}
+dataset_names = {}
+for model_type in model_hierarchy:
+    for model_domain in model_hierarchy[model_type]:
+        for model in model_hierarchy[model_type][model_domain]:
+            model_name = model['name']
+            model_domains[model_name] = model_domain
+            model_types[model_name] = model_type
+            model_sizes[model_name] = model['size']
+            model_clean_names[model_name] = model['clean_name']
+for lang in dataset_hierarchy:
+    for domain in dataset_hierarchy[lang]:
+        for dataset in dataset_hierarchy[lang][domain]:
+            for dataset_name in dataset:
+                dataset_domains[dataset_name] = domain
+                dataset_langs[dataset_name] = lang
+                dataset_names[dataset_name] = dataset[dataset_name]
 
 def read_jsons(path):
     jsons = glob(os.path.join(path, '*.json'))
@@ -9,148 +190,19 @@ def read_jsons(path):
     for json_file in jsons:
         with open(json_file, 'r') as f:
             data.append(json.load(f))
-    return data
-
-data = read_jsons('results')
-df = pd.DataFrame(data)
-
-dataset_names = {
-    "conll2002-es":{
-        "name": "CoNLL2002",
-        "lang": "es",
-        "domain": "general"
-    },
-    "conll2003": {
-        "name": "CoNLL2003",
-        "lang": "en",
-        "domain": "general"
-    },
-    "naguib-emea": {
-        "name": "EMEA",
-        "lang": "fr",
-        "domain": "clinical"
-    },
-    "naguib-medline": {
-        "name": "MEDLINE",
-        "lang": "fr",
-        "domain": "clinical"
-    },
-    "WikiNER-en": {
-        "name": "WikiNER",
-        "lang": "en",
-        "domain": "general"
-    },
-    "WikiNER-fr": {
-        "name": "WikiNER",
-        "lang": "fr",
-        "domain": "general"
-    },
-    "WikiNER-es": {
-        "name": "WikiNER",
-        "lang": "es",
-        "domain": "general"
-    },
-    "naguib-n2c2": {
-        "name": "n2c2",
-        "lang": "en",
-        "domain": "clinical"
-    },
-    # "Mistral-7B-Instruct-v0.1" :{
-    #     "name": "Mistral-Instruct-7B",
-    #     "lang": "en",
-    #     "domain": "general",
-    # },
-    # "Mistral-7B-v0.1" :{
-    #     "name": "Mistral-7B",
-    #     "lang": "en",
-    #     "domain": "general",
-    # },
-    # "bloom-7b1": {
-    #     "name": "Bloom-7B",
-    #     "lang": "en",
-    #     "domain": "general"
-    # },
-    # "vicuna-13b-v1.5": {
-    #     "name": "Vicuna-13B",
-    #     "lang": "en",
-    #     "domain": "general"
-    # },
-}
-
-os.makedirs('tables', exist_ok=True)
+    
+    df = pd.DataFrame(data)
 
 
-df['lang'] = df['dataset_name'].apply(lambda name: dataset_names[name]['lang'])
-df['dataset_domain'] = df['dataset_name'].apply(lambda name: dataset_names[name]['domain'])
-df['model_name'] = df['model_name'].apply(lambda name: name.split('/')[-1])
-gdf = df[df['dataset_domain'] == 'general']
-print(gdf)
-gscores = {}
-n_discarded_general = 0
-for dataset_name in gdf['dataset_name'].unique():
-    for model_name in gdf['model_name'].unique():
-        if len(gdf[(gdf['dataset_name'] == dataset_name) & (gdf['model_name'] == model_name)]) > 0:
-            line = gdf[(gdf['dataset_name'] == dataset_name) & (gdf['model_name'] == model_name)].iloc[-1]
-            n_discarded_general += len(gdf[(gdf['dataset_name'] == dataset_name) & (gdf['model_name'] == model_name)]) - 1
-            gscores[(dataset_name, model_name)] = round(line['exact']['f1'],3)
-print('n_discarded: ', n_discarded_general)
+    df['lang'] = df['dataset_name'].apply(lambda name: dataset_langs[name])
+    df['dataset_domain'] = df['dataset_name'].apply(lambda name: dataset_domains[name])
+    df['model_name'] = df['model_name'].apply(lambda name: name.split('/')[-1])
+    df['model_domain'] = df['model_name'].apply(lambda name: model_domains[name])
+    df['model_type'] = df['model_name'].apply(lambda name: model_types[name])
+    df['model_size'] = df['model_name'].apply(lambda name: model_sizes[name])
+    df['model_clean_name'] = df['model_name'].apply(lambda name: model_clean_names[name])
+    df['f1'] = df['exact'].apply(lambda x: round(x['f1'],3))
+    df['lang'] = df['dataset_name'].apply(lambda name: dataset_langs[name])
 
-with open("tables/general_results.tex", 'w') as f:
-    f.write('\\begin{table}')
-    f.write('\\resizebox{\\textwidth}{!}{')
-    f.write('\\begin{tabular}{l|l|' + 'c|' * len(gdf['model_name'].unique()) + '}')
-    f.write('\\toprule')
-    f.write(' & & ' + ' & '.join([model_name for model_name in gdf['model_name'].unique()]) + '\\\\')
-    f.write('\\midrule')
-    for lang in ['en', 'es', 'fr']:
-        nb_lines = len(gdf.query('lang == @lang and dataset_domain == "general"')['dataset_name'].unique())
-        if nb_lines > 0:
-            f.write('\\multirow{' + str(nb_lines) + '}{*}{' + lang + '} & ')
-            for dataset_name in gdf[gdf['lang'] == lang]['dataset_name'].unique():
-                if dataset_names[dataset_name]['domain'] == 'general':
-                    f.write(dataset_names[dataset_name]['name'] + ' & ' + ' & '.join([str(gscores[(dataset_name, model_name)]) if (dataset_name, model_name) in gscores else '-' for model_name in gdf['model_name'].unique()]) + '\\\\')
-                    #if last line, don't write '&'
-                    if dataset_name != gdf[gdf['lang'] == lang]['dataset_name'].unique()[-1]:
-                        f.write(' & ')
-        if lang != 'fr':
-            f.write('\\midrule')
-    f.write('\\bottomrule')
-    f.write('\\end{tabular}')
-    f.write('}')
-    f.write('\\end{table}')
-
-
-cdf = df[df['dataset_domain'] == 'clinical']
-cscores = {}
-n_discarded_clinical = 0
-for dataset_name in cdf['dataset_name'].unique():
-    for model_name in cdf['model_name'].unique():
-        if len(cdf[(cdf['dataset_name'] == dataset_name) & (cdf['model_name'] == model_name)]) > 0:
-            line = cdf[(cdf['dataset_name'] == dataset_name) & (cdf['model_name'] == model_name)].iloc[-1]
-            n_discarded_clinical += len(cdf[(cdf['dataset_name'] == dataset_name) & (cdf['model_name'] == model_name)]) - 1
-            cscores[(dataset_name, model_name)] = round(line['exact']['f1'],3)
-print('n_discarded: ', n_discarded_clinical)
-
-with open("tables/clinical_results.tex", 'w') as f:
-    f.write('\\begin{table}')
-    f.write('\\resizebox{\\textwidth}{!}{')
-    f.write('\\begin{tabular}{l|l|' + 'c|' * len(cdf['model_name'].unique()) + '}')
-    f.write('\\toprule')
-    f.write(' & & ' + ' & '.join([model_name for model_name in cdf['model_name'].unique()]) + '\\\\')
-    f.write('\\midrule')
-    for lang in ['en', 'fr']:
-        nb_lines = len(cdf.query('lang == @lang and dataset_domain == "clinical"')['dataset_name'].unique())
-        if nb_lines > 0:
-            f.write('\\multirow{' + str(nb_lines) + '}{*}{' + lang + '} & ')
-            for dataset_name in cdf[cdf['lang'] == lang]['dataset_name'].unique():
-                if dataset_names[dataset_name]['domain'] == 'clinical':
-                    f.write(dataset_names[dataset_name]['name'] + ' & ' + ' & '.join([str(cscores[(dataset_name, model_name)]) if (dataset_name, model_name) in cscores else '-' for model_name in cdf['model_name'].unique()]) + '\\\\')
-                    #if last line, don't write '&'
-                    if dataset_name != cdf[cdf['lang'] == lang]['dataset_name'].unique()[-1]:
-                        f.write(' & ')
-        if lang != 'fr':
-            f.write('\\midrule')
-    f.write('\\bottomrule')
-    f.write('\\end{tabular}')
-    f.write('}')
-    f.write('\\end{table}')
+    df = df.drop_duplicates(subset=['model_name', 'dataset_name'], keep='last')
+    return df
