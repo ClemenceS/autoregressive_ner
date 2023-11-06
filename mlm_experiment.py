@@ -115,13 +115,13 @@ model_base_name = os.path.basename(args.model_name)
 
 print(dataset.describe())
 
-res_dict['dataset_name'] = args.dataset_name
+res_dict['dataset_name'] = last_two_dirs
 res_dict['model_name'] = args.model_name
 res_dict['training_size'] = args.training_size
 res_dict['time_str'] = time_str
 res_dict['last_two_dirs'] = last_two_dirs
 res_dict['model_base_name'] = model_base_name
-# res_dict['test_on_test_set'] = args.test_on_test_set
+res_dict['test_on_test_set'] = True
 res_dict['partition_seed'] = args.partition_seed
 
 
