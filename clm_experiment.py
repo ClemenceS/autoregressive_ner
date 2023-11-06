@@ -11,7 +11,7 @@ from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
 from nlstruct.data_utils import sentencize
-from prompt_templates import prompt_templates
+# from prompt_templates import prompt_templates
 
 
 args = argparse.ArgumentParser()
@@ -29,6 +29,12 @@ args.add_argument('--temperature', type=float, default=1.0)
 args.add_argument('--num_beams', type=int, default=1)
 args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument('--random_seed', type=int, default=42)
+args.add_argument('--prompt_language', type=str, default="en")
+args.add_argument('--prompt_subjective', type=str)
+args.add_argument('--prompt_ner_tag_source', type=str, default="standard")
+args.add_argument('--prompt_ask', action="store_true")
+args.add_argument('--prompt_long_answer', action="store_true")
+args.add_argument('--prompt_dash', action="store_true")
 args.add_argument('-n', '--n_gpus', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('-t', '--test_on_test_set', action="store_true")
@@ -132,11 +138,11 @@ res_dict['do_sample'] = args.do_sample
 res_dict['top_p'] = args.top_p
 res_dict['top_k'] = args.top_k
 res_dict['temperature'] = args.temperature
-res_dict['prompt'] = prompt_templates[args.prompt_dict]
+# res_dict['prompt'] = prompt_templates[args.prompt_dict]
 res_dict['chat_template'] = MODEL_INSTRUCTION_TEMPLATES[args.model_name] if args.model_name in MODEL_INSTRUCTION_TEMPLATES else ""
 res_dict['ner_tags'] = ner_tags
-res_dict['first_sentence'] = traindev_dataset_this_seed[0]['text']
-res_dict['last_sentence'] = traindev_dataset_this_seed[-1]['text']
+res_dict['first_example'] = traindev_dataset_this_seed[0]['text']
+res_dict['last_example'] = traindev_dataset_this_seed[-1]['text']
 res_dict['test_on_test_set'] = args.test_on_test_set
 
 
@@ -163,10 +169,15 @@ textual_outputs, predicted_dataset = predict_for_dataset(
     control=args.control,
     n_few_shot=args.n_few_shot,
     criterion=args.criterion,
-    keywords=prompt_templates[args.prompt_dict],
     model_kwargs=model_kwargs,
     n_gpus=args.n_gpus,
     random_seed=args.random_seed,
+    prompt_language=args.prompt_language,
+    prompt_subjective=args.prompt_subjective,
+    prompt_ner_tag_source=args.prompt_ner_tag_source,
+    prompt_ask=args.prompt_ask,
+    prompt_long_answer=args.prompt_long_answer,
+    prompt_dash=args.prompt_dash,
 )
 
 logger.info("Evaluating...")

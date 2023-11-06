@@ -110,6 +110,7 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
                 begin_tag=begin_tag,
                 end_tag=end_tag,
                 self_verification=self_verification,
+                random_seed=random_seed,
                 **kwargs
             )
             first_prompts.extend(first_prompts_ner_tag)
@@ -120,9 +121,9 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
     reference = testing_data if testing_data is not None else training_data
     newline_token = tokenizer.encode('\n', add_special_tokens=False)[-1]
     eos_token = tokenizer.eos_token_id
-    yes_no = get_yes_no_words(keywords=kwargs['keywords'])
-    yes_tok = tokenizer.encode(yes_no[0],add_special_tokens=False)[0]
-    no_tok = tokenizer.encode(yes_no[1],add_special_tokens=False)[0]
+    yes_no = get_yes_no_words(prompt_language=kwargs['prompt_language'])
+    # yes_tok = tokenizer.encode(yes_no[0],add_special_tokens=False)[0]
+    # no_tok = tokenizer.encode(yes_no[1],add_special_tokens=False)[0]
     sticked = True
     begin_tag_toks = tokenizer.encode("@@",add_special_tokens=False)
     if sticked:
@@ -241,7 +242,7 @@ def predict_for_dataset(training_data, testing_data, ner_tags, model_name, contr
         logger.info(f"{len(prompts)} prompts generated for self verification")
         
         sampling_params = SamplingParams(
-            # stop=['\n'],
+            stop=['\n'],
             temperature=0.0,
             max_tokens=2,
             top_k=-1,

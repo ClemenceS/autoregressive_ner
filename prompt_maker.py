@@ -2,6 +2,7 @@ import random
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from strings import get_prompt_strings, strings
     
 def example2string(example, ner_tag, begin_tag, end_tag, sticked, tagged):
     if not tagged:
@@ -17,11 +18,10 @@ def example2string(example, ner_tag, begin_tag, end_tag, sticked, tagged):
         res_text+=c
     return res_text.rstrip()
 
-def make_prompts(train_dataset, test_dataset, ner_tag, begin_tag, end_tag, n_few_shot, criterion, keywords, self_verification, random_seed):
+def get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, criterion, random_seed):
     random.seed(random_seed)
-    #this function takes an example and a ner tag and returns a prompt in english
-    few_shots_for_all = []
     num_prompts = len(test_dataset)
+    few_shots_for_all = []
     def sentences_with_most_occurences(train_dataset, ner_tag, n):
         return sorted(range(len(train_dataset)), key=lambda i: len([ent for ent in train_dataset[i]['entities'] if ent['label'] == ner_tag]), reverse=True)[:n]
     if criterion == 'random':
@@ -42,25 +42,23 @@ def make_prompts(train_dataset, test_dataset, ner_tag, begin_tag, end_tag, n_few
         transformed_test = tfidf.transform([e['text'] for e in test_dataset])
         similarities = cosine_similarity(transformed_test, transformed_train)
         few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shot//2:]+sentences_with_most_occurences(train_dataset, ner_tag, n_few_shot//2) for i in range(num_prompts)]
+    return few_shots_for_all
 
-    prompts = []
-    for p in range(num_prompts):
-        example = test_dataset[p]
-        prompt = keywords['first_sentence'].format(keywords['ner_tags_plural'][ner_tag], keywords['ner_tags_description'][ner_tag])
-        few_shots= few_shots_for_all[p]
-        random.shuffle(few_shots)
-        for i in few_shots:
-            prompt+= keywords['input_intro']+example2string(train_dataset[i], ner_tag, begin_tag, end_tag, sticked=True, tagged=False)+'\n'
-            prompt+= keywords['output_intro']+example2string(train_dataset[i], ner_tag, begin_tag, end_tag, sticked=True, tagged=True)+'\n'
-        prompt+= keywords['last_sentence'].format(keywords['ner_tags_plural'][ner_tag], begin_tag, end_tag)
-        prompt+= keywords['input_intro']+example2string(example, ner_tag, begin_tag, end_tag, sticked=True, tagged=False)+'\n'
-        prompt+= keywords['output_intro']
-        prompts.append(prompt) 
-    
-    if not self_verification:
-        return prompts, None
-    
-    self_verification_template = keywords['first_sentence_self_verif'].format(keywords['ner_tags_plural'][ner_tag], keywords['ner_tags_description'][ner_tag])
+def introduce(keywords, ner_tag):
+    return keywords['task_introduction'].format(ner_tag_plural=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag])
+
+def demonstrate(example, ner_tag, begin_tag, end_tag, keywords):
+    prompt = keywords['input_intro']+example2string(example, ner_tag, begin_tag, end_tag, sticked=True, tagged=False)+'\n'
+    prompt+= keywords['output_intro']+example2string(example, ner_tag, begin_tag, end_tag, sticked=True, tagged=True)+'\n'
+    return prompt
+
+def ask(example, ner_tag, begin_tag, end_tag, keywords):
+    prompt = keywords['ask'].format(ner_tag_plural=keywords['ner_tags_names_in_plural'][ner_tag], begin_tag=begin_tag, end_tag=end_tag)
+    prompt+= keywords['input_intro']+example2string(example, ner_tag, begin_tag, end_tag, sticked=True, tagged=False)+'\n'
+    prompt+= keywords['output_intro']
+    return prompt
+
+def get_self_verif_examples(train_dataset, ner_tag, n_few_shot, begin_tag, end_tag):
     examples=[]
     #add positive examples
     if n_few_shot > len([e for e in train_dataset if ner_tag in [ent['label'] for ent in e['entities']] ]):
@@ -86,12 +84,50 @@ def make_prompts(train_dataset, test_dataset, ner_tag, begin_tag, end_tag, n_few
 
     #shuffle the examples
     random.shuffle(examples)
+    return examples
 
+def get_yes_no_words(prompt_language):
+    return (strings[prompt_language]['yes_short'], strings[prompt_language]['no_short'])
+
+def make_prompts(
+        train_dataset,
+        test_dataset,
+        ner_tag,
+        begin_tag,
+        end_tag,
+        n_few_shot,
+        criterion,
+        self_verification,
+        random_seed, 
+        prompt_language,
+        prompt_subjective,
+        prompt_ner_tag_source,
+        prompt_ask,
+        prompt_long_answer,
+        prompt_dash,
+    ):
+
+    few_shots_for_all = get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, criterion, random_seed)
+    keywords = get_prompt_strings(language=prompt_language, subjective=prompt_subjective, ner_tag_source=prompt_ner_tag_source, ask=prompt_ask, long_answer=prompt_long_answer, dash=prompt_dash)
+
+    prompts = []
+    for p in range(len(test_dataset)):
+        prompt=""
+        prompt+=introduce(keywords, ner_tag)
+        few_shots= few_shots_for_all[p]
+        random.shuffle(few_shots)
+        for i in few_shots:
+            prompt+=demonstrate(train_dataset[i], ner_tag, begin_tag, end_tag, keywords)
+        prompt+=ask(test_dataset[p], ner_tag, begin_tag, end_tag, keywords)
+        prompts.append(prompt) 
+    
+    if not self_verification:
+        return prompts, None
+    
+    self_verification_template = keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag])
+    examples = get_self_verif_examples(train_dataset, ner_tag, n_few_shot, begin_tag, end_tag)
     for example, pred, label in examples:
-        self_verification_template+= keywords['self_verif_template'].format(ner_tag=keywords['ner_tags'][ner_tag]).format(word=pred,sentence=example,)+keywords[label]+"\n"
-    self_verification_template+= keywords['self_verif_template'].format(ner_tag=keywords['ner_tags'][ner_tag])
+        self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag]).format(word=pred,sentence=example,)+keywords[label].format(word=pred, ner_tag_sing=keywords['ner_tags_names'][ner_tag])+"\n"
+    self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag])
 
     return prompts, self_verification_template
-
-def get_yes_no_words(keywords):
-    return (keywords['yes'], keywords['no'])
