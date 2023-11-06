@@ -51,13 +51,13 @@ model_hierarchy = {
             {
                 "name": "camembert-large",
                 "clean_name": "CamemBERT-large",
-                "size": 355*M,
+                "size": 335*M,
                 "languages" : ["fr",],
             },
             {
                 "name": "bert-large-cased",
                 "clean_name": "BERT-large",
-                "size": 340*M,
+                "size": 345*M,
                 "languages" : ["en",],
             },
             {
