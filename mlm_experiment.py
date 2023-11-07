@@ -162,7 +162,7 @@ model = InformationExtractor(
         empty_entities="raise",  # when an entity cannot be mapped to any word, raise
         vocabularies={
             **{  # vocabularies to use, call .train() before initializing to fill/complete them automatically from training data
-                "entity_label": dict(module="vocabulary", values=sorted(dataset.labels()), with_unk=False, with_pad=False),
+                "entity_label": dict(module="vocabulary", values=sorted(dataset.labels()), with_unk=True, with_pad=False),
             },
             **({
                     "char": dict(module="vocabulary", values=string.ascii_letters + string.digits + string.punctuation, with_unk=True, with_pad=False),
@@ -273,7 +273,7 @@ with logger.printer:
     try:
         trainer = pl.Trainer(
             gpus=1,
-            progress_bar_refresh_rate=1,
+            progress_bar_refresh_rate=False,
             checkpoint_callback=False,  # do not make checkpoints since it slows down the training a lot
             callbacks=[
                 # ModelCheckpoint(path='checkpoints/{hashkey}-{global_step:05d}',),
