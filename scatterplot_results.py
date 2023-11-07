@@ -9,6 +9,9 @@ df = read_jsons('results')
 
 #clean camembert-base
 df = df[df['model_name'] != 'camembert-base']
+#drop camembert-large with medline
+df = df[~((df['model_name'] == 'camembert-large') & (df['dataset_name'] == 'naguib-emea'))]
+
 
 scatter_data = []
 for language, df_lang in df.groupby('lang'):

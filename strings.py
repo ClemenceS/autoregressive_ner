@@ -184,7 +184,7 @@ strings={
 }
 
 def get_prompt_strings(
-        language : str,
+        language : str, #source ou non en booléen
         subjective : str,
         ner_tag_source : str,
         ask : bool,
