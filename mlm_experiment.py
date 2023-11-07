@@ -87,11 +87,11 @@ ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
 traindev_dataset = []
 for e in dataset.train_data:
     sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
-    traindev_dataset.extend([s for s in sentences if len(s['text']) < 512])
+    traindev_dataset.extend([s for s in sentences if 5 < len(s['text']) < 512])
 test_dataset = []
 for e in dataset.test_data:
     sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
-    test_dataset.extend([s for s in sentences if len(s['text']) < 512])
+    test_dataset.extend([s for s in sentences if 5 < len(s['text']) < 512])
 
 folder_name = 'results'
 #get script directory
