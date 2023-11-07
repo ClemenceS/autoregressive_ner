@@ -259,14 +259,15 @@ logger = RichTableLogger(key="epoch", fields={
     "epoch": {},
     "step": {},
 
-    "(.*)_?loss": {"goal": "lower_is_better", "format": "{:.4f}"},
+    "(.*)_?loss": {"goal": "lower_is_better", "format": "{:.2f}"},
     "(.*)_precision": False,  # {"goal": "higher_is_better", "format": "{:.4f}", "name": r"\1_p"},
     "(.*)_recall": False,  # {"goal": "higher_is_better", "format": "{:.4f}", "name": r"\1_r"},
     "(.*)_tp": False,
-    "(.*)_f1": {"goal": "higher_is_better", "format": "{:.4f}", "name": r"\1_f1"},
+    "val_exact_f1": {"goal": "higher_is_better", "format": "{:.4f}", "name": "val_exact_f1"},
+    # "(.*)_f1": {"goal": "higher_is_better", "format": "{:.4f}", "name": r"\1_f1"},
 
     ".*_lr|max_grad": {"format": "{:.2e}"},
-    "duration": {"format": "{:.0f}", "name": "dur(s)"},
+    # "duration": {"format": "{:.0f}", "name": "dur(s)"},
 })
 with logger.printer:
     try:
@@ -274,8 +275,9 @@ with logger.printer:
             gpus=1,
             progress_bar_refresh_rate=1,
             checkpoint_callback=False,  # do not make checkpoints since it slows down the training a lot
-            callbacks=[ModelCheckpoint(path='checkpoints/{hashkey}-{global_step:05d}',),
-                        EarlyStopping(monitor="val_exact_f1",mode="max", patience=3),
+            callbacks=[
+                # ModelCheckpoint(path='checkpoints/{hashkey}-{global_step:05d}',),
+                EarlyStopping(monitor="val_exact_f1",mode="max", patience=3),
                         ],
             logger=[
                 logger,
