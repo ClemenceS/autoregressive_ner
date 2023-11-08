@@ -113,8 +113,8 @@ folder_name = 'results'
 script_dir = os.path.dirname(__file__)
 os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
 
-np.random.seed(args.partition_seed)
-traindev_dataset_this_seed = [traindev_dataset[i] for i in np.random.choice(len(traindev_dataset), size=args.training_size, replace=False)]
+# traindev_dataset_this_seed = np.random.RandomState(args.partition_seed).choice(traindev_dataset, size=args.training_size, replace=False).tolist()
+traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
 
 res_dict = {}
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
