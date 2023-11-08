@@ -73,14 +73,7 @@ tag_map_by_hf_dataset = {
 
 def get_if_key_in_x(dict, x):
     return next((dict[key] for key in dict if key in x), None)
-
-if os.path.exists(args.dataset_name):
-    dataset = BRATDataset(
-        train= f"{args.dataset_name}/train",
-        val= 0, 
-        test= f"{args.dataset_name}/test",
-    )
-else:
+try :
     doc_id_colname, words_colname, ner_tags_colname = get_if_key_in_x(colnames_by_hf_dataset, args.dataset_name)
     dataset = HuggingfaceNERDataset(
         dataset_name=args.dataset_name,
@@ -97,6 +90,13 @@ else:
         dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('fr')]
     elif args.dataset_name.endswith("WikiNER/es"):
         dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('es')]
+except:
+    dataset = BRATDataset(
+        train= f"{args.dataset_name}/train",
+        val= 0, 
+        test= f"{args.dataset_name}/test",
+    )
+    
     
 ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
 
