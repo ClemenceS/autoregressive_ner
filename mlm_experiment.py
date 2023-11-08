@@ -70,10 +70,13 @@ try:
     #This is not supposed to be here, but WikiNER is a mess for now and I have no time to fix it
     if args.dataset_name.endswith("WikiNER/en"):
         dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('en')]
+        dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith('en')]
     elif args.dataset_name.endswith("WikiNER/fr"):
         dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('fr')]
+        dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith('fr')]
     elif args.dataset_name.endswith("WikiNER/es"):
         dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('es')]
+        dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith('es')]
 except:
     dataset = BRATDataset(
         train= f"{args.dataset_name}/train",
