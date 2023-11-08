@@ -99,10 +99,9 @@ script_dir = os.path.dirname(__file__)
 #make the results folder if it doesn't exist
 os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
 
-#np random deals with choosing the traindev dataset
-np.random.seed(args.partition_seed)
-#randomy select training_size number of sentences from traindev dataset
-traindev_dataset_this_seed = np.random.choice(traindev_dataset, args.training_size, replace=False)
+#use args.partition_seed to randomly select a subset of the training data
+traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
+
 limit=0.8
 dataset.train_data = traindev_dataset_this_seed[:int(limit*len(traindev_dataset_this_seed))]
 dataset.val_data = traindev_dataset_this_seed[int(limit*len(traindev_dataset_this_seed)):]
