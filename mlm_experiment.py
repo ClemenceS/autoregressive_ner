@@ -29,6 +29,7 @@ args.add_argument("--model_name", type=str, default="camembert-base", help="mode
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
+args.add_argument('-l', '--bert_lr', type=float, default=5e-5)
 # args.add_argument('-t', '--test_on_test_set', action="store_true")
 args = args.parse_args()
 
@@ -244,7 +245,7 @@ model = InformationExtractor(
     # Learning rates
     main_lr=1e-3,
     fast_lr=1e-3,
-    bert_lr=5e-5,
+    bert_lr=args.bert_lr,
 
     # Optimizer, can be class or str
     optimizer_cls="transformers.AdamW",
@@ -272,7 +273,7 @@ with logger.printer:
     try:
         trainer = pl.Trainer(
             gpus=1,
-            progress_bar_refresh_rate=False,
+            progress_bar_refresh_rate=1,
             checkpoint_callback=False,  # do not make checkpoints since it slows down the training a lot
             callbacks=[
                 # ModelCheckpoint(path='checkpoints/{hashkey}-{global_step:05d}',),
@@ -286,7 +287,6 @@ with logger.printer:
         trainer.fit(model, dataset)
         trainer.logger[0].finalize(True)
 
-        result_output_filename = "checkpoints/{}.json".format(trainer.callbacks[0].hashkey)
         model.cuda()
         model.eval()
         model.encoder.encoders[0].cache = shared_cache
