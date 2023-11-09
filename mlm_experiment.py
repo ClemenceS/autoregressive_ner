@@ -282,7 +282,7 @@ with logger.printer:
                 logger,
             ],
             val_check_interval=args.training_size//2,
-            max_steps=4000,)
+            max_steps=1000,)
         trainer.fit(model, dataset)
         trainer.logger[0].finalize(True)
 
