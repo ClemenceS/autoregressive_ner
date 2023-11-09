@@ -70,10 +70,7 @@ class Newline(StoppingCriteria):
         return self.newline_token in input_ids[0, self.check_start:]
 
 
-def predict_for_dataset(training_data, testing_data, ner_tags, model_name, control, self_verification, begin_tag, end_tag, model_kwargs, n_gpus, random_seed, **kwargs):
-    compute_capability = torch.cuda.get_device_capability()
-    llm = LLM(model_name, tensor_parallel_size=n_gpus, seed=random_seed, dtype="float16" if compute_capability[0]<8 else "auto", trust_remote_code=True)
-        
+def predict_for_dataset(llm, training_data, testing_data, ner_tags, model_name, control, self_verification, begin_tag, end_tag, model_kwargs, random_seed, **kwargs):
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, padding_side='left')
 
     first_prompts = []

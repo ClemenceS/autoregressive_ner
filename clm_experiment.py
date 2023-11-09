@@ -4,6 +4,8 @@ import argparse
 import logging
 import random
 import json
+from vllm import LLM
+import torch
 
 from clm_predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
 from nlstruct import BRATDataset, HuggingfaceNERDataset
@@ -87,6 +89,11 @@ metrics = MetricsCollection({
     "partial": DocumentEntityMetric(binarize_tag_threshold=1e-5, binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
 })
 
+################# MODEL LOADING #################
+compute_capability = torch.cuda.get_device_capability()
+llm = LLM(args.model_name, tensor_parallel_size=args.n_gpus, seed=args.random_seed, dtype="float16" if compute_capability[0]<8 else "auto", trust_remote_code=True)
+
+################# EXPERIMENT #################
 folder_name = 'results'
 script_dir = os.path.dirname(__file__)
 os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
@@ -137,6 +144,7 @@ if args.do_sample:
 
 logger.info("Generating...")
 textual_outputs, predicted_dataset = predict_for_dataset(
+    llm=llm,
     training_data=traindev_dataset_this_seed,
     testing_data=test_dataset if args.test_on_test_set else None,
     ner_tags=ner_tags,
@@ -148,7 +156,6 @@ textual_outputs, predicted_dataset = predict_for_dataset(
     n_few_shot=args.n_few_shot,
     criterion=args.criterion,
     model_kwargs=model_kwargs,
-    n_gpus=args.n_gpus,
     random_seed=args.random_seed,
     prompt_language=args.prompt_language,
     prompt_subjective=args.prompt_subjective,
