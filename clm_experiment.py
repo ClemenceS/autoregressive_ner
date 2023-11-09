@@ -1,6 +1,5 @@
 import datetime
 import os
-import numpy as np
 import argparse
 import logging
 import random
@@ -8,11 +7,10 @@ import json
 
 from clm_predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
 from nlstruct import BRATDataset, HuggingfaceNERDataset
-from nlstruct.metrics import MetricsCollection
-from nlstruct.registry import get_instance
+from nlstruct.metrics import MetricsCollection, DocumentEntityMetric
 from nlstruct.data_utils import sentencize
-# from prompt_templates import prompt_templates
-
+from dataset_info import ner_tags_by_dataset, colnames_by_hf_dataset, tag_map_by_hf_dataset, get_if_key_in_x
+from pred_utils import full_preds_string, get_metrics_string
 
 args = argparse.ArgumentParser()
 args.add_argument("--dataset_name", type=str, help="dataset name")
@@ -47,32 +45,8 @@ args = args.parse_args()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("experiment")
 
-#random deals with choosing the few-shot examples, so we want that fixed
 random.seed(args.random_seed)
 
-assert args.dataset_name is not None
-
-ner_tags_by_dataset = {
-    "WikiNER" : ["PER", "LOC", "ORG"],
-    "conll2003" : ["PER", "LOC", "ORG"],
-    "conll2002" : ["PER", "LOC", "ORG"],
-    "medline" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
-    "emea" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
-    "n2c2" : ["ACTI", "ANAT", "CHEM", "CONC", "DEVI", "DISO", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
-}
-colnames_by_hf_dataset = {
-    "WikiNER" : ("id", "words", "ner_tags"),
-    "conll2003" : ("id", "tokens", "ner_tags"),
-    "conll2002" : ("id", "tokens", "ner_tags"),
-}
-tag_map_by_hf_dataset = {
-    "WikiNER" : {0: "O", 1: "LOC", 2: "PER", 3: "FAC", 4: "ORG", }, 
-    "conll2003" : {0: "O", 1: "PER", 2: "PER", 3: "ORG", 4: "ORG", 5: "LOC", 6: "LOC", 7: "O", 8: "O", },
-    "conll2002" : {0: "O", 1: "PER", 2: "PER", 3: "ORG", 4: "ORG", 5: "LOC", 6: "LOC", 7: "O", 8: "O", },
-}
-
-def get_if_key_in_x(dict, x):
-    return next((dict[key] for key in dict if key in x), None)
 try :
     doc_id_colname, words_colname, ner_tags_colname = get_if_key_in_x(colnames_by_hf_dataset, args.dataset_name)
     dataset = HuggingfaceNERDataset(
@@ -96,9 +70,6 @@ except:
         val= 0, 
         test= f"{args.dataset_name}/test",
     )
-    
-    
-ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
 
 traindev_dataset = []
 for e in dataset.train_data:
@@ -108,14 +79,17 @@ test_dataset = []
 for e in dataset.test_data:
     sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
     test_dataset.extend([s for s in sentences if len(s['text']) < 512])
+traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
+
+ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
+metrics = MetricsCollection({
+    "exact": DocumentEntityMetric(binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
+    "partial": DocumentEntityMetric(binarize_tag_threshold=1e-5, binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
+})
 
 folder_name = 'results'
 script_dir = os.path.dirname(__file__)
 os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
-
-# traindev_dataset_this_seed = np.random.RandomState(args.partition_seed).choice(traindev_dataset, size=args.training_size, replace=False).tolist()
-traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
-
 res_dict = {}
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
@@ -138,13 +112,17 @@ res_dict['do_sample'] = args.do_sample
 res_dict['top_p'] = args.top_p
 res_dict['top_k'] = args.top_k
 res_dict['temperature'] = args.temperature
-# res_dict['prompt'] = prompt_templates[args.prompt_dict]
 res_dict['chat_template'] = MODEL_INSTRUCTION_TEMPLATES[args.model_name] if args.model_name in MODEL_INSTRUCTION_TEMPLATES else ""
 res_dict['ner_tags'] = ner_tags
 res_dict['first_example'] = traindev_dataset_this_seed[0]['text']
 res_dict['last_example'] = traindev_dataset_this_seed[-1]['text']
 res_dict['test_on_test_set'] = args.test_on_test_set
-
+res_dict['prompt_language'] = args.prompt_language
+res_dict['prompt_subjective'] = args.prompt_subjective
+res_dict['prompt_ner_tag_source'] = args.prompt_ner_tag_source
+res_dict['prompt_ask'] = args.prompt_ask
+res_dict['prompt_long_answer'] = args.prompt_long_answer
+res_dict['prompt_dash'] = args.prompt_dash
 
 model_kwargs = {
     "num_beams": args.num_beams,
@@ -181,43 +159,21 @@ textual_outputs, predicted_dataset = predict_for_dataset(
 )
 
 logger.info("Evaluating...")
-metric_names = {
-        "exact": dict(module="dem", binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
-        "partial": dict(module="dem", binarize_tag_threshold=1e-5, binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
-}
-metrics = MetricsCollection({k: get_instance(m) for k, m in metric_names.items()})
-
-s_metrics = ""
-for metric_name, metric in metrics.items():
-    metric(predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)
-    metric_dict = metric.compute()
-    for k,v in metric_dict.items():
+metric_dict = metrics(predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)
+for metric_name, metric_values in metric_dict.items():
+    for k,v in metric_values.items():
         if not isinstance(v, int) and not isinstance(v, float):
             metric_dict[k] = v.item()
         metric_dict[k] = round(metric_dict[k], 3)
-    res_dict[metric_name] = metric_dict
-    s_metrics+="="*20+metric_name+"="*20+'\n'
-    s_metrics+=f'ALL    tp: {metric_dict["tp"]}    precision: {metric_dict["precision"]}    recall: {metric_dict["recall"]}    f1: {metric_dict["f1"]}\n'
-    for tag in ner_tags:
-        s_metrics+=f'{tag}    tp: {metric_dict[tag+"_tp"]}    precision: {metric_dict[tag+"_precision"]}    recall: {metric_dict[tag+"_recall"]}    f1: {metric_dict[tag+"_f1"]}\n'
-logger.info(s_metrics)
-
-full_preds = ""
-for i, (o, pred, gold) in enumerate(zip(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)):
-        full_preds += '='*50+'\n'
-        full_preds += 'input: '+pred['text']+'\n'
-        for j,tag in enumerate(ner_tags):
-            full_preds += '-'*50+'\n'
-            full_preds += tag+' output: '+textual_outputs[j*len(predicted_dataset)+i]+'\n'
-            full_preds += 'final: '+str([p['text'] for p in pred['entities'] if p['label']==tag])+'\n'
-            full_preds += 'gold: '+str([g['text'] for g in gold['entities'] if g['label']==tag])+'\n'
+res_dict.update(metric_dict)
+logger.info(get_metrics_string(metric_dict, ner_tags))
 
 if args.write_log:
+    full_preds = full_preds_string(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed, ner_tags)
     full_preds_path = os.path.join(script_dir, folder_name)+f'/full_preds_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.txt'
     res_dict['full_preds_path'] = full_preds_path
     with open(full_preds_path, 'w') as f:
         f.write(full_preds)
-
     res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
     with open(res_dict_path, 'w') as f:
         json.dump(res_dict, f)
