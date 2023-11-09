@@ -35,17 +35,15 @@ args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
 args.add_argument("--n_few_shot", type=int, default=5)
-args.add_argument("--criterion", type=str, default="most_occurences")
 args.add_argument('--prompt_language', type=str, default="en")
 args.add_argument('--prompt_subjective', type=str)
 args.add_argument('--prompt_ner_tag_source', type=str, default="standard")
 args.add_argument('--prompt_ask', action="store_true")
 args.add_argument('--prompt_long_answer', action="store_true")
 args.add_argument('--prompt_dash', action="store_true")
+args.add_argument('--one_step', action="store_true")
 
-args.add_argument('--no_self_verification', dest='self_verification', action='store_false')
 args = args.parse_args()
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("experiment")
 random.seed(args.random_seed)
@@ -111,12 +109,10 @@ res_dict['begin_tag'] = args.begin_tag
 res_dict['end_tag'] = args.end_tag
 res_dict['n_few_shot'] = args.n_few_shot
 res_dict['model_name'] = args.model_name
-res_dict['criterion'] = args.criterion
 res_dict['training_size'] = args.training_size
 res_dict['partition_seed'] = args.partition_seed
 res_dict['random_seed'] = args.random_seed
 res_dict['control'] = args.control
-res_dict['self_verification'] = args.self_verification
 res_dict['chat_template'] = MODEL_INSTRUCTION_TEMPLATES[args.model_name] if args.model_name in MODEL_INSTRUCTION_TEMPLATES else ""
 res_dict['ner_tags'] = ner_tags
 res_dict['first_example'] = traindev_dataset_this_seed[0]['text']
@@ -128,6 +124,7 @@ res_dict['prompt_ner_tag_source'] = args.prompt_ner_tag_source
 res_dict['prompt_ask'] = args.prompt_ask
 res_dict['prompt_long_answer'] = args.prompt_long_answer
 res_dict['prompt_dash'] = args.prompt_dash
+res_dict['one_step'] = args.one_step
 
 model_kwargs = {
     "num_beams": 3,
@@ -147,10 +144,9 @@ textual_outputs, predicted_dataset = predict_for_dataset(
     model_name=args.model_name,
     begin_tag=args.begin_tag,
     end_tag=args.end_tag,
-    self_verification=args.self_verification,
     control=args.control,
     n_few_shot=args.n_few_shot,
-    criterion=args.criterion,
+    one_step=args.one_step,
     model_kwargs=model_kwargs,
     random_seed=args.random_seed,
     prompt_language=args.prompt_language,

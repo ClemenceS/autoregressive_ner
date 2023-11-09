@@ -18,30 +18,21 @@ def example2string(example, ner_tag, begin_tag, end_tag, sticked, tagged):
         res_text+=c
     return res_text.rstrip()
 
-def get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, criterion, random_seed):
+def get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, one_step, random_seed):
     random.seed(random_seed)
     num_prompts = len(test_dataset)
     few_shots_for_all = []
     def sentences_with_most_occurences(train_dataset, ner_tag, n):
         return sorted(range(len(train_dataset)), key=lambda i: len([ent for ent in train_dataset[i]['entities'] if ent['label'] == ner_tag]), reverse=True)[:n]
-    if criterion == 'random':
-        for i in range(num_prompts):
-            few_shots_for_all.append(random.sample(range(len(train_dataset)), n_few_shot))
-    elif criterion == 'most_occurences':
+    if not one_step:
         few_shots_for_all = [sentences_with_most_occurences(train_dataset, ner_tag, n_few_shot)] * num_prompts
-    elif criterion == 'closest_tf_idf':
+    else :
         #get the k nearest sentences in the training set tf-idf wise
         tfidf = TfidfVectorizer(tokenizer=lambda x: x, lowercase=False)
         transformed_train = tfidf.fit_transform([e['text'] for e in train_dataset])
         transformed_test = tfidf.transform([e['text'] for e in test_dataset])
         similarities = cosine_similarity(transformed_test, transformed_train)
         few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shot:] for i in range(num_prompts)]
-    elif criterion == 'closest_tf_idf_and_most_occurences':
-        tfidf = TfidfVectorizer(tokenizer=lambda x: x, lowercase=False)
-        transformed_train = tfidf.fit_transform([e['text'] for e in train_dataset])
-        transformed_test = tfidf.transform([e['text'] for e in test_dataset])
-        similarities = cosine_similarity(transformed_test, transformed_train)
-        few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shot//2:]+sentences_with_most_occurences(train_dataset, ner_tag, n_few_shot//2) for i in range(num_prompts)]
     return few_shots_for_all
 
 def introduce(keywords, ner_tag):
@@ -96,8 +87,7 @@ def make_prompts(
         begin_tag,
         end_tag,
         n_few_shot,
-        criterion,
-        self_verification,
+        one_step,
         random_seed, 
         prompt_language,
         prompt_subjective,
@@ -107,7 +97,7 @@ def make_prompts(
         prompt_dash,
     ):
 
-    few_shots_for_all = get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, criterion, random_seed)
+    few_shots_for_all = get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, one_step, random_seed)
     keywords = get_prompt_strings(language=prompt_language, subjective=prompt_subjective, ner_tag_source=prompt_ner_tag_source, ask=prompt_ask, long_answer=prompt_long_answer, dash=prompt_dash)
 
     prompts = []
@@ -121,7 +111,7 @@ def make_prompts(
         prompt+=ask(test_dataset[p], ner_tag, begin_tag, end_tag, keywords)
         prompts.append(prompt) 
     
-    if not self_verification:
+    if one_step:
         return prompts, None
     
     self_verification_template = keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag])

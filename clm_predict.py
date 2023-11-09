@@ -70,7 +70,7 @@ class Newline(StoppingCriteria):
         return self.newline_token in input_ids[0, self.check_start:]
 
 
-def predict_for_dataset(llm, training_data, testing_data, ner_tags, model_name, control, self_verification, begin_tag, end_tag, model_kwargs, random_seed, **kwargs):
+def predict_for_dataset(llm, training_data, testing_data, ner_tags, model_name, one_step, control, begin_tag, end_tag, model_kwargs, random_seed, **kwargs):
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, padding_side='left')
 
     first_prompts = []
@@ -88,7 +88,7 @@ def predict_for_dataset(llm, training_data, testing_data, ner_tags, model_name, 
                     ner_tag,
                     begin_tag=begin_tag,
                     end_tag=end_tag,
-                    self_verification=self_verification,
+                    one_step=one_step,
                     random_seed=random_seed,
                     **kwargs
                 )
@@ -106,7 +106,7 @@ def predict_for_dataset(llm, training_data, testing_data, ner_tags, model_name, 
                 ner_tag,
                 begin_tag=begin_tag,
                 end_tag=end_tag,
-                self_verification=self_verification,
+                one_step=one_step,
                 random_seed=random_seed,
                 **kwargs
             )
@@ -224,7 +224,7 @@ def predict_for_dataset(llm, training_data, testing_data, ner_tags, model_name, 
             for ent_idx, (begin, end) in enumerate(get_indices(reference[i%len(reference)]['text'], output, begin_tag, end_tag))
         ])
 
-    if self_verification:
+    if not one_step:
         sentences = []
         addresses = []
         for i,predicted_example in enumerate(predictions):
