@@ -123,6 +123,7 @@ res_dict['last_two_dirs'] = last_two_dirs
 res_dict['model_base_name'] = model_base_name
 res_dict['test_on_test_set'] = True
 res_dict['partition_seed'] = args.partition_seed
+res_dict['bert_lr'] = args.bert_lr
 
 
 word_regex = r'(?:[\w]+(?:[’\'])?)|[!"#$%&\'’\(\)*+,-./:;<=>?@\[\]^_`{|}~]'
@@ -131,8 +132,6 @@ sentence_split_regex = r"((?:\s*\n)+\s*|(?:(?<=[\w0-9]{2,}\.|[)]\.)\s+))(?=[[:up
 gc.collect()
 torch.cuda.empty_cache()
 gc.collect()
-
-val_check_interval = 400
 
 metric_names = {
         "exact": dict(module="dem", binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
@@ -277,12 +276,12 @@ with logger.printer:
             checkpoint_callback=False,  # do not make checkpoints since it slows down the training a lot
             callbacks=[
                 # ModelCheckpoint(path='checkpoints/{hashkey}-{global_step:05d}',),
-                EarlyStopping(monitor="val_exact_f1",mode="max", patience=3),
+                # EarlyStopping(monitor="val_exact_f1",mode="max", patience=3),
                         ],
             logger=[
                 logger,
             ],
-            val_check_interval=val_check_interval,
+            val_check_interval=args.training_size//2,
             max_steps=4000,)
         trainer.fit(model, dataset)
         trainer.logger[0].finalize(True)
