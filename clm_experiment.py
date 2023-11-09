@@ -11,7 +11,7 @@ from clm_predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection, DocumentEntityMetric
 from nlstruct.data_utils import sentencize
-from dataset_info import ner_tags_by_dataset, colnames_by_hf_dataset, tag_map_by_hf_dataset, get_if_key_in_x
+from dataset_info import get_dataset_colnames, get_dataset_ner_tags, get_dataset_tag_map, get_dataset_language
 from pred_utils import full_preds_string, get_metrics_string
 
 args = argparse.ArgumentParser()
@@ -50,10 +50,10 @@ logger = logging.getLogger("experiment")
 random.seed(args.random_seed)
 
 try :
-    doc_id_colname, words_colname, ner_tags_colname = get_if_key_in_x(colnames_by_hf_dataset, args.dataset_name)
+    doc_id_colname, words_colname, ner_tags_colname = get_dataset_colnames(args.dataset_name)
     dataset = HuggingfaceNERDataset(
         dataset_name=args.dataset_name,
-        tag_map=get_if_key_in_x(tag_map_by_hf_dataset, args.dataset_name),
+        tag_map=get_dataset_tag_map(args.dataset_name),
         doc_id_colname=doc_id_colname,
         words_colname=words_colname,
         ner_tags_colname=ner_tags_colname,
@@ -83,7 +83,9 @@ for e in dataset.test_data:
     test_dataset.extend([s for s in sentences if len(s['text']) < 512])
 traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
 
-ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
+ner_tags = get_dataset_ner_tags(args.dataset_name)
+language = get_dataset_language(args.dataset_name)
+
 metrics = MetricsCollection({
     "exact": DocumentEntityMetric(binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
     "partial": DocumentEntityMetric(binarize_tag_threshold=1e-5, binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
