@@ -17,18 +17,14 @@ from pred_utils import full_preds_string, get_metrics_string
 args = argparse.ArgumentParser()
 args.add_argument("--dataset_name", type=str, help="dataset name")
 args.add_argument('-d', "--load_dataset_from_disk", action="store_true")
+
+#ABLATION ARGS
+args.add_argument('--random_seed', type=int, default=42)
+args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
 args.add_argument("--n_few_shot", type=int, default=5)
-args.add_argument("--model_name", type=str, default="bigscience/bloom")
 args.add_argument("--criterion", type=str, default="most_occurences")
-args.add_argument("--prompt_dict", type=str, default="en")
-args.add_argument('--top_p', type=float, default=1.0)
-args.add_argument('--top_k', type=int, default=50)
-args.add_argument('--temperature', type=float, default=1.0)
-args.add_argument('--num_beams', type=int, default=1)
-args.add_argument('--partition_seed', type=int, default=1)
-args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('--prompt_language', type=str, default="en")
 args.add_argument('--prompt_subjective', type=str)
 args.add_argument('--prompt_ner_tag_source', type=str, default="standard")
@@ -110,17 +106,11 @@ res_dict['end_tag'] = args.end_tag
 res_dict['n_few_shot'] = args.n_few_shot
 res_dict['model_name'] = args.model_name
 res_dict['criterion'] = args.criterion
-res_dict['prompt_dict'] = args.prompt_dict
 res_dict['training_size'] = args.training_size
 res_dict['partition_seed'] = args.partition_seed
 res_dict['random_seed'] = args.random_seed
 res_dict['control'] = args.control
-res_dict['num_beams'] = args.num_beams
 res_dict['self_verification'] = args.self_verification
-res_dict['do_sample'] = args.do_sample
-res_dict['top_p'] = args.top_p
-res_dict['top_k'] = args.top_k
-res_dict['temperature'] = args.temperature
 res_dict['chat_template'] = MODEL_INSTRUCTION_TEMPLATES[args.model_name] if args.model_name in MODEL_INSTRUCTION_TEMPLATES else ""
 res_dict['ner_tags'] = ner_tags
 res_dict['first_example'] = traindev_dataset_this_seed[0]['text']
@@ -134,15 +124,13 @@ res_dict['prompt_long_answer'] = args.prompt_long_answer
 res_dict['prompt_dash'] = args.prompt_dash
 
 model_kwargs = {
-    "num_beams": args.num_beams,
-    "do_sample": args.do_sample,
+    "num_beams": 3,
+    "do_sample": False,
+    # "top_p": 0.9,
+    # "top_k": 50,
+    # "temperature": 0.9,
 }
-if args.do_sample:
-    model_kwargs.update({
-        "top_p": args.top_p,
-        "top_k": args.top_k,
-        "temperature": args.temperature,
-    })
+res_dict.update(model_kwargs)
 
 logger.info("Generating...")
 textual_outputs, predicted_dataset = predict_for_dataset(
