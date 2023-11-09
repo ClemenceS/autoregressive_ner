@@ -32,8 +32,7 @@ args.add_argument('-s', '--training_size', type=int, default=100)
 
 #VALIDATION ARGS, will be removed
 args.add_argument('-t', '--test_on_test_set', action="store_true")
-args.add_argument("--begin_tag", type=str, default="@@")
-args.add_argument("--end_tag", type=str, default="##")
+args.add_argument("--taggers", type=str, default="@@ ##")
 args.add_argument("--n_few_shot", type=int, default=5)
 args.add_argument('--prompt_language', type=str, default="en")
 args.add_argument('--prompt_subjective', type=str)
@@ -103,10 +102,12 @@ res_dict = {}
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
 model_base_name = os.path.basename(args.model_name)
+assert len(args.taggers.split(' ')) == 2, "taggers must be a string with two words separated by a space"
+begin_tag, end_tag = args.taggers.split(' ')
 
 res_dict['dataset_name'] = last_two_dirs
-res_dict['begin_tag'] = args.begin_tag
-res_dict['end_tag'] = args.end_tag
+res_dict['begin_tag'] = begin_tag
+res_dict['end_tag'] = end_tag
 res_dict['n_few_shot'] = args.n_few_shot
 res_dict['model_name'] = args.model_name
 res_dict['training_size'] = args.training_size
@@ -142,8 +143,8 @@ textual_outputs, predicted_dataset = predict_for_dataset(
     testing_data=test_dataset if args.test_on_test_set else None,
     ner_tags=ner_tags,
     model_name=args.model_name,
-    begin_tag=args.begin_tag,
-    end_tag=args.end_tag,
+    begin_tag=begin_tag,
+    end_tag=end_tag,
     control=args.control,
     n_few_shot=args.n_few_shot,
     one_step=args.one_step,
