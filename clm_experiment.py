@@ -172,8 +172,8 @@ metric_dict = metrics(predicted_dataset, test_dataset if args.test_on_test_set e
 for metric_name, metric_values in metric_dict.items():
     for k,v in metric_values.items():
         if not isinstance(v, int) and not isinstance(v, float):
-            metric_dict[k] = v.item()
-        metric_dict[k] = round(metric_dict[k], 3)
+            metric_dict[metric_name][k] = v.item()
+        metric_dict[metric_name][k] = round(metric_dict[metric_name][k], 3)
 res_dict.update(metric_dict)
 logger.info(get_metrics_string(metric_dict, ner_tags))
 
