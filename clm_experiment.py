@@ -15,12 +15,23 @@ from dataset_info import get_dataset_colnames, get_dataset_ner_tags, get_dataset
 from pred_utils import full_preds_string, get_metrics_string
 
 args = argparse.ArgumentParser()
+#MAIN ARGS
 args.add_argument("--dataset_name", type=str, help="dataset name")
 args.add_argument('-d', "--load_dataset_from_disk", action="store_true")
+args.add_argument("--model_name", type=str, default="bigscience/bloom")
+
+#EXPERIMENT ARGS
+args.add_argument('--no_write_log', dest='write_log', action='store_false')
+args.add_argument('-n', '--n_gpus', type=int, default=1)
+args.add_argument('--control', action="store_true")
 
 #ABLATION ARGS
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('--partition_seed', type=int, default=1)
+args.add_argument('-s', '--training_size', type=int, default=100)
+
+#VALIDATION ARGS, will be removed
+args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument("--begin_tag", type=str, default="@@")
 args.add_argument("--end_tag", type=str, default="##")
 args.add_argument("--n_few_shot", type=int, default=5)
@@ -31,20 +42,15 @@ args.add_argument('--prompt_ner_tag_source', type=str, default="standard")
 args.add_argument('--prompt_ask', action="store_true")
 args.add_argument('--prompt_long_answer', action="store_true")
 args.add_argument('--prompt_dash', action="store_true")
-args.add_argument('-n', '--n_gpus', type=int, default=1)
-args.add_argument('-s', '--training_size', type=int, default=100)
-args.add_argument('-t', '--test_on_test_set', action="store_true")
-args.add_argument('--do_sample', action="store_true")
-args.add_argument('--no_write_log', dest='write_log', action='store_false')
-args.add_argument('--no_control', dest='control', action='store_false')
+
 args.add_argument('--no_self_verification', dest='self_verification', action='store_false')
 args = args.parse_args()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("experiment")
-
 random.seed(args.random_seed)
 
+################# DATASET LOADING #################
 try :
     doc_id_colname, words_colname, ner_tags_colname = get_dataset_colnames(args.dataset_name)
     dataset = HuggingfaceNERDataset(
