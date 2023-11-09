@@ -35,12 +35,13 @@ args.add_argument('-t', '--test_on_test_set', action="store_true")
 args.add_argument("--taggers", type=str, default="@@ ##")
 args.add_argument("--n_few_shot", type=int, default=5)
 args.add_argument('--prompt_language', type=str, default="en")
-args.add_argument('--prompt_subjective', type=str)
-args.add_argument('--prompt_ner_tag_source', type=str, default="standard")
-args.add_argument('--prompt_ask', action="store_true")
 args.add_argument('--prompt_long_answer', action="store_true")
 args.add_argument('--prompt_dash', action="store_true")
 args.add_argument('--one_step', action="store_true")
+args.add_argument('--prompt_label_description', action="store_true")
+
+args.add_argument('--prompt_subjective', type=str)
+args.add_argument('--prompt_ask', action="store_true")
 
 args = args.parse_args()
 logging.basicConfig(level=logging.INFO)
@@ -121,7 +122,7 @@ res_dict['last_example'] = traindev_dataset_this_seed[-1]['text']
 res_dict['test_on_test_set'] = args.test_on_test_set
 res_dict['prompt_language'] = args.prompt_language
 res_dict['prompt_subjective'] = args.prompt_subjective
-res_dict['prompt_ner_tag_source'] = args.prompt_ner_tag_source
+res_dict['prompt_label_description'] = args.prompt_label_description
 res_dict['prompt_ask'] = args.prompt_ask
 res_dict['prompt_long_answer'] = args.prompt_long_answer
 res_dict['prompt_dash'] = args.prompt_dash
@@ -137,7 +138,7 @@ model_kwargs = {
 res_dict.update(model_kwargs)
 
 logger.info("Generating...")
-textual_outputs, predicted_dataset = predict_for_dataset(
+textual_outputs, predicted_dataset, first_prompt_example, second_prompt_example = predict_for_dataset(
     llm=llm,
     training_data=traindev_dataset_this_seed,
     testing_data=test_dataset if args.test_on_test_set else None,
@@ -152,11 +153,13 @@ textual_outputs, predicted_dataset = predict_for_dataset(
     random_seed=args.random_seed,
     prompt_language=args.prompt_language,
     prompt_subjective=args.prompt_subjective,
-    prompt_ner_tag_source=args.prompt_ner_tag_source,
+    prompt_label_description=args.prompt_label_description,
     prompt_ask=args.prompt_ask,
     prompt_long_answer=args.prompt_long_answer,
     prompt_dash=args.prompt_dash,
 )
+res_dict['first_prompt_example'] = first_prompt_example
+res_dict['second_prompt_example'] = second_prompt_example
 
 logger.info("Evaluating...")
 metric_dict = metrics(predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)

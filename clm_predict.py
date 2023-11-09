@@ -270,5 +270,5 @@ def predict_for_dataset(llm, training_data, testing_data, ner_tags, model_name, 
         with open(os.path.join(script_dir, folder_name, f"outputs_{timedate}.txt"), "w") as f:
             f.write("\n".join(outputs))
 
-    return outputs, predictions   
+    return outputs, predictions, model_prompts[0], (prompts[0] if not one_step else '-')
     

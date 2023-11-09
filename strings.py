@@ -20,7 +20,7 @@ strings={
         "no_short": "No",
         "yes_long": "{word} is {ner_tag_sing}, yes.",
         "no_long": "{word} is not {ner_tag_sing}, no.",
-        "standard_ner_tags_names_in_plural" : {
+        "ner_tags_names_in_plural" : {
             'PER' : "person names",
             'DISO' : "disorders",
             'LOC' : "places",
@@ -38,7 +38,7 @@ strings={
             "ACTI" : "activities",
             "CONC" : "concepts",
             },
-        'standard_ner_tags_names' : {
+        'ner_tags_names' : {
             'PER' : "a person's name",
             'DISO' : "an alteration of the functions of the body",
             'LOC' : "a place",
@@ -56,7 +56,7 @@ strings={
             "ACTI" : "an activity",
             "CONC" : "a concept",
             },
-        'standard_ner_tags_description' : {
+        'ner_tags_description' : {
             'PER' : "These are words that refer to the name of a real or fictional person.",
             'DISO' : "These are words that refer to an alteration or abnormality of the functions or health of the body.",
             'LOC' : "These are words that refer to the name of a place.",
@@ -98,53 +98,9 @@ strings={
         "no_long": "{word} n'est pas {ner_tag_sing}, non.",
         "standard_ner_tags_names_in_plural" : {
             'PER' : "de noms de personnes",
-            'DISO' : "de maladies et symptômes",
+            "FAC" : "d'installations",
             'LOC' : "de lieux",
             'ORG' : "d'organisations",
-            'ANAT' : "de parties du corps",
-            'LIVB' : "d'êtres vivants",
-            'PROC' : "de procédures médicales",
-            "FAC" : "d'installations",
-            "CHEM" : "de substances chimiques",
-            "DEVI" : "d'appareils médicaux",
-            "GEOG" : "de zones géographiques",
-            "OBJC" : "d'objets non médicaux",
-            "PHEN" : "de phénomènes physiologiques",
-            "PHYS" : "de physiologie humaine",
-        },
-        'standard_ner_tags_names' : {
-            'PER' : "un nom de personne",
-            'DISO' : "une altération des fonctions du corps",
-            'LOC' : "un lieu",
-            'ORG' : "une organisation",
-            'ANAT' : "une partie du corps",
-            'LIVB' : "un être vivant",
-            'PROC' : "une procédure médicale",
-            "FAC" : "une installation",
-            "CHEM" : "une substance chimique",
-            "DEVI" : "un appareil médical",
-            "GEOG" : "une zone géographique",
-            "OBJC" : "un objet non médical",
-            "PHEN" : "un phénomène physiologique",
-            "PHYS" : "une physiologie humaine",
-        },
-        'standard_ner_tags_description' : {
-            'PER' : "Il s'agit des mots faisant mention du nom d'un personne qu'elle soit réelle ou fictive.",
-            'DISO' : "Il s'agit des mots faisant mention d'une altération ou une anormalité des fonctions ou de la santé du corps.",
-            'LOC' : "Il s'agit des mots faisant mention du nom d'un lieu.",
-            'ORG' : "Il s'agit des mots faisant mention du nom d'une organisation.",
-            'ANAT' : "Il s'agit des mots faisant mention d'une partie du corps humain.",
-            'LIVB' : "Il s'agit des mots faisant mention d'un être vivant.",
-            'PROC' : "Il s'agit des mots faisant mention d'une procédure médicale.",
-            "FAC" : "Il s'agit des mots faisant mention d'une installation faite/construite par les humains.",
-            "CHEM" : "Il s'agit des mots faisant mention d'un médicament ou d'une substance chimique.",
-            "DEVI" : "Il s'agit des mots faisant mention d'un appareil médical ou d'un instrument médical.",
-            "GEOG" : "Il s'agit des mots faisant mention d'une zone géographique.",
-            "OBJC" : "Il s'agit des mots faisant mention d'un objet qui n'est pas nécessairement médical.",
-            "PHEN" : "Il s'agit des mots faisant mention d'un phénomène physiologique ou d'une fonction physiologique.",
-            "PHYS" : "Il s'agit des mots faisant mention d'une physiologie humaine.",
-        },
-        "quaero_ner_tags_names_in_plural" : {
             "ANAT" : "d'anatomie",
             "CHEM" : "de médicaments et substances chimiques",
             "DEVI" : "de matériel",
@@ -156,7 +112,11 @@ strings={
             "PHYS" : "de physiologie",
             "PROC" : "de procédures",
         },
-        "quaero_ner_tags_names" : {
+        'standard_ner_tags_names' : {
+            'PER' : "un nom de personne",
+            'LOC' : "un lieu",
+            'ORG' : "une organisation",
+            "FAC" : "une installation",
             "ANAT" : "une partie du corps",
             "CHEM" : "un médicament ou une substance chimique",
             "DEVI" : "un matériel",
@@ -168,7 +128,11 @@ strings={
             "PHYS" : "une physiologie",
             "PROC" : "une procédure",
         },
-        "quaero_ner_tags_description" : {
+        'ner_tags_description' : {
+            'PER' : "Il s'agit des mots faisant mention du nom d'un personne, qu'elle soit réelle (Barack Obama) ou fictive (Harry Potter).",
+            'LOC' : "Il s'agit des mots faisant mention du nom d'une ville (Paris), d'un pays (France), d'une région (Nouvelle Angleterre), qu'elle soit réelle ou imaginaire (le Pays des Merveilles).",
+            'ORG' : "Il s'agit des mots faisant mention du nom d'une organisation (ONU, Apple, Microsoft).",
+            "FAC" : "Il s'agit des mots faisant mention d'une installation faite/construite par les humains (Tour Eiffel, Pont de Brooklyn).",
             "ANAT" : "Il s'agit d'une entité se rapportant à la structure du corps humain, ses organes et leur position. Il s’agit principalement des parties du corpus ou organes (intestin grèle, pouce), des appareils (système digestif ), des tissus (épithélium), des cellules (Cellules épithéliales), des substances corporelles (sueur) et des organismes embryonaires (foetus).",
             "CHEM" : "Il s'agit d'une substance ou composition présentant des propriétés chimiques caractéristiques, en particulier des propriétés curatives ou préventives à l’égard des maladies humaines ou animales. Il s’agit principalement des médicaments disponibles en pharmacie (aspirine, risperidone, viagra), des antibiotiques (pénicilline, vancomycine), des proteines (myoprotéine, immunoglobuline) des hormones (insuline), des substances dangereuses (toxine botulinique, venin), des enzymes (uricase, cytochrome c).",
             "DEVI" : "Il s'agit d'un matériel utilisé pour administrer des soins (Pompe à insuline, Pacemaker, Seringue) ou effectuer des recherches médicales (Micropuce ADN).",
@@ -184,9 +148,9 @@ strings={
 }
 
 def get_prompt_strings(
-        language : str, #source ou non en booléen
+        language : str,
         subjective : str,
-        ner_tag_source : str,
+        label_description : bool,
         ask : bool,
         long_answer : bool,
         dash : bool,
@@ -197,7 +161,7 @@ def get_prompt_strings(
     - subjective : str
         speak in the first person as an ("annotator", "linguist", "clinician"), if None, speak objectively
     - ner_tag_source : str
-        source of the NER tags names and descriptions, either ["standard" or "quaero"]
+        length of the description of the NER tags
     - ask : bool
         if True, ask the model to perform the task
     - long_answer : bool
@@ -220,8 +184,6 @@ def get_prompt_strings(
     """
     if subjective is not None and subjective not in ["annotator", "linguist", "clinician"]:
         raise ValueError("subjective must be None, 'annotator', 'linguist' or 'clinician'")
-    if ner_tag_source not in ["standard", "quaero"]:
-        raise ValueError("ner_tag_source must be 'standard' or 'quaero'")
     result = {}
     if subjective is None:
         result["task_introduction"] = strings[language]["task_introduction_objective"]
@@ -246,8 +208,12 @@ def get_prompt_strings(
     else:
         result["yes"] = strings[language]["yes_short"]
         result["no"] = strings[language]["no_short"]
-    result["ner_tags_names"] = strings[language][ner_tag_source+"_ner_tags_names"]
-    result["ner_tags_names_in_plural"] = strings[language][ner_tag_source+"_ner_tags_names_in_plural"]
-    result["ner_tags_description"] = strings[language][ner_tag_source+"_ner_tags_description"]
+    result["ner_tags_names"] = strings[language]["ner_tags_names"]
+    result["ner_tags_names_in_plural"] = strings[language]["ner_tags_names_in_plural"]
+    if label_description:
+        result["ner_tags_description"] = strings[language]["ner_tags_description"]
+    else:
+        #return empty strings
+        result["ner_tags_description"] = {ner_tag:"" for ner_tag in result["ner_tags_names"]}
 
     return result

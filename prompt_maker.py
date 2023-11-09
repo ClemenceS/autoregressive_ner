@@ -91,14 +91,14 @@ def make_prompts(
         random_seed, 
         prompt_language,
         prompt_subjective,
-        prompt_ner_tag_source,
+        prompt_label_description,
         prompt_ask,
         prompt_long_answer,
         prompt_dash,
     ):
 
     few_shots_for_all = get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, one_step, random_seed)
-    keywords = get_prompt_strings(language=prompt_language, subjective=prompt_subjective, ner_tag_source=prompt_ner_tag_source, ask=prompt_ask, long_answer=prompt_long_answer, dash=prompt_dash)
+    keywords = get_prompt_strings(language=prompt_language, subjective=prompt_subjective, label_description=prompt_label_description, ask=prompt_ask, long_answer=prompt_long_answer, dash=prompt_dash)
 
     prompts = []
     for p in range(len(test_dataset)):
