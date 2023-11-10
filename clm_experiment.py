@@ -39,7 +39,6 @@ args.add_argument('--prompt_long_answer', action="store_true")
 args.add_argument('--prompt_dash', action="store_true")
 args.add_argument('--one_step', action="store_true")
 args.add_argument('--prompt_label_description', action="store_true")
-
 args.add_argument('--prompt_youre_a_specialist', action="store_true")
 args.add_argument('--prompt_ask', action="store_true")
 
@@ -152,7 +151,6 @@ textual_outputs, predicted_dataset, first_prompt_example, second_prompt_example 
     one_step=args.one_step,
     model_kwargs=model_kwargs,
     random_seed=args.random_seed,
-    dataset_language=dataset_language,
     prompt_specialist_name=prompt_specialist_name,
     prompt_language=args.prompt_language,
     prompt_youre_a_specialist=args.prompt_youre_a_specialist,

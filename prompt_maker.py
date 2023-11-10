@@ -89,7 +89,6 @@ def make_prompts(
         n_few_shot,
         one_step,
         random_seed,
-        dataset_language,
         prompt_specialist_name,
         prompt_language,
         prompt_youre_a_specialist,
