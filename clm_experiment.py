@@ -207,6 +207,9 @@ logger.info("Running without any features")
 best_f1 = run_with_hyper_params()
 kept_features = {}
 for feature_name, feature_value in possible_features.items():
+    if feature_name == "prompt_language" and dataset_language == "en":
+        #we don't want to test prompt_language if the dataset is already in english
+        continue
     logger.info(f"Testing feature {feature_name} with value {feature_value}")
 
     #run with the new feature
