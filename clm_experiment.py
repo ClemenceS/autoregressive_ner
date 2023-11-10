@@ -16,31 +16,19 @@ from pred_utils import full_preds_string, get_metrics_string
 
 args = argparse.ArgumentParser()
 #MAIN ARGS
-args.add_argument("--dataset_name", type=str, help="dataset name")
-args.add_argument('-d', "--load_dataset_from_disk", action="store_true")
-args.add_argument("--model_name", type=str, default="bigscience/bloom")
+args.add_argument("--dataset_name", type=str, help="dataset name", default="conll2003")
+args.add_argument('-d', "--load_dataset_from_disk", action="store_true", help="load dataset from disk, helpful on Jean Zay")
+args.add_argument("--model_name", type=str, default="gpt2", help="model name")
 
 #EXPERIMENT ARGS
 args.add_argument('--no_write_log', dest='write_log', action='store_false')
 args.add_argument('-n', '--n_gpus', type=int, default=1)
-args.add_argument('--control', action="store_true")
 
 #ABLATION ARGS
+args.add_argument('--control', action="store_true")
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
-
-#VALIDATION ARGS, will be removed
-args.add_argument('-t', '--test_on_test_set', action="store_true")
-args.add_argument("--taggers", type=str, default="@@ ##")
-args.add_argument("--n_few_shot", type=int, default=5)
-args.add_argument('--prompt_language', type=str, default="en")
-args.add_argument('--prompt_long_answer', action="store_true")
-args.add_argument('--prompt_dash', action="store_true")
-args.add_argument('--one_step', action="store_true")
-args.add_argument('--prompt_label_description', action="store_true")
-args.add_argument('--prompt_youre_a_specialist', action="store_true")
-args.add_argument('--prompt_ask', action="store_true")
 
 args = args.parse_args()
 logging.basicConfig(level=logging.INFO)
@@ -92,89 +80,154 @@ metrics = MetricsCollection({
 compute_capability = torch.cuda.get_device_capability()
 llm = LLM(args.model_name, tensor_parallel_size=args.n_gpus, seed=args.random_seed, dtype="float16" if compute_capability[0]<8 else "auto", trust_remote_code=True)
 
-################# EXPERIMENT #################
-folder_name = 'results'
-script_dir = os.path.dirname(__file__)
-os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
-res_dict = {}
-time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
-model_base_name = os.path.basename(args.model_name)
-assert len(args.taggers.split(' ')) == 2, "taggers must be a string with two words separated by a space"
-begin_tag, end_tag = args.taggers.split(' ')
+################# EXPERIMENT DEFINITION #################
+def run_with_hyper_params(
+        test_on_test_set=False,
 
-res_dict['dataset_name'] = last_two_dirs
-res_dict['begin_tag'] = begin_tag
-res_dict['end_tag'] = end_tag
-res_dict['n_few_shot'] = args.n_few_shot
-res_dict['model_name'] = args.model_name
-res_dict['training_size'] = args.training_size
-res_dict['partition_seed'] = args.partition_seed
-res_dict['random_seed'] = args.random_seed
-res_dict['control'] = args.control
-res_dict['chat_template'] = MODEL_INSTRUCTION_TEMPLATES[args.model_name] if args.model_name in MODEL_INSTRUCTION_TEMPLATES else ""
-res_dict['ner_tags'] = ner_tags
-res_dict['first_example'] = traindev_dataset_this_seed[0]['text']
-res_dict['last_example'] = traindev_dataset_this_seed[-1]['text']
-res_dict['test_on_test_set'] = args.test_on_test_set
-res_dict['prompt_language'] = args.prompt_language
-res_dict['prompt_youre_a_specialist'] = args.prompt_youre_a_specialist
-res_dict['prompt_label_description'] = args.prompt_label_description
-res_dict['prompt_ask'] = args.prompt_ask
-res_dict['prompt_long_answer'] = args.prompt_long_answer
-res_dict['prompt_dash'] = args.prompt_dash
-res_dict['one_step'] = args.one_step
+        prompt_language="en",
+        n_few_shot=5,
+        one_step=True,
 
-model_kwargs = {
-    "num_beams": 3,
-    "do_sample": False,
-    # "top_p": 0.9,
-    # "top_k": 50,
-    # "temperature": 0.9,
+        taggers="@@ ##",
+        prompt_youre_a_specialist=False,
+        prompt_label_description=False,
+
+        prompt_ask=False,
+        prompt_long_answer=False,
+        prompt_dash=False,
+        ):
+    logger.info(f"Running with hyperparams: {locals()}")
+    #This is a function that will be called by the hyperparameter search
+    folder_name = 'results'
+    script_dir = os.path.dirname(__file__)
+    os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
+    res_dict = {}
+    time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
+    model_base_name = os.path.basename(args.model_name)
+    assert len(taggers.split(' ')) == 2, "taggers must be a string with two words separated by a space"
+    begin_tag, end_tag = taggers.split(' ')
+
+    res_dict['dataset_name'] = last_two_dirs
+    res_dict['begin_tag'] = begin_tag
+    res_dict['end_tag'] = end_tag
+    res_dict['model_name'] = args.model_name
+    res_dict['training_size'] = args.training_size
+    res_dict['partition_seed'] = args.partition_seed
+    res_dict['random_seed'] = args.random_seed
+    res_dict['control'] = args.control
+    res_dict['chat_template'] = MODEL_INSTRUCTION_TEMPLATES[args.model_name] if args.model_name in MODEL_INSTRUCTION_TEMPLATES else ""
+    res_dict['ner_tags'] = ner_tags
+    res_dict['first_example'] = traindev_dataset_this_seed[0]['text']
+    res_dict['last_example'] = traindev_dataset_this_seed[-1]['text']
+    res_dict['test_on_test_set'] = test_on_test_set
+    res_dict['n_few_shot'] = n_few_shot
+    res_dict['prompt_language'] = prompt_language
+    res_dict['prompt_youre_a_specialist'] = prompt_youre_a_specialist
+    res_dict['prompt_label_description'] = prompt_label_description
+    res_dict['prompt_ask'] = prompt_ask
+    res_dict['prompt_long_answer'] = prompt_long_answer
+    res_dict['prompt_dash'] = prompt_dash
+    res_dict['one_step'] = one_step
+
+    model_kwargs = {
+        "num_beams": 3,
+        "do_sample": False,
+        # "top_p": 0.9,
+        # "top_k": 50,
+        # "temperature": 0.9,
+    }
+    res_dict.update(model_kwargs)
+
+    logger.info("Generating...")
+    textual_outputs, predicted_dataset, first_prompt_example, second_prompt_example = predict_for_dataset(
+        llm=llm,
+        training_data=traindev_dataset_this_seed,
+        testing_data=test_dataset if test_on_test_set else None,
+        ner_tags=ner_tags,
+        model_name=args.model_name,
+        control=args.control,
+        model_kwargs=model_kwargs,
+        random_seed=args.random_seed,
+        prompt_specialist_name=prompt_specialist_name,
+        
+        #hyperparams
+        n_few_shot=n_few_shot,
+        one_step=one_step,
+        prompt_language=prompt_language,
+        prompt_youre_a_specialist=prompt_youre_a_specialist,
+        prompt_label_description=prompt_label_description,
+        prompt_ask=prompt_ask,
+        prompt_long_answer=prompt_long_answer,
+        prompt_dash=prompt_dash,
+        begin_tag=begin_tag,
+        end_tag=end_tag,
+    )
+    res_dict['first_prompt_example'] = first_prompt_example
+    res_dict['second_prompt_example'] = second_prompt_example
+
+    logger.info("Evaluating...")
+    metric_dict = metrics(predicted_dataset, test_dataset if test_on_test_set else traindev_dataset_this_seed)
+    for metric_name, metric_values in metric_dict.items():
+        for k,v in metric_values.items():
+            if not isinstance(v, int) and not isinstance(v, float):
+                metric_dict[metric_name][k] = v.item()
+            metric_dict[metric_name][k] = round(metric_dict[metric_name][k], 3)
+    res_dict.update(metric_dict)
+    logger.info(get_metrics_string(metric_dict, ner_tags))
+
+    if args.write_log:
+        full_preds = full_preds_string(textual_outputs, predicted_dataset, test_dataset if test_on_test_set else traindev_dataset_this_seed, ner_tags)
+        full_preds_path = os.path.join(script_dir, folder_name)+f'/full_preds_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.txt'
+        res_dict['full_preds_path'] = full_preds_path
+        with open(full_preds_path, 'w') as f:
+            f.write(full_preds)
+        res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
+        with open(res_dict_path, 'w') as f:
+            json.dump(res_dict, f)
+    return metric_dict['exact']['f1']
+
+################# HYPERPARAMETER SEARCH #################
+possible_features = {
+    "prompt_language": dataset_language,
+    "n_few_shot": 10,
+    "one_step": False,
+    
+    "taggers": "<< >>",
+    "prompt_youre_a_specialist": True,
+    "prompt_label_description": True,
+
+    "prompt_ask": True,
+    "prompt_long_answer": True,
+    "prompt_dash": True,
 }
-res_dict.update(model_kwargs)
 
-logger.info("Generating...")
-textual_outputs, predicted_dataset, first_prompt_example, second_prompt_example = predict_for_dataset(
-    llm=llm,
-    training_data=traindev_dataset_this_seed,
-    testing_data=test_dataset if args.test_on_test_set else None,
-    ner_tags=ner_tags,
-    model_name=args.model_name,
-    begin_tag=begin_tag,
-    end_tag=end_tag,
-    control=args.control,
-    n_few_shot=args.n_few_shot,
-    one_step=args.one_step,
-    model_kwargs=model_kwargs,
-    random_seed=args.random_seed,
-    prompt_specialist_name=prompt_specialist_name,
-    prompt_language=args.prompt_language,
-    prompt_youre_a_specialist=args.prompt_youre_a_specialist,
-    prompt_label_description=args.prompt_label_description,
-    prompt_ask=args.prompt_ask,
-    prompt_long_answer=args.prompt_long_answer,
-    prompt_dash=args.prompt_dash,
-)
-res_dict['first_prompt_example'] = first_prompt_example
-res_dict['second_prompt_example'] = second_prompt_example
+#run once without any features
+logger.info("Running without any features")
+best_f1 = run_with_hyper_params()
+kept_features = {}
+for feature_name, feature_value in possible_features.items():
+    logger.info(f"Testing feature {feature_name} with value {feature_value}")
 
-logger.info("Evaluating...")
-metric_dict = metrics(predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed)
-for metric_name, metric_values in metric_dict.items():
-    for k,v in metric_values.items():
-        if not isinstance(v, int) and not isinstance(v, float):
-            metric_dict[metric_name][k] = v.item()
-        metric_dict[metric_name][k] = round(metric_dict[metric_name][k], 3)
-res_dict.update(metric_dict)
-logger.info(get_metrics_string(metric_dict, ner_tags))
+    #run with the new feature
+    new_f1 = run_with_hyper_params(**kept_features, **{feature_name: feature_value})
 
-if args.write_log:
-    full_preds = full_preds_string(textual_outputs, predicted_dataset, test_dataset if args.test_on_test_set else traindev_dataset_this_seed, ner_tags)
-    full_preds_path = os.path.join(script_dir, folder_name)+f'/full_preds_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.txt'
-    res_dict['full_preds_path'] = full_preds_path
-    with open(full_preds_path, 'w') as f:
-        f.write(full_preds)
-    res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
-    with open(res_dict_path, 'w') as f:
-        json.dump(res_dict, f)
+    #if the new feature is better, keep it
+    if new_f1 > best_f1:
+        logger.info(f"Feature {feature_name} with value {feature_value} kept")
+        kept_features[feature_name] = feature_value
+        best_f1 = new_f1
+    else:
+        logger.info(f"Feature {feature_name} with value {feature_value} discarded")
+
+logger.info(f"Best F1: {best_f1}")
+logger.info(f"Best features: {kept_features}")
+
+#run with the best features on the test set
+logger.info("Running with the best features on the test set")
+run_with_hyper_params(test_on_test_set=True, **kept_features)
+
+
+
+    
+
