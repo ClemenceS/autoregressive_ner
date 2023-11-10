@@ -80,22 +80,22 @@ strings={
             },
     },
     "fr":{
-        "task_introduction" : "La tâche est d'identifier toutes les mentions {ner_tag_name} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelques exemples :\n",
-        "task_introduction_youre_a_specialist" : "Tu es un excellent {specialist}. Tu sais identifier toutes les mentions {ner_tag_name} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelues exemples que tu peux traiter :\n",
-        "ask": "Identifie toutes les mentions {ner_tag_name} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
-        "ask_youre_a_specialist": "Continue. Identifie toutes les mentions {ner_tag_name} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
+        "task_introduction" : "La tâche est d'identifier toutes les mentions {ner_tag_plural} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelques exemples :\n",
+        "task_introduction_youre_a_specialist" : "Tu es un excellent {specialist}. Tu sais identifier toutes les mentions {ner_tag_plural} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelues exemples que tu peux traiter :\n",
+        "ask": "Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
+        "ask_youre_a_specialist": "Continue. Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
         "input_word": "Entrée : ",
         "input_dash": "- ",
         "output_word": "Sortie : ",
         "output_dash": "- ",
-        "task_introduction_self_verif": "La tâche est de vérifier si un mot est une mention d'{ner_tag_name} dans une phrase. {ner_tag_description} Voici quelques exemples :\n",
-        "task_introduction_self_verif_youre_a_specialist": "Tu es un excellent {specialist}. Tu sais vérifier si un mot est une mention d'{ner_tag_name} dans une phrase. {ner_tag_description} Voici quelues exemples que tu peux traiter :\n",
+        "task_introduction_self_verif": "La tâche est de vérifier si un mot est une mention d'{ner_tag_sing} dans une phrase. {ner_tag_description} Voici quelques exemples :\n",
+        "task_introduction_self_verif_youre_a_specialist": "Tu es un excellent {specialist}. Tu sais vérifier si un mot est une mention d'{ner_tag_sing} dans une phrase. {ner_tag_description} Voici quelues exemples que tu peux traiter :\n",
         "self_verif_template": "Dans la phrase \"{{sentence}}\", le mot \"{{word}}\" désigne-t-il {ner_tag_sing} ?\n",
         "yes_short": "Oui",
         "no_short": "Non",
         "yes_long": "{word} est {ner_tag_sing}, oui.",
         "no_long": "{word} n'est pas {ner_tag_sing}, non.",
-        "standard_ner_tags_names_in_plural" : {
+        "ner_tags_names_in_plural" : {
             'PER' : "de noms de personnes",
             "FAC" : "de productions humaines",
             'LOC' : "de lieux",
@@ -111,7 +111,7 @@ strings={
             "PHYS" : "de physiologie",
             "PROC" : "de procédures",
         },
-        'standard_ner_tags_names' : {
+        'ner_tags_names' : {
             'PER' : "un nom de personne",
             'LOC' : "un lieu",
             'ORG' : "une organisation",
