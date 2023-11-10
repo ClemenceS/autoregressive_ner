@@ -253,7 +253,7 @@ def predict_for_dataset(
         sampling_params = SamplingParams(
             stop=['\n'],
             temperature=0.0,
-            max_tokens=2,
+            max_tokens=128,
             top_k=-1,
             top_p=1,
         )
