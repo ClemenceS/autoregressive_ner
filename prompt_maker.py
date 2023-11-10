@@ -36,7 +36,7 @@ def get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_fe
     return few_shots_for_all
 
 def introduce(keywords, ner_tag, specialist_name):
-    return keywords['task_introduction'].format(ner_tag_plural=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist_name=specialist_name)
+    return keywords['task_introduction'].format(ner_tag_plural=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist=specialist_name)
 
 def demonstrate(example, ner_tag, begin_tag, end_tag, keywords):
     prompt = keywords['input_intro']+example2string(example, ner_tag, begin_tag, end_tag, sticked=True, tagged=False)+'\n'
@@ -115,7 +115,7 @@ def make_prompts(
     if one_step:
         return prompts, None
     
-    self_verification_template = keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag])
+    self_verification_template = keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist=prompt_specialist_name)+"\n"
     examples = get_self_verif_examples(train_dataset, ner_tag, n_few_shot, begin_tag, end_tag)
     for example, pred, label in examples:
         self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag]).format(word=pred,sentence=example,)+keywords[label].format(word=pred, ner_tag_sing=keywords['ner_tags_names'][ner_tag])+"\n"
