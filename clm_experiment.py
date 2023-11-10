@@ -59,12 +59,9 @@ try :
         load_from_disk=args.load_dataset_from_disk,
     )
     #This is not supposed to be here, but WikiNER is a mess for now and I have no time to fix it
-    if args.dataset_name.endswith("WikiNER/en"):
-        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('en')]
-    elif args.dataset_name.endswith("WikiNER/fr"):
-        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('fr')]
-    elif args.dataset_name.endswith("WikiNER/es"):
-        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('es')]
+    if "WikiNER" in args.dataset_name:
+        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith(args.dataset_name[-2:] if args.dataset_name[-1] != '/' else args.dataset_name[-3:-1])]
+        dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith(args.dataset_name[-2:] if args.dataset_name[-1] != '/' else args.dataset_name[-3:-1])]
 except:
     dataset = BRATDataset(
         train= f"{args.dataset_name}/train",
