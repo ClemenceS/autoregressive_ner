@@ -1,20 +1,15 @@
 strings={
     "en":{
-        "task_introduction_objective": "The task is to label all mentions of {ner_tag_plural} in a sentence, by putting them in a specific format. {ner_tag_description} Here are some examples:\n",
-        "task_introduction_subjective_annotator": "I am an excellent annotator. I can identify all the mentions of {ner_tag_plural} in the following sentence, by putting them in a specific format. {ner_tag_description} Here are some examples I can handle:\n",
-        "task_introduction_subjective_linguist": "I am an excellent linguist. I can identify all the mentions of {ner_tag_plural} in the following sentence, by putting them in a specific format. {ner_tag_description} Here are some examples I can handle:\n",
-        "task_introduction_subjective_clinician": "I am an excellent clinician. I can identify all the mentions of {ner_tag_plural} in the following sentence, by putting them in a specific format. {ner_tag_description} Here are some examples I can handle:\n",
-        "ask_objective": "Identify all the mentions of {ner_tag_plural} in the following sentence, by putting \"{begin_tag}\" in front and a \"{end_tag}\" behind each of them.\n",
-        "ask_subjective": "Imitate me. Identify all the mentions of {ner_tag_plural} in the following sentence, by putting \"{begin_tag}\" in front and a \"{end_tag}\" behind each of them.\n",
-        "dont_ask": "",
+        "task_introduction" : "The task is to label all mentions of {ner_tag_plural} in a sentence, by putting them in a specific format. {ner_tag_description} Here are some examples:\n",
+        "task_introduction_youre_a_specialist" : "You are an excellent {specialist}. You can identify all the mentions of {ner_tag_plural} in a sentence, by putting them in a specific format. {ner_tag_description} Here are some examples you can handle:\n",
+        "ask": "Identify all the mentions of {ner_tag_plural} in the following sentence, by putting \"{begin_tag}\" in front and a \"{end_tag}\" behind each of them.\n",
+        "ask_youre_a_specialist": "Continue. Identify all the mentions of {ner_tag_plural} in the following sentence, by putting \"{begin_tag}\" in front and a \"{end_tag}\" behind each of them.\n",
         "input_word": "Input: ",
         "input_dash": "- ",
         "output_word": "Output: ",
         "output_dash": "- ",
-        "task_introduction_self_verif_objective": "The task is to verify whether a given word is a mention of a {ner_tag_sing}. {ner_tag_description} Here are some examples:\n",
-        "task_introduction_self_verif_subjective_annotator": "I am an excellent annotator. I can verify whether a given word is a mention of {ner_tag_sing}. {ner_tag_description} Here are some examples:\n",
-        "task_introduction_self_verif_subjective_linguist": "I am an excellent linguist. I can verify whether a given word is a mention of {ner_tag_sing}. {ner_tag_description} Here are some examples:\n",
-        "task_introduction_self_verif_subjective_clinician": "I am an excellent clinician. I can verify whether a given word is a mention of {ner_tag_sing}. {ner_tag_description} Here are some examples:\n",
+        "task_introduction_self_verif": "The task is to verify whether a given word is a mention of {ner_tag_sing}. {ner_tag_description} Here are some examples:\n",
+        "task_introduction_self_verif_youre_a_specialist": "You are an excellent {specialist}. You can verify whether a given word is a mention of {ner_tag_sing}. {ner_tag_description} Here are some examples you can handle:\n",
         "self_verif_template": "In the sentence \"{{sentence}}\", is \"{{word}}\" {ner_tag_sing}?\n",
         "yes_short": "Yes",
         "no_short": "No",
@@ -85,21 +80,16 @@ strings={
             },
     },
     "fr":{
-        "task_introduction_objective": "La tâche est d'identifier toutes les mentions {ner_tag_name} dans une phrase. {ner_tag_description} Il faut aussi les mettre en forme. Voici quelques exemples :\n",
-        "task_introduction_subjective_annotator": "Je suis un excellent annotateur. Je peux identifier toutes les mentions {ner_tag_name} dans la phrase suivante, en les mettant en forme. {ner_tag_description} Voici quelques exemples que je peux traiter :\n",
-        "task_introduction_subjective_linguist": "Je suis un excellent linguiste. Je peux identifier toutes les mentions {ner_tag_name} dans la phrase suivante, en les mettant en forme. {ner_tag_description} Voici quelques exemples que je peux traiter :\n",
-        "task_introduction_subjective_clinician": "Je suis un excellent clinicien. Je peux identifier toutes les mentions {ner_tag_name} dans la phrase suivante, en les mettant en forme. {ner_tag_description} Voici quelques exemples que je peux traiter :\n",
-        "ask_objective": "Identifie les mentions {ner_tag_name} dans la phrase suivante, en mettant \"{begin_tag}\" devant et un \"{end_tag}\" derrière la mention dans la phrase suivante.\n",
-        "ask_subjective": "Imite-moi. Identifie les mentions {ner_tag_name} dans la phrase suivante, en mettant \"{begin_tag}\" devant et un \"{end_tag}\" derrière la mention dans la phrase suivante.\n",
-        "dont_ask": "",
+        "task_introduction" : "La tâche est d'identifier toutes les mentions {ner_tag_name} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelques exemples :\n",
+        "task_introduction_youre_a_specialist" : "Tu es un excellent {specialist}. Tu sais identifier toutes les mentions {ner_tag_name} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelues exemples que tu peux traiter :\n",
+        "ask": "Identifie toutes les mentions {ner_tag_name} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
+        "ask_youre_a_specialist": "Continue. Identifie toutes les mentions {ner_tag_name} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
         "input_word": "Entrée : ",
         "input_dash": "- ",
         "output_word": "Sortie : ",
         "output_dash": "- ",
-        "task_introduction_self_verif_objective": "La tâche est de vérifier si un mot est une mention d'{ner_tag_name} dans une phrase. {ner_tag_description} Voici quelques exemples :\n",
-        "task_introduction_self_verif_subjective_annotator": "Je suis un excellent annotateur. Je peux vérifier si un mot est une mention d'{ner_tag_name} dans une phrase. {ner_tag_description} Voici quelques exemples :\n",
-        "task_introduction_self_verif_subjective_linguist": "Je suis un excellent linguiste. Je peux vérifier si un mot est une mention d'{ner_tag_name} dans une phrase. {ner_tag_description} Voici quelques exemples :\n",
-        "task_introduction_self_verif_subjective_clinician": "Je suis un excellent clinicien. Je peux vérifier si un mot est une mention d'{ner_tag_name} dans une phrase. {ner_tag_description} Voici quelques exemples :\n",
+        "task_introduction_self_verif": "La tâche est de vérifier si un mot est une mention d'{ner_tag_name} dans une phrase. {ner_tag_description} Voici quelques exemples :\n",
+        "task_introduction_self_verif_youre_a_specialist": "Tu es un excellent {specialist}. Tu sais vérifier si un mot est une mention d'{ner_tag_name} dans une phrase. {ner_tag_description} Voici quelues exemples que tu peux traiter :\n",
         "self_verif_template": "Dans la phrase \"{{sentence}}\", le mot \"{{word}}\" désigne-t-il {ner_tag_sing} ?\n",
         "yes_short": "Oui",
         "no_short": "Non",
@@ -158,7 +148,7 @@ strings={
 
 def get_prompt_strings(
         language : str,
-        subjective : str,
+        youre_a_specialist : bool,
         label_description : bool,
         ask : bool,
         long_answer : bool,
@@ -167,8 +157,8 @@ def get_prompt_strings(
     """Parameters:
     - language : str
         "en" or "fr"
-    - subjective : str
-        speak in the first person as an ("annotator", "linguist", "clinician"), if None, speak objectively
+    - youre_a_specialist : bool
+        if True, start the task by saying "You are an excellent {specialist}."
     - ner_tag_source : str
         length of the description of the NER tags
     - ask : bool
@@ -191,20 +181,18 @@ def get_prompt_strings(
         "yes" : str
         "no" : str
     """
-    if subjective is not None and subjective not in ["annotator", "linguist", "clinician"]:
-        raise ValueError("subjective must be None, 'annotator', 'linguist' or 'clinician'")
     result = {}
-    if subjective is None:
-        result["task_introduction"] = strings[language]["task_introduction_objective"]
-        result["task_introduction_self_verif"] = strings[language]["task_introduction_self_verif_objective"]
+    if youre_a_specialist:
+        result["task_introduction"] = strings[language]["task_introduction_youre_a_specialist"]
+        result["task_introduction_self_verif"] = strings[language]["task_introduction_self_verif_youre_a_specialist"]
     else:
-        result["task_introduction"] = strings[language]["task_introduction_subjective_"+subjective]
-        result["task_introduction_self_verif"] = strings[language]["task_introduction_self_verif_subjective_"+subjective]
+        result["task_introduction"] = strings[language]["task_introduction"]
+        result["task_introduction_self_verif"] = strings[language]["task_introduction_self_verif"]
     result["self_verif_template"] = strings[language]["self_verif_template"]
     if ask:
-        result["ask"] = strings[language]["ask_"+("objective" if subjective is None else "subjective")]
+        result["ask"] = strings[language]["ask" if not youre_a_specialist else "ask_youre_a_specialist"]
     else:
-        result["ask"] = strings[language]["dont_ask"]
+        result["ask"] = ""
     if dash:
         result["input_intro"] = strings[language]["input_dash"]
         result["output_intro"] = strings[language]["output_dash"]

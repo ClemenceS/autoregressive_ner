@@ -35,8 +35,8 @@ def get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_fe
         few_shots_for_all = [sorted(range(len(similarities[i])), key=lambda j: similarities[i][j])[-n_few_shot:] for i in range(num_prompts)]
     return few_shots_for_all
 
-def introduce(keywords, ner_tag):
-    return keywords['task_introduction'].format(ner_tag_plural=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag])
+def introduce(keywords, ner_tag, specialist_name):
+    return keywords['task_introduction'].format(ner_tag_plural=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist_name=specialist_name)
 
 def demonstrate(example, ner_tag, begin_tag, end_tag, keywords):
     prompt = keywords['input_intro']+example2string(example, ner_tag, begin_tag, end_tag, sticked=True, tagged=False)+'\n'
@@ -88,9 +88,11 @@ def make_prompts(
         end_tag,
         n_few_shot,
         one_step,
-        random_seed, 
+        random_seed,
+        dataset_language,
+        prompt_specialist_name,
         prompt_language,
-        prompt_subjective,
+        prompt_youre_a_specialist,
         prompt_label_description,
         prompt_ask,
         prompt_long_answer,
@@ -98,12 +100,12 @@ def make_prompts(
     ):
 
     few_shots_for_all = get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, one_step, random_seed)
-    keywords = get_prompt_strings(language=prompt_language, subjective=prompt_subjective, label_description=prompt_label_description, ask=prompt_ask, long_answer=prompt_long_answer, dash=prompt_dash)
+    keywords = get_prompt_strings(language=prompt_language, youre_a_specialist=prompt_youre_a_specialist, label_description=prompt_label_description, ask=prompt_ask, long_answer=prompt_long_answer, dash=prompt_dash)
 
     prompts = []
     for p in range(len(test_dataset)):
         prompt=""
-        prompt+=introduce(keywords, ner_tag)
+        prompt+=introduce(keywords, ner_tag, prompt_specialist_name)+"\n"
         few_shots= few_shots_for_all[p]
         random.shuffle(few_shots)
         for i in few_shots:

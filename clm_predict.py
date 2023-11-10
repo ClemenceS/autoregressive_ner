@@ -70,7 +70,19 @@ class Newline(StoppingCriteria):
         return self.newline_token in input_ids[0, self.check_start:]
 
 
-def predict_for_dataset(llm, training_data, testing_data, ner_tags, model_name, one_step, control, begin_tag, end_tag, model_kwargs, random_seed, **kwargs):
+def predict_for_dataset(
+        llm,
+        training_data,
+        testing_data,
+        ner_tags,
+        model_name,
+        one_step,
+        control,
+        begin_tag,
+        end_tag,
+        model_kwargs,
+        random_seed,
+        **kwargs):
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, padding_side='left')
 
     first_prompts = []

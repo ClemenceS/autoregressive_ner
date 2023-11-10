@@ -11,7 +11,7 @@ from clm_predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
 from nlstruct import BRATDataset, HuggingfaceNERDataset
 from nlstruct.metrics import MetricsCollection, DocumentEntityMetric
 from nlstruct.data_utils import sentencize
-from dataset_info import get_dataset_colnames, get_dataset_ner_tags, get_dataset_tag_map, get_dataset_language
+from dataset_info import get_dataset_colnames, get_dataset_ner_tags, get_dataset_tag_map, get_dataset_language, get_dataset_specialist_name
 from pred_utils import full_preds_string, get_metrics_string
 
 args = argparse.ArgumentParser()
@@ -40,7 +40,7 @@ args.add_argument('--prompt_dash', action="store_true")
 args.add_argument('--one_step', action="store_true")
 args.add_argument('--prompt_label_description', action="store_true")
 
-args.add_argument('--prompt_subjective', type=str)
+args.add_argument('--prompt_youre_a_specialist', action="store_true")
 args.add_argument('--prompt_ask', action="store_true")
 
 args = args.parse_args()
@@ -84,7 +84,8 @@ for e in dataset.test_data:
 traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
 
 ner_tags = get_dataset_ner_tags(args.dataset_name)
-language = get_dataset_language(args.dataset_name)
+dataset_language = get_dataset_language(args.dataset_name)
+prompt_specialist_name = get_dataset_specialist_name(args.dataset_name)
 
 metrics = MetricsCollection({
     "exact": DocumentEntityMetric(binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
@@ -121,7 +122,7 @@ res_dict['first_example'] = traindev_dataset_this_seed[0]['text']
 res_dict['last_example'] = traindev_dataset_this_seed[-1]['text']
 res_dict['test_on_test_set'] = args.test_on_test_set
 res_dict['prompt_language'] = args.prompt_language
-res_dict['prompt_subjective'] = args.prompt_subjective
+res_dict['prompt_youre_a_specialist'] = args.prompt_youre_a_specialist
 res_dict['prompt_label_description'] = args.prompt_label_description
 res_dict['prompt_ask'] = args.prompt_ask
 res_dict['prompt_long_answer'] = args.prompt_long_answer
@@ -151,8 +152,10 @@ textual_outputs, predicted_dataset, first_prompt_example, second_prompt_example 
     one_step=args.one_step,
     model_kwargs=model_kwargs,
     random_seed=args.random_seed,
+    dataset_language=dataset_language,
+    prompt_specialist_name=prompt_specialist_name,
     prompt_language=args.prompt_language,
-    prompt_subjective=args.prompt_subjective,
+    prompt_youre_a_specialist=args.prompt_youre_a_specialist,
     prompt_label_description=args.prompt_label_description,
     prompt_ask=args.prompt_ask,
     prompt_long_answer=args.prompt_long_answer,

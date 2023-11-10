@@ -27,6 +27,18 @@ language_by_dataset = {
     "n2c2" : "en",
 }
 
+specialist_name_by_dataset = {
+    "WikiNER/en" : "linguist",
+    "WikiNER/fr" : "linguist",
+    "WikiNER/es" : "linguist",
+    "conll2003" : "linguist",
+    "conll2002" : "linguist",
+    "medline" : "clinician",
+    "emea" : "clinician",
+    "n2c2" : "clinician",
+}
+
+
 def _get_if_key_in_x(dict, x):
     return next((dict[key] for key in dict if key in x), None)
 
@@ -41,3 +53,6 @@ def get_dataset_tag_map(dataset_name):
 
 def get_dataset_language(dataset_name):
     return _get_if_key_in_x(language_by_dataset, dataset_name)
+
+def get_dataset_specialist_name(dataset_name):
+    return _get_if_key_in_x(specialist_name_by_dataset, dataset_name)
