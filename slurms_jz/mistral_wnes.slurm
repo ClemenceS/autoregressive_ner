@@ -6,7 +6,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=20
-#SBATCH --time=10:00:00
+#SBATCH --time=20:00:00
 #SBATCH --gres=gpu:2
 #SBATCH --account=lak@a100
 #SBATCH -C a100
