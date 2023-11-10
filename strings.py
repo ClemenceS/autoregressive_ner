@@ -155,7 +155,7 @@ strings={
         "output_dash": "- ",
         "task_introduction_self_verif": "La tarea es verificar si una palabra es una mención de {ner_tag_sing} en una oración. {ner_tag_description} Aquí hay algunos ejemplos:\n",
         "task_introduction_self_verif_youre_a_specialist": "Eres un excelente {specialist}. Puedes verificar si una palabra es una mención de {ner_tag_sing} en una oración. {ner_tag_description} Aquí hay algunos ejemplos que puedes manejar:\n",
-        "self_verif_template": "En la oración \"{{sentence}}\", ¿es \"{word}\" {ner_tag_sing}?\n",
+        "self_verif_template": "En la oración \"{{sentence}}\", ¿es \"{{word}}\" {ner_tag_sing}?\n",
         "yes_short": "Sí",
         "no_short": "No",
         "yes_long": "{word} es {ner_tag_sing}, sí.",
