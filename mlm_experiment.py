@@ -29,7 +29,7 @@ args.add_argument("--model_name", type=str, default="camembert-base", help="mode
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
-args.add_argument('-l', '--bert_lr', type=float, default=5e-5)
+args.add_argument('-l', '--bert_lr', type=float, default=4e-5)
 # args.add_argument('-t', '--test_on_test_set', action="store_true")
 args = args.parse_args()
 
