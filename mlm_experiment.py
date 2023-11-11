@@ -252,7 +252,7 @@ model = InformationExtractor(
 ).train()
 
 model.encoder.encoders[0].cache = shared_cache
-os.makedirs("checkpoints", exist_ok=True)
+# os.makedirs("checkpoints", exist_ok=True)
 
 logger = RichTableLogger(key="epoch", fields={
     "epoch": {},
