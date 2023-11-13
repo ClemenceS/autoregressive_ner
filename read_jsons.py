@@ -10,25 +10,25 @@ dataset_hierarchy = {
     "en":{
         "General": [
             {"conll2003": "CoNLL2003"},
-            {"WikiNER-en": "WikiNER"}
+            {"WikiNER-en": "WikiNER-en"},
         ],
         "Clinical": [
-            {"naguib-n2c2": "n2c2"}
+            {"n2c2": "n2c2"},
         ],
         },
     "fr": {
         "General": [
-            {"WikiNER-fr": "WikiNER"}
+            {"WikiNER-fr": "WikiNER-fr"},
         ],
         "Clinical": [
-            {"naguib-emea": "EMEA"},
-            {"naguib-medline": "MEDLINE"}
+            {"emea": "EMEA"},
+            {"medline": "MEDLINE"},
         ],
     },
     "es": {
         "General": [
             {"conll2002-es": "CoNLL2002"},
-            {"WikiNER-es": "WikiNER"}
+            {"WikiNER-es": "WikiNER-es"},
         ],
         "Clinical": []
     }
@@ -73,7 +73,7 @@ model_hierarchy = {
                 "languages" : ["es",],
             },
             {
-                "name": "bert-base-spanish-wwm-cased",
+                "name": "bert-base-spanish-wwm-uncased",
                 "clean_name": "BERT-base-Spanish",
                 "size": 110*M,
                 "languages" : ["es",],
@@ -102,13 +102,19 @@ model_hierarchy = {
                 "name": "camembert-bio-base",
                 "clean_name": "CamemBERT-bio",
                 "size": 110*M,
-                "languages" : ["en",],
+                "languages" : ["fr",],
             },
             {
-                "name": "DrBERT-4GB-CP-PubMedBERT",
-                "clean_name": "DrBERT",
-                "size": 110*M,
-                "languages" : ["en",],
+                "name": "DrBERT-4GB",
+                "clean_name": "DrBERT-4GB",
+                "size": 4*B,
+                "languages" : ["fr",],
+            },
+            {
+                "name": "DrBERT-7GB",
+                "clean_name": "DrBERT-7GB",
+                "size": 7*B,
+                "languages" : ["fr",],
             },
 
         ],
@@ -142,6 +148,12 @@ model_hierarchy = {
             {
                 "name": "Mistral-7B-v0.1",
                 "clean_name": "Mistral-7B",
+                "size": 7*B,
+                "languages" : ["en", "fr", "es"],
+            },
+            {
+                "name": "vicuna-7b-v1.5",
+                "clean_name": "Vicuna-7B",
                 "size": 7*B,
                 "languages" : ["en", "fr", "es"],
             },
@@ -193,7 +205,8 @@ def read_jsons(path):
     
     df = pd.DataFrame(data)
 
-
+    df['dataset_name'] = df['dataset_name'].apply(lambda name: name.replace('data-', ''))
+    df['dataset_name'] = df['dataset_name'].apply(lambda name: name.replace('naguib-', ''))
     df['lang'] = df['dataset_name'].apply(lambda name: dataset_langs[name])
     df['dataset_domain'] = df['dataset_name'].apply(lambda name: dataset_domains[name])
     df['model_name'] = df['model_name'].apply(lambda name: name.split('/')[-1])
@@ -203,6 +216,11 @@ def read_jsons(path):
     df['model_clean_name'] = df['model_name'].apply(lambda name: model_clean_names[name])
     df['f1'] = df['exact'].apply(lambda x: round(x['f1'],3))
     df['lang'] = df['dataset_name'].apply(lambda name: dataset_langs[name])
+    #get only experiments where test_on_test_set is True
+    df = df[df['test_on_test_set'] == True]
 
+    initial_len = len(df)
     df = df.drop_duplicates(subset=['model_name', 'dataset_name'], keep='last')
+    final_len = len(df)
+    print(f'Dropped {initial_len - final_len} duplicates.')
     return df

@@ -3,15 +3,20 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 from read_jsons import read_jsons, model_domains, model_types, model_sizes, model_clean_names, dataset_names
+import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-l', '--local', action='store_true')
+args = parser.parse_args()
 
+if not args.local:
+    print('Downloading results...')
+    cmd1='rsync -r jean-zay.idris.fr:/gpfswork/rech/lak/utb11pp/autoregressive_ner/results/ results/'
+    cmd2='rsync -r slurm-int:/mnt/beegfs/home/naguib/autoregressive_ner/results/ results/'
+    os.system(cmd1)
+    os.system(cmd2)
+    print('Done.')
 df = read_jsons('results')
-
-#clean camembert-base
-df = df[df['model_name'] != 'camembert-base']
-#drop camembert-large with medline
-df = df[~((df['model_name'] == 'camembert-large') & (df['dataset_name'] == 'naguib-emea'))]
-
 
 scatter_data = []
 for language, df_lang in df.groupby('lang'):
@@ -43,6 +48,7 @@ os.makedirs('tables', exist_ok=True)
 os.makedirs('figures', exist_ok=True)
 
 for lang in ['en', 'fr', 'es']:
+    plt.clf()
     sns.scatterplot(
         x="general_performance",
         y="clinical_performance",
@@ -52,10 +58,10 @@ for lang in ['en', 'fr', 'es']:
         style="model_type",
         style_order=["Causal","", "Masked"],
         sizes=(500,10000),
-        data=scatter_df.query('model_language == "fr"'),
+        data=scatter_df.query('model_language == @lang'),
     )
     for i in range(len(scatter_df)):
-        if scatter_df.model_language[i] == 'fr':
+        if scatter_df.model_language[i] == lang:
             plt.text(
                 x=scatter_df.general_performance[i]+0.01,
                 y=scatter_df.clinical_performance[i]+0.01,
@@ -92,4 +98,4 @@ for lang in ['en', 'fr', 'es']:
     df_lang = df_lang.rename_axis(None, axis=0)
     df_lang = df_lang.fillna('-')
     with open(f'tables/{lang}_results.tex', 'w') as f:
-        f.write(df_lang.to_latex(escape=False))
+        f.write(df_lang.to_latex(escape=False, float_format="%.3f", na_rep="-"))
