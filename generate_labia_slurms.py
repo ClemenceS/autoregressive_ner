@@ -26,18 +26,21 @@ datasets = {
         "/mnt/beegfs/home/naguib/emea": "emea",
         "/mnt/beegfs/home/naguib/medline": "medline",
         "mnaguib/WikiNER/fr": "wnfr",
+        "/mnt/beegfs/home/naguib/e3c_fr": "e3cfr",
     },
     "en":{
         "conll2003": "conll2003",
         "/mnt/beegfs/home/naguib/n2c2": "n2c2",
         "mnaguib/WikiNER/en": "wnen",
+        "/mnt/beegfs/home/naguib/e3c_en": "e3cen",
         },
     "es":{
         "mnaguib/WikiNER/es": "wnes",
         "conll2002/es": "conll2002",
+        "/mnt/beegfs/home/naguib/e3c_es": "e3ces",
     },
 }
-disk = ['emea', 'medline', 'n2c2']
+disk = ['emea', 'medline', 'n2c2', 'e3cfr', 'e3cen', 'e3ces']
 fixed_header="""#!/bin/bash
 
 #SBATCH --job-name={dataset}

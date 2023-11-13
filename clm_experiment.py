@@ -172,6 +172,9 @@ def run_with_hyper_params(
             metric_dict[metric_name][k] = round(metric_dict[metric_name][k], 3)
     res_dict.update(metric_dict)
     logger.info(get_metrics_string(metric_dict, ner_tags))
+    assert logfilename is not None #normally it should be defined
+    with open(logfilename, 'a') as logfile:
+        logfile.write(get_metrics_string(metric_dict, ner_tags))
 
     if args.write_log:
         full_preds = full_preds_string(textual_outputs, predicted_dataset, test_dataset if test_on_test_set else traindev_dataset_this_seed, ner_tags)
@@ -201,11 +204,13 @@ possible_features = {
 log_dir = os.path.join(script_dir, 'logs')
 os.makedirs(log_dir, exist_ok=True)
 logfilename = os.path.join(log_dir, f"{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.log")
-logging.basicConfig(level=logging.INFO, filename=logfilename)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("experiment")
 
 #run once without any features
 logger.info("Running without any features")
+with open(logfilename, 'w') as logfile:
+    logfile.write("Running without any features\n")
 best_f1 = run_with_hyper_params()
 kept_features = {}
 for feature_name, feature_value in possible_features.items():
@@ -213,6 +218,8 @@ for feature_name, feature_value in possible_features.items():
         #we don't want to test prompt_language if the dataset is already in english
         continue
     logger.info(f"Testing feature {feature_name} with value {feature_value}")
+    with open(logfilename, 'a') as logfile:
+        logfile.write(f"Testing feature {feature_name} with value {feature_value}\n")
 
     #run with the new feature
     new_f1 = run_with_hyper_params(**kept_features, **{feature_name: feature_value})
@@ -220,16 +227,25 @@ for feature_name, feature_value in possible_features.items():
     #if the new feature is better, keep it
     if new_f1 > best_f1:
         logger.info(f"Feature {feature_name} with value {feature_value} kept")
+        with open(logfilename, 'a') as logfile:
+            logfile.write(f"Feature {feature_name} with value {feature_value} kept\n")
         kept_features[feature_name] = feature_value
         best_f1 = new_f1
     else:
         logger.info(f"Feature {feature_name} with value {feature_value} discarded")
+        with open(logfilename, 'a') as logfile:
+            logfile.write(f"Feature {feature_name} with value {feature_value} discarded\n")
 
 logger.info(f"Best F1: {best_f1}")
 logger.info(f"Best features: {kept_features}")
+with open(logfilename, 'a') as logfile:
+    logfile.write(f"Best F1: {best_f1}\n")
+    logfile.write(f"Best features: {kept_features}\n")
 
 #run with the best features on the test set
 logger.info("Running with the best features on the test set")
+with open(logfilename, 'a') as logfile:
+    logfile.write("Running with the best features on the test set\n")
 run_with_hyper_params(test_on_test_set=True, **kept_features)
 
 
