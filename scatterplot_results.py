@@ -52,7 +52,7 @@ scatter_df = pd.DataFrame(scatter_data)
 output_folder = os.path.join(script_dir, 'result_tabs_and_plots')
 os.makedirs(output_folder, exist_ok=True)
 
-for lang in ['en', 'fr', 'es']:
+for lang in ['english', 'french', 'spanish']:
     plt.clf()
     sns.scatterplot(
         x="general_performance",
@@ -87,8 +87,9 @@ for lang in ['en', 'fr', 'es']:
     plt.savefig(os.path.join(output_folder, f'{lang}_scatterplot.png'), dpi=300)
 
 df_table = df.pivot(index='model_name', columns='dataset_name', values='f1')
+lang_shortname = {"english": "en", "french": "fr", "spanish": "es", "all": "all"}
 #unsafe way to get the order of the datasets.. TODO: find a better way
-ordered_datasets = {k:list(v['General'].values())+list(v['Clinical'].values()) for k,v in dataset_hierarchy.items()}
+ordered_datasets = {lang_shortname[k]:list(v['General'].values())+list(v['Clinical'].values()) for k,v in dataset_hierarchy.items()}
 df_table = df_table.rename(columns=dataset_names)
 for lang in ordered_datasets:
     for dataset in ordered_datasets[lang]:
@@ -107,14 +108,13 @@ df_table = df_table.fillna('-')
 df_table = df_table.rename_axis(None, axis=1)
 df_table = df_table.rename_axis(None, axis=0)
 
-df_table = df_table[ordered_datasets['en'] + ordered_datasets['es'] + ordered_datasets['fr'] + ['model_type']]
-#print this table as a latex table and add a top line with dataset languages and domains
+df_table = df_table[ordered_datasets['en'] + ordered_datasets['fr'] + ordered_datasets['es'] + ['model_type']]
 latex = "\\scalebox{0.7}{\\begin{tabular}"
-latex += "{ll|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['es']) + "|" + "c"*len(ordered_datasets['fr']) + "}\n"
+latex += "{ll|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
 latex += "\\toprule\n"
-latex += " & & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c|}{Spanish} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c}{French} \\\\\n"
-latex += "\\cmidrule{3-" + str(len(ordered_datasets['en'])+2) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+3) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['es'])+2) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+len(ordered_datasets['es'])+3) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['es'])+len(ordered_datasets['fr'])+2) + "}\n"
-latex += "Type & Model & " + " & ".join(ordered_datasets['en']) + " & " + " & ".join(ordered_datasets['es']) + " & " + " & ".join(ordered_datasets['fr']) + " \\\\\n"
+latex += " & & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c|}{French} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c}{Spanish} \\\\\n"
+latex += "\\cmidrule{3-" + str(len(ordered_datasets['en'])+2) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+3) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+2) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+3) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+len(ordered_datasets['es'])+2) + "}\n"
+latex += "Type & Model & " + " & ".join(ordered_datasets['en']) + " & " + " & ".join(ordered_datasets['fr']) + " & " + " & ".join(ordered_datasets['es']) + " \\\\\n"
 latex += "\\midrule\n"
 n_causal = len(df_table[df_table.model_type == 'Causal'])
 latex += "\\multirow{" + str(n_causal) + "}{*}{Causal} & " + df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"

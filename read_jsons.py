@@ -7,7 +7,7 @@ B=10**9
 M=10**6
 
 dataset_hierarchy = {
-    "en":{
+    "english":{
         "General": {
             "WikiNER-en": "WikiNER-en",
             "conll2003": "CoNLL2003",
@@ -17,7 +17,7 @@ dataset_hierarchy = {
             "n2c2": "n2c2",
         },
     },
-    "fr": {
+    "french": {
         "General": {
             "WikiNER-fr": "WikiNER-fr",
         },
@@ -27,7 +27,7 @@ dataset_hierarchy = {
             "medline": "MEDLINE",
         },
     },
-    "es": {
+    "spanish": {
         "General": {
             "WikiNER-es": "WikiNER-es",
             "conll2002-es": "CoNLL2002",
@@ -45,43 +45,43 @@ model_hierarchy = {
                 "name": "roberta-large", 
                 "clean_name": "RoBERTa-large",
                 "size": 355*M,
-                "languages" : "en",
+                "languages" : "english",
             },
             {
                 "name": "camembert-base",
                 "clean_name": "CamemBERT-base",
                 "size": 110*M,
-                "languages" : "fr",
+                "languages" : "french",
             },
             {
                 "name": "camembert-large",
                 "clean_name": "CamemBERT-large",
                 "size": 335*M,
-                "languages" : "fr",
+                "languages" : "french",
             },
             {
                 "name": "bert-large-cased",
                 "clean_name": "BERT-large",
                 "size": 345*M,
-                "languages" : "en",
+                "languages" : "english",
             },
             {
                 "name": "tulio-chilean-spanish-bert",
                 "clean_name": "TulioBERT",
                 "size": 110*M,
-                "languages" : "es",
+                "languages" : "spanish",
             },
             {
                 "name": "patana-chilean-spanish-bert",
                 "clean_name": "PatanaBERT",
                 "size": 110*M,
-                "languages" : "es",
+                "languages" : "spanish",
             },
             {
                 "name": "bert-base-spanish-wwm-uncased",
                 "clean_name": "BETO",
                 "size": 110*M,
-                "languages" : "es",
+                "languages" : "spanish",
             },
             {
                 "name": "xlm-roberta-large",
@@ -95,44 +95,44 @@ model_hierarchy = {
                 "name": "ClinicalBERT",
                 "clean_name": "ClinicalBERT",
                 "size": 110*M,
-                "languages" : "en",
+                "languages" : "english",
             },
             {
                 "name": "MedBERT",
                 "clean_name": "MedBERT",
                 "size": 110*M,
-                "languages" : "en",
+                "languages" : "english",
             },
             {
                 "name": "camembert-bio-base",
                 "clean_name": "CamemBERT-bio",
                 "size": 110*M,
-                "languages" : "fr",
+                "languages" : "french",
             },
             {
                 "name": "DrBERT-4GB",
                 "clean_name": "DrBERT-4GB",
                 "size": 4*B,
-                "languages" : "fr",
+                "languages" : "french",
             },
             {
                 "name": "DrBERT-7GB",
                 "clean_name": "DrBERT-7GB",
                 "size": 7*B,
-                "languages" : "fr",
+                "languages" : "french",
             },
             {
                 "name": "DrBERT-7GB",
                 "clean_name": "DrBERT-7GB",
                 "size": 7*B,
-                "languages" : "fr",
+                "languages" : "french",
             },
             {
                 
                 "name": "BETO_Galen",
                 "clean_name": "BETO-Galen",
                 "size": 110*M,
-                "languages" : "es",
+                "languages" : "spanish",
             },
         ],
     },

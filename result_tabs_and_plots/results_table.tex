@@ -1,24 +1,24 @@
 \scalebox{0.7}{\begin{tabular}{ll|cccc|cccc|cccc}
 \toprule
- & & \multicolumn{4}{c|}{English} & \multicolumn{4}{c|}{Spanish} & \multicolumn{4}{c}{French} \\
+ & & \multicolumn{4}{c|}{English} & \multicolumn{4}{c|}{French} & \multicolumn{4}{c}{Spanish} \\
 \cmidrule{3-6} \cmidrule{7-10} \cmidrule{11-14}
-Type & Model & WikiNER-en & CoNLL2003 & E3C-en & n2c2 & WikiNER-es & CoNLL2002 & E3C-es & CWL & WikiNER-fr & E3C-fr & EMEA & MEDLINE \\
+Type & Model & WikiNER-en & CoNLL2003 & E3C-en & n2c2 & WikiNER-fr & E3C-fr & EMEA & MEDLINE & WikiNER-es & CoNLL2002 & E3C-es & CWL \\
 \midrule
-\multirow{3}{*}{Causal} & Mistral-7B & 0.754 & 0.645 & - & 0.291 & 0.72 & - & - & - & 0.727 & - & 0.229 & 0.333 \\
- & Falcon-40B & - & 0.708 & - & 0.279 & - & - & - & - & - & - & - & 0.283 \\
- & Vicuna-7B & 0.594 & 0.388 & - & 0.147 & 0.659 & - & - & - & 0.591 & - & 0.152 & 0.296 \\
+\multirow{3}{*}{Causal} & Mistral-7B & 0.754 & 0.645 & - & 0.291 & 0.727 & - & 0.229 & 0.333 & 0.72 & - & - & - \\
+ & Falcon-40B & - & 0.708 & - & 0.279 & - & - & - & 0.283 & - & - & - & - \\
+ & Vicuna-7B & 0.594 & 0.388 & - & 0.147 & 0.591 & - & 0.152 & 0.296 & 0.659 & - & - & - \\
 \midrule
-\multirow{12}{*}{Masked} & XLM-RoBERTa-large & 0.786 & 0.826 & - & 0.462 & 0.797 & 0.781 & - & - & 0.811 & - & 0.629 & 0.531 \\
+\multirow{12}{*}{Masked} & XLM-RoBERTa-large & 0.786 & 0.826 & - & 0.462 & 0.811 & - & 0.629 & 0.531 & 0.797 & 0.781 & - & - \\
  & BERT-large & 0.776 & 0.835 & - & 0.435 & - & - & - & - & - & - & - & - \\
  & RoBERTa-large & 0.79 & 0.862 & - & 0.462 & - & - & - & - & - & - & - & - \\
  & ClinicalBERT & 0.462 & 0.597 & - & 0.48 & - & - & - & - & - & - & - & - \\
  & MedBERT & 0.613 & 0.673 & - & 0.478 & - & - & - & - & - & - & - & - \\
- & BETO & - & - & - & - & 0.794 & 0.732 & - & - & - & - & - & - \\
- & PatanaBERT & - & - & - & - & 0.802 & 0.769 & - & - & - & - & - & - \\
- & TulioBERT & - & - & - & - & 0.804 & 0.798 & - & - & - & - & - & - \\
- & BETO-Galen & - & - & - & - & 0.149 & 0.254 & - & - & - & - & - & - \\
- & CamemBERT-large & - & - & - & - & - & - & - & - & 0.829 & - & 0.661 & 0.577 \\
- & DrBERT-4GB & - & - & - & - & - & - & - & - & 0.587 & - & 0.602 & 0.486 \\
- & CamemBERT-bio & - & - & - & - & - & - & - & - & 0.782 & - & 0.636 & 0.549 \\
+ & CamemBERT-large & - & - & - & - & 0.829 & - & 0.661 & 0.577 & - & - & - & - \\
+ & DrBERT-4GB & - & - & - & - & 0.587 & - & 0.602 & 0.486 & - & - & - & - \\
+ & CamemBERT-bio & - & - & - & - & 0.782 & - & 0.636 & 0.549 & - & - & - & - \\
+ & BETO & - & - & - & - & - & - & - & - & 0.794 & 0.732 & - & - \\
+ & PatanaBERT & - & - & - & - & - & - & - & - & 0.802 & 0.769 & - & - \\
+ & TulioBERT & - & - & - & - & - & - & - & - & 0.804 & 0.798 & - & - \\
+ & BETO-Galen & - & - & - & - & - & - & - & - & 0.149 & 0.254 & - & - \\
 \bottomrule
 \end{tabular}}
