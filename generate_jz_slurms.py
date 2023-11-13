@@ -24,9 +24,9 @@ datasets = {
 }
 fixed_header="""#!/bin/bash
 
-#SBATCH --job-name={model_short_name}_{dataset_short_name}
-#SBATCH --output={model_short_name}_{dataset_short_name}.out
-#SBATCH --error={model_short_name}_{dataset_short_name}.out
+#SBATCH --job-name={model_short_name}
+#SBATCH --output={model_short_name}.out
+#SBATCH --error={model_short_name}.out
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=20
@@ -38,15 +38,18 @@ fixed_header="""#!/bin/bash
 
 module purge
 module load llm
+"""
 
-python3 $WORK/autoregressive_ner/clm_experiment.py --model_name {model} --dataset_name {dataset}  --n_gpus 2 -d"""
+line = "python3 $WORK/autoregressive_ner/clm_experiment.py --model_name {model} --dataset_name {dataset}  --n_gpus 2 -d"
 
-def generate_slurm(model, dataset):
+def generate_slurm(model):
     model_short_name = models[model]
-    dataset_short_name = datasets[dataset]
-    with open(f"slurms_jz/{model_short_name}_{dataset_short_name}.slurm", "w") as f:
-        f.write(fixed_header.format(model_short_name=model_short_name, dataset_short_name=dataset_short_name, model=model, dataset=dataset))
+    with open(f"slurms_jz/{model_short_name}.slurm", "w") as f:
+        f.write(fixed_header.format(model_short_name=model_short_name))
+        f.write("\n")
+        for dataset in datasets:
+            f.write(line.format(model=model, dataset=dataset))
+            f.write("\n")
 
 for model in models:
-    for dataset in datasets:
-        generate_slurm(model, dataset)
+    generate_slurm(model)
