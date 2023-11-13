@@ -34,7 +34,9 @@ args = args.parse_args()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("experiment")
 random.seed(args.random_seed)
-
+time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+script_dir = os.path.dirname(__file__)
+    
 ################# DATASET LOADING #################
 try :
     doc_id_colname, words_colname, ner_tags_colname = get_dataset_colnames(args.dataset_name)
@@ -66,7 +68,7 @@ for e in dataset.test_data:
     sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
     test_dataset.extend([s for s in sentences if len(s['text']) < 512])
 traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
-
+last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
 ner_tags = get_dataset_ner_tags(args.dataset_name)
 dataset_language = get_dataset_language(args.dataset_name)
 prompt_specialist_name = get_dataset_specialist_name(args.dataset_name)
@@ -79,6 +81,7 @@ metrics = MetricsCollection({
 ################# MODEL LOADING #################
 compute_capability = torch.cuda.get_device_capability()
 llm = LLM(args.model_name, tensor_parallel_size=args.n_gpus, seed=args.random_seed, dtype="float16" if compute_capability[0]<8 else "auto", trust_remote_code=True)
+model_base_name = os.path.basename(args.model_name)
 
 ################# EXPERIMENT DEFINITION #################
 def run_with_hyper_params(
@@ -99,12 +102,8 @@ def run_with_hyper_params(
     logger.info(f"Running with hyperparams: {locals()}")
     #This is a function that will be called by the hyperparameter search
     folder_name = 'results'
-    script_dir = os.path.dirname(__file__)
     os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
     res_dict = {}
-    time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
-    model_base_name = os.path.basename(args.model_name)
     assert len(taggers.split(' ')) == 2, "taggers must be a string with two words separated by a space"
     begin_tag, end_tag = taggers.split(' ')
 
