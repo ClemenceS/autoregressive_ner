@@ -92,7 +92,7 @@ traindev_dataset = []
 for e in dataset.train_data:
     sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
     traindev_dataset.extend([s for s in sentences if 5 < len(s['text']) ])
-test_dataset = dataset.test_data
+test_dataset = [t for t in dataset.test_data if 5 < len(t['text'])]
 
 folder_name = 'results'
 #get script directory
