@@ -36,6 +36,7 @@ datasets = {
         "WikiNER/es": "wnes",
     },
 }
+disk = ['emea', 'medline', 'n2c2']
 fixed_header="""#!/bin/bash
 
 #SBATCH --job-name={dataset}
@@ -47,7 +48,7 @@ fixed_header="""#!/bin/bash
 #SBATCH --time=20:00:00
 #SBATCH --gres=gpu:1
 """
-line = 'python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "{model}" --dataset_name "{dataset}" -d'
+line = 'python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "{model}" --dataset_name "{dataset}" {disk}'
 
 def generate_slurm(dataset, language):
     dataset_short_name = datasets[language][dataset]
@@ -56,7 +57,7 @@ def generate_slurm(dataset, language):
     with open(slurm_name, "w") as f:
         f.write(slurm_header + "\n")
         for model in models[language]:
-            f.write(line.format(model=model, dataset=dataset) + "\n")
+            f.write(line.format(model=model, dataset=dataset, disk='-d' if dataset_short_name in disk else '') + "\n")
 
 for language in datasets:
     for dataset in datasets[language]:
