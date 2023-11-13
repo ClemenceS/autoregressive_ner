@@ -8,30 +8,35 @@ M=10**6
 
 dataset_hierarchy = {
     "en":{
-        "General": [
-            {"conll2003": "CoNLL2003"},
-            {"WikiNER-en": "WikiNER-en"},
-        ],
-        "Clinical": [
-            {"n2c2": "n2c2"},
-        ],
+        "General": {
+            "WikiNER-en": "WikiNER-en",
+            "conll2003": "CoNLL2003",
         },
+        "Clinical": {
+            "e3c-en": "E3C-en",
+            "n2c2": "n2c2",
+        },
+    },
     "fr": {
-        "General": [
-            {"WikiNER-fr": "WikiNER-fr"},
-        ],
-        "Clinical": [
-            {"emea": "EMEA"},
-            {"medline": "MEDLINE"},
-        ],
+        "General": {
+            "WikiNER-fr": "WikiNER-fr",
+        },
+        "Clinical": {
+            "e3c-fr": "E3C-fr",
+            "emea": "EMEA",
+            "medline": "MEDLINE",
+        },
     },
     "es": {
-        "General": [
-            {"conll2002-es": "CoNLL2002"},
-            {"WikiNER-es": "WikiNER-es"},
-        ],
-        "Clinical": []
-    }
+        "General": {
+            "WikiNER-es": "WikiNER-es",
+            "conll2002-es": "CoNLL2002",
+        },
+        "Clinical": {
+            "e3c-es": "E3C-es",
+            "CWL": "CWL",
+        },
+    },
 }
 model_hierarchy = {
     "Masked": {
@@ -40,49 +45,49 @@ model_hierarchy = {
                 "name": "roberta-large", 
                 "clean_name": "RoBERTa-large",
                 "size": 355*M,
-                "languages" : ["en",],
+                "languages" : "en",
             },
             {
                 "name": "camembert-base",
                 "clean_name": "CamemBERT-base",
                 "size": 110*M,
-                "languages" : ["fr",],
+                "languages" : "fr",
             },
             {
                 "name": "camembert-large",
                 "clean_name": "CamemBERT-large",
                 "size": 335*M,
-                "languages" : ["fr",],
+                "languages" : "fr",
             },
             {
                 "name": "bert-large-cased",
                 "clean_name": "BERT-large",
                 "size": 345*M,
-                "languages" : ["en",],
+                "languages" : "en",
             },
             {
                 "name": "tulio-chilean-spanish-bert",
                 "clean_name": "TulioBERT",
                 "size": 110*M,
-                "languages" : ["es",],
+                "languages" : "es",
             },
             {
                 "name": "patana-chilean-spanish-bert",
                 "clean_name": "PatanaBERT",
                 "size": 110*M,
-                "languages" : ["es",],
+                "languages" : "es",
             },
             {
                 "name": "bert-base-spanish-wwm-uncased",
-                "clean_name": "BERT-base-Spanish",
+                "clean_name": "BETO",
                 "size": 110*M,
-                "languages" : ["es",],
+                "languages" : "es",
             },
             {
                 "name": "xlm-roberta-large",
                 "clean_name": "XLM-RoBERTa-large",
                 "size": 355*M,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             }
         ],
         "Clinical":[
@@ -90,33 +95,45 @@ model_hierarchy = {
                 "name": "ClinicalBERT",
                 "clean_name": "ClinicalBERT",
                 "size": 110*M,
-                "languages" : ["en",],
+                "languages" : "en",
             },
             {
                 "name": "MedBERT",
                 "clean_name": "MedBERT",
                 "size": 110*M,
-                "languages" : ["en",],
+                "languages" : "en",
             },
             {
                 "name": "camembert-bio-base",
                 "clean_name": "CamemBERT-bio",
                 "size": 110*M,
-                "languages" : ["fr",],
+                "languages" : "fr",
             },
             {
                 "name": "DrBERT-4GB",
                 "clean_name": "DrBERT-4GB",
                 "size": 4*B,
-                "languages" : ["fr",],
+                "languages" : "fr",
             },
             {
                 "name": "DrBERT-7GB",
                 "clean_name": "DrBERT-7GB",
                 "size": 7*B,
-                "languages" : ["fr",],
+                "languages" : "fr",
             },
-
+            {
+                "name": "DrBERT-7GB",
+                "clean_name": "DrBERT-7GB",
+                "size": 7*B,
+                "languages" : "fr",
+            },
+            {
+                
+                "name": "BETO_Galen",
+                "clean_name": "BETO-Galen",
+                "size": 110*M,
+                "languages" : "es",
+            },
         ],
     },
     "Causal": {
@@ -125,49 +142,49 @@ model_hierarchy = {
                 "name": "bloom-560m",
                 "clean_name": "BLOOM-560M",
                 "size": 560*M,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             },
             {
                 "name": "Mistral-7B-Instruct-v0.1",
                 "clean_name": "Mistral-7B-Instruct",
                 "size": 7*B,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             },
             {
                 "name": "bloom-7b1",
                 "clean_name": "BLOOM-7B1",
                 "size": 7*B,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             },
             {
                 "name": "falcon-40b-instruct",
                 "clean_name": "Falcon-40B-Instruct",
                 "size": 40*B,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             },
             {
                 "name": "Mistral-7B-v0.1",
                 "clean_name": "Mistral-7B",
                 "size": 7*B,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             },
             {
                 "name": "vicuna-7b-v1.5",
                 "clean_name": "Vicuna-7B",
                 "size": 7*B,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             },
             {
                 "name": "vicuna-13b-v1.5",
                 "clean_name": "Vicuna-13B",
                 "size": 13*B,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             },
             {
                 "name": "falcon-40b",
                 "clean_name": "Falcon-40B",
                 "size": 40*B,
-                "languages" : ["en", "fr", "es"],
+                "languages" : "all",
             },
         ],
     }
@@ -180,21 +197,22 @@ model_types = {}
 model_sizes = {}
 model_clean_names = {}
 dataset_names = {}
+model_langs = {}
 for model_type in model_hierarchy:
     for model_domain in model_hierarchy[model_type]:
         for model in model_hierarchy[model_type][model_domain]:
             model_name = model['name']
             model_domains[model_name] = model_domain
             model_types[model_name] = model_type
+            model_langs[model_name] = model['languages']
             model_sizes[model_name] = model['size']
             model_clean_names[model_name] = model['clean_name']
 for lang in dataset_hierarchy:
     for domain in dataset_hierarchy[lang]:
-        for dataset in dataset_hierarchy[lang][domain]:
-            for dataset_name in dataset:
-                dataset_domains[dataset_name] = domain
-                dataset_langs[dataset_name] = lang
-                dataset_names[dataset_name] = dataset[dataset_name]
+        for dataset_name in dataset_hierarchy[lang][domain]:
+            dataset_domains[dataset_name] = domain
+            dataset_langs[dataset_name] = lang
+            dataset_names[dataset_name] = dataset_hierarchy[lang][domain][dataset_name]
 
 def read_jsons(path):
     jsons = glob(os.path.join(path, '*.json'))

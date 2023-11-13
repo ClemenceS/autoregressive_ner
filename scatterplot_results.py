@@ -2,7 +2,8 @@ import os
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
-from read_jsons import read_jsons, model_domains, model_types, model_sizes, model_clean_names, dataset_names
+from read_jsons import read_jsons, model_domains, model_types, model_sizes, model_clean_names, dataset_names, model_langs
+from read_jsons import dataset_hierarchy, model_hierarchy
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -17,6 +18,8 @@ if not args.local:
     os.system(cmd2)
     print('Done.')
 df = read_jsons('results')
+#clear DrBERT
+df = df[~df['model_name'].str.contains('DrBERT-7GB')]
 
 scatter_data = []
 for language, df_lang in df.groupby('lang'):
@@ -70,7 +73,7 @@ for lang in ['en', 'fr', 'es']:
                 bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
             )
 
-    plt.title("General vs Clinical NER Performance of Language Models")
+    plt.title("General vs Clinical NER Performance of Language Models pretrained on " + lang.upper())
     plt.xlabel("General Performance")
     plt.ylabel("Clinical Performance")
     plt.xlim(0,1)
@@ -81,21 +84,28 @@ for lang in ['en', 'fr', 'es']:
     plt.gcf().set_size_inches(15, 10)
     plt.savefig(f'figures/{lang}_scatterplot.png', dpi=300)
 
-    df_lang = df[df['lang'] == lang]
-    df_lang = df_lang.sort_values(by=['dataset_domain', 'dataset_name'])
-    df_lang = df_lang[['model_name', 'model_clean_name', 'dataset_name', 'f1']]
-    df_lang = df_lang.pivot(index='model_name', columns='dataset_name', values='f1')
-    df_lang['model_type'] = df_lang.index.map(lambda x: model_types[x])
-    df_lang['model_domain'] = df_lang.index.map(lambda x: model_domains[x])
-    df_lang.index = df_lang.index.map(lambda x: model_clean_names[x])
+df_table = df.pivot(index='model_name', columns='dataset_name', values='f1')
+#unsafe way to get the order of the datasets.. TODO: find a better way
+ordered_datasets = {k:list(v['General'].values())+list(v['Clinical'].values()) for k,v in dataset_hierarchy.items()}
+df_table = df_table.rename(columns=dataset_names)
+for lang in ordered_datasets:
+    for dataset in ordered_datasets[lang]:
+        if dataset not in df_table.columns:
+            print(dataset)
+            df_table[dataset] = '-'
 
-    df_lang = df_lang.sort_values(by=['model_type', 'model_domain'], ascending=[True, False])
-    df_lang.drop(columns=['model_type', 'model_domain'], inplace=True)
-    df_lang = df_lang.rename_axis(None, axis=1)
+#sort lines by model type, language and domain
+df_table['model_type'] = df_table.index.map(lambda x: model_types[x])
+df_table['model_language'] = df_table.index.map(lambda x: model_langs[x])
+df_table['model_domain'] = df_table.index.map(lambda x: model_domains[x])
+df_table.index = df_table.index.map(lambda x: model_clean_names[x])
+df_table = df_table.sort_values(by=['model_type', 'model_language', 'model_domain'], ascending=[True, True, False])
+df_table.drop(columns=['model_type', 'model_domain'], inplace=True)
+df_table = df_table.fillna('-')
 
-    df_lang = df_lang.rename(columns=dataset_names)
-    df_lang = df_lang.rename_axis(None, axis=1)
-    df_lang = df_lang.rename_axis(None, axis=0)
-    df_lang = df_lang.fillna('-')
-    with open(f'tables/{lang}_results.tex', 'w') as f:
-        f.write(df_lang.to_latex(escape=False, float_format="%.3f", na_rep="-"))
+df_table = df_table.rename_axis(None, axis=1)
+df_table = df_table.rename_axis(None, axis=0)
+
+
+df_table = df_table[ordered_datasets['en'] + ordered_datasets['es'] + ordered_datasets['fr']]
+print(df_table)
