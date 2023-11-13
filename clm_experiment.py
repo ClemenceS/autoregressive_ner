@@ -31,8 +31,6 @@ args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 
 args = args.parse_args()
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("experiment")
 random.seed(args.random_seed)
 time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 script_dir = os.path.dirname(__file__)
@@ -200,6 +198,11 @@ possible_features = {
     "prompt_long_answer": True,
     "prompt_dash": True,
 }
+log_dir = os.path.join(script_dir, 'logs')
+os.makedirs(log_dir, exist_ok=True)
+logfilename = os.path.join(log_dir, f"{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.log")
+logging.basicConfig(level=logging.INFO, filename=logfilename)
+logger = logging.getLogger("experiment")
 
 #run once without any features
 logger.info("Running without any features")
