@@ -60,6 +60,9 @@ def generate_slurm(dataset, language):
         for model in models[language]:
             f.write(line.format(model=model, dataset=dataset, disk='-d' if dataset_short_name in disk else '') + "\n")
 
-for language in datasets:
-    for dataset in datasets[language]:
-        generate_slurm(dataset, language)
+for dataset in datasets['fr']:
+    generate_slurm(dataset, 'fr')
+for dataset in datasets['en']:
+    generate_slurm(dataset, 'en')
+for dataset in datasets['es']:
+    generate_slurm(dataset, 'es')
