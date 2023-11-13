@@ -28,7 +28,7 @@ datasets = {
         "mnaguib/WikiNER/fr": "wnfr",
     },
     "en":{
-        "/mnt/beegfs/home/naguib/conll2003": "conll2003",
+        "conll2003": "conll2003",
         "/mnt/beegfs/home/naguib/n2c2": "n2c2",
         "mnaguib/WikiNER/en": "wnen",
         },
