@@ -34,6 +34,7 @@ datasets = {
         },
     "es":{
         "mnaguib/WikiNER/es": "wnes",
+        "conll2002/es": "conll2002",
     },
 }
 disk = ['emea', 'medline', 'n2c2']
