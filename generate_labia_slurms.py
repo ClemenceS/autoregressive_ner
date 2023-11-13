@@ -3,6 +3,7 @@ models = {
         "camembert/camembert-large": "camembert",
         "Dr-BERT/DrBERT-4GB": "drbert4",
         "Dr-BERT/DrBERT-7GB": "drbert7",
+        "almanach/camembert-bio-base": "camembertbio",
         "xlm-roberta-large": "xlmr",
     },
     "en":{
@@ -11,7 +12,6 @@ models = {
         "medicalai/ClinicalBERT": "clinbert",
         "Charangan/MedBERT": "medbert",
         "xlm-roberta-large": "xlmr",
-        "almanach/camembert-bio-base": "camembertbio",
     },
     "es":{
         "dccuchile/bert-base-spanish-wwm-uncased" : "beto",
@@ -25,15 +25,15 @@ datasets = {
     "fr":{
         "/mnt/beegfs/home/naguib/emea": "emea",
         "/mnt/beegfs/home/naguib/medline": "medline",
-        "WikiNER/fr": "wnfr",
+        "mnaguib/WikiNER/fr": "wnfr",
     },
     "en":{
         "/mnt/beegfs/home/naguib/conll2003": "conll2003",
         "/mnt/beegfs/home/naguib/n2c2": "n2c2",
-        "WikiNER/en": "wnen",
+        "mnaguib/WikiNER/en": "wnen",
         },
     "es":{
-        "WikiNER/es": "wnes",
+        "mnaguib/WikiNER/es": "wnes",
     },
 }
 disk = ['emea', 'medline', 'n2c2']

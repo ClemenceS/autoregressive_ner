@@ -12,4 +12,5 @@
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "camembert/camembert-large" --dataset_name "/mnt/beegfs/home/naguib/medline" -d
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "Dr-BERT/DrBERT-4GB" --dataset_name "/mnt/beegfs/home/naguib/medline" -d
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "Dr-BERT/DrBERT-7GB" --dataset_name "/mnt/beegfs/home/naguib/medline" -d
+python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "almanach/camembert-bio-base" --dataset_name "/mnt/beegfs/home/naguib/medline" -d
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "xlm-roberta-large" --dataset_name "/mnt/beegfs/home/naguib/medline" -d
