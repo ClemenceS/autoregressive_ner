@@ -19,6 +19,7 @@ from nlstruct.data_utils import sentencize
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import EarlyStopping
 from nlstruct.checkpoint import ModelCheckpoint, AlreadyRunningException
+from dataset_info import get_dataset_colnames, get_dataset_ner_tags, get_dataset_tag_map, get_dataset_language, get_dataset_specialist_name
 import pandas as pd
 
 args = argparse.ArgumentParser()
@@ -37,47 +38,20 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("train_ner")
 
 shared_cache = {}
-ner_tags_by_dataset = {
-    "WikiNER" : ["PER", "LOC", "ORG"],
-    "conll2003" : ["PER", "LOC", "ORG"],
-    "conll2002" : ["PER", "LOC", "ORG"],
-    "medline" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
-    "emea" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
-    "n2c2" : ["ACTI", "ANAT", "CHEM", "CONC", "DEVI", "DISO", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
-}
-colnames_by_hf_dataset = {
-    "WikiNER" : ("id", "words", "ner_tags"),
-    "conll2003" : ("id", "tokens", "ner_tags"),
-    "conll2002" : ("id", "tokens", "ner_tags"),
-}
-tag_map_by_hf_dataset = {
-    "WikiNER" : {0: "O", 1: "LOC", 2: "PER", 3: "FAC", 4: "ORG", }, 
-    "conll2003" : {0: "O", 1: "PER", 2: "PER", 3: "ORG", 4: "ORG", 5: "LOC", 6: "LOC", 7: "O", 8: "O", },
-    "conll2002" : {0: "O", 1: "PER", 2: "PER", 3: "ORG", 4: "ORG", 5: "LOC", 6: "LOC", 7: "O", 8: "O", },
-}
-def get_if_key_in_x(dict, x):
-    return next((dict[key] for key in dict if key in x), None)
-
-try:
-    doc_id_colname, words_colname, ner_tags_colname = get_if_key_in_x(colnames_by_hf_dataset, args.dataset_name)
+try :
+    doc_id_colname, words_colname, ner_tags_colname = get_dataset_colnames(args.dataset_name)
     dataset = HuggingfaceNERDataset(
         dataset_name=args.dataset_name,
-        tag_map=get_if_key_in_x(tag_map_by_hf_dataset, args.dataset_name),
+        tag_map=get_dataset_tag_map(args.dataset_name),
         doc_id_colname=doc_id_colname,
         words_colname=words_colname,
         ner_tags_colname=ner_tags_colname,
         load_from_disk=args.load_dataset_from_disk,
     )
     #This is not supposed to be here, but WikiNER is a mess for now and I have no time to fix it
-    if args.dataset_name.endswith("WikiNER/en"):
-        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('en')]
-        dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith('en')]
-    elif args.dataset_name.endswith("WikiNER/fr"):
-        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('fr')]
-        dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith('fr')]
-    elif args.dataset_name.endswith("WikiNER/es"):
-        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith('es')]
-        dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith('es')]
+    if "WikiNER" in args.dataset_name:
+        dataset.train_data = [e for e in dataset.train_data if e['doc_id'].startswith(args.dataset_name[-2:] if args.dataset_name[-1] != '/' else args.dataset_name[-3:-1])]
+        dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith(args.dataset_name[-2:] if args.dataset_name[-1] != '/' else args.dataset_name[-3:-1])]
 except:
     dataset = BRATDataset(
         train= f"{args.dataset_name}/train",
@@ -85,14 +59,12 @@ except:
         test= f"{args.dataset_name}/test",
     )
 
-ner_tags = get_if_key_in_x(ner_tags_by_dataset, args.dataset_name)
-
-
 traindev_dataset = []
 for e in dataset.train_data:
     sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
     traindev_dataset.extend([s for s in sentences if 5 < len(s['text']) ])
 test_dataset = [t for t in dataset.test_data if 5 < len(t['text'])]
+ner_tags = get_dataset_ner_tags(args.dataset_name)
 
 folder_name = 'results'
 #get script directory

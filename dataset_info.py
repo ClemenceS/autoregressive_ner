@@ -5,6 +5,7 @@ ner_tags_by_dataset = {
     "medline" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
     "emea" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
     "n2c2" : ["ACTI", "ANAT", "CHEM", "CONC", "DEVI", "DISO", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
+    "e3c" : ["ACTOR", "BODYPART", "CLINENTITY", "EVENT", "RML", "TIMEX3"],
 }
 colnames_by_hf_dataset = {
     "WikiNER" : ("id", "words", "ner_tags"),
@@ -25,17 +26,19 @@ language_by_dataset = {
     "medline" : "fr",
     "emea" : "fr",
     "n2c2" : "en",
+    "e3c_en" : "en",
+    "e3c_fr" : "fr",
+    "e3c_es" : "es",
 }
 
 specialist_name_by_dataset = {
-    "WikiNER/en" : "linguist",
-    "WikiNER/fr" : "linguist",
-    "WikiNER/es" : "linguist",
+    "WikiNER" : "linguist",
     "conll2003" : "linguist",
     "conll2002" : "linguist",
     "medline" : "clinician",
     "emea" : "clinician",
     "n2c2" : "clinician",
+    "e3c" : "clinician",
 }
 
 
