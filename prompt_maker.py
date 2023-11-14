@@ -2,7 +2,7 @@ import random
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from strings import get_prompt_strings, strings
+from prompt_strings import get_prompt_strings, strings
     
 def example2string(example, ner_tag, begin_tag, end_tag, sticked, tagged):
     if not tagged:
