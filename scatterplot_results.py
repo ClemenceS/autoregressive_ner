@@ -73,13 +73,14 @@ for lang in ['english', 'french', 'spanish']:
     )
     for i in range(len(scatter_df)):
         if scatter_df.model_language[i] == lang:
-            plt.text(
-                x=scatter_df.general_performance[i]+0.01,
-                y=scatter_df.clinical_performance[i]+0.01,
-                s=scatter_df.model_name[i],
-                fontdict=dict(color='black',size=10),
-                bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
-            )
+            if scatter_df.general_performance[i]>0 and scatter_df.clinical_performance[i]>0:
+                plt.text(
+                    x=scatter_df.general_performance[i]+0.01,
+                    y=scatter_df.clinical_performance[i]+0.01,
+                    s=scatter_df.model_name[i],
+                    fontdict=dict(color='black',size=10),
+                    bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
+                )
 
     plt.title("General vs Clinical NER Performance of Language Models pretrained on " + lang.upper())
     plt.xlabel("General Performance")
