@@ -22,6 +22,8 @@ if not args.local:
 df = read_jsons(os.path.join(script_dir, 'results'))
 #clear DrBERT
 df = df[~df['model_name'].str.contains('DrBERT-7GB')]
+#clear empty model names
+# df = df[df['model_name'] != '']
 
 scatter_data = []
 for language, df_lang in df.groupby('lang'):

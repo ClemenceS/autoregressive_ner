@@ -186,6 +186,20 @@ model_hierarchy = {
                 "size": 40*B,
                 "languages" : "all",
             },
+            {
+                "name": "vigogne-2-13b-instruct",
+                "clean_name": "Vigogne-13B",
+                "size": 13*B,
+                "languages" : "french",
+            },
+        ],
+        "Clinical":[
+            {
+                "name": "medalpaca-7b",
+                "clean_name": "Medalpaca-7B",
+                "size": 7*B,
+                "languages" : "all",
+            },
         ],
     }
 }
@@ -222,12 +236,13 @@ def read_jsons(path):
             data.append(json.load(f))
     
     df = pd.DataFrame(data)
-
+    
     df['dataset_name'] = df['dataset_name'].apply(lambda name: name.replace('data-', ''))
     df['dataset_name'] = df['dataset_name'].apply(lambda name: name.replace('naguib-', ''))
     df['lang'] = df['dataset_name'].apply(lambda name: dataset_langs[name])
     df['dataset_domain'] = df['dataset_name'].apply(lambda name: dataset_domains[name])
-    df['model_name'] = df['model_name'].apply(lambda name: name.split('/')[-1])
+    df['model_name'] = df['model_name'].apply(lambda name: name.split('/')[-1] if "vigogne" not in name else name.split('/')[-2])
+
     df['model_domain'] = df['model_name'].apply(lambda name: model_domains[name])
     df['model_type'] = df['model_name'].apply(lambda name: model_types[name])
     df['model_size'] = df['model_name'].apply(lambda name: model_sizes[name])
