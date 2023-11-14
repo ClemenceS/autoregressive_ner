@@ -5,7 +5,8 @@ ner_tags_by_dataset = {
     "medline" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
     "emea" : ["ANAT", "CHEM", "DEVI", "DISO", "GEOG", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
     "n2c2" : ["ACTI", "ANAT", "CHEM", "CONC", "DEVI", "DISO", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
-    "e3c" : ["ACTOR", "BODYPART", "CLINENTITY", "EVENT", "RML", "TIMEX3"],
+    # "e3c" : ["ACTOR", "BODYPART", "CLINENTITY", "EVENT", "RML", "TIMEX3"],
+    "e3c" : ["ACTOR", "ANAT", "DISO", "EVENT", "RML", "TIMEX3"],
 }
 colnames_by_hf_dataset = {
     "WikiNER" : ("id", "words", "ner_tags"),
