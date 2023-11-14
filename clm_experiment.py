@@ -5,6 +5,7 @@ import logging
 import random
 import json
 from vllm import LLM
+from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
 from clm_predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
@@ -23,6 +24,7 @@ args.add_argument("--model_name", type=str, default="gpt2", help="model name")
 #EXPERIMENT ARGS
 args.add_argument('--no_write_log', dest='write_log', action='store_false')
 args.add_argument('-n', '--n_gpus', type=int, default=1)
+args.add_argument('--transformers', action="store_true")
 
 #ABLATION ARGS
 args.add_argument('--control', action="store_true")
@@ -77,8 +79,19 @@ metrics = MetricsCollection({
 })
 
 ################# MODEL LOADING #################
-compute_capability = torch.cuda.get_device_capability()
-llm = LLM(args.model_name, tensor_parallel_size=args.n_gpus, seed=args.random_seed, dtype="float16" if compute_capability[0]<8 else "auto", trust_remote_code=True)
+if not args.transformers:
+    compute_capability = torch.cuda.get_device_capability()
+    llm = LLM(args.model_name, tensor_parallel_size=args.n_gpus, seed=args.random_seed, dtype="float16" if compute_capability[0]<8 else "auto", trust_remote_code=True)
+    tokenizer = None
+    model = None
+else:
+    llm=None
+    tokenizer = AutoTokenizer.from_pretrained(args.model_name, padding_side="left")
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token_id = 0
+    model = AutoModelForCausalLM.from_pretrained(args.model_name, device_map="auto",torch_dtype=torch.bfloat16)
+    model = model.eval()
+
 model_base_name = os.path.basename(args.model_name)
 
 ################# EXPERIMENT DEFINITION #################
@@ -130,15 +143,16 @@ def run_with_hyper_params(
     model_kwargs = {
         "num_beams": 3,
         "do_sample": False,
-        # "top_p": 0.9,
-        # "top_k": 50,
-        # "temperature": 0.9,
+        "temperature": 0.,
+        "top_p": 0.,
     }
     res_dict.update(model_kwargs)
 
     logger.info("Generating...")
     textual_outputs, predicted_dataset, first_prompt_example, second_prompt_example = predict_for_dataset(
         llm=llm,
+        model=model,
+        tokenizer=tokenizer,
         training_data=traindev_dataset_this_seed,
         testing_data=test_dataset if test_on_test_set else None,
         ner_tags=ner_tags,

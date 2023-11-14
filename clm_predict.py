@@ -72,6 +72,8 @@ class Newline(StoppingCriteria):
 
 def predict_for_dataset(
         llm,
+        model,
+        tokenizer,
         training_data,
         testing_data,
         ner_tags,
@@ -83,7 +85,8 @@ def predict_for_dataset(
         model_kwargs,
         random_seed,
         **kwargs):
-    tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, padding_side='left')
+    if not tokenizer:
+        tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side='left')
 
     first_prompts = []
     self_verif_templates = {}
@@ -155,35 +158,49 @@ def predict_for_dataset(
     ]
     if not control:
         model_prompts = get_prompts_for_model(model_name, first_prompts)
-        if "vicuna" in model_name:
-            timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            script_dir = os.path.dirname(__file__)
-            folder_name = "repro"
-            os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
-            with open(os.path.join(script_dir, folder_name, f"prompts_{timedate}.txt"), "w") as f:
-                f.write("\n".join(model_prompts))
-        sampling_params = SamplingParams(
-            use_beam_search=model_kwargs["num_beams"]>1,
-            best_of=model_kwargs["num_beams"],
-            stop=['\n'],
-            temperature=0.0,
-            top_k=-1,
-            top_p=1,
-            #no tested yet...
-            # temperature=model_kwargs["temperature"] if model_kwargs["do_sample"] else 0,
-            # top_p=model_kwargs["top_p"] if model_kwargs["do_sample"] else None,
-            # top_k=model_kwargs["top_k"] if model_kwargs["do_sample"] else None,
-            max_tokens=128,
-        )
-        pre_outputs = llm.generate(model_prompts, sampling_params)
-        outputs = [o.outputs[0].text for o in pre_outputs]
+        # if "vicuna" in model_name:
+        #     timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        #     script_dir = os.path.dirname(__file__)
+        #     folder_name = "repro"
+        #     os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
+        #     with open(os.path.join(script_dir, folder_name, f"prompts_{timedate}.txt"), "w") as f:
+        #         f.write("\n".join(model_prompts))
+        if llm:
+            sampling_params = SamplingParams(
+                use_beam_search=model_kwargs["num_beams"]>1,
+                best_of=model_kwargs["num_beams"],
+                stop=['\n'],
+                temperature=0.0,
+                top_k=-1,
+                top_p=1,
+                max_tokens=128,
+            )
+            pre_outputs = llm.generate(model_prompts, sampling_params)
+            outputs = [o.outputs[0].text for o in pre_outputs]
+        else:
+            batch_size = 16
+            outputs = []
+            for i in tqdm(range(0,len(model_prompts),batch_size)):
+                prompts_batch = model_prompts[i:i+batch_size]
+                input_tokens = tokenizer.batch_encode_plus(prompts_batch, return_tensors="pt", padding=True)
+                for t in input_tokens:
+                    if torch.is_tensor(input_tokens[t]):
+                        input_tokens[t] = input_tokens[t].to(torch.cuda.current_device())
+                output_batch = model.generate(**input_tokens, **model_kwargs, max_new_tokens=128)
+                input_tokens_lengths = [x.shape[0] for x in input_tokens.input_ids]
+                output_tokens_lengths = [x.shape[0] for x in output_batch]
+
+                total_new_tokens = [o-i for i,o in zip(input_tokens_lengths, output_tokens_lengths)]
+                outputs_batch = tokenizer.batch_decode(output_batch, skip_special_tokens=True)
+                outputs_batch = [o[:n] for o,n in zip(outputs_batch, total_new_tokens)]
+                outputs.extend(outputs_batch)
     else:
         model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
         model_prompts = get_prompts_for_model(model_name, first_prompts)
         for i in tqdm(range(0,len(first_prompts))):
             prompt = model_prompts[i]
             input_ids = tokenizer(prompt, padding=True, return_tensors="pt").input_ids
-            input_ids = input_ids.to(device)
+            input_ids = input_ids.to(model.device)
             entry = entries[i%len(reference)]
 
             nb_open_entites = 0
@@ -274,13 +291,13 @@ def predict_for_dataset(
         #         sent_idx, ent_id = addresses[i+j]
         #         if scores[0]<scores[1]:
         #             predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
-    if "vicuna" in model_name:
-        timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        script_dir = os.path.dirname(__file__)
-        folder_name = "repro"
-        os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
-        with open(os.path.join(script_dir, folder_name, f"outputs_{timedate}.txt"), "w") as f:
-            f.write("\n".join(outputs))
+    # if "vicuna" in model_name:
+    #     timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    #     script_dir = os.path.dirname(__file__)
+    #     folder_name = "repro"
+    #     os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
+    #     with open(os.path.join(script_dir, folder_name, f"outputs_{timedate}.txt"), "w") as f:
+    #         f.write("\n".join(outputs))
 
     return outputs, predictions, model_prompts[0], (prompts[0] if not one_step else '-')
     
