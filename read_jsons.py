@@ -13,7 +13,7 @@ dataset_hierarchy = {
             "conll2003": "CoNLL2003",
         },
         "Clinical": {
-            "e3c-en": "E3C-en",
+            "e3c_en": "E3C-en",
             "n2c2": "n2c2",
         },
     },
@@ -22,7 +22,7 @@ dataset_hierarchy = {
             "WikiNER-fr": "WikiNER-fr",
         },
         "Clinical": {
-            "e3c-fr": "E3C-fr",
+            "e3c_fr": "E3C-fr",
             "emea": "EMEA",
             "medline": "MEDLINE",
         },
@@ -33,7 +33,7 @@ dataset_hierarchy = {
             "conll2002-es": "CoNLL2002",
         },
         "Clinical": {
-            "e3c-es": "E3C-es",
+            "e3c_es": "E3C-es",
             "CWL": "CWL",
         },
     },
