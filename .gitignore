@@ -3,3 +3,4 @@ results/
 repro/
 slurms_jz/*out
 slurms_labia/*out
+logs/*log
