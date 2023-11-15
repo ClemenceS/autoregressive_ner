@@ -11,15 +11,18 @@ dataset_hierarchy = {
         "General": {
             "WikiNER-en": "WikiNER-en",
             "conll2003": "CoNLL2003",
+            "ACE2004": "ACE",
         },
         "Clinical": {
             "e3c_en": "E3C-en",
             "n2c2": "n2c2",
+            "i2b2": "i2b2",
         },
     },
     "french": {
         "General": {
             "WikiNER-fr": "WikiNER-fr",
+            "quaerofrenchpress": "QFP",
         },
         "Clinical": {
             "e3c_fr": "E3C-fr",

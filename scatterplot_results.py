@@ -116,9 +116,9 @@ df_table = df_table.rename_axis(None, axis=1)
 df_table = df_table.rename_axis(None, axis=0)
 
 df_table = df_table[ordered_datasets['en'] + ordered_datasets['fr'] + ordered_datasets['es'] + ['model_type']]
-latex = "\\scalebox{0.8}{\\begin{tabular}"
+latex = "\\scalebox{0.7}{\\begin{tabular}"
 latex += "{ll|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
-latex += "\\toprule\n"
+# latex += "\\toprule\n"
 latex += " & & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c|}{French} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c}{Spanish} \\\\\n"
 latex += "\\cmidrule{3-" + str(len(ordered_datasets['en'])+2) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+3) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+2) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+3) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+len(ordered_datasets['es'])+2) + "}\n"
 latex += ("& Model & " + " & ".join(ordered_datasets['en']) + " & " + " & ".join(ordered_datasets['fr']) + " & " + " & ".join(ordered_datasets['es']) + " \\\\\n").replace('-en', '').replace('-fr', '').replace('-es', '')
