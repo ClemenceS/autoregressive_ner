@@ -3,14 +3,37 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 
+MARKER_SIZES = (1000,2000)
 def add_text(ax, i, scatter_df):
-    ax.text(
-        x=scatter_df.general_performance[i]+0.01,
-        y=scatter_df.clinical_performance[i]+0.01,
-        s=scatter_df.model_name[i],
-        fontdict=dict(color='black',size=10),
-        bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
-    )
+    # # ax.text(
+    # #     x=scatter_df.general_performance[i],
+    # #     y=scatter_df.clinical_performance[i]-0.1,
+    # #     s=scatter_df.model_name[i],
+    # #     fontdict=dict(color='black',size=10),
+    # #     bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
+    # # )
+    # e = 0.1
+    # below = True
+    # #if 3 or more models are too close, don't plot any
+    # if len(scatter_df[(scatter_df.general_performance>scatter_df.general_performance[i]-e) & (scatter_df.general_performance<scatter_df.general_performance[i]+e) & (scatter_df.clinical_performance>scatter_df.clinical_performance[i]-e) & (scatter_df.clinical_performance<scatter_df.clinical_performance[i]+e)]) > 3:
+    #     below = False
+    # if below:
+    #     ax.text(
+    #         x=scatter_df.general_performance[i]-0.07,
+    #         y=scatter_df.clinical_performance[i]-0.1,
+    #         s=scatter_df.model_name[i],
+    #         fontdict=dict(color='black',size=10),
+    #         bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
+    #     )
+    # else:
+    #     ax.text(
+    #         x=scatter_df.general_performance[i]-0.07,
+    #         y=scatter_df.clinical_performance[i]+0.05,
+    #         s=scatter_df.model_name[i],
+    #         fontdict=dict(color='black',size=10),
+    #         bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
+    #     )
+    pass
 
 def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names):
     scatter_data = []
@@ -40,9 +63,8 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
     scatter_df = pd.DataFrame(scatter_data)
 
 
-
     grid = sns.FacetGrid(scatter_df, col="model_language", hue="model_domain", hue_order=["General","", "Clinical"], palette=['#1f77b4', '#ff7f0e', '#2ca02c'], col_wrap=3, height=4, aspect=1.5)
-    grid.map_dataframe(sns.scatterplot, "general_performance", "clinical_performance", size="model_size", style="model_type", style_order=["Causal","", "Masked"], sizes=(100,2000), alpha=0.8)
+    grid.map_dataframe(sns.scatterplot, "general_performance", "clinical_performance", size="model_size", style="model_type", style_order=["Causal","", "Masked"], sizes=MARKER_SIZES, alpha=0.8)
     grid.set(xlim=(0, 1), ylim=(0, 1))
     grid.set_titles("Language: {col_name}")
     grid.set_axis_labels("General Performance", "Clinical Performance")
