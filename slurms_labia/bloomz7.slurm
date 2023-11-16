@@ -1,15 +1,15 @@
 #!/bin/bash
 
-#SBATCH --job-name=biomedlm
-#SBATCH --output=biomedlm.out
-#SBATCH --error=biomedlm.out
+#SBATCH --job-name=bloomz7
+#SBATCH --output=bloomz7.out
+#SBATCH --error=bloomz7.out
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=48
 #SBATCH --time=45:00:00
 #SBATCH --gres=gpu:2
 
-model=stanford-crfm/BioMedLM
+model=bigscience/bloomz-7b1
 
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name conll2003  --n_gpus 2
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name /mnt/beegfs/home/naguib/emea  --n_gpus 2
