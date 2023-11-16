@@ -252,7 +252,7 @@ def predict_for_dataset(
             }
             for ent_idx, (begin, end) in enumerate(get_indices(reference[i%len(reference)]['text'], output, begin_tag, end_tag))
         ])
-
+    verif_prompts = []
     if not one_step:
         sentences = []
         addresses = []
@@ -264,8 +264,8 @@ def predict_for_dataset(
                 verification_sentence = self_verif_templates[type].format(word=pred['text'], sentence=prompting_sentence)
                 sentences.append(verification_sentence)
                 addresses.append((i,id))
-        prompts = get_prompts_for_model(model_name, sentences)
-        logger.info(f"{len(prompts)} prompts generated for self verification")
+        verif_prompts = get_prompts_for_model(model_name, sentences)
+        logger.info(f"{len(verif_prompts)} prompts generated for self verification")
         
         sampling_params = SamplingParams(
             stop=['\n'],
@@ -274,7 +274,7 @@ def predict_for_dataset(
             top_k=-1,
             top_p=1,
         )
-        pre_outputs = llm.generate(prompts, sampling_params)
+        pre_outputs = llm.generate(verif_prompts, sampling_params)
         verif_outputs = [o.outputs[0].text for o in pre_outputs]
         for i, output in enumerate(verif_outputs):
             if yes_no[1].lower() in output.lower():
@@ -299,5 +299,5 @@ def predict_for_dataset(
     #     with open(os.path.join(script_dir, folder_name, f"outputs_{timedate}.txt"), "w") as f:
     #         f.write("\n".join(outputs))
 
-    return outputs, predictions, model_prompts[0], (prompts[0] if not one_step else '-')
+    return outputs, predictions, model_prompts[0], (verif_prompts[0] if len(verif_prompts)>0 else None)
     
