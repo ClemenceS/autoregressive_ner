@@ -61,9 +61,11 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
             })
 
     scatter_df = pd.DataFrame(scatter_data)
-    model_numbers = {}
+    # model_numbers = {}
+    # for i, model_name in enumerate(scatter_df.model_name.unique()):
+    #     model_numbers[model_name] = i+1
 
-    scatter_df['model_number'] = scatter_df['model_name'].apply(lambda x: model_numbers[x])
+    scatter_df['model_number'] = scatter_df['model_name']
 
 
     grid = sns.FacetGrid(scatter_df, col="model_language", hue="model_domain", hue_order=["General","", "Clinical"], palette=['#1f77b4', '#ff7f0e', '#2ca02c'], col_wrap=3, height=4, aspect=1.5)

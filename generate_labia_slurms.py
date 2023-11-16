@@ -103,6 +103,7 @@ models = {
     "bofenghuang/vigogne-2-13b-instruct": "vigogne13",
     "EleutherAI/gpt-j-6B": "gptj6",
     "nomic-ai/gpt4all-j": "gpt4allj",
+    "EleutherAI/gpt-neox-20b" : "gptneox20",
 }
 datasets = {
     #local datasets

@@ -194,6 +194,24 @@ model_hierarchy = {
                 "size": 13*B,
                 "languages" : "french",
             },
+            {
+                "name": "gpt-j-6B",
+                "clean_name": "GPT-J-6B",
+                "size": 6*B,
+                "languages" : "all",
+            },
+            {
+                "name": "gpt4all-j",
+                "clean_name": "GPT4All-J",
+                "size": 6*B,
+                "languages" : "all",
+            },
+            {
+                "name": "gpt-neox-20b",
+                "clean_name": "GPT-NeoX-20B",
+                "size": 20*B,
+                "languages" : "all",
+            }
         ],
         "Clinical":[
             {
