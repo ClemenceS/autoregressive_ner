@@ -4,6 +4,7 @@ models = {
     "/gpfswork/rech/lak/utb11pp/models/lmsys/vicuna-7b-v1.5" : "vic7",
     "/gpfswork/rech/lak/utb11pp/models/lmsys/vicuna-13b-v1.5" : "vic13",
     "/gpfswork/rech/lak/utb11pp/models/stanford-crfm/BioMedLM": "biomedlm",
+    "/gpfswork/rech/lak/utb11pp/models/nomic-ai/gpt4all-j": "gpt4allj",
     #common models
     "/gpfsdswork/dataset/HuggingFace_Models/bigscience/bloom-7b1": "bloom7",
     "/gpfsdswork/dataset/HuggingFace_Models/bigscience/bloomz-7b1": "bloomz7",
@@ -13,6 +14,7 @@ models = {
     "/gpfsdswork/dataset/HuggingFace_Models/tiiuae/falcon-40b": "falcon40",
     "/gpfsdswork/dataset/HuggingFace_Models/bofenghuang/vigogne-2-13b-instruct": "vigogne13",
     "/gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-j-6B": "gptj6",
+    "/gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-neo-2.7B/": "gptneo27",
 }
 datasets = {
     #local datasets

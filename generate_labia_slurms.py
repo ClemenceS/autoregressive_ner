@@ -102,6 +102,7 @@ models = {
     "tiiuae/falcon-40b": "falcon40",
     "bofenghuang/vigogne-2-13b-instruct": "vigogne13",
     "EleutherAI/gpt-j-6B": "gptj6",
+    "nomic-ai/gpt4all-j": "gpt4allj",
 }
 datasets = {
     #local datasets
