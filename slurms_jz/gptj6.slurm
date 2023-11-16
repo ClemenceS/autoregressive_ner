@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH --job-name=vic7
-#SBATCH --output=vic7.out
-#SBATCH --error=vic7.out
+#SBATCH --job-name=gptj6
+#SBATCH --output=gptj6.out
+#SBATCH --error=gptj6.out
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=20
@@ -15,7 +15,7 @@
 module purge
 module load llm
 
-model=/gpfswork/rech/lak/utb11pp/models/lmsys/vicuna-7b-v1.5
+model=/gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-j-6B
 
 python3 $WORK/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name /gpfswork/rech/lak/utb11pp/data/conll2003  --n_gpus 2 -d
 python3 $WORK/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name /gpfswork/rech/lak/utb11pp/data/emea  --n_gpus 2 -d
