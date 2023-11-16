@@ -9,7 +9,7 @@
 #SBATCH --time=45:00:00
 #SBATCH --gres=gpu:2
 
-model=bofenghuang/vigogne-2-13b-instruct/
+model=bofenghuang/vigogne-2-13b-instruct
 
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name conll2003  --n_gpus 2
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name /mnt/beegfs/home/naguib/emea  --n_gpus 2

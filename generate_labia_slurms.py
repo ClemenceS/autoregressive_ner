@@ -100,7 +100,7 @@ models = {
     "bigscience/bloomz" : "bloomzbig",
     "tiiuae/falcon-7b": "falcon7",
     "tiiuae/falcon-40b": "falcon40",
-    "bofenghuang/vigogne-2-13b-instruct/": "vigogne13",
+    "bofenghuang/vigogne-2-13b-instruct": "vigogne13",
     "EleutherAI/gpt-j-6B": "gptj6",
 }
 datasets = {

@@ -11,7 +11,7 @@ models = {
     "/gpfsdswork/dataset/HuggingFace_Models/bigscience/bloomz" : "bloomzbig",
     "/gpfsdswork/dataset/HuggingFace_Models/tiiuae/falcon-7b": "falcon7",
     "/gpfsdswork/dataset/HuggingFace_Models/tiiuae/falcon-40b": "falcon40",
-    "/gpfsdswork/dataset/HuggingFace_Models/bofenghuang/vigogne-2-13b-instruct/": "vigogne13",
+    "/gpfsdswork/dataset/HuggingFace_Models/bofenghuang/vigogne-2-13b-instruct": "vigogne13",
     "/gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-j-6B": "gptj6",
 }
 datasets = {
