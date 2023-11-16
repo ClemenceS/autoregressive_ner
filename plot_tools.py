@@ -5,13 +5,13 @@ from matplotlib import pyplot as plt
 
 MARKER_SIZES = (1000,2000)
 def add_text(ax, i, scatter_df):
-    # # ax.text(
-    # #     x=scatter_df.general_performance[i],
-    # #     y=scatter_df.clinical_performance[i]-0.1,
-    # #     s=scatter_df.model_name[i],
-    # #     fontdict=dict(color='black',size=10),
-    # #     bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
-    # # )
+    ax.text(
+        x=scatter_df.general_performance[i],
+        y=scatter_df.clinical_performance[i]-0.1,
+        s=scatter_df.model_number[i],
+        fontdict=dict(color='black',size=10),
+        bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
+    )
     # e = 0.1
     # below = True
     # #if 3 or more models are too close, don't plot any
@@ -61,6 +61,9 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
             })
 
     scatter_df = pd.DataFrame(scatter_data)
+    model_numbers = {}
+
+    scatter_df['model_number'] = scatter_df['model_name'].apply(lambda x: model_numbers[x])
 
 
     grid = sns.FacetGrid(scatter_df, col="model_language", hue="model_domain", hue_order=["General","", "Clinical"], palette=['#1f77b4', '#ff7f0e', '#2ca02c'], col_wrap=3, height=4, aspect=1.5)
@@ -68,7 +71,7 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
     grid.set(xlim=(0, 1), ylim=(0, 1))
     grid.set_titles("Language: {col_name}")
     grid.set_axis_labels("General Performance", "Clinical Performance")
-    grid.add_legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0., scatterpoints=1, labelspacing=3)
+    # grid.add_legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0., scatterpoints=1, labelspacing=3)
     grid.fig.tight_layout(w_pad=1)
     grid.fig.subplots_adjust(top=0.9)
     grid.fig.suptitle("General vs Clinical NER Performance of Language Models")
@@ -78,5 +81,7 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
             if scatter_df.model_language[i] == ax.get_title().split(': ')[-1]:
                 if scatter_df.general_performance[i]>0 and scatter_df.clinical_performance[i]>0:
                     add_text(ax, i, scatter_df)
+    #make the figure square
+    grid.fig.set_figheight(5)
+    grid.fig.set_figwidth(15)
     grid.savefig(os.path.join(output_folder, f'scatterplot.png'), dpi=300)
-    plt.show()
