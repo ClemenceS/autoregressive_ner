@@ -35,19 +35,17 @@ def latex_data(df, output_folder, model_domains, model_types, dataset_names, mod
     latex += ("& Model & " + " & ".join(ordered_datasets['en']) + " & " + " & ".join(ordered_datasets['fr']) + " & " + " & ".join(ordered_datasets['es']) + " \\\\\n").replace('-en', '').replace('-fr', '').replace('-es', '')
     latex += "\\midrule\n"
     n_causal = len(df_table[df_table.model_type == 'Causal'])
-    # latex += "\\multirow{" + str(n_causal) + "}{*}{Causal} & " + df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
-    #rotate Causal
-    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & " + df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
-    for model_name, row in df_table.iloc[1:n_causal].iterrows():
-        latex += " & " + model_name + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1- " + df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
+    for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
+        latex += " & " + str(i+2) + "- " + model_name + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
     latex += "\\midrule\n"
     n_masked = len(df_table[df_table.model_type == 'Masked'])
-    # latex += "\\multirow{" + str(n_masked) + "}{*}{Masked} & " + df_table.index[n_causal] + " & " + " & ".join([str(x) for x in df_table.iloc[n_causal][:-1]]) + " \\\\\n"
-    #rotate Masked
-    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + df_table.index[n_causal] + " & " + " & ".join([str(x) for x in df_table.iloc[n_causal][:-1]]) + " \\\\\n"
-    for model_name, row in df_table.iloc[n_causal+1:].iterrows():
-        latex += " & " + model_name + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & "+ str(n_causal+1) + "- " + df_table.index[n_causal] + " & " + " & ".join([str(x) for x in df_table.iloc[n_causal][:-1]]) + " \\\\\n"
+    for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
+        latex += " & " + str(i+n_causal+2) + "- " + model_name + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
     with open(os.path.join(output_folder, 'results_table.tex'), 'w') as f:
         f.write(latex)
+    
+    return df_table.index.tolist()

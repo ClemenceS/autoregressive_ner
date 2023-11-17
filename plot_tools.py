@@ -3,14 +3,14 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 
-MARKER_SIZES = (1000,2000)
+MARKER_SIZES = (100,2000)
 def add_text(ax, i, scatter_df):
     ax.text(
-        x=scatter_df.general_performance[i],
-        y=scatter_df.clinical_performance[i]-0.1,
+        x=scatter_df.general_performance[i]-0.02 if scatter_df.model_type[i] == 'Masked' else scatter_df.general_performance[i]-0.01,
+        y=scatter_df.clinical_performance[i]-0.02,
         s=scatter_df.model_number[i],
         fontdict=dict(color='black',size=10),
-        bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
+        # bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
     )
     # e = 0.1
     # below = True
@@ -35,7 +35,7 @@ def add_text(ax, i, scatter_df):
     #     )
     pass
 
-def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names):
+def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers):
     scatter_data = []
     for language, df_lang in df.groupby('lang'):
         print(f'================{language}================')
@@ -65,11 +65,29 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
     # for i, model_name in enumerate(scatter_df.model_name.unique()):
     #     model_numbers[model_name] = i+1
 
-    scatter_df['model_number'] = scatter_df['model_name']
+    scatter_df['model_number'] = scatter_df['model_name'].map(lambda x: model_numbers[x])
 
 
-    grid = sns.FacetGrid(scatter_df, col="model_language", hue="model_domain", hue_order=["General","", "Clinical"], palette=['#1f77b4', '#ff7f0e', '#2ca02c'], col_wrap=3, height=4, aspect=1.5)
-    grid.map_dataframe(sns.scatterplot, "general_performance", "clinical_performance", size="model_size", style="model_type", style_order=["Causal","", "Masked"], sizes=MARKER_SIZES, alpha=0.8)
+    grid = sns.FacetGrid(
+        scatter_df,
+        col="model_language", 
+        hue="model_domain", 
+        hue_order=["General","", "Clinical"], 
+        palette=['#1f77b4', '#ff7f0e', '#2ca02c'], 
+        col_wrap=3, 
+        height=4, 
+        aspect=1.5
+        )
+    grid.map_dataframe(
+        sns.scatterplot,
+        "general_performance",
+        "clinical_performance",
+        size="model_size",
+        style="model_type",
+        markers={"Causal": 'o', "Masked": 's'},
+        sizes=MARKER_SIZES,
+        alpha=0.8
+        )
     grid.set(xlim=(0, 1), ylim=(0, 1))
     grid.set_titles("Language: {col_name}")
     grid.set_axis_labels("General Performance", "Clinical Performance")
