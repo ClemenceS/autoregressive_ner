@@ -117,6 +117,7 @@ datasets = {
     "/mnt/beegfs/home/naguib/e3c_en": "e3cen",
     "/mnt/beegfs/home/naguib/e3c_fr": "e3cfr",
     "/mnt/beegfs/home/naguib/e3c_es": "e3ces",
+    "conll2002/es": "conll2002",
 }
 fixed_header="""#!/bin/bash
 

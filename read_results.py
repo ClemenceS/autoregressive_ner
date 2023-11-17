@@ -62,6 +62,12 @@ model_hierarchy = {
                 "languages" : "french",
             },
             {
+                "name": "flaubert/flaubert_large_cased",
+                "clean_name": "FlauBERT-large",
+                "size": 335*M,
+                "languages" : "french",
+            },
+            {
                 "name": "bert-large-cased",
                 "clean_name": "BERT-large",
                 "size": 345*M,
@@ -92,8 +98,8 @@ model_hierarchy = {
                 "languages" : "all",
             },
             {
-                "name": "mbert",
-                "clean_name": "bert-base-multilingual-cased",
+                "name": "bert-base-multilingual-cased",
+                "clean_name": "mBERT",
                 "size": 110*M,
                 "languages" : "all",
             },
