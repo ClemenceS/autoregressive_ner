@@ -25,15 +25,16 @@ datasets = {
     "/gpfswork/rech/lak/utb11pp/data/mnaguib/WikiNER/en": "wnen",
     "/gpfswork/rech/lak/utb11pp/data/mnaguib/WikiNER/fr": "wnfr",
     "/gpfswork/rech/lak/utb11pp/data/mnaguib/WikiNER/es": "wnes",
+    "/gpfswork/rech/lak/utb11pp/data/conll2002": "conll2002",
     "/gpfswork/rech/lak/utb11pp/data/e3c_en": "e3cen",
     "/gpfswork/rech/lak/utb11pp/data/e3c_fr": "e3cfr",
     "/gpfswork/rech/lak/utb11pp/data/e3c_es": "e3ces",
 }
 fixed_header="""#!/bin/bash
 
-#SBATCH --job-name={model_short_name}
-#SBATCH --output={model_short_name}.out
-#SBATCH --error={model_short_name}.out
+#SBATCH --job-name={script_name}
+#SBATCH --output={script_name}.out
+#SBATCH --error={script_name}.out
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=20
@@ -46,19 +47,42 @@ fixed_header="""#!/bin/bash
 module purge
 module load llm
 
-model={model}
 """
+variable="model={model}"
 
+line_any_model = "python3 $WORK/autoregressive_ner/clm_experiment.py --model_name {model} --dataset_name {dataset}  --n_gpus 2 -d"
 line = "python3 $WORK/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name {dataset}  --n_gpus 2 -d"
 
 def generate_slurm(model):
-    model_short_name = models[model]
-    with open(f"slurms_jz/{model_short_name}.slurm", "w") as f:
-        f.write(fixed_header.format(model_short_name=model_short_name, model=model))
+    script_name = models[model]
+    with open(f"slurms_jz/{script_name}.slurm", "w") as f:
+        # f.write(fixed_header.format(script_name=script_name, model=model))
+        f.write(fixed_header.format(script_name=script_name))
+        f.write(variable.format(model=model))
         f.write("\n")
+        f.write("\n")
+        
         for dataset in datasets:
             f.write(line.format(dataset=dataset))
             f.write("\n")
 
 for model in models:
     generate_slurm(model)
+
+remaining_datasets = [
+    "/gpfswork/rech/lak/utb11pp/data/conll2002"
+]
+
+# with open(f"slurms_jz/conll2002.slurm", "w") as f:
+#     f.write(fixed_header.format(script_name="conll2002"))
+#     f.write("\n")
+#     for model in models:
+#         f.write(line_any_model.format(model=model, dataset="conll2002"))
+        
+for dataset in remaining_datasets:
+    with open(f"slurms_jz/{datasets[dataset]}.slurm", "w") as f:
+        f.write(fixed_header.format(script_name=datasets[dataset]))
+        f.write("\n")
+        for model in models:
+            f.write(line_any_model.format(model=model, dataset=dataset))
+            f.write("\n")
