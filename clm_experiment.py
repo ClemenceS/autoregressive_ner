@@ -231,24 +231,34 @@ for feature_name, feature_value in possible_features.items():
     if feature_name == "prompt_language" and dataset_language == "en":
         #we don't want to test prompt_language if the dataset is already in english
         continue
-    logger.info(f"Testing feature {feature_name} with value {feature_value}")
-    with open(logfilename, 'a') as logfile:
-        logfile.write(f"Testing feature {feature_name} with value {feature_value}\n")
+    new_features = {feature_name: feature_value}
+    #exceptionally, if the new feature is prompt_long_answer, we want to test it with one_step=False
+    if feature_name == "prompt_long_answer":
+        new_features["one_step"] = False
+    
+    for k,v in new_features.items():
+        logger.info(f"Testing feature {k} with value {v}")
+        with open(logfilename, 'a') as logfile:
+            logfile.write(f"Testing feature {k} with value {v}\n")
 
     #run with the new feature
-    new_f1 = run_with_hyper_params(**kept_features, **{feature_name: feature_value})
+    new_f1 = run_with_hyper_params(**kept_features, **new_features)
 
     #if the new feature is better, keep it
     if new_f1 > best_f1:
-        logger.info(f"Feature {feature_name} with value {feature_value} kept")
-        with open(logfilename, 'a') as logfile:
-            logfile.write(f"Feature {feature_name} with value {feature_value} kept\n")
-        kept_features[feature_name] = feature_value
+        for k,v in new_features.items():
+            #this loop runs almost always only once, except for prompt_long_answer, where if we keep it, we also want to keep one_step=False
+            logger.info(f"Feature {k} with value {v} kept")
+            with open(logfilename, 'a') as logfile:
+                logfile.write(f"Feature {k} with value {v} kept\n")
+            kept_features[k] = v
         best_f1 = new_f1
     else:
-        logger.info(f"Feature {feature_name} with value {feature_value} discarded")
-        with open(logfilename, 'a') as logfile:
-            logfile.write(f"Feature {feature_name} with value {feature_value} discarded\n")
+        for k,v in new_features.items():
+            #this loop runs almost always only once, except for prompt_long_answer, where if we discard it, we also want to discard one_step=False
+            logger.info(f"Feature {k} with value {v} discarded")
+            with open(logfilename, 'a') as logfile:
+                logfile.write(f"Feature {k} with value {v} discarded\n")
 
 logger.info(f"Best F1: {best_f1}")
 logger.info(f"Best features: {kept_features}")
