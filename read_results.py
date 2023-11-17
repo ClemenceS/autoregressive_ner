@@ -212,6 +212,12 @@ model_hierarchy = {
             #     "size": 6*B,
             #     "languages" : "all",
             # },
+            {
+                "name": "gpt2-xl",
+                "clean_name": "GPT2-XL",
+                "size": 1.5*B,
+                "languages" : "all",
+            }
             # {
             #     "name": "gpt-neox-20b",
             #     "clean_name": "GPT-NeoX-20B",
