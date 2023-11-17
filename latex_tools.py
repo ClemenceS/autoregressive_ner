@@ -10,6 +10,9 @@ def latex_data(df, output_folder, model_domains, model_types, dataset_names, mod
         for dataset in ordered_datasets[lang]:
             if dataset not in df_table.columns:
                 df_table[dataset] = '-'
+    for model in model_hierarchy['Causal']['General']+model_hierarchy['Causal']['Clinical']+model_hierarchy['Masked']['General']+model_hierarchy['Masked']['Clinical']:
+        if model['name'] not in df_table.index:
+            df_table.loc[model['name']] = '-'
 
     #sort lines by model type, language and domain
     df_table['model_type'] = df_table.index.map(lambda x: model_types[x])

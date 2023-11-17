@@ -32,7 +32,7 @@ dataset_hierarchy = {
     "spanish": {
         "General": {
             "WikiNER-es": "WikiNER-es",
-            "conll2002-es": "CoNLL2002",
+            "conll2002": "CoNLL2002",
         },
         "Clinical": {
             "e3c_es": "E3C-es",
@@ -49,12 +49,12 @@ model_hierarchy = {
                 "size": 355*M,
                 "languages" : "english",
             },
-            {
-                "name": "camembert-base",
-                "clean_name": "CamemBERT-base",
-                "size": 110*M,
-                "languages" : "french",
-            },
+            # {
+            #     "name": "camembert-base",
+            #     "clean_name": "CamemBERT-base",
+            #     "size": 110*M,
+            #     "languages" : "french",
+            # },
             {
                 "name": "camembert-large",
                 "clean_name": "CamemBERT-large",
@@ -90,7 +90,13 @@ model_hierarchy = {
                 "clean_name": "XLM-RoBERTa-large",
                 "size": 355*M,
                 "languages" : "all",
-            }
+            },
+            {
+                "name": "mbert",
+                "clean_name": "bert-base-multilingual-cased",
+                "size": 110*M,
+                "languages" : "all",
+            },
         ],
         "Clinical":[
             {
@@ -117,18 +123,12 @@ model_hierarchy = {
                 "size": 4*B,
                 "languages" : "french",
             },
-            {
-                "name": "DrBERT-7GB",
-                "clean_name": "DrBERT-7GB",
-                "size": 7*B,
-                "languages" : "french",
-            },
-            {
-                "name": "DrBERT-7GB",
-                "clean_name": "DrBERT-7GB",
-                "size": 7*B,
-                "languages" : "french",
-            },
+            # {
+            #     "name": "DrBERT-7GB",
+            #     "clean_name": "DrBERT-7GB",
+            #     "size": 7*B,
+            #     "languages" : "french",
+            # },
             {
                 
                 "name": "BETO_Galen",
@@ -140,30 +140,30 @@ model_hierarchy = {
     },
     "Causal": {
         "General":[
-            {
-                "name": "bloom-560m",
-                "clean_name": "BLOOM-560M",
-                "size": 560*M,
-                "languages" : "all",
-            },
-            {
-                "name": "Mistral-7B-Instruct-v0.1",
-                "clean_name": "Mistral-7B-Instruct",
-                "size": 7*B,
-                "languages" : "all",
-            },
+            # {
+            #     "name": "bloom-560m",
+            #     "clean_name": "BLOOM-560M",
+            #     "size": 560*M,
+            #     "languages" : "all",
+            # },
+            # {
+            #     "name": "Mistral-7B-Instruct-v0.1",
+            #     "clean_name": "Mistral-7B-Instruct",
+            #     "size": 7*B,
+            #     "languages" : "all",
+            # },
             {
                 "name": "bloom-7b1",
                 "clean_name": "BLOOM-7B1",
                 "size": 7*B,
                 "languages" : "all",
             },
-            {
-                "name": "falcon-40b-instruct",
-                "clean_name": "Falcon-40B-Instruct",
-                "size": 40*B,
-                "languages" : "all",
-            },
+            # {
+            #     "name": "falcon-40b-instruct",
+            #     "clean_name": "Falcon-40B-Instruct",
+            #     "size": 40*B,
+            #     "languages" : "all",
+            # },
             {
                 "name": "Mistral-7B-v0.1",
                 "clean_name": "Mistral-7B",
@@ -200,18 +200,18 @@ model_hierarchy = {
                 "size": 6*B,
                 "languages" : "all",
             },
-            {
-                "name": "gpt4all-j",
-                "clean_name": "GPT4All-J",
-                "size": 6*B,
-                "languages" : "all",
-            },
-            {
-                "name": "gpt-neox-20b",
-                "clean_name": "GPT-NeoX-20B",
-                "size": 20*B,
-                "languages" : "all",
-            }
+            # {
+            #     "name": "gpt4all-j",
+            #     "clean_name": "GPT4All-J",
+            #     "size": 6*B,
+            #     "languages" : "all",
+            # },
+            # {
+            #     "name": "gpt-neox-20b",
+            #     "clean_name": "GPT-NeoX-20B",
+            #     "size": 20*B,
+            #     "languages" : "all",
+            # }
         ],
         "Clinical":[
             {
@@ -220,6 +220,12 @@ model_hierarchy = {
                 "size": 7*B,
                 "languages" : "all",
             },
+            {
+                "name": "biomedlm",
+                "clean_name": "BioMedLM",
+                "size": 7*B,
+                "languages" : "all",
+            }
         ],
     }
 }
@@ -259,6 +265,7 @@ def read_jsons(path):
     
     df['dataset_name'] = df['dataset_name'].apply(lambda name: name.replace('data-', ''))
     df['dataset_name'] = df['dataset_name'].apply(lambda name: name.replace('naguib-', ''))
+    df['dataset_name'] = df['dataset_name'].apply(lambda name: name.replace('conll2002-es', 'conll2002'))
     df['lang'] = df['dataset_name'].apply(lambda name: dataset_langs[name])
     df['dataset_domain'] = df['dataset_name'].apply(lambda name: dataset_domains[name])
     df['model_name'] = df['model_name'].apply(lambda name: name.split('/')[-1] if not name.endswith('/') else name.split('/')[-2])

@@ -26,7 +26,9 @@ if not args.local:
     os.system(cmd2)
     print('Done.')
 df = read_jsons(os.path.join(script_dir, 'results'))
-df = df[~df['model_name'].str.contains('DrBERT-7GB')]
+# df = df[~df['model_name'].str.contains('DrBERT-7GB')]
+# df = df[~df['model_name'].str.contains('neo')]
+# df = df[~df['model_name'].str.contains('4all')]
 
 output_folder = os.path.join(script_dir, 'result_tabs_and_plots')
 os.makedirs(output_folder, exist_ok=True)
