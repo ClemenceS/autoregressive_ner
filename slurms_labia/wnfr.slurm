@@ -14,3 +14,4 @@ python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_nam
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "Dr-BERT/DrBERT-7GB" --dataset_name "mnaguib/WikiNER/fr" 
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "almanach/camembert-bio-base" --dataset_name "mnaguib/WikiNER/fr" 
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "xlm-roberta-large" --dataset_name "mnaguib/WikiNER/fr" 
+python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "bert-base-multilingual-cased" --dataset_name "mnaguib/WikiNER/fr" 

@@ -6,6 +6,7 @@ models = {
         "Dr-BERT/DrBERT-7GB": "drbert7",
         "almanach/camembert-bio-base": "camembertbio",
         "xlm-roberta-large": "xlmr",
+        "bert-base-multilingual-cased" : "mbert",
     },
     "en":{
         "bert-large-cased": "bert",
@@ -13,6 +14,7 @@ models = {
         "medicalai/ClinicalBERT": "clinbert",
         "Charangan/MedBERT": "medbert",
         "xlm-roberta-large": "xlmr",
+        "bert-base-multilingual-cased" : "mbert",
     },
     "es":{
         "dccuchile/bert-base-spanish-wwm-uncased" : "beto",
@@ -20,6 +22,7 @@ models = {
         "dccuchile/patana-chilean-spanish-bert": "patana",
         "xlm-roberta-large": "xlmr",
         "IIC/BETO_Galen" : "beto_galen",
+        "bert-base-multilingual-cased" : "mbert",
     },
 }
 datasets = {
@@ -64,12 +67,29 @@ def generate_slurm(dataset, language):
         for model in models[language]:
             f.write(line.format(model=model, dataset=dataset, disk='-d' if dataset_short_name in disk else '') + "\n")
 
+def generate_slurms_for_model(model):
+    for lang_models in models.values():
+        if model in lang_models:
+            model_short_name = lang_models[model]
+            break
+    with open(f"slurms_labia/{model_short_name}.slurm", "w") as f:
+        f.write(fixed_header.format(dataset=model_short_name))
+        f.write("\n")    
+    for language, lang_models in models.items():
+        if model in lang_models:        
+            for dataset, dataset_short_name in datasets[language].items():
+                with open(f"slurms_labia/{model_short_name}.slurm", "a") as f:
+                    f.write(line.format(dataset=dataset, model=model, disk='-d' if dataset_short_name in disk else ''))
+                    f.write("\n")
+
 for dataset in datasets['fr']:
     generate_slurm(dataset, 'fr')
 for dataset in datasets['en']:
     generate_slurm(dataset, 'en')
 for dataset in datasets['es']:
     generate_slurm(dataset, 'es')
+model = "bert-base-multilingual-cased"
+generate_slurms_for_model(model)
 
 
 ################################### CLMs ###################################

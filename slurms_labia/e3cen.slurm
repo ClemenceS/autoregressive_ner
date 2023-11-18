@@ -14,3 +14,4 @@ python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_nam
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "medicalai/ClinicalBERT" --dataset_name "/mnt/beegfs/home/naguib/e3c_en" -d
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "Charangan/MedBERT" --dataset_name "/mnt/beegfs/home/naguib/e3c_en" -d
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "xlm-roberta-large" --dataset_name "/mnt/beegfs/home/naguib/e3c_en" -d
+python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "bert-base-multilingual-cased" --dataset_name "/mnt/beegfs/home/naguib/e3c_en" -d
