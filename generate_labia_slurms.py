@@ -2,6 +2,7 @@
 models = {
     "fr":{
         "camembert/camembert-large": "camembert",
+        "flaubert/flaubert_large_cased": "flaubert",
         "Dr-BERT/DrBERT-4GB": "drbert4",
         "Dr-BERT/DrBERT-7GB": "drbert7",
         "almanach/camembert-bio-base": "camembertbio",
@@ -53,7 +54,7 @@ fixed_header="""#!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
-#SBATCH --time=20:00:00
+#SBATCH --time=40:00:00
 #SBATCH --gres=gpu:1
 """
 line = 'python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "{model}" --dataset_name "{dataset}" {disk}'
@@ -88,8 +89,12 @@ for dataset in datasets['en']:
     generate_slurm(dataset, 'en')
 for dataset in datasets['es']:
     generate_slurm(dataset, 'es')
-model = "bert-base-multilingual-cased"
-generate_slurms_for_model(model)
+rem_models = [
+    "bert-base-multilingual-cased",
+    "flaubert/flaubert_large_cased",
+]
+for model in rem_models:
+    generate_slurms_for_model(model)
 
 
 ################################### CLMs ###################################
@@ -123,6 +128,7 @@ models = {
     "bofenghuang/vigogne-2-13b-instruct": "vigogne13",
     "EleutherAI/gpt-j-6B": "gptj6",
     "nomic-ai/gpt4all-j": "gpt4allj",
+    "gpt2-xl": "gpt2xl",
     "EleutherAI/gpt-neox-20b" : "gptneox20",
 }
 datasets = {
