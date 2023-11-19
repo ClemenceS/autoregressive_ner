@@ -143,8 +143,8 @@ def run_with_hyper_params(
     model_kwargs = {
         "num_beams": 3,
         "do_sample": False,
-        "temperature": 0.,
-        "top_p": 0.,
+        # "temperature": 0.,
+        # "top_p": 0.,
     }
     res_dict.update(model_kwargs)
 

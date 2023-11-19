@@ -5,7 +5,7 @@ from tqdm import tqdm
 from sklearn.model_selection import KFold
 from prompt_maker import example2string, make_prompts, get_yes_no_words
 from transformers import StoppingCriteria
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 from vllm import LLM, SamplingParams
 import logging
 import datetime
@@ -178,22 +178,18 @@ def predict_for_dataset(
             pre_outputs = llm.generate(model_prompts, sampling_params)
             outputs = [o.outputs[0].text for o in pre_outputs]
         else:
-            batch_size = 16
             outputs = []
-            for i in tqdm(range(0,len(model_prompts),batch_size)):
-                prompts_batch = model_prompts[i:i+batch_size]
-                input_tokens = tokenizer.batch_encode_plus(prompts_batch, return_tensors="pt", padding=True)
+            for i in tqdm(range(0,len(model_prompts))):
+                input_tokens = tokenizer.batch_encode_plus(model_prompts[i:i+1],return_tensors="pt", padding=True)
                 for t in input_tokens:
                     if torch.is_tensor(input_tokens[t]):
                         input_tokens[t] = input_tokens[t].to(torch.cuda.current_device())
-                output_batch = model.generate(**input_tokens, **model_kwargs, max_new_tokens=128)
-                input_tokens_lengths = [x.shape[0] for x in input_tokens.input_ids]
-                output_tokens_lengths = [x.shape[0] for x in output_batch]
-
-                total_new_tokens = [o-i for i,o in zip(input_tokens_lengths, output_tokens_lengths)]
-                outputs_batch = tokenizer.batch_decode(output_batch, skip_special_tokens=True)
-                outputs_batch = [o[:n] for o,n in zip(outputs_batch, total_new_tokens)]
-                outputs.extend(outputs_batch)
+                stopping_criteria = [Newline(check_start=len(input_tokens.input_ids[0]), newline_token=newline_token)]
+                generation_config = GenerationConfig.from_dict(model_kwargs)
+                output_batch = model.generate(**input_tokens, stopping_criteria=stopping_criteria, max_new_tokens=128, pad_token_id=tokenizer.pad_token_id, generation_config=generation_config)
+                output_batch = tokenizer.batch_decode(output_batch, skip_special_tokens=True)
+                cropped_outputs = [o[len(model_prompts[i]):] for o in output_batch]
+                outputs.extend(cropped_outputs)
     else:
         model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
         model_prompts = get_prompts_for_model(model_name, first_prompts)
@@ -274,23 +270,28 @@ def predict_for_dataset(
             top_k=-1,
             top_p=1,
         )
-        pre_outputs = llm.generate(verif_prompts, sampling_params)
-        verif_outputs = [o.outputs[0].text for o in pre_outputs]
-        for i, output in enumerate(verif_outputs):
-            if yes_no[1].lower() in output.lower():
-                sent_idx, ent_id = addresses[i]
-                predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
-        # batch_size = 4
-        # for i in tqdm(range(0,len(prompts),batch_size)):
-        #     prompts_batch = prompts[i:i+batch_size]
-        #     input_ids = tokenizer(prompts_batch, padding=True, return_tensors="pt").input_ids
-        #     input_ids = input_ids.to(device)
-        #     output_batch = model.generate(input_ids, max_new_tokens=1, output_scores=True, return_dict_in_generate=True)
-        #     for j in range(len(prompts_batch)):
-        #         scores = output_batch.scores[0][j][[yes_tok, no_tok]]
-        #         sent_idx, ent_id = addresses[i+j]
-        #         if scores[0]<scores[1]:
-        #             predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
+        if llm:
+            pre_outputs = llm.generate(verif_prompts, sampling_params)
+            verif_outputs = [o.outputs[0].text for o in pre_outputs]
+            for i, output in enumerate(verif_outputs):
+                if yes_no[1].lower() in output.lower():
+                    sent_idx, ent_id = addresses[i]
+                    predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
+        batch_size = 4
+        for i in tqdm(range(0,len(verif_prompts),batch_size)):
+            batch = verif_prompts[i:i+batch_size]
+            input_tokens = tokenizer.batch_encode_plus(batch,return_tensors="pt", padding=True)
+            for t in input_tokens:
+                if torch.is_tensor(input_tokens[t]):
+                    input_tokens[t] = input_tokens[t].to(torch.cuda.current_device())
+            stopping_criteria = [Newline(check_start=len(input_tokens.input_ids[0]), newline_token=newline_token)]
+            generation_config = GenerationConfig.from_dict(model_kwargs)
+            output_batch = model.generate(**input_tokens, stopping_criteria=stopping_criteria, max_new_tokens=128, pad_token_id=tokenizer.pad_token_id, generation_config=generation_config)
+            output_batch = tokenizer.batch_decode(output_batch, skip_special_tokens=True)
+            for j, output in enumerate(output_batch):
+                if yes_no[1].lower() in output.lower():
+                    sent_idx, ent_id = addresses[i+j]
+                    predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
     # if "vicuna" in model_name:
     #     timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     #     script_dir = os.path.dirname(__file__)
