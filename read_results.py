@@ -233,7 +233,7 @@ model_hierarchy = {
                 "languages" : "all",
             },
             {
-                "name": "biomedlm",
+                "name": "BioMedLM",
                 "clean_name": "BioMedLM",
                 "size": 7*B,
                 "languages" : "all",
