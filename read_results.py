@@ -62,7 +62,7 @@ model_hierarchy = {
                 "languages" : "french",
             },
             {
-                "name": "flaubert/flaubert_large_cased",
+                "name": "flaubert_large_cased",
                 "clean_name": "FlauBERT-large",
                 "size": 335*M,
                 "languages" : "french",
@@ -292,6 +292,8 @@ def read_jsons(path):
     df = df[df['test_on_test_set'] == True]
 
     initial_len = len(df)
+    #sort df by time_str
+    df = df.sort_values(by=["model_name", "dataset_name", "time_str"])
     df = df.drop_duplicates(subset=['model_name', 'dataset_name'], keep='last')
     final_len = len(df)
     print(f'Dropped {initial_len - final_len} duplicates.')

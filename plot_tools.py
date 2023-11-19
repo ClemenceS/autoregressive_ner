@@ -71,9 +71,6 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
     grid = sns.FacetGrid(
         scatter_df,
         col="model_language", 
-        hue="model_domain", 
-        hue_order=["General","", "Clinical"], 
-        palette=['#1f77b4', '#ff7f0e', '#2ca02c'], 
         col_wrap=3, 
         height=4, 
         aspect=1.5
@@ -84,6 +81,10 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
         "clinical_performance",
         size="model_size",
         style="model_type",
+        hue="model_domain", 
+        hue_order=["General","", "Clinical"], 
+        palette=['#1f77b4', '#ff7f0e', '#2ca02c'], 
+        
         markers={"Causal": 'o', "Masked": 's'},
         sizes=MARKER_SIZES,
         alpha=0.8
