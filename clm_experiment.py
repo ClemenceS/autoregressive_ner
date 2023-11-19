@@ -233,7 +233,7 @@ for feature_name, feature_value in possible_features.items():
         continue
     new_features = {feature_name: feature_value}
     #exceptionally, if the new feature is prompt_long_answer, we want to test it with one_step=False
-    if feature_name == "prompt_long_answer":
+    if feature_name == "prompt_long_answer" and "one_step" not in kept_features:
         new_features["one_step"] = False
     
     for k,v in new_features.items():
