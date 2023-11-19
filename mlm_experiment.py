@@ -123,7 +123,12 @@ model = InformationExtractor(
         sentence_balance_chars=(),  # try to avoid splitting between parentheses
         sentence_entity_overlap="split",  # raise when an entity spans more than one sentence
         word_regex=word_regex,  # regex to use to extract words (will be aligned with bert tokens), leave to None to use wordpieces as is
-        substitutions=(),  # Apply these regex substitutions on sentences before tokenizing
+        substitutions=[
+            ('\n', ' '),
+            ('`', ' '),
+            ('\"', ' '),
+            ('\'', ' '),
+        ] if "flaubert" in args.model_name else (),
         keep_bert_special_tokens=False,
         min_tokens=0,
         doc_context=False,
