@@ -15,6 +15,7 @@ models = {
         "medicalai/ClinicalBERT": "clinbert",
         "Charangan/MedBERT": "medbert",
         "xlm-roberta-large": "xlmr",
+        "emilyalsentzer/Bio_ClinicalBERT" : "bioclinbert",
         "bert-base-multilingual-cased" : "mbert",
     },
     "es":{
@@ -94,6 +95,7 @@ rem_models = [
     "bert-base-multilingual-cased",
     "flaubert/flaubert_large_cased",
     "PlanTL-GOB-ES/bsc-bio-ehr-es",
+    "emilyalsentzer/Bio_ClinicalBERT",
 ]
 for model in rem_models:
     generate_slurms_for_model(model)

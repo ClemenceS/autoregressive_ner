@@ -118,6 +118,12 @@ model_hierarchy = {
                 "languages" : "english",
             },
             {
+                "name": "Bio_ClinicalBERT",
+                "clean_name": "Bio_ClinicalBERT",
+                "size": 110*M,
+                "languages" : "english",
+            },
+            {
                 "name": "camembert-bio-base",
                 "clean_name": "CamemBERT-bio",
                 "size": 110*M,
