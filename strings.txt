@@ -430,7 +430,7 @@ These are names of persons such as real people or fictional characters.
 ---------------------
 Il s'agit des noms de personnes, qu'elles soient réelles ou fictives.
 ---------------------
-Estos son nombres de personas como personas reales o personajes ficticios.
+Estos son nombres de personas, ya sean reales o personajes ficticios.
 
 ==================== 9 ====================
 These are names of man-made structures such as infrastructure, buildings and monuments.
@@ -524,7 +524,7 @@ Il s'agit de tout ce qui, animé ou inanimé, affecte les sens. Ici, il s’agit
 Estas son palabras que se refieren a cualquier cosa animada o inanimada que afecte los sentidos, como objetos físicos fabricados.
 
 ==================== 22 ====================
-These are words that refer to a professional occipation or discipline.
+These are words that refer to a professional occupation or discipline.
 ---------------------
 
 ---------------------
@@ -535,14 +535,14 @@ These are words that refer to an organization such as healthcare related organiz
 ---------------------
 
 ---------------------
-Estas son palabras que se refieren a una organización como organizaciones relacionadas con la salud.
+Estas son palabras que se refieren a una organización, por ejemplo organizaciones relacionadas con la salud.
 
 ==================== 24 ====================
 These are words that refer to a phenomenon that occurs naturally or as a result of an activity, such as a biologic function.
 ---------------------
 Il s'agit d'un phénomène qui se produit naturellement ou à la suite d’une activité. Il s’agit principalement de fonctions biologiques.
 ---------------------
-Estas son palabras que se refieren a un fenómeno que ocurre naturalmente o como resultado de una actividad, como una función biológica.
+Estas son palabras que se refieren a un fenómeno que ocurre naturalmente o como resultado de una actividad, por ejemplo una función biológica.
 
 ==================== 25 ====================
 These are words that refer to any element that contributes to the mechanical, physical and biochemical functioning or organization of living organisms and their components.
@@ -577,7 +577,7 @@ These are test results, results of laboratory analyses, formulaic measurements, 
 ---------------------
 Il s'agit de résultats d’analyses de laboratoire, de mesures formelles, et de valeurs de mesure.
 ---------------------
-Estos son resultados de análisis de laboratorio, resultados de análisis de laboratorio, mediciones formales y valores de medición.
+Estos son resultados de análisis de laboratorio, mediciones formales y valores de medición.
 
 ==================== 30 ====================
 These are words that refer patients, healthcare professionals, or other actors relevant to the clinical history of a patient.
