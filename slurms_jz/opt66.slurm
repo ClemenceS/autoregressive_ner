@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH --job-name=biomedlm
-#SBATCH --output=biomedlm.out
-#SBATCH --error=biomedlm.out
+#SBATCH --job-name=opt66
+#SBATCH --output=opt66.out
+#SBATCH --error=opt66.out
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=20
@@ -15,7 +15,7 @@
 module purge
 module load llm
 
-model=/gpfswork/rech/lak/utb11pp/models/stanford-crfm/BioMedLM
+model=/gpfsdswork/dataset/HuggingFace_Models/facebook/opt-66b
 
 python3 $WORK/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name /gpfswork/rech/lak/utb11pp/data/conll2003  --n_gpus 2 -d
 python3 $WORK/autoregressive_ner/clm_experiment.py --model_name $model --dataset_name /gpfswork/rech/lak/utb11pp/data/emea  --n_gpus 2 -d

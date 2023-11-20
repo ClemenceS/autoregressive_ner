@@ -15,6 +15,7 @@ models = {
     "/gpfsdswork/dataset/HuggingFace_Models/bofenghuang/vigogne-2-13b-instruct": "vigogne13",
     "/gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-j-6B": "gptj6",
     "/gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-neo-2.7B/": "gptneo27",
+    "/gpfsdswork/dataset/HuggingFace_Models/facebook/opt-66b": "opt66",
 }
 datasets = {
     #local datasets

@@ -30,3 +30,4 @@ python3 $WORK/autoregressive_ner/clm_experiment.py --model_name /gpfsdswork/data
 python3 $WORK/autoregressive_ner/clm_experiment.py --model_name /gpfsdswork/dataset/HuggingFace_Models/bofenghuang/vigogne-2-13b-instruct --dataset_name /gpfswork/rech/lak/utb11pp/data/conll2002  --n_gpus 2 -d
 python3 $WORK/autoregressive_ner/clm_experiment.py --model_name /gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-j-6B --dataset_name /gpfswork/rech/lak/utb11pp/data/conll2002  --n_gpus 2 -d
 python3 $WORK/autoregressive_ner/clm_experiment.py --model_name /gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-neo-2.7B/ --dataset_name /gpfswork/rech/lak/utb11pp/data/conll2002  --n_gpus 2 -d
+python3 $WORK/autoregressive_ner/clm_experiment.py --model_name /gpfsdswork/dataset/HuggingFace_Models/facebook/opt-66b --dataset_name /gpfswork/rech/lak/utb11pp/data/conll2002  --n_gpus 2 -d
