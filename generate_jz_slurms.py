@@ -16,6 +16,7 @@ models = {
     "/gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-j-6B": "gptj6",
     "/gpfsdswork/dataset/HuggingFace_Models/EleutherAI/gpt-neo-2.7B/": "gptneo27",
     "/gpfsdswork/dataset/HuggingFace_Models/facebook/opt-66b": "opt66",
+    "/gpfsdswork/dataset/HuggingFace_Models/meta-llama/Llama-2-70b-hf": "llama70",
 }
 datasets = {
     #local datasets

@@ -217,13 +217,25 @@ model_hierarchy = {
                 "clean_name": "GPT2-XL",
                 "size": 1.5*B,
                 "languages" : "all",
-            }
+            },
             # {
             #     "name": "gpt-neox-20b",
             #     "clean_name": "GPT-NeoX-20B",
             #     "size": 20*B,
             #     "languages" : "all",
-            # }
+            # },
+            {
+                "name" : "opt-66b",
+                "clean_name": "OPT-66B",
+                "size": 66*B,
+                "languages" : "all",
+            },
+            {
+                "name": "Llama-2-70b-hf",
+                "clean_name": "LLAMA-70B",
+                "size": 70*B,
+                "languages" : "all",
+            },
         ],
         "Clinical":[
             {
