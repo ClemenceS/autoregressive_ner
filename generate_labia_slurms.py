@@ -24,6 +24,7 @@ models = {
         "xlm-roberta-large": "xlmr",
         "IIC/BETO_Galen" : "beto_galen",
         "bert-base-multilingual-cased" : "mbert",
+        "PlanTL-GOB-ES/bsc-bio-ehr-es" : "BSC_bio_ehr",
     },
 }
 datasets = {
@@ -92,6 +93,7 @@ for dataset in datasets['es']:
 rem_models = [
     "bert-base-multilingual-cased",
     "flaubert/flaubert_large_cased",
+    "PlanTL-GOB-ES/bsc-bio-ehr-es",
 ]
 for model in rem_models:
     generate_slurms_for_model(model)
