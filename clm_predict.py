@@ -277,21 +277,22 @@ def predict_for_dataset(
                 if yes_no[1].lower() in output.lower():
                     sent_idx, ent_id = addresses[i]
                     predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
-        batch_size = 4
-        for i in tqdm(range(0,len(verif_prompts),batch_size)):
-            batch = verif_prompts[i:i+batch_size]
-            input_tokens = tokenizer.batch_encode_plus(batch,return_tensors="pt", padding=True)
-            for t in input_tokens:
-                if torch.is_tensor(input_tokens[t]):
-                    input_tokens[t] = input_tokens[t].to(torch.cuda.current_device())
-            stopping_criteria = [Newline(check_start=len(input_tokens.input_ids[0]), newline_token=newline_token)]
-            generation_config = GenerationConfig.from_dict(model_kwargs)
-            output_batch = model.generate(**input_tokens, stopping_criteria=stopping_criteria, max_new_tokens=128, pad_token_id=tokenizer.pad_token_id, generation_config=generation_config)
-            output_batch = tokenizer.batch_decode(output_batch, skip_special_tokens=True)
-            for j, output in enumerate(output_batch):
-                if yes_no[1].lower() in output.lower():
-                    sent_idx, ent_id = addresses[i+j]
-                    predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
+        else:
+            batch_size = 4
+            for i in tqdm(range(0,len(verif_prompts),batch_size)):
+                batch = verif_prompts[i:i+batch_size]
+                input_tokens = tokenizer.batch_encode_plus(batch,return_tensors="pt", padding=True)
+                for t in input_tokens:
+                    if torch.is_tensor(input_tokens[t]):
+                        input_tokens[t] = input_tokens[t].to(torch.cuda.current_device())
+                stopping_criteria = [Newline(check_start=len(input_tokens.input_ids[0]), newline_token=newline_token)]
+                generation_config = GenerationConfig.from_dict(model_kwargs)
+                output_batch = model.generate(**input_tokens, stopping_criteria=stopping_criteria, max_new_tokens=128, pad_token_id=tokenizer.pad_token_id, generation_config=generation_config)
+                output_batch = tokenizer.batch_decode(output_batch, skip_special_tokens=True)
+                for j, output in enumerate(output_batch):
+                    if yes_no[1].lower() in output.lower():
+                        sent_idx, ent_id = addresses[i+j]
+                        predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
     # if "vicuna" in model_name:
     #     timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     #     script_dir = os.path.dirname(__file__)
