@@ -1,6 +1,6 @@
 import os
 
-def latex_data(df, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy):
+def latex_data(df, df_fully_sup, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy):
     df_table = df.pivot(index='model_name', columns='dataset_name', values='f1')
     lang_shortname = {"english": "en", "french": "fr", "spanish": "es", "all": "all"}
     #unsafe way to get the order of the datasets.. TODO: find a better way
@@ -34,6 +34,10 @@ def latex_data(df, output_folder, model_domains, model_types, dataset_names, mod
     latex += "\\cmidrule{3-" + str(len(ordered_datasets['en'])+2) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+3) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+2) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+3) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+len(ordered_datasets['es'])+2) + "}\n"
     latex += ("& Model & " + " & ".join(ordered_datasets['en']) + " & " + " & ".join(ordered_datasets['fr']) + " & " + " & ".join(ordered_datasets['es']) + " \\\\\n").replace('-en', '').replace('-fr', '').replace('-es', '')
     latex += "\\midrule\n"
+    latex += "\\midrule\n"
+    n_datasets = len(ordered_datasets['en']) + len(ordered_datasets['fr']) + len(ordered_datasets['es'])
+    latex += "\\multicolumn{" + str(n_datasets+2) + "}{l}{\\textit{Few-shot approaches}} \\\\\n"
+    latex += "\\midrule\n"
     n_causal = len(df_table[df_table.model_type == 'Causal'])
     latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1- " + df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
@@ -43,8 +47,17 @@ def latex_data(df, output_folder, model_domains, model_types, dataset_names, mod
     latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & "+ str(n_causal+1) + "- " + df_table.index[n_causal] + " & " + " & ".join([str(x) for x in df_table.iloc[n_causal][:-1]]) + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
         latex += " & " + str(i+n_causal+2) + "- " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+    latex += "\\midrule\n"
+    latex += "\\midrule\n"
+    latex += "\\multicolumn{" + str(n_datasets+2) + "}{l}{\\textit{Masked fully-supervised (skyline)}} \\\\\n"
+    latex += "\\midrule\n"
+    #PRINT FULLY SUPERVISED HERE TODO
+    # for i, (model_name, row) in enumerate(df_table.iloc[-3:].iterrows()):
+    #     latex += " & " + str(i+n_causal+n_masked+1) + "- " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
+    print('='*80)
+    print(df_fully_sup)
     with open(os.path.join(output_folder, 'results_table.tex'), 'w') as f:
         f.write(latex)
     

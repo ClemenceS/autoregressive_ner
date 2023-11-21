@@ -25,11 +25,12 @@ if not args.local:
     os.system(cmd1)
     os.system(cmd2)
     print('Done.')
-df = read_jsons(os.path.join(script_dir, 'results'))
+# df = read_jsons(os.path.join(script_dir, 'results'))
+df_few_shot, df_fully_supervised = read_jsons(os.path.join(script_dir, 'results'))
 
 output_folder = os.path.join(script_dir, 'result_tabs_and_plots')
 os.makedirs(output_folder, exist_ok=True)
 
-model_order = latex_data(df, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
+model_order = latex_data(df_few_shot, df_fully_supervised, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
 model_numbers = {model_order[i]:i+1 for i in range(len(model_order))}
-plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers)
+plot_data(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers)
