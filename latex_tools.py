@@ -2,14 +2,18 @@ import os
 
 def latex_data(df, df_fully_sup, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy):
     df_table = df.pivot(index='model_name', columns='dataset_name', values='f1')
+    df_fully_sup_table = df_fully_sup.pivot(index='model_name', columns='dataset_name', values='f1')
     lang_shortname = {"english": "en", "french": "fr", "spanish": "es", "all": "all"}
     #unsafe way to get the order of the datasets.. TODO: find a better way
     ordered_datasets = {lang_shortname[k]:list(v['General'].values())+list(v['Clinical'].values()) for k,v in dataset_hierarchy.items()}
     df_table = df_table.rename(columns=dataset_names)
+    df_fully_sup_table = df_fully_sup_table.rename(columns=dataset_names)
     for lang in ordered_datasets:
         for dataset in ordered_datasets[lang]:
             if dataset not in df_table.columns:
                 df_table[dataset] = '-'
+            if dataset not in df_fully_sup_table.columns:
+                df_fully_sup_table[dataset] = '-'
     for model in model_hierarchy['Causal']['General']+model_hierarchy['Causal']['Clinical']+model_hierarchy['Masked']['General']+model_hierarchy['Masked']['Clinical']:
         if model['name'] not in df_table.index:
             df_table.loc[model['name']] = '-'
@@ -19,6 +23,10 @@ def latex_data(df, df_fully_sup, output_folder, model_domains, model_types, data
     df_table['model_language'] = df_table.index.map(lambda x: model_langs[x])
     df_table['model_domain'] = df_table.index.map(lambda x: model_domains[x])
     df_table.index = df_table.index.map(lambda x: model_clean_names[x])
+    # df_fully_sup_table['model_type'] = df_fully_sup_table.index.map(lambda x: model_types[x])
+    # df_fully_sup_table['model_language'] = df_fully_sup_table.index.map(lambda x: model_langs[x])
+    # df_fully_sup_table['model_domain'] = df_fully_sup_table.index.map(lambda x: model_domains[x])
+    df_fully_sup_table.index = df_fully_sup_table.index.map(lambda x: model_clean_names[x])
     df_table = df_table.sort_values(by=['model_type', 'model_language', 'model_domain'], ascending=[True, True, False])
     df_table.drop(columns=['model_domain'], inplace=True)
     df_table = df_table.fillna('-')
@@ -51,9 +59,8 @@ def latex_data(df, df_fully_sup, output_folder, model_domains, model_types, data
     latex += "\\midrule\n"
     latex += "\\multicolumn{" + str(n_datasets+2) + "}{l}{\\textit{Masked fully-supervised (skyline)}} \\\\\n"
     latex += "\\midrule\n"
-    #PRINT FULLY SUPERVISED HERE TODO
-    # for i, (model_name, row) in enumerate(df_table.iloc[-3:].iterrows()):
-    #     latex += " & " + str(i+n_causal+n_masked+1) + "- " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+    for i, (model_name, row) in enumerate(df_fully_sup_table.iterrows()):
+        latex += " & " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row]) + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
     print('='*80)
