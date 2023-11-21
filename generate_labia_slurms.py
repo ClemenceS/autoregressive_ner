@@ -70,11 +70,13 @@ def generate_slurm(dataset, language):
         for model in models[language]:
             f.write(line.format(model=model, dataset=dataset, disk='-d' if dataset_short_name in disk else '') + "\n")
 
-def generate_slurms_for_model(model):
+def generate_slurms_for_model(model, full=False):
     for lang_models in models.values():
         if model in lang_models:
             model_short_name = lang_models[model]
             break
+    if full:
+        model_short_name += "_full"
     with open(f"slurms_labia/{model_short_name}.slurm", "w") as f:
         f.write(fixed_header.format(dataset=model_short_name))
         f.write("\n")    
@@ -82,23 +84,31 @@ def generate_slurms_for_model(model):
         if model in lang_models:        
             for dataset, dataset_short_name in datasets[language].items():
                 with open(f"slurms_labia/{model_short_name}.slurm", "a") as f:
-                    f.write(line.format(dataset=dataset, model=model, disk='-d' if dataset_short_name in disk else ''))
+                    f.write(line.format(dataset=dataset, model=model, disk='-d' if dataset_short_name in disk else '') + " -s \"-1\"" * full)
                     f.write("\n")
 
-for dataset in datasets['fr']:
-    generate_slurm(dataset, 'fr')
-for dataset in datasets['en']:
-    generate_slurm(dataset, 'en')
-for dataset in datasets['es']:
-    generate_slurm(dataset, 'es')
+# for dataset in datasets['fr']:
+#     generate_slurm(dataset, 'fr')
+# for dataset in datasets['en']:
+#     generate_slurm(dataset, 'en')
+# for dataset in datasets['es']:
+#     generate_slurm(dataset, 'es')
 rem_models = [
     "bert-base-multilingual-cased",
     "flaubert/flaubert_large_cased",
     "PlanTL-GOB-ES/bsc-bio-ehr-es",
     "emilyalsentzer/Bio_ClinicalBERT",
 ]
-for model in rem_models:
-    generate_slurms_for_model(model)
+# for model in rem_models:
+#     generate_slurms_for_model(model)
+
+models_for_fully_supervised = [
+    'roberta-large',
+    "camembert/camembert-large",
+    "dccuchile/bert-base-spanish-wwm-uncased",
+]
+for model in models_for_fully_supervised:
+    generate_slurms_for_model(model, full=True)
 
 
 ################################### CLMs ###################################
