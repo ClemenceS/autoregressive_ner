@@ -73,7 +73,10 @@ script_dir = os.path.dirname(__file__)
 os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
 
 #use args.partition_seed to randomly select a subset of the training data
-traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
+if args.training_size == -1:
+    traindev_dataset_this_seed = traindev_dataset
+else:
+    traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
 
 limit=0.8
 dataset.train_data = traindev_dataset_this_seed[:int(limit*len(traindev_dataset_this_seed))]
@@ -258,8 +261,9 @@ with logger.printer:
             logger=[
                 logger,
             ],
-            val_check_interval=args.training_size//2,
-            max_steps=1000,)
+            val_check_interval=args.training_size//2 if args.training_size!=-1 else 50,
+            max_steps=1000 if args.training_size!=-1 else 4000,
+        )
         trainer.fit(model, dataset)
         trainer.logger[0].finalize(True)
 
