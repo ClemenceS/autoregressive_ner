@@ -1,33 +1,33 @@
-\scalebox{0.7}{\begin{tabular}{ll}
+\scalebox{0.7}{\begin{tabular}{clll}
 \toprule
-Model & Type \\
+Type & Model & \# of parameters & Brief description of the training data \\
 \midrule
-LLAMA-70B & Causal \\
-Mistral-7B & Causal \\
-BLOOM-7B1 & Causal \\
-Falcon-40B & Causal \\
-GPT-J-6B & Causal \\
-OPT-66B & Causal \\
-Vicuna-13B & Causal \\
-Vicuna-7B & Causal \\
-BioMedLM & Causal \\
-Medalpaca-7B & Causal \\
-Vigogne-13B & Causal \\
+\multirow{11}{*}{\rotatebox[origin=c]{90}{Causal}} & BLOOM-7B1 & 7.0B & - \\
+ & BioMedLM & 7.0B & - \\
+ & Falcon-40B & 40.0B & - \\
+ & GPT-J-6B & 6.0B & - \\
+ & LLAMA-70B & 70.0B & - \\
+ & Medalpaca-7B & 7.0B & - \\
+ & Mistral-7B & 7.0B & Not shared yet. \\
+ & OPT-66B & 66.0B & - \\
+ & Vicuna-13B & 13.0B & - \\
+ & Vicuna-7B & 7.0B & - \\
+ & Vigogne-13B & 13.0B & - \\
 \midrule
-mBERT & Masked \\
-XLM-RoBERTa-large & Masked \\
-BERT-large & Masked \\
-RoBERTa-large & Masked \\
-Bio\_ClinicalBERT & Masked \\
-ClinicalBERT & Masked \\
-MedBERT & Masked \\
-CamemBERT-large & Masked \\
-FlauBERT-large & Masked \\
-DrBERT-4GB & Masked \\
-CamemBERT-bio & Masked \\
-BETO & Masked \\
-PatanaBERT & Masked \\
-TulioBERT & Masked \\
-BETO-Galen & Masked \\
+\multirow{15}{*}{\rotatebox[origin=c]{90}{Masked}} & BERT-large & 345.0M & - \\
+ & BETO & 110.0M & - \\
+ & BETO-Galen & 110.0M & - \\
+ & Bio\_ClinicalBERT & 110.0M & - \\
+ & CamemBERT-bio & 110.0M & - \\
+ & CamemBERT-large & 335.0M & - \\
+ & ClinicalBERT & 110.0M & - \\
+ & DrBERT-4GB & 4.0B & - \\
+ & FlauBERT-large & 335.0M & - \\
+ & MedBERT & 110.0M & - \\
+ & PatanaBERT & 110.0M & - \\
+ & RoBERTa-large & 355.0M & 160GB of text from CommonCrawl, a dataset of web crawl data. \\
+ & TulioBERT & 110.0M & - \\
+ & XLM-RoBERTa-large & 355.0M & - \\
+ & mBERT & 110.0M & - \\
 \bottomrule
 \end{tabular}}

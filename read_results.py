@@ -46,15 +46,10 @@ model_hierarchy = {
             {
                 "name": "roberta-large", 
                 "clean_name": "RoBERTa-large",
+                "description": "160GB of text from CommonCrawl, a dataset of web crawl data.",
                 "size": 355*M,
                 "languages" : "english",
             },
-            # {
-            #     "name": "camembert-base",
-            #     "clean_name": "CamemBERT-base",
-            #     "size": 110*M,
-            #     "languages" : "french",
-            # },
             {
                 "name": "camembert-large",
                 "clean_name": "CamemBERT-large",
@@ -135,12 +130,6 @@ model_hierarchy = {
                 "size": 4*B,
                 "languages" : "french",
             },
-            # {
-            #     "name": "DrBERT-7GB",
-            #     "clean_name": "DrBERT-7GB",
-            #     "size": 7*B,
-            #     "languages" : "french",
-            # },
             {
                 
                 "name": "BETO_Galen",
@@ -152,34 +141,17 @@ model_hierarchy = {
     },
     "Causal": {
         "General":[
-            # {
-            #     "name": "bloom-560m",
-            #     "clean_name": "BLOOM-560M",
-            #     "size": 560*M,
-            #     "languages" : "all",
-            # },
-            # {
-            #     "name": "Mistral-7B-Instruct-v0.1",
-            #     "clean_name": "Mistral-7B-Instruct",
-            #     "size": 7*B,
-            #     "languages" : "all",
-            # },
             {
                 "name": "bloom-7b1",
                 "clean_name": "BLOOM-7B1",
                 "size": 7*B,
                 "languages" : "all",
             },
-            # {
-            #     "name": "falcon-40b-instruct",
-            #     "clean_name": "Falcon-40B-Instruct",
-            #     "size": 40*B,
-            #     "languages" : "all",
-            # },
             {
                 "name": "Mistral-7B-v0.1",
                 "clean_name": "Mistral-7B",
                 "size": 7*B,
+                "description": "Not shared yet.",
                 "languages" : "all",
             },
             {
@@ -212,25 +184,7 @@ model_hierarchy = {
                 "size": 6*B,
                 "languages" : "all",
             },
-            # {
-            #     "name": "gpt4all-j",
-            #     "clean_name": "GPT4All-J",
-            #     "size": 6*B,
-            #     "languages" : "all",
-            # },
-            # {
-            #     "name": "gpt2-xl",
-            #     "clean_name": "GPT2-XL",
-            #     "size": 1.5*B,
-            #     "languages" : "all",
-            # },
-            # {
-            #     "name": "gpt-neox-20b",
-            #     "clean_name": "GPT-NeoX-20B",
-            #     "size": 20*B,
-            #     "languages" : "all",
-            # },
-            {
+           {
                 "name" : "opt-66b",
                 "clean_name": "OPT-66B",
                 "size": 66*B,
@@ -268,6 +222,7 @@ model_sizes = {}
 model_clean_names = {}
 dataset_names = {}
 model_langs = {}
+model_descriptions = {}
 for model_type in model_hierarchy:
     for model_domain in model_hierarchy[model_type]:
         for model in model_hierarchy[model_type][model_domain]:
@@ -277,6 +232,7 @@ for model_type in model_hierarchy:
             model_langs[model_name] = model['languages']
             model_sizes[model_name] = model['size']
             model_clean_names[model_name] = model['clean_name']
+            model_descriptions[model_name] = model['description'] if 'description' in model else '-'
 for lang in dataset_hierarchy:
     for domain in dataset_hierarchy[lang]:
         for dataset_name in dataset_hierarchy[lang][domain]:
