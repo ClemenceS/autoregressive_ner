@@ -3,37 +3,16 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 
-MARKER_SIZES = (100,2000)
-def add_text(ax, i, scatter_df):
+MARKER_SIZES = (200,4000)
+def add_text(ax, i, df):
     ax.text(
-        x=scatter_df.general_performance[i]-0.02 if scatter_df.model_type[i] == 'Masked' else scatter_df.general_performance[i]-0.01,
-        y=scatter_df.clinical_performance[i]-0.02,
-        s=scatter_df.model_number[i],
+        x=df.general_performance[i]-0.02 if df.model_type[i] == 'Masked' else df.general_performance[i]-0.01,
+        # y=scatter_df.clinical_performance[i]-0.02,
+        y=df.clinical_performance[i]-0.015,
+        s=df.model_number[i],
         fontdict=dict(color='black',size=10),
         # bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
     )
-    # e = 0.1
-    # below = True
-    # #if 3 or more models are too close, don't plot any
-    # if len(scatter_df[(scatter_df.general_performance>scatter_df.general_performance[i]-e) & (scatter_df.general_performance<scatter_df.general_performance[i]+e) & (scatter_df.clinical_performance>scatter_df.clinical_performance[i]-e) & (scatter_df.clinical_performance<scatter_df.clinical_performance[i]+e)]) > 3:
-    #     below = False
-    # if below:
-    #     ax.text(
-    #         x=scatter_df.general_performance[i]-0.07,
-    #         y=scatter_df.clinical_performance[i]-0.1,
-    #         s=scatter_df.model_name[i],
-    #         fontdict=dict(color='black',size=10),
-    #         bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
-    #     )
-    # else:
-    #     ax.text(
-    #         x=scatter_df.general_performance[i]-0.07,
-    #         y=scatter_df.clinical_performance[i]+0.05,
-    #         s=scatter_df.model_name[i],
-    #         fontdict=dict(color='black',size=10),
-    #         bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
-    #     )
-    pass
 
 def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers):
     scatter_data = []
@@ -61,48 +40,48 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
             })
 
     scatter_df = pd.DataFrame(scatter_data)
-    # model_numbers = {}
-    # for i, model_name in enumerate(scatter_df.model_name.unique()):
-    #     model_numbers[model_name] = i+1
-
     scatter_df['model_number'] = scatter_df['model_name'].map(lambda x: model_numbers[x])
 
+    for lang in ['english', 'french', 'spanish']:
+        # scatter_df_lang = scatter_df[scatter_df.model_language == lang]
+        # resetting the index to avoid the warning
+        plt.figure()
+        scatter_df_lang = scatter_df[scatter_df.model_language == lang].reset_index(drop=True)
+        sns.scatterplot(
+            data=scatter_df_lang,
+            x="general_performance",
+            y="clinical_performance",
+            size="model_size",
+            style="model_type",
+            hue="model_domain", 
+            hue_order=["General","", "Clinical"], 
+            palette=['#1f77b4', '#ff7f0e', '#2ca02c'], 
+            
+            markers={"Causal": 'o', "Masked": 's'},
+            sizes=MARKER_SIZES,
+            alpha=0.8
+            )
 
-    grid = sns.FacetGrid(
-        scatter_df,
-        col="model_language", 
-        col_wrap=3, 
-        height=4, 
-        aspect=1.5
-        )
-    grid.map_dataframe(
-        sns.scatterplot,
-        "general_performance",
-        "clinical_performance",
-        size="model_size",
-        style="model_type",
-        hue="model_domain", 
-        hue_order=["General","", "Clinical"], 
-        palette=['#1f77b4', '#ff7f0e', '#2ca02c'], 
+        #set limits
+        plt.xlim(0, 1)
+        plt.ylim(0, 1)
+        plt.xlabel('General Performance')
+        plt.ylabel('Clinical Performance')
+        #plot model names
+        for i in range(len(scatter_df_lang)):
+            if scatter_df_lang.general_performance[i]>0 and scatter_df_lang.clinical_performance[i]>0:
+                add_text(plt.gca(), i, scatter_df_lang)
+        #make the figure square
+        plt.gcf().set_figheight(6)
+        plt.gcf().set_figwidth(6)
+
+        h, l = plt.gca().get_legend_handles_labels()
+        #remove the size legend
+        h = h[:3] + h[-2:]
+        l = l[:3] + l[-2:]
         
-        markers={"Causal": 'o', "Masked": 's'},
-        sizes=MARKER_SIZES,
-        alpha=0.8
-        )
-    grid.set(xlim=(0, 1), ylim=(0, 1))
-    grid.set_titles("Language: {col_name}")
-    grid.set_axis_labels("General Performance", "Clinical Performance")
-    # grid.add_legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0., scatterpoints=1, labelspacing=3)
-    grid.fig.tight_layout(w_pad=1)
-    grid.fig.subplots_adjust(top=0.9)
-    grid.fig.suptitle("General vs Clinical NER Performance of Language Models")
-    #plot model names
-    for ax in grid.axes.flatten():
-        for i in range(len(scatter_df)):
-            if scatter_df.model_language[i] == ax.get_title().split(': ')[-1]:
-                if scatter_df.general_performance[i]>0 and scatter_df.clinical_performance[i]>0:
-                    add_text(ax, i, scatter_df)
-    #make the figure square
-    grid.fig.set_figheight(5)
-    grid.fig.set_figwidth(15)
-    grid.savefig(os.path.join(output_folder, f'scatterplot.png'), dpi=300)
+        ax = plt.gca()
+        ax.legend(h, l)
+
+        #show and save
+        plt.savefig(os.path.join(output_folder, f'scatter_{lang}.png'))
