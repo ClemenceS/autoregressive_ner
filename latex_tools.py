@@ -100,7 +100,7 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     n_masked = len(df_table[df_table.model_type == 'Masked'])
     print(df_table)
     #print a table with the model names
-    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex = "\\scalebox{1}{\\begin{tabular}"
     latex += "{clll}\n"
     latex += "\\toprule\n"
     latex += "Type & Model & \# of parameters & Brief description of the training data \\\\\n"
