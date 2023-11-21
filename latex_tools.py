@@ -23,9 +23,6 @@ def latex_data(df, df_fully_sup, output_folder, model_domains, model_types, data
     df_table['model_language'] = df_table.index.map(lambda x: model_langs[x])
     df_table['model_domain'] = df_table.index.map(lambda x: model_domains[x])
     df_table.index = df_table.index.map(lambda x: model_clean_names[x])
-    # df_fully_sup_table['model_type'] = df_fully_sup_table.index.map(lambda x: model_types[x])
-    # df_fully_sup_table['model_language'] = df_fully_sup_table.index.map(lambda x: model_langs[x])
-    # df_fully_sup_table['model_domain'] = df_fully_sup_table.index.map(lambda x: model_domains[x])
     df_fully_sup_table.index = df_fully_sup_table.index.map(lambda x: model_clean_names[x])
     df_table = df_table.sort_values(by=['model_type', 'model_language', 'model_domain'], ascending=[True, True, False])
     df_table.drop(columns=['model_domain'], inplace=True)
@@ -68,4 +65,20 @@ def latex_data(df, df_fully_sup, output_folder, model_domains, model_types, data
     with open(os.path.join(output_folder, 'results_table.tex'), 'w') as f:
         f.write(latex)
     
+
+    #print a table with the model names
+    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex += "{ll}\n"
+    latex += "\\toprule\n"
+    latex += "Model & Type \\\\\n"
+    latex += "\\midrule\n"
+    for i, (model_name, row) in enumerate(df_table.iloc[:n_causal].iterrows()):
+        latex += model_name.replace('_','\\_') + " & Causal \\\\\n"
+    latex += "\\midrule\n"
+    for i, (model_name, row) in enumerate(df_table.iloc[n_causal:].iterrows()):
+        latex += model_name.replace('_','\\_') + " & Masked \\\\\n"
+    latex += "\\bottomrule\n"
+    latex += "\\end{tabular}}"
+    with open(os.path.join(output_folder, 'model_names_table.tex'), 'w') as f:
+        f.write(latex)
     return df_table.index.tolist()
