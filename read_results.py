@@ -21,7 +21,7 @@ dataset_hierarchy = {
     "french": {
         "General": {
             "WikiNER-fr": "WikiNER-fr",
-            "quaerofrenchpress": "QFP",
+            "qfp": "QFP",
         },
         "Clinical": {
             "e3c_fr": "E3C-fr",
@@ -36,7 +36,7 @@ dataset_hierarchy = {
         },
         "Clinical": {
             "e3c_es": "E3C-es",
-            "CWL": "CWL",
+            "cwlc": "CWL",
         },
     },
 }
