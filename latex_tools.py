@@ -23,15 +23,25 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
     df_table['model_language'] = df_table.index.map(lambda x: model_langs[x])
     df_table['model_domain'] = df_table.index.map(lambda x: model_domains[x])
     df_table.index = df_table.index.map(lambda x: model_clean_names[x])
-    df_fully_sup_table.index = df_fully_sup_table.index.map(lambda x: model_clean_names[x])
     df_table = df_table.sort_values(by=['model_type', 'model_language', 'model_domain'], ascending=[True, True, False])
     df_table.drop(columns=['model_domain'], inplace=True)
     df_table = df_table.fillna('-')
+    
+    df_fully_sup_table['model_language'] = df_fully_sup_table.index.map(lambda x: model_langs[x])
+    df_fully_sup_table.index = df_fully_sup_table.index.map(lambda x: model_clean_names[x])
+    df_fully_sup_table = df_fully_sup_table.sort_values(by='model_language', ascending=True)
+    df_fully_sup_table.drop(columns='model_language', inplace=True)
+    df_fully_sup_table = df_fully_sup_table.fillna('-')
+    
 
     df_table = df_table.rename_axis(None, axis=1)
     df_table = df_table.rename_axis(None, axis=0)
 
     df_table = df_table[ordered_datasets['en'] + ordered_datasets['fr'] + ordered_datasets['es'] + ['model_type']]
+    df_fully_sup_table = df_fully_sup_table[ordered_datasets['en'] + ordered_datasets['fr'] + ordered_datasets['es']]
+    print('='*80)
+    print(df_fully_sup_table)
+    
     latex = "\\scalebox{0.7}{\\begin{tabular}"
     latex += "{ll|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
     # latex += "\\toprule\n"
@@ -60,8 +70,6 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
         latex += " & " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row]) + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
-    print('='*80)
-    print(df_fully_sup)
     with open(os.path.join(output_folder, 'results_table.tex'), 'w') as f:
         f.write(latex)
     
