@@ -31,6 +31,7 @@ datasets = {
     "/gpfswork/rech/lak/utb11pp/data/e3c_en": "e3cen",
     "/gpfswork/rech/lak/utb11pp/data/e3c_fr": "e3cfr",
     "/gpfswork/rech/lak/utb11pp/data/e3c_es": "e3ces",
+    "/gpfswork/rech/lak/utb11pp/data/cwlc": "cwlc",
 }
 fixed_header="""#!/bin/bash
 
@@ -72,7 +73,8 @@ for model in models:
     generate_slurm(model)
 
 remaining_datasets = [
-    "/gpfswork/rech/lak/utb11pp/data/conll2002"
+    "/gpfswork/rech/lak/utb11pp/data/conll2002",
+    "/gpfswork/rech/lak/utb11pp/data/cwlc",
 ]
 
 # with open(f"slurms_jz/conll2002.slurm", "w") as f:
