@@ -21,7 +21,7 @@ dataset_hierarchy = {
     "french": {
         "General": {
             "WikiNER-fr": "WikiNER-fr",
-            "qfp": "QFP",
+            "QFP": "QFP",
         },
         "Clinical": {
             "e3c_fr": "E3C-fr",

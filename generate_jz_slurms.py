@@ -32,6 +32,7 @@ datasets = {
     "/gpfswork/rech/lak/utb11pp/data/e3c_fr": "e3cfr",
     "/gpfswork/rech/lak/utb11pp/data/e3c_es": "e3ces",
     "/gpfswork/rech/lak/utb11pp/data/cwlc": "cwlc",
+    "/gpfswork/rech/lak/utb11pp/data/QFP": "qfp",
 }
 fixed_header="""#!/bin/bash
 
@@ -75,14 +76,9 @@ for model in models:
 remaining_datasets = [
     "/gpfswork/rech/lak/utb11pp/data/conll2002",
     "/gpfswork/rech/lak/utb11pp/data/cwlc",
+    "/gpfswork/rech/lak/utb11pp/data/QFP",
 ]
 
-# with open(f"slurms_jz/conll2002.slurm", "w") as f:
-#     f.write(fixed_header.format(script_name="conll2002"))
-#     f.write("\n")
-#     for model in models:
-#         f.write(line_any_model.format(model=model, dataset="conll2002"))
-        
 for dataset in remaining_datasets:
     with open(f"slurms_jz/{datasets[dataset]}.slurm", "w") as f:
         f.write(fixed_header.format(script_name=datasets[dataset]))

@@ -8,7 +8,7 @@ ner_tags_by_dataset = {
     # "e3c" : ["ACTOR", "BODYPART", "CLINENTITY", "EVENT", "RML", "TIMEX3"],
     "e3c" : ["ACTOR", "ANAT", "DISO", "EVENT", "RML", "TIMEX3"],
     "cwlc" : ["Abbreviation", "Body_Part", "Clinical_Finding", "Diagnostic_Procedure", "Disease", "Family_Member", "Laboratory_or_Test_Result", "Laboratory_Procedure", "Medication", "Procedure", "Sign_or_Symptom", "Therapeutic_Procedure"],
-    "QFP" : ["PER", "LOC", "ORG", "PROD", "FUNC"],
+    "QFP" : ["PER", "LOC", "ORG", "FAC", "FUNC"],
 }
 colnames_by_hf_dataset = {
     "WikiNER" : ("id", "words", "ner_tags"),

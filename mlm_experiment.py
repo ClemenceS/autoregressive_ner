@@ -64,10 +64,10 @@ for e in dataset.train_data:
     sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
     traindev_dataset.extend([s for s in sentences if 5 < len(s['text']) ])
 if "QFP" in args.dataset_name:
-    test_dataset = []
-    for e in dataset.test_data:
-        sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
-        test_dataset.extend([s for s in sentences if 5 < len(s['text']) ])
+    # for e in dataset.test_data:
+    #     sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
+    #     test_dataset.extend([s for s in sentences if 5 < len(s['text']) ])
+    test_dataset = [t for t in dataset.test_data if 5 < len(t['text'])]
 else:
     test_dataset = [t for t in dataset.test_data if 5 < len(t['text'])]
 ner_tags = get_dataset_ner_tags(args.dataset_name)
