@@ -34,6 +34,7 @@ datasets = {
         "/mnt/beegfs/home/naguib/medline": "medline",
         "mnaguib/WikiNER/fr": "wnfr",
         "/mnt/beegfs/home/naguib/e3c_fr": "e3cfr",
+        "/mnt/beegfs/home/naguib/QFP": "qfp",
     },
     "en":{
         "conll2003": "conll2003",
@@ -45,9 +46,10 @@ datasets = {
         "mnaguib/WikiNER/es": "wnes",
         "conll2002/es": "conll2002",
         "/mnt/beegfs/home/naguib/e3c_es": "e3ces",
+        "/mnt/beegfs/home/naguib/cwlc": "cwlc",
     },
 }
-disk = ['emea', 'medline', 'n2c2', 'e3cfr', 'e3cen', 'e3ces']
+disk = ['emea', 'medline', 'n2c2', 'e3cfr', 'e3cen', 'e3ces', 'cwlc', 'qfp']
 fixed_header="""#!/bin/bash
 
 #SBATCH --job-name={dataset}
@@ -87,12 +89,12 @@ def generate_slurms_for_model(model, full=False):
                     f.write(line.format(dataset=dataset, model=model, disk='-d' if dataset_short_name in disk else '') + " -s \"-1\"" * full)
                     f.write("\n")
 
-# for dataset in datasets['fr']:
-#     generate_slurm(dataset, 'fr')
-# for dataset in datasets['en']:
-#     generate_slurm(dataset, 'en')
-# for dataset in datasets['es']:
-#     generate_slurm(dataset, 'es')
+for dataset in datasets['fr']:
+    generate_slurm(dataset, 'fr')
+for dataset in datasets['en']:
+    generate_slurm(dataset, 'en')
+for dataset in datasets['es']:
+    generate_slurm(dataset, 'es')
 rem_models = [
     "bert-base-multilingual-cased",
     "flaubert/flaubert_large_cased",

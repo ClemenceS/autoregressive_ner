@@ -7,6 +7,8 @@ ner_tags_by_dataset = {
     "n2c2" : ["ACTI", "ANAT", "CHEM", "CONC", "DEVI", "DISO", "LIVB", "OBJC", "PHEN", "PHYS", "PROC"],
     # "e3c" : ["ACTOR", "BODYPART", "CLINENTITY", "EVENT", "RML", "TIMEX3"],
     "e3c" : ["ACTOR", "ANAT", "DISO", "EVENT", "RML", "TIMEX3"],
+    "cwlc" : ["Abbreviation", "Body_Part", "Clinical_Finding", "Diagnostic_Procedure", "Disease", "Family_Member", "Laboratory_or_Test_Result", "Laboratory_Procedure", "Medication", "Procedure", "Sign_or_Symptom", "Therapeutic_Procedure"],
+    "QFP" : ["PER", "LOC", "ORG", "PROD", "FUNC"],
 }
 colnames_by_hf_dataset = {
     "WikiNER" : ("id", "words", "ner_tags"),
@@ -26,20 +28,24 @@ language_by_dataset = {
     "conll2002" : "es",
     "medline" : "fr",
     "emea" : "fr",
+    "QFP" : "fr",
     "n2c2" : "en",
     "e3c_en" : "en",
     "e3c_fr" : "fr",
     "e3c_es" : "es",
+    "cwlc" : "es",
 }
 
 specialist_name_by_dataset = {
     "WikiNER" : "linguist",
     "conll2003" : "linguist",
     "conll2002" : "linguist",
+    "QFP" : "linguist",
     "medline" : "clinician",
     "emea" : "clinician",
     "n2c2" : "clinician",
     "e3c" : "clinician",
+    "cwlc" : "clinician",
 }
 
 

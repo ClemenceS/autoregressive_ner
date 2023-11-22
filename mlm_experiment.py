@@ -138,7 +138,7 @@ model = InformationExtractor(
         join_small_sentence_rate=0.,
         max_tokens=512,  # split when sentences contain more than 512 tokens
         large_sentences="equal-split",  # for these large sentences, split them in equal sub sentences < 512 tokens
-        empty_entities="raise",  # when an entity cannot be mapped to any word, raise
+        empty_entities="drop",  # when an entity cannot be mapped to any word, raise
         vocabularies={
             **{  # vocabularies to use, call .train() before initializing to fill/complete them automatically from training data
                 "entity_label": dict(module="vocabulary", values=sorted(dataset.labels()), with_unk=True, with_pad=False),
