@@ -25,6 +25,7 @@ args.add_argument("--model_name", type=str, default="gpt2", help="model name")
 args.add_argument('--no_write_log', dest='write_log', action='store_false')
 args.add_argument('-n', '--n_gpus', type=int, default=1)
 args.add_argument('--transformers', action="store_true")
+args.add_argument('--debug', action="store_true")
 
 #ABLATION ARGS
 args.add_argument('--control', action="store_true")
@@ -72,6 +73,11 @@ last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
 ner_tags = get_dataset_ner_tags(args.dataset_name)
 dataset_language = get_dataset_language(args.dataset_name)
 prompt_specialist_name = get_dataset_specialist_name(args.dataset_name)
+
+if args.debug:
+    traindev_dataset_this_seed = traindev_dataset_this_seed[:10]
+    test_dataset = test_dataset[:50]
+    args.training_size = 10
 
 metrics = MetricsCollection({
     "exact": DocumentEntityMetric(binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
@@ -187,8 +193,9 @@ def run_with_hyper_params(
     res_dict.update(metric_dict)
     logger.info(get_metrics_string(metric_dict, ner_tags))
     assert logfilename is not None #normally it should be defined
-    with open(logfilename, 'a') as logfile:
-        logfile.write(get_metrics_string(metric_dict, ner_tags))
+    if args.write_log:
+        with open(logfilename, 'a') as logfile:
+            logfile.write(get_metrics_string(metric_dict, ner_tags))
 
     if args.write_log:
         full_preds = full_preds_string(textual_outputs, predicted_dataset, test_dataset if test_on_test_set else traindev_dataset_this_seed, ner_tags)
