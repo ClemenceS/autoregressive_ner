@@ -127,8 +127,8 @@ def predict_for_dataset(
             )
             first_prompts.extend(first_prompts_ner_tag)
             self_verif_templates[ner_tag] = self_verif_template_ner_tag
-        logger.debug("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
-        logger.debug("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
+            logger.debug("Here is an example of a {} tag prompt :\n{}".format(ner_tag, first_prompts[-1]))
+            logger.debug("Here is an example of a self verification template :\n{}".format(self_verif_templates[ner_tag]))
     
     reference = testing_data if testing_data is not None else training_data
     newline_token = tokenizer.encode('\n', add_special_tokens=False)[-1]
