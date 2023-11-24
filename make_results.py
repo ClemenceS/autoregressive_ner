@@ -28,7 +28,7 @@ if not args.local:
 # df = read_jsons(os.path.join(script_dir, 'results'))
 df_few_shot, df_fully_supervised = read_jsons(os.path.join(script_dir, 'results'))
 
-output_folder = os.path.join(script_dir, 'result_tabs_and_plots')
+output_folder = os.path.join(script_dir, 'tabs_and_plots')
 os.makedirs(output_folder, exist_ok=True)
 
 model_order = latex_results(df_few_shot, df_fully_supervised, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
