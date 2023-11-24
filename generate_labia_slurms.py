@@ -162,6 +162,8 @@ datasets = {
     "/mnt/beegfs/home/naguib/e3c_es": "e3ces",
     "conll2002/es": "conll2002",
     "/mnt/beegfs/home/naguib/NCBI": "ncbi",
+    "/mnt/beegfs/home/naguib/cwlc": "cwlc",
+    "/mnt/beegfs/home/naguib/QFP": "qfp",
 }
 fixed_header="""#!/bin/bash
 
@@ -170,7 +172,7 @@ fixed_header="""#!/bin/bash
 #SBATCH --error={dataset}.out
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=48
+#SBATCH --cpus-per-task=24
 #SBATCH --time=45:00:00
 #SBATCH --gres=gpu:2
 
