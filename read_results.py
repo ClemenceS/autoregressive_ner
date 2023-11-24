@@ -265,6 +265,8 @@ def read_jsons(path):
     df['fully_supervised'] = df['training_size'].apply(lambda x: x != 100)
     #get only experiments where test_on_test_set is True
     df = df[df['test_on_test_set'] == True]
+    #get only experiments where listing is not True (either not included or False)
+    df = df[df['listing'] != True]
 
     initial_len = len(df)
     #sort df by time_str
