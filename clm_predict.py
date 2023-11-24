@@ -53,13 +53,23 @@ def get_all_ents(s, begin_tag, end_tag):
         s = remove_1st_level_ents(s, begin_tag=begin_tag, end_tag=end_tag)
     return entities
 
-def get_indices(ref_sentence, s, begin_tag, end_tag):
-    entities_indices = []
-    for e in get_all_ents(s, begin_tag=begin_tag, end_tag=end_tag):
-        index = ref_sentence.find(e)
-        if index!=-1:
-            entities_indices.append((index, index+len(e)))
-    return list(set(entities_indices))
+def get_indices(ref_sentence, s, begin_tag, end_tag, list_separator=", ", listing=False):
+    if not listing:
+        # s is a sentence where all entities are surrounded by begin_tag and end_tag
+        entities_indices = []
+        for e in get_all_ents(s, begin_tag=begin_tag, end_tag=end_tag):
+            index = ref_sentence.find(e)
+            if index!=-1:
+                entities_indices.append((index, index+len(e)))
+        return list(set(entities_indices))
+    else:
+        # s is a list_separator-separated list of entities
+        entities_indices = []
+        for e in s.split(list_separator):
+            index = ref_sentence.find(e)
+            if index!=-1:
+                entities_indices.append((index, index+len(e)))
+        return list(set(entities_indices))
 
 class Newline(StoppingCriteria):
     def __init__(self, check_start, newline_token):
@@ -84,6 +94,8 @@ def predict_for_dataset(
         end_tag,
         model_kwargs,
         random_seed,
+        listing,
+        list_separator,
         **kwargs):
     if not tokenizer:
         tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side='left')
@@ -105,6 +117,8 @@ def predict_for_dataset(
                     end_tag=end_tag,
                     one_step=one_step,
                     random_seed=random_seed,
+                    listing=listing,
+                    list_separator=list_separator,
                     **kwargs
                 )
                 first_prompts.extend(first_prompts_fold)
@@ -122,6 +136,8 @@ def predict_for_dataset(
                 begin_tag=begin_tag,
                 end_tag=end_tag,
                 one_step=one_step,
+                listing=listing,
+                list_separator=list_separator,
                 random_seed=random_seed,
                 **kwargs
             )
@@ -246,7 +262,7 @@ def predict_for_dataset(
                     }],
                 'text': reference[i%len(reference)]['text'][begin:end],
             }
-            for ent_idx, (begin, end) in enumerate(get_indices(reference[i%len(reference)]['text'], output, begin_tag, end_tag))
+            for ent_idx, (begin, end) in enumerate(get_indices(reference[i%len(reference)]['text'], output, begin_tag, end_tag, listing=listing, list_separator=list_separator))
         ])
     verif_prompts = []
     if not one_step:
@@ -256,7 +272,7 @@ def predict_for_dataset(
             for pred in predicted_example['entities']:
                 type = pred['label']
                 id = pred['entity_id']
-                prompting_sentence = example2string(predicted_example, type, begin_tag, end_tag, sticked=True, tagged=False)
+                prompting_sentence = example2string(predicted_example, type, begin_tag, end_tag, sticked=True, tagged=False, listing=listing)
                 verification_sentence = self_verif_templates[type].format(word=pred['text'], sentence=prompting_sentence)
                 sentences.append(verification_sentence)
                 addresses.append((i,id))

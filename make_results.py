@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from read_results import read_jsons, model_domains, model_types, model_sizes, model_clean_names, dataset_names, model_langs, model_descriptions
 from read_results import dataset_hierarchy, model_hierarchy
 from plot_tools import plot_data
-from latex_tools import latex_results, latex_models
+from latex_tools import latex_results, latex_models, latex_listing
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -25,13 +25,13 @@ if not args.local:
     os.system(cmd1)
     os.system(cmd2)
     print('Done.')
-# df = read_jsons(os.path.join(script_dir, 'results'))
 df_few_shot, df_fully_supervised = read_jsons(os.path.join(script_dir, 'results'))
 
 output_folder = os.path.join(script_dir, 'tabs_and_plots')
 os.makedirs(output_folder, exist_ok=True)
 
 model_order = latex_results(df_few_shot, df_fully_supervised, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
+latex_listing(df_few_shot, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
 latex_models(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_descriptions)
 model_numbers = {model_order[i]:i+1 for i in range(len(model_order))}
 plot_data(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers)

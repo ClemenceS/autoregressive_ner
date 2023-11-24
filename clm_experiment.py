@@ -32,6 +32,7 @@ args.add_argument('--control', action="store_true")
 args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
+args.add_argument('--listing', action="store_true")
 
 args = args.parse_args()
 random.seed(args.random_seed)
@@ -75,9 +76,9 @@ dataset_language = get_dataset_language(args.dataset_name)
 prompt_specialist_name = get_dataset_specialist_name(args.dataset_name)
 
 if args.debug:
-    traindev_dataset_this_seed = traindev_dataset_this_seed[:10]
+    traindev_dataset_this_seed = traindev_dataset_this_seed[:50]
     test_dataset = test_dataset[:50]
-    args.training_size = 10
+    args.training_size = 50
 
 metrics = MetricsCollection({
     "exact": DocumentEntityMetric(binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
@@ -108,7 +109,7 @@ def run_with_hyper_params(
         n_few_shot=5,
         one_step=True,
 
-        taggers="@@ ##",
+        taggers=("@@ ##",", "),
         prompt_youre_a_specialist=False,
         prompt_label_description=False,
 
@@ -122,13 +123,16 @@ def run_with_hyper_params(
     os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
     res_dict = {}
     assert len(taggers.split(' ')) == 2, "taggers must be a string with two words separated by a space"
-    begin_tag, end_tag = taggers.split(' ')
+    begin_tag, end_tag = taggers[0].split(' ')
+    list_separator = taggers[1]
 
     res_dict['dataset_name'] = last_two_dirs
     res_dict['begin_tag'] = begin_tag
     res_dict['end_tag'] = end_tag
     res_dict['model_name'] = args.model_name
     res_dict['training_size'] = args.training_size
+    res_dict['listing'] = args.listing
+    res_dict['list_separator'] = list_separator
     res_dict['partition_seed'] = args.partition_seed
     res_dict['random_seed'] = args.random_seed
     res_dict['control'] = args.control
@@ -167,6 +171,8 @@ def run_with_hyper_params(
         model_kwargs=model_kwargs,
         random_seed=args.random_seed,
         prompt_specialist_name=prompt_specialist_name,
+        listing=args.listing,
+        list_separator=list_separator,
         
         #hyperparams
         n_few_shot=n_few_shot,
@@ -214,7 +220,7 @@ possible_features = {
     "n_few_shot": 10,
     "one_step": False,
     
-    "taggers": "<< >>",
+    "taggers": ("<< >>", "\n"),
     "prompt_youre_a_specialist": True,
     "prompt_label_description": True,
 

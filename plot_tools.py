@@ -15,6 +15,7 @@ def add_text(ax, i, df):
     )
 
 def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers):
+    df = df[df['listing'] == False]
     scatter_data = []
     for language, df_lang in df.groupby('lang'):
         print(f'================{language}================')

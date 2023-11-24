@@ -18,7 +18,7 @@ dataset.test_data = [e for e in dataset.test_data if e['doc_id'].startswith("en"
 
 first_prompts_ner_tag, self_verif_template_ner_tag = make_prompts(
     dataset.train_data,
-    dataset.test_data[:10],
+    dataset.test_data[:5],
     ner_tag="PER",
     begin_tag="@@",
     end_tag="##",
@@ -26,10 +26,12 @@ first_prompts_ner_tag, self_verif_template_ner_tag = make_prompts(
     random_seed=42,
     prompt_specialist_name="w",
     n_few_shot=5,
+    list_separator=", ",
+    listing=True,
     prompt_language="en",
-    prompt_youre_a_specialist=False,
+    prompt_youre_a_specialist=True,
     prompt_label_description=False,
-    prompt_ask=False,
+    prompt_ask=True,
     prompt_long_answer=False,
     prompt_dash=False,
 )

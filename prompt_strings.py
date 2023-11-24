@@ -4,6 +4,8 @@ strings={
         "task_introduction_youre_a_specialist" : "You are an excellent {specialist}. You can identify all the mentions of {ner_tag_plural} in a sentence, by putting them in a specific format. {ner_tag_description} Here are some examples you can handle:\n",
         "ask": "Identify all the mentions of {ner_tag_plural} in the following sentence, by putting \"{begin_tag}\" in front and a \"{end_tag}\" behind each of them.\n",
         "ask_youre_a_specialist": "Continue. Identify all the mentions of {ner_tag_plural} in the following sentence, by putting \"{begin_tag}\" in front and a \"{end_tag}\" behind each of them.\n",
+        "ask_listing": "Identify all the mentions of {ner_tag_plural} in the following sentence, by listing them, separated by \"{list_separator}\".\n",
+        "ask_listing_youre_a_specialist": "Continue. Identify all the mentions of {ner_tag_plural} in the following sentence, by listing them, separated by \"{list_separator}\".\n",
         "input_word": "Input: ",
         "input_dash": "- ",
         "output_word": "Output: ",
@@ -136,6 +138,8 @@ strings={
         "task_introduction_youre_a_specialist" : "Tu es un excellent {specialist}. Tu sais identifier toutes les mentions {ner_tag_plural} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelues exemples que tu peux traiter :\n",
         "ask": "Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
         "ask_youre_a_specialist": "Continue. Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
+        "ask_listing": "Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en les listant, séparées par \"{list_separator}\".\n",
+        "ask_listing_youre_a_specialist": "Continue. Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en les listant, séparées par \"{list_separator}\".\n",
         "input_word": "Entrée : ",
         "input_dash": "- ",
         "output_word": "Sortie : ",
@@ -216,6 +220,8 @@ strings={
         "task_introduction_youre_a_specialist" : "Eres un excelente {specialist}. Puedes identificar todas las menciones de {ner_tag_plural} en una oración, poniéndolas en un formato específico. {ner_tag_description} Aquí hay algunos ejemplos que puedes manejar:\n",
         "ask": "Identifica todas las menciones de {ner_tag_plural} en la siguiente oración, poniendo \"{begin_tag}\" delante y \"{end_tag}\" detrás de cada una de ellas.\n",
         "ask_youre_a_specialist": "Continúa. Identifica todas las menciones de {ner_tag_plural} en la siguiente oración, poniendo \"{begin_tag}\" delante y \"{end_tag}\" detrás de cada una de ellas.\n",
+        "ask_listing": "Identifica todas las menciones de {ner_tag_plural} en la siguiente oración, listándolas, separadas por \"{list_separator}\".\n",
+        "ask_listing_youre_a_specialist": "Continúa. Identifica todas las menciones de {ner_tag_plural} en la siguiente oración, listándolas, separadas por \"{list_separator}\".\n",
         "input_word": "Entrada: ",
         "input_dash": "- ",
         "output_word": "Salida: ",
@@ -348,6 +354,7 @@ def get_prompt_strings(
         ask : bool,
         long_answer : bool,
         dash : bool,
+        listing : bool,
 ):
     """Parameters:
     - language : str
@@ -385,7 +392,16 @@ def get_prompt_strings(
         result["task_introduction_self_verif"] = strings[language]["task_introduction_self_verif"]
     result["self_verif_template"] = strings[language]["self_verif_template"]
     if ask:
-        result["ask"] = strings[language]["ask" if not youre_a_specialist else "ask_youre_a_specialist"]
+        if youre_a_specialist:
+            if listing:
+                result["ask"] = strings[language]["ask_listing_youre_a_specialist"]
+            else:
+                result["ask"] = strings[language]["ask_youre_a_specialist"]
+        else:
+            if listing:
+                result["ask"] = strings[language]["ask_listing"]
+            else:
+                result["ask"] = strings[language]["ask"]
     else:
         result["ask"] = ""
     if dash:
