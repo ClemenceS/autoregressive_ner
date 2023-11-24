@@ -181,14 +181,14 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
     latex += "\\midrule\n"
     latex += "\\midrule\n"
     n_datasets = len(ordered_datasets['en']) + len(ordered_datasets['fr']) + len(ordered_datasets['es'])
-    latex += " \\multicolumn{" + str(n_datasets+3) + "}{l}{\\textit{Listing prompts}} \\\\\n"
+    latex += " \\multicolumn{" + str(n_datasets+1) + "}{l}{\\textit{Listing prompts}} \\\\\n"
     latex += "\\midrule\n"
     latex += df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
     for model_name, row in df_table.iloc[1:].iterrows():
         latex += model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
     latex += "\\midrule\n"
     latex += "\\midrule\n"
-    latex += "\\multicolumn{" + str(n_datasets+3) + "}{l}{\\textit{Tagging prompts}} \\\\\n"
+    latex += "\\multicolumn{" + str(n_datasets+1) + "}{l}{\\textit{Tagging prompts}} \\\\\n"
     latex += "\\midrule\n"
     latex += df_base_table.index[0] + " & " + " & ".join([str(x) for x in df_base_table.iloc[0][:-1]]) + " \\\\\n"
     for model_name, row in df_base_table.iloc[1:].iterrows():

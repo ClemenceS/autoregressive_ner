@@ -15,7 +15,7 @@ dataset_hierarchy = {
         "Clinical": {
             "e3c_en": "E3C-en",
             "n2c2": "n2c2",
-            "i2b2": "i2b2",
+            "NCBI": "NCBI",
         },
     },
     "french": {
