@@ -5,7 +5,7 @@
 #SBATCH --error=qfp.out
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=24
+#SBATCH --cpus-per-task=16
 #SBATCH --time=40:00:00
 #SBATCH --gres=gpu:1
 

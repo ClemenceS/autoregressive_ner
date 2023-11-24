@@ -41,6 +41,7 @@ datasets = {
         "/mnt/beegfs/home/naguib/n2c2": "n2c2",
         "mnaguib/WikiNER/en": "wnen",
         "/mnt/beegfs/home/naguib/e3c_en": "e3cen",
+        "/mnt/beegfs/home/naguib/NCBI": "ncbi",
         },
     "es":{
         "mnaguib/WikiNER/es": "wnes",
@@ -49,7 +50,7 @@ datasets = {
         "/mnt/beegfs/home/naguib/cwlc": "cwlc",
     },
 }
-disk = ['emea', 'medline', 'n2c2', 'e3cfr', 'e3cen', 'e3ces', 'cwlc', 'qfp']
+disk = ['emea', 'medline', 'n2c2', 'e3cfr', 'e3cen', 'e3ces', 'cwlc', 'qfp', 'ncbi']
 fixed_header="""#!/bin/bash
 
 #SBATCH --job-name={dataset}
@@ -160,6 +161,7 @@ datasets = {
     "/mnt/beegfs/home/naguib/e3c_fr": "e3cfr",
     "/mnt/beegfs/home/naguib/e3c_es": "e3ces",
     "conll2002/es": "conll2002",
+    "/mnt/beegfs/home/naguib/NCBI": "ncbi",
 }
 fixed_header="""#!/bin/bash
 

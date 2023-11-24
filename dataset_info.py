@@ -9,6 +9,7 @@ ner_tags_by_dataset = {
     "e3c" : ["ACTOR", "ANAT", "DISO", "EVENT", "RML", "TIMEX3"],
     "cwlc" : ["Abbreviation", "Body_Part", "Clinical_Finding", "Diagnostic_Procedure", "Disease", "Family_Member", "Laboratory_or_Test_Result", "Laboratory_Procedure", "Medication", "Procedure", "Sign_or_Symptom", "Therapeutic_Procedure"],
     "QFP" : ["PER", "LOC", "ORG", "FAC", "FUNC"],
+    "NCBI" : ['CompositeMention', 'DiseaseClass', 'Modifier', 'SpecificDisease'],
 }
 colnames_by_hf_dataset = {
     "WikiNER" : ("id", "words", "ner_tags"),
@@ -34,6 +35,7 @@ language_by_dataset = {
     "e3c_fr" : "fr",
     "e3c_es" : "es",
     "cwlc" : "es",
+    "NCBI" : "en",
 }
 
 specialist_name_by_dataset = {
@@ -46,6 +48,7 @@ specialist_name_by_dataset = {
     "n2c2" : "clinician",
     "e3c" : "clinician",
     "cwlc" : "clinician",
+    "NCBI" : "clinician",
 }
 
 

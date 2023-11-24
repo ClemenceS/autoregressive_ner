@@ -13,3 +13,4 @@ python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_nam
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "roberta-large" --dataset_name "/mnt/beegfs/home/naguib/n2c2" -d -s "-1"
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "roberta-large" --dataset_name "mnaguib/WikiNER/en"  -s "-1"
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "roberta-large" --dataset_name "/mnt/beegfs/home/naguib/e3c_en" -d -s "-1"
+python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "roberta-large" --dataset_name "/mnt/beegfs/home/naguib/NCBI" -d -s "-1"
