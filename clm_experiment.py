@@ -122,7 +122,8 @@ def run_with_hyper_params(
     folder_name = 'results'
     os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
     res_dict = {}
-    assert len(taggers.split(' ')) == 2, "taggers must be a string with two words separated by a space"
+    assert len(taggers) == 2, "taggers must be a tuple of two strings"
+    assert len(taggers[0].split(' ')) == 2, "taggers must be a string with two words separated by a space"
     begin_tag, end_tag = taggers[0].split(' ')
     list_separator = taggers[1]
 
