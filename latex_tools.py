@@ -111,7 +111,7 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     latex = "\\scalebox{1}{\\begin{tabular}"
     latex += "{clll}\n"
     latex += "\\toprule\n"
-    latex += "& Model & \# of parameters & Brief description of the training data \\\\\n"
+    latex += "& Model & \makecell{Number of\\\\ parameters} & Brief description of the training data \\\\\n"
     latex += "\\midrule\n"
     latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & " + df_table.index[0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_description'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
