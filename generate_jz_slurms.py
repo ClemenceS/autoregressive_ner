@@ -33,6 +33,7 @@ datasets = {
     "/gpfswork/rech/lak/utb11pp/data/e3c_es": "e3ces",
     "/gpfswork/rech/lak/utb11pp/data/cwlc": "cwlc",
     "/gpfswork/rech/lak/utb11pp/data/QFP": "qfp",
+    "/gpfswork/rech/lak/utb11pp/data/ncbi": "ncbi",
 }
 fixed_header="""#!/bin/bash
 
@@ -77,6 +78,7 @@ remaining_datasets = [
     "/gpfswork/rech/lak/utb11pp/data/conll2002",
     "/gpfswork/rech/lak/utb11pp/data/cwlc",
     "/gpfswork/rech/lak/utb11pp/data/QFP",
+    "/gpfswork/rech/lak/utb11pp/data/ncbi",
 ]
 
 for dataset in remaining_datasets:

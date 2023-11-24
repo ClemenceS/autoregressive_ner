@@ -137,6 +137,12 @@ model_hierarchy = {
                 "size": 110*M,
                 "languages" : "spanish",
             },
+            {
+                "name": "bsc-bio-ehr-es",
+                "clean_name": "BSC-BioEHR",
+                "size": 110*M,
+                "languages" : "spanish",
+            }
         ],
     },
     "Causal": {
