@@ -119,6 +119,7 @@ def predict_for_dataset(
                     random_seed=random_seed,
                     listing=listing,
                     list_separator=list_separator,
+                    medalpaca="medalpaca" in model_name,
                     **kwargs
                 )
                 first_prompts.extend(first_prompts_fold)
@@ -139,6 +140,7 @@ def predict_for_dataset(
                 listing=listing,
                 list_separator=list_separator,
                 random_seed=random_seed,
+                medalpaca="medalpaca" in model_name,
                 **kwargs
             )
             first_prompts.extend(first_prompts_ner_tag)
