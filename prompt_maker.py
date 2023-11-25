@@ -109,7 +109,6 @@ def make_prompts(
         prompt_ask,
         prompt_long_answer,
         prompt_dash,
-        medalpaca=False,
     ):
 
     few_shots_for_all = get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, one_step, random_seed)
@@ -118,34 +117,22 @@ def make_prompts(
     prompts = []
     for p in range(len(test_dataset)):
         prompt=""
-        if medalpaca:
-            prompt+="Context: "
-        prompt+=introduce(keywords, ner_tag, prompt_specialist_name)+"\n"
+        prompt+=introduce(keywords, ner_tag, prompt_specialist_name)
         few_shots= few_shots_for_all[p]
         random.shuffle(few_shots)
         for i in few_shots:
             prompt+=demonstrate(train_dataset[i], ner_tag, begin_tag, end_tag, keywords, list_separator, listing)
-        if medalpaca:
-            prompt+="\n\nQuestion: "
         prompt+=ask(test_dataset[p], ner_tag, begin_tag, end_tag, keywords, list_separator, listing)
-        if medalpaca:
-            prompt+="\n\nAnswer: "
         prompts.append(prompt) 
     
     if one_step:
         return prompts, None
     
     self_verification_template = ""
-    if medalpaca:
-        self_verification_template+="Context: "
-    self_verification_template+= keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist=prompt_specialist_name)+"\n"
+    self_verification_template+= keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist=prompt_specialist_name)
     examples = get_self_verif_examples(train_dataset, ner_tag, n_few_shot, begin_tag, end_tag, list_separator, listing)
     for example, pred, label in examples:
         self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag]).format(word=pred,sentence=example,)+keywords[label].format(word=pred, ner_tag_sing=keywords['ner_tags_names'][ner_tag])+"\n"
-    if medalpaca:
-        self_verification_template+="\n\nQuestion: "
     self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag])
-    if medalpaca:
-        self_verification_template+="\n\nAnswer: "
-
+    
     return prompts, self_verification_template
