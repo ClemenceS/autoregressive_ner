@@ -109,6 +109,7 @@ def make_prompts(
         prompt_ask,
         prompt_long_answer,
         prompt_dash,
+        medalpaca=False,
     ):
 
     few_shots_for_all = get_first_prompt_examples_for_all(train_dataset, test_dataset, ner_tag, n_few_shot, one_step, random_seed)
@@ -117,12 +118,18 @@ def make_prompts(
     prompts = []
     for p in range(len(test_dataset)):
         prompt=""
+        if medalpaca:
+            prompt+="Context: "
         prompt+=introduce(keywords, ner_tag, prompt_specialist_name)+"\n"
         few_shots= few_shots_for_all[p]
         random.shuffle(few_shots)
         for i in few_shots:
             prompt+=demonstrate(train_dataset[i], ner_tag, begin_tag, end_tag, keywords, list_separator, listing)
+        if medalpaca:
+            prompt+="\n\nQuestion: "
         prompt+=ask(test_dataset[p], ner_tag, begin_tag, end_tag, keywords, list_separator, listing)
+        if medalpaca:
+            prompt+="\n\nAnswer: "
         prompts.append(prompt) 
     
     if one_step:
