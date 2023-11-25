@@ -135,10 +135,17 @@ def make_prompts(
     if one_step:
         return prompts, None
     
-    self_verification_template = keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names_in_plural'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist=prompt_specialist_name)+"\n"
+    self_verification_template = ""
+    if medalpaca:
+        self_verification_template+="Context: "
+    self_verification_template+= keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist=prompt_specialist_name)+"\n"
     examples = get_self_verif_examples(train_dataset, ner_tag, n_few_shot, begin_tag, end_tag, list_separator, listing)
     for example, pred, label in examples:
         self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag]).format(word=pred,sentence=example,)+keywords[label].format(word=pred, ner_tag_sing=keywords['ner_tags_names'][ner_tag])+"\n"
+    if medalpaca:
+        self_verification_template+="\n\nQuestion: "
     self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag])
+    if medalpaca:
+        self_verification_template+="\n\nAnswer: "
 
     return prompts, self_verification_template
