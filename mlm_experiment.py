@@ -28,7 +28,7 @@ args.add_argument("--dataset_name", type=str, default="/people/mnaguib/medline",
 args.add_argument('-d', "--load_dataset_from_disk", action="store_true")
 args.add_argument("--model_name", type=str, default="camembert-base", help="model name")
 args.add_argument('--random_seed', type=int, default=42)
-args.add_argument('--partition_seed', type=int, default=1)
+args.add_argument('-p','--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('-l', '--bert_lr', type=float, default=4e-5)
 # args.add_argument('-t', '--test_on_test_set', action="store_true")

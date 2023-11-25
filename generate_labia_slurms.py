@@ -103,6 +103,7 @@ rem_models = [
     "PlanTL-GOB-ES/bsc-bio-ehr-es",
     "PlanTL-GOB-ES/bsc-bio-es",
     "emilyalsentzer/Bio_ClinicalBERT",
+    "xlm-roberta-large",
 ]
 for model in rem_models:
     generate_slurms_for_model(model)

@@ -212,11 +212,9 @@ def latex_sampling(df, dataset_names, model_clean_names, output_folder):
     df = df[df.partition_seed.isin(p_values)]
     df = df[df.model_name.isin(studied_models)]
     df = df[df.dataset_name.isin(studied_datasets)]
-    print(df)
     df['dataset_partition'] = df['dataset_name'] + ' ' + df['partition_seed'].astype(str)
     df['model_training_size'] = df['model_name'] + ' ' + df['training_size'].astype(str)
     df_table = df.pivot(index='model_training_size', columns='dataset_partition', values='f1')
-    print(df_table)
     df_table = df_table.reindex(sorted(df_table.columns), axis=1)
     
     #if a model/training size is missing, add it with a NaN value

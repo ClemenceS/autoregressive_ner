@@ -30,7 +30,7 @@ args.add_argument('--debug', action="store_true")
 #ABLATION ARGS
 args.add_argument('--control', action="store_true")
 args.add_argument('--random_seed', type=int, default=42)
-args.add_argument('--partition_seed', type=int, default=1)
+args.add_argument('-p','--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('--listing', action="store_true")
 
