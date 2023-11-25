@@ -54,6 +54,10 @@ strings={
             "Procedure" : "procedures",
             "Sign_or_Symptom" : "signs or symptoms",
             "Therapeutic_Procedure" : "therapeutic procedures",
+            "CompositeMention" : "composite mentions of diseases",
+            "DiseaseClass" : "disease classes",
+            "Modifier" : "modifiers",
+            "SpecificDisease" : "diseases",
             },
         'ner_tags_names' : {
             'PER' : "a person's name",
@@ -92,6 +96,10 @@ strings={
             "Procedure" : "a procedure",
             "Sign_or_Symptom" : "a sign or symptom",
             "Therapeutic_Procedure" : "a therapeutic procedure",
+            "CompositeMention" : "a composite mention of diseases",
+            "DiseaseClass" : "a disease class",
+            "Modifier" : "a modifier of diseases",
+            "SpecificDisease" : "a disease",
 
             },
         'ner_tags_description' : {
@@ -131,6 +139,10 @@ strings={
             "Procedure" : "These are words that refer to activities derived from the care and care of patients.",
             "Sign_or_Symptom" : "These are words that refer to manifestations of a disease, determined by medical examination or perceived and expressed by the patient.",
             "Therapeutic_Procedure" : "These are words that refer to activities or treatments that are used to prevent, repair, eliminate or cure the individual's disease.",
+            "CompositeMention" : "These are words that refer to mentions of multiple diseases, such as \"colorectal, endometrial, and ovarian cancers\".",
+            "DiseaseClass" : "These are words that refer to classes of diseases, such as \"an autosomal recessive disease\".",
+            "Modifier" : "These are words that refer to modifiers of diseases, such as \"primary\" or \"C7-deficient\".",
+            "SpecificDisease" : "These are words that refer to specific diseases, such as \"diastrophic dysplasia\".",
             }
     },
     "fr":{

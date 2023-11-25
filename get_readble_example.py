@@ -22,7 +22,7 @@ first_prompts_ner_tag, self_verif_template_ner_tag = make_prompts(
     ner_tag="PER",
     begin_tag="@@",
     end_tag="##",
-    one_step=True,
+    one_step=False,
     random_seed=42,
     prompt_specialist_name="w",
     n_few_shot=5,
@@ -36,3 +36,4 @@ first_prompts_ner_tag, self_verif_template_ner_tag = make_prompts(
     prompt_dash=False,
 )
 print(first_prompts_ner_tag[0])
+print(self_verif_template_ner_tag[0])

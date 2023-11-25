@@ -130,13 +130,25 @@ model_hierarchy = {
                 "size": 4*B,
                 "languages" : "french",
             },
-            {
+            # {
                 
-                "name": "BETO_Galen",
-                "clean_name": "BETO-Galen",
+            #     "name": "BETO_Galen",
+            #     "clean_name": "BETO-Galen",
+            #     "size": 110*M,
+            #     "languages" : "spanish",
+            # },
+            {
+                "name": "bsc-bio-ehr-es",
+                "clean_name": "BSC-BioEHR",
                 "size": 110*M,
                 "languages" : "spanish",
             },
+            {
+                "name": "bsc-bio-es",
+                "clean_name": "BSC-Bio",
+                "size": 110*M,
+                "languages" : "spanish",
+            }
         ],
     },
     "Causal": {
