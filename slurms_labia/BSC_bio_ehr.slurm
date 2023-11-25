@@ -12,3 +12,4 @@
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "PlanTL-GOB-ES/bsc-bio-ehr-es" --dataset_name "mnaguib/WikiNER/es" 
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "PlanTL-GOB-ES/bsc-bio-ehr-es" --dataset_name "conll2002/es" 
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "PlanTL-GOB-ES/bsc-bio-ehr-es" --dataset_name "/mnt/beegfs/home/naguib/e3c_es" -d
+python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "PlanTL-GOB-ES/bsc-bio-ehr-es" --dataset_name "/mnt/beegfs/home/naguib/cwlc" -d

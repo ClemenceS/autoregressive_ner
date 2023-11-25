@@ -26,6 +26,7 @@ models = {
         "IIC/BETO_Galen" : "beto_galen",
         "bert-base-multilingual-cased" : "mbert",
         "PlanTL-GOB-ES/bsc-bio-ehr-es" : "BSC_bio_ehr",
+        "PlanTL-GOB-ES/bsc-bio-es" : "BSC_bio",
     },
 }
 datasets = {
@@ -100,10 +101,11 @@ rem_models = [
     "bert-base-multilingual-cased",
     "flaubert/flaubert_large_cased",
     "PlanTL-GOB-ES/bsc-bio-ehr-es",
+    "PlanTL-GOB-ES/bsc-bio-es",
     "emilyalsentzer/Bio_ClinicalBERT",
 ]
-# for model in rem_models:
-#     generate_slurms_for_model(model)
+for model in rem_models:
+    generate_slurms_for_model(model)
 
 models_for_fully_supervised = [
     'roberta-large',

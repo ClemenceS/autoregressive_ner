@@ -13,3 +13,4 @@ python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_nam
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "flaubert/flaubert_large_cased" --dataset_name "/mnt/beegfs/home/naguib/medline" -d
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "flaubert/flaubert_large_cased" --dataset_name "mnaguib/WikiNER/fr" 
 python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "flaubert/flaubert_large_cased" --dataset_name "/mnt/beegfs/home/naguib/e3c_fr" -d
+python3 /mnt/beegfs/home/naguib/autoregressive_ner/mlm_experiment.py --model_name "flaubert/flaubert_large_cased" --dataset_name "/mnt/beegfs/home/naguib/QFP" -d
