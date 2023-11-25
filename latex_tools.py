@@ -4,6 +4,7 @@ from itertools import product
 def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy, output_name='results_table.tex'):
     df = df[df.listing == False]
     df = df[df.partition_seed == 1]
+    df = df[df.training_size == 100]
     df_table = df.pivot(index='model_name', columns='dataset_name', values='f1')
     lang_shortname = {"english": "en", "french": "fr", "spanish": "es", "all": "all"}
     #unsafe way to get the order of the datasets.. TODO: find a better way
