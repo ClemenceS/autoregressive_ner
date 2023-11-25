@@ -274,7 +274,7 @@ def read_jsons(path):
     df['model_clean_name'] = df['model_name'].apply(lambda name: model_clean_names[name])
     df['f1'] = df['exact'].apply(lambda x: round(x['f1'],3))
     df['lang'] = df['dataset_name'].apply(lambda name: dataset_langs[name])
-    df['fully_supervised'] = df['training_size'].apply(lambda x: x != 100)
+    df['fully_supervised'] = df['training_size'].apply(lambda x: x == -1)
     df['listing'] = df['listing'].fillna(False)
     #get only experiments where test_on_test_set is True
     df = df[df['test_on_test_set'] == True]
@@ -282,7 +282,7 @@ def read_jsons(path):
     initial_len = len(df)
     #sort df by time_str
     df = df.sort_values(by=["model_name", "dataset_name", "time_str"])
-    df = df.drop_duplicates(subset=['model_name', 'dataset_name', 'fully_supervised', 'listing'], keep='last')
+    df = df.drop_duplicates(subset=['model_name', 'dataset_name', 'fully_supervised', 'listing', 'training_size', 'partition_seed'], keep='last') #keep last to keep the best result
     final_len = len(df)
     print(f'Dropped {initial_len - final_len} duplicates.')
     df_few_shot = df[df['fully_supervised'] == False]

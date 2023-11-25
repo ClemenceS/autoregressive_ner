@@ -14,22 +14,24 @@ def add_text(ax, i, df):
         # bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
     )
 
-def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers):
+def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers, print=False):
     df = df[df['listing'] == False]
     scatter_data = []
     for language, df_lang in df.groupby('lang'):
-        print(f'================{language}================')
+        if print:
+            print(f'================{language}================')
         for model_name, model_performance in df_lang.groupby('model_name'):
             model_name = model_name.split('/')[-1]
             model_domain = model_domains[model_name]
             model_type = model_types[model_name]
             model_size = model_sizes[model_name]
-            print(f'------------{model_clean_names[model_name]}------------')
-            print(model_performance[['dataset_name','f1']])
             general_performance = model_performance[model_performance['dataset_domain'] == 'General']['f1'].mean()
             clinical_performance = model_performance[model_performance['dataset_domain'] == 'Clinical']['f1'].mean()
-            print(f'=== General: {general_performance} - Clinical: {clinical_performance} ===')
-            print()
+            if print:
+                print(f'------------{model_clean_names[model_name]}------------')
+                print(model_performance[['dataset_name','f1']])
+                print(f'=== General: {general_performance} - Clinical: {clinical_performance} ===')
+                print()
             scatter_data.append({
                 'model_name': model_clean_names[model_name],
                 'model_domain': model_domain,

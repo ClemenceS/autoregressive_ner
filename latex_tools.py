@@ -1,7 +1,9 @@
 import os
+from itertools import product
 
 def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy, output_name='results_table.tex'):
     df = df[df.listing == False]
+    df = df[df.partition_seed == 1]
     df_table = df.pivot(index='model_name', columns='dataset_name', values='f1')
     lang_shortname = {"english": "en", "french": "fr", "spanish": "es", "all": "all"}
     #unsafe way to get the order of the datasets.. TODO: find a better way
@@ -106,7 +108,6 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     df_table = df_table.sort_values(by=['model_type', 'model_name'], ascending=[True, True])
     n_causal = len(df_table[df_table.model_type == 'Causal'])
     n_masked = len(df_table[df_table.model_type == 'Masked'])
-    print(df_table)
     #print a table with the model names
     latex = "\\scalebox{1}{\\begin{tabular}"
     latex += "{clll}\n"
@@ -127,6 +128,8 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
 
 def latex_listing(df, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy):
     df_base = df[df.listing == False]
+    df_base = df_base[df_base.training_size == 100]
+    df_base = df_base[df_base.partition_seed == 1]
     df = df[df.listing == True]
     df_table = df.pivot(index='model_name', columns='dataset_name', values='f1')
     lang_shortname = {"english": "en", "french": "fr", "spanish": "es", "all": "all"}
@@ -197,4 +200,80 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
     with open(os.path.join(output_folder, "listing.tex"), 'w') as f:
+        f.write(latex)
+
+def latex_sampling(df, dataset_names, model_clean_names, output_folder):
+    n_values = [25, 50, 100]
+    p_values = [1, 2, 3]
+    studied_models = ['Mistral-7B-v0.1', "xlm-roberta-large"]
+    studied_datasets = ['conll2003', 'n2c2']
+    df = df[df.listing == False]
+    df = df[df.training_size.isin(n_values)]
+    df = df[df.partition_seed.isin(p_values)]
+    df = df[df.model_name.isin(studied_models)]
+    df = df[df.dataset_name.isin(studied_datasets)]
+    print(df)
+    df['dataset_partition'] = df['dataset_name'] + ' ' + df['partition_seed'].astype(str)
+    df['model_training_size'] = df['model_name'] + ' ' + df['training_size'].astype(str)
+    df_table = df.pivot(index='model_training_size', columns='dataset_partition', values='f1')
+    print(df_table)
+    df_table = df_table.reindex(sorted(df_table.columns), axis=1)
+    
+    #if a model/training size is missing, add it with a NaN value
+    for model in studied_models:
+        for training_size in n_values:
+            if model + ' ' + str(training_size) not in df_table.index:
+                df_table.loc[model + ' ' + str(training_size)] = '-'
+    #if a dataset/partition is missing, add it with a NaN value
+    for dataset in studied_datasets:
+        for partition in p_values:
+            if dataset + ' ' + str(partition) not in df_table.columns:
+                df_table[dataset + ' ' + str(partition)] = '-'
+    
+    #sort lines by model (alphabetical order) and then by decreasing training size
+    df_table['model_name'] = df_table.index.map(lambda x: x.split()[0])
+    df_table['training_size'] = df_table.index.map(lambda x: int(x.split()[1]))
+    
+    df_table = df_table.sort_values(by=['training_size', 'model_name'], ascending=[False, True])
+    df_table.drop(columns=['training_size', 'model_name'], inplace=True)
+    df_table = df_table.rename_axis(None, axis=1)
+    df_table = df_table.rename_axis(None, axis=0)
+    column_order = [" ".join(x) for x in product(studied_datasets, [str(x) for x in p_values])]
+    df_table = df_table[column_order]
+    df_table = df_table.fillna('-')
+    
+    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex += "{l|" + "c"*len(p_values) + "|" + "c"*len(p_values) + "}\n"
+    latex += "\\toprule\n"
+    # latex += "\\multicolumn{" + str(len(studied_datasets)) + "}{c}{" + dataset_names[studied_datasets[0]] + "} & \\multicolumn{" + str(len(studied_datasets)) + "}{c}{" + dataset_names[studied_datasets[1]] + "} \\\\\n"
+    latex += "& \\multicolumn{" + str(len(p_values)) + "}{c|}{" + dataset_names[studied_datasets[0]] + "} & \\multicolumn{" + str(len(p_values)) + "}{c}{" + dataset_names[studied_datasets[1]] + "} \\\\\n"
+    latex += "\\midrule\n"
+    latex += "\\multicolumn{" + str(len(studied_datasets)*2+1) + "}{c}{\\textit{100 annotated instances}} \\\\\n"
+    latex += "\\midrule\n"
+    latex += " & " + " & ".join(["\\textit{p="+str(p)+'}' for p in p_values]) + " & " + " & ".join(["\\textit{p="+str(p)+'}' for p in p_values]) + " \\\\\n"
+    latex += "\\midrule\n"
+    latex += "\\midrule\n"
+    for i, (model_name, row) in enumerate(df_table.iloc[:len(studied_models)].iterrows()):
+        latex += model_clean_names[model_name.split()[0]].replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:len(p_values)]]) + " & " + " & ".join([str(x) for x in row[len(p_values):]]) + " \\\\\n"
+    latex += "\\midrule\n"
+    latex += "\\midrule\n"
+    latex += "\\multicolumn{" + str(len(studied_datasets)*2+1) + "}{c}{\\textit{50 annotated instances}} \\\\\n"
+    latex += "\\midrule\n"
+    latex += " & " + " & ".join(["\\textit{p="+str(p)+'}' for p in p_values]) + " & " + " & ".join(["\\textit{p="+str(p)+'}' for p in p_values]) + " \\\\\n"
+    latex += "\\midrule\n"
+    latex += "\\midrule\n"
+    for i, (model_name, row) in enumerate(df_table.iloc[len(studied_models):-len(studied_models)].iterrows()):
+        latex += model_clean_names[model_name.split()[0]].replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:len(p_values)]]) + " & " + " & ".join([str(x) for x in row[len(p_values):]]) + " \\\\\n"
+    latex += "\\midrule\n"
+    latex += "\\midrule\n"
+    latex += "\\multicolumn{" + str(len(studied_datasets)*2+1) + "}{c}{\\textit{25 annotated instances}} \\\\\n"
+    latex += "\\midrule\n"
+    latex += " & " + " & ".join(["\\textit{p="+str(p)+'}' for p in p_values]) + " & " + " & ".join(["\\textit{p="+str(p)+'}' for p in p_values]) + " \\\\\n"
+    latex += "\\midrule\n"
+    latex += "\\midrule\n"
+    for i, (model_name, row) in enumerate(df_table.iloc[-len(studied_models):].iterrows()):
+        latex += model_clean_names[model_name.split()[0]].replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:len(p_values)]]) + " & " + " & ".join([str(x) for x in row[len(p_values):]]) + " \\\\\n"
+    latex += "\\bottomrule\n"
+    latex += "\\end{tabular}}"
+    with open(os.path.join(output_folder, "sampling.tex"), 'w') as f:
         f.write(latex)
