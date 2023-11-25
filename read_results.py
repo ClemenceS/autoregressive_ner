@@ -216,12 +216,12 @@ model_hierarchy = {
                 "size": 7*B,
                 "languages" : "all",
             },
-            {
-                "name": "BioMedLM",
-                "clean_name": "BioMedLM",
-                "size": 7*B,
-                "languages" : "all",
-            }
+            # {
+            #     "name": "BioMedLM",
+            #     "clean_name": "BioMedLM",
+            #     "size": 7*B,
+            #     "languages" : "all",
+            # }
         ],
     }
 }

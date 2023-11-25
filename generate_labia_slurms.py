@@ -149,6 +149,7 @@ models = {
     "nomic-ai/gpt4all-j": "gpt4allj",
     "gpt2-xl": "gpt2xl",
     "EleutherAI/gpt-neox-20b" : "gptneox20",
+    "medalpaca/medalpaca-7b": "medalpaca",
 }
 datasets = {
     #local datasets
