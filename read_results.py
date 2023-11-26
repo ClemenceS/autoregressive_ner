@@ -46,57 +46,67 @@ model_hierarchy = {
             {
                 "name": "roberta-large", 
                 "clean_name": "RoBERTa-large",
-                "description": "160GB of text from CommonCrawl, a dataset of web crawl data.",
                 "size": 355*M,
                 "languages" : "english",
+                "training_data_size": "160",
+                "training_data_languages": "English",
             },
             {
                 "name": "camembert-large",
                 "clean_name": "CamemBERT-large",
                 "size": 335*M,
                 "languages" : "french",
+                "training_data_languages": "French",
             },
             {
                 "name": "flaubert_large_cased",
                 "clean_name": "FlauBERT-large",
                 "size": 335*M,
                 "languages" : "french",
+                "training_data_languages": "French",
             },
             {
                 "name": "bert-large-cased",
                 "clean_name": "BERT-large",
                 "size": 345*M,
                 "languages" : "english",
+                "training_data_languages": "English",
             },
             {
                 "name": "tulio-chilean-spanish-bert",
                 "clean_name": "TulioBERT",
                 "size": 110*M,
                 "languages" : "spanish",
+                "training_data_languages": "Spanish",
             },
             {
                 "name": "patana-chilean-spanish-bert",
                 "clean_name": "PatanaBERT",
                 "size": 110*M,
                 "languages" : "spanish",
+                "training_data_languages": "Spanish",
             },
             {
                 "name": "bert-base-spanish-wwm-uncased",
                 "clean_name": "BETO",
                 "size": 110*M,
                 "languages" : "spanish",
+                "training_data_languages": "Spanish",
             },
             {
                 "name": "xlm-roberta-large",
                 "clean_name": "XLM-RoBERTa-large",
                 "size": 355*M,
                 "languages" : "all",
+                "training_data_languages": "100 languages including English, French and Spanish",
             },
             {
                 "name": "bert-base-multilingual-cased",
                 "clean_name": "mBERT",
                 "size": 110*M,
                 "languages" : "all",
+                "training_data_languages": "104 languages including English, French and Spanish",
+                "reference": "devlin2019bert",
             },
         ],
         "Clinical":[
@@ -105,49 +115,49 @@ model_hierarchy = {
                 "clean_name": "ClinicalBERT",
                 "size": 110*M,
                 "languages" : "english",
+                "training_data_languages": "English",
             },
             {
                 "name": "MedBERT",
                 "clean_name": "MedBERT",
                 "size": 110*M,
                 "languages" : "english",
+                "training_data_languages": "English",
             },
             {
                 "name": "Bio_ClinicalBERT",
                 "clean_name": "Bio_ClinicalBERT",
                 "size": 110*M,
                 "languages" : "english",
+                "training_data_languages": "English",
             },
             {
                 "name": "camembert-bio-base",
                 "clean_name": "CamemBERT-bio",
                 "size": 110*M,
                 "languages" : "french",
+                "training_data_languages": "French",
             },
             {
                 "name": "DrBERT-4GB",
                 "clean_name": "DrBERT-4GB",
                 "size": 4*B,
                 "languages" : "french",
+                "training_data_languages": "French",
             },
-            # {
-                
-            #     "name": "BETO_Galen",
-            #     "clean_name": "BETO-Galen",
-            #     "size": 110*M,
-            #     "languages" : "spanish",
-            # },
             {
                 "name": "bsc-bio-ehr-es",
                 "clean_name": "BSC-BioEHR",
                 "size": 110*M,
                 "languages" : "spanish",
+                "training_data_languages": "Spanish",
             },
             {
                 "name": "bsc-bio-es",
                 "clean_name": "BSC-Bio",
                 "size": 110*M,
                 "languages" : "spanish",
+                "training_data_languages": "Spanish",
             }
         ],
     },
@@ -158,12 +168,16 @@ model_hierarchy = {
                 "clean_name": "BLOOM-7B1",
                 "size": 7*B,
                 "languages" : "all",
+                "training_data_size": "1600",
+                "training_data_languages": "46 languages including English, French and Spanish",
+                "reference": "workshop2022bloom"
             },
             {
                 "name": "Mistral-7B-v0.1",
                 "clean_name": "Mistral-7B",
                 "size": 7*B,
-                "description": "Not shared yet.",
+                "training_data_size": "Undisclosed",
+                "training_data_languages": "Undisclosed",
                 "languages" : "all",
             },
             {
@@ -234,7 +248,9 @@ model_sizes = {}
 model_clean_names = {}
 dataset_names = {}
 model_langs = {}
-model_descriptions = {}
+model_training_data_sizes = {}
+model_training_data_languages = {}
+model_reference = {}
 for model_type in model_hierarchy:
     for model_domain in model_hierarchy[model_type]:
         for model in model_hierarchy[model_type][model_domain]:
@@ -244,7 +260,9 @@ for model_type in model_hierarchy:
             model_langs[model_name] = model['languages']
             model_sizes[model_name] = model['size']
             model_clean_names[model_name] = model['clean_name']
-            model_descriptions[model_name] = model['description'] if 'description' in model else '-'
+            model_training_data_sizes[model_name] = model['training_data_size'] if 'training_data_size' in model else '-'
+            model_training_data_languages[model_name] = model['training_data_languages'] if 'training_data_languages' in model else '-'
+            model_reference[model_name] = model['reference'] if 'reference' in model else '-'
 for lang in dataset_hierarchy:
     for domain in dataset_hierarchy[lang]:
         for dataset_name in dataset_hierarchy[lang][domain]:
