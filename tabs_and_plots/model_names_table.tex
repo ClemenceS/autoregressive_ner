@@ -1,33 +1,33 @@
-\scalebox{1}{\begin{tabular}{clrrl}
+\scalebox{0.7}{\begin{tabular}{clrrl}
 \toprule
-& Model & \makecell{Number of\\ parameters\\(in millions)} & \makecell{Training data\\ size (in \\ Gigabytes)} & \makecell{Training data\\ languages} \\
+& Model & \makecell{Number of\\ parameters\\(in millions)} & \makecell{Training data\\ size} & \makecell{Training corpus\\ language(s) and details} \\
 \midrule
-\multirow{10}{*}{\rotatebox[origin=c]{90}{Causal}} & BLOOM-7B1 \cite{workshop2022bloom} & 7000 & 1600 & 46 languages including English, French and Spanish \\
- & Falcon-40B \cite{-} & 40000 & - & - \\
- & GPT-J-6B \cite{-} & 6000 & - & - \\
- & LLAMA-70B \cite{-} & 70000 & - & - \\
- & Medalpaca-7B \cite{-} & 7000 & - & - \\
- & Mistral-7B \cite{-} & 7000 & Undisclosed & Undisclosed \\
- & OPT-66B \cite{-} & 66000 & - & - \\
- & Vicuna-13B \cite{-} & 13000 & - & - \\
- & Vicuna-7B \cite{-} & 7000 & - & - \\
- & Vigogne-13B \cite{-} & 13000 & - & - \\
+\multirow{10}{*}{\rotatebox[origin=c]{90}{Causal}} & BLOOM-7B1 \cite{workshop2022bloom} & 7000 & 1600 GiB & 46 languages including English, French and Spanish \\
+ & Falcon-40B \cite{} & 40000 & 1 trillion tokens & Mainly English, French, Spanish and German \\
+ & GPT-J-6B \cite{wang2021gptj} & 6000 & 825 GiB & English \\
+ & LLAMA-2-70B \cite{touvron2023llama} & 70000 & 2 trillion tokens & Mainly English \\
+ & Medalpaca-7B \cite{han2023medalpaca} & 7000 & 400K Q.A. pairs & LLAMA 2, fine-tuned on semi-generated medical question-answer pairs in English \\
+ & Mistral-7B \cite{jiang2023mistral} & 7000 & Undisclosed & Undisclosed \\
+ & OPT-66B \cite{zhang2022opt} & 66000 & 180 billion tokens & Mainly English \\
+ & Vicuna-13B \cite{zheng2023judging} & 13000 & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
+ & Vicuna-7B \cite{zheng2023judging} & 7000 & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
+ & Vigogne-13B & 13000 & 52 thousand instructions & LLAMA 2, fine-tuned on English instructions automatically translated to French \\
 \midrule
-\multirow{16}{*}{\rotatebox[origin=c]{90}{Masked}} & BERT-large \cite{-} & 345 & - & English \\
- & BETO \cite{-} & 110 & - & Spanish \\
- & BSC-Bio \cite{-} & 110 & - & Spanish \\
- & BSC-BioEHR \cite{-} & 110 & - & Spanish \\
- & Bio\_ClinicalBERT \cite{-} & 110 & - & English \\
- & CamemBERT-bio \cite{-} & 110 & - & French \\
- & CamemBERT-large \cite{-} & 335 & - & French \\
- & ClinicalBERT \cite{-} & 110 & - & English \\
- & DrBERT-4GB \cite{-} & 4000 & - & French \\
- & FlauBERT-large \cite{-} & 335 & - & French \\
- & MedBERT \cite{-} & 110 & - & English \\
- & PatanaBERT \cite{-} & 110 & - & Spanish \\
- & RoBERTa-large \cite{-} & 355 & 160 & English \\
- & TulioBERT \cite{-} & 110 & - & Spanish \\
- & XLM-RoBERTa-large \cite{-} & 355 & - & 100 languages including English, French and Spanish \\
+\multirow{16}{*}{\rotatebox[origin=c]{90}{Masked}} & BERT-large \cite{devlin2019bert} & 345 & 160 GiB & English \\
+ & BETO & 110 & - & Spanish \\
+ & BSC-Bio & 110 & - & Spanish \\
+ & BSC-BioEHR & 110 & - & Spanish \\
+ & Bio\_ClinicalBERT & 110 & - & English \\
+ & CamemBERT-bio & 110 & - & French \\
+ & CamemBERT-large & 335 & - & French \\
+ & ClinicalBERT & 110 & - & English \\
+ & DrBERT-4GB & 4000 & - & French \\
+ & FlauBERT-large & 335 & - & French \\
+ & MedBERT & 110 & - & English \\
+ & PatanaBERT & 110 & - & Spanish \\
+ & RoBERTa-large & 355 & 160 GiB & English \\
+ & TulioBERT & 110 & - & Spanish \\
+ & XLM-RoBERTa-large & 355 & - & 100 languages including English, French and Spanish \\
  & mBERT \cite{devlin2019bert} & 110 & - & 104 languages including English, French and Spanish \\
 \bottomrule
 \end{tabular}}
