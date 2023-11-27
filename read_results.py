@@ -210,7 +210,6 @@ model_hierarchy = {
                 "languages" : "all",
                 "training_data_size": "1 trillion tokens",
                 "training_data_languages": "Mainly English, French, Spanish and German",
-                "reference": "",
             },
             {
                 "name": "vigogne-2-13b-instruct",
