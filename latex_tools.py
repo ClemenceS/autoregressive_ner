@@ -44,8 +44,8 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
     df_fully_sup_table.drop(columns='model_language', inplace=True)
     df_fully_sup_table = df_fully_sup_table.fillna('-')
     df_fully_sup_table = df_fully_sup_table[ordered_datasets['en'] + ordered_datasets['fr'] + ordered_datasets['es']]
-    #\begin{table}
-    latex = "\\begin{table}\n"
+    latex = "\\begin{table}[ht]\n"
+    latex += "\\centering\n"
     latex += "\\scalebox{0.7}{\\begin{tabular}"
     latex += "{lll|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
     # latex += "\\toprule\n"
@@ -126,7 +126,8 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     n_causal = len(df_table[df_table.model_type == 'Causal'])
     n_masked = len(df_table[df_table.model_type == 'Masked'])
     #print a table with the model names
-    latex = "\\begin{table}\n"
+    latex = "\\begin{table}[ht]\n"
+    latex += "\\centering\n"
     latex += "\\scalebox{0.7}{\\begin{tabular}"
     # latex += "{clllll}\n"
     latex += "{clrrl}\n"
@@ -198,7 +199,9 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
     #select only the models that are in the listing
     df_base_table = df_base_table.loc[df_table.index]
     
-    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex = "\\begin{table}[ht]\n"
+    latex += "\\centering\n"
+    latex += "\\scalebox{0.7}{\\begin{tabular}"
     latex += "{l|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
     latex += " & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c|}{French} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c}{Spanish} \\\\\n"
     latex += "\\cmidrule{2-" + str(len(ordered_datasets['en'])+1) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+2) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+1) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+2) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+len(ordered_datasets['es'])+1) + "}\n"
@@ -221,6 +224,10 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
 
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
+    # latex += "\\caption{This table presents the F1 obtained from the listing and tagging prompts.}\n"
+    latex += "\\caption{F1 scores obtained with the listing and tagging prompts.}\n"
+    latex += "\\label{tab:listing}\n"
+    latex += "\\end{table}\n"
     with open(os.path.join(output_folder, "listing.tex"), 'w') as f:
         f.write(latex)
 
@@ -262,7 +269,9 @@ def latex_sampling(df, dataset_names, model_clean_names, output_folder):
     df_table = df_table[column_order]
     df_table = df_table.fillna('-')
     
-    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex = "\\begin{table}[ht]\n"
+    latex += "\\centering\n"
+    latex += "\\scalebox{1}{\\begin{tabular}"
     latex += "{l|" + "c"*len(p_values) + "|" + "c"*len(p_values) + "}\n"
     latex += "\\toprule\n"
     # latex += "\\multicolumn{" + str(len(studied_datasets)) + "}{c}{" + dataset_names[studied_datasets[0]] + "} & \\multicolumn{" + str(len(studied_datasets)) + "}{c}{" + dataset_names[studied_datasets[1]] + "} \\\\\n"
@@ -295,5 +304,9 @@ def latex_sampling(df, dataset_names, model_clean_names, output_folder):
         latex += model_clean_names[model_name.split()[0]].replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:len(p_values)]]) + " & " + " & ".join([str(x) for x in row[len(p_values):]]) + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
+    latex += "\\caption{F1 scores obtained over experiments with different training samples and different training sample sizes.}\n"
+    latex += "\\label{tab:sampling}\n"
+    latex += "\\end{table}\n"
+
     with open(os.path.join(output_folder, "sampling.tex"), 'w') as f:
         f.write(latex)

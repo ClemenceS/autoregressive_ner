@@ -1,4 +1,5 @@
-\begin{table}
+\begin{table}[ht]
+\centering
 \scalebox{0.7}{\begin{tabular}{clrrl}
 \toprule
 & Model & \makecell{Number of\\ parameters\\(in millions)} & \makecell{Training data\\ size} & \makecell{Training corpus\\ language(s) and details} \\
@@ -12,7 +13,7 @@
  & OPT-66B \cite{zhang2022opt} & 66000 & 180 billion tokens & Mainly English \\
  & Vicuna-13B \cite{zheng2023judging} & 13000 & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
  & Vicuna-7B \cite{zheng2023judging} & 7000 & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
- & Vigogne-13B & 13000 & 52 thousand instructions & LLAMA 2, fine-tuned on English instructions automatically translated to French \\
+ & Vigogne-13B & 13000 & 52K instructions & LLAMA 2, fine-tuned on English instructions automatically translated to French \\
 \midrule
 \multirow{16}{*}{\rotatebox[origin=c]{90}{Masked}} & BERT-large \cite{devlin2019bert} & 345 & 3,3 billion words & English \\
  & BETO & 110 & - & Spanish \\

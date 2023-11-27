@@ -217,7 +217,7 @@ model_hierarchy = {
                 "clean_name": "Vigogne-13B",
                 "size": 13*B,
                 "languages" : "french",
-                "training_data_size": "52 thousand instructions",
+                "training_data_size": "52K instructions",
                 "training_data_languages": "LLAMA 2, fine-tuned on English instructions automatically translated to French",
 
             },
