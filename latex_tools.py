@@ -126,7 +126,8 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     n_causal = len(df_table[df_table.model_type == 'Causal'])
     n_masked = len(df_table[df_table.model_type == 'Masked'])
     #print a table with the model names
-    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex = "\\begin{table}\n"
+    latex += "\\scalebox{0.7}{\\begin{tabular}"
     # latex += "{clllll}\n"
     latex += "{clrrl}\n"
     latex += "\\toprule\n"
@@ -140,7 +141,10 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
         latex += " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\bottomrule\n"
-    latex += "\\end{tabular}}"
+    latex += "\\end{tabular}}\n"
+    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus.}\n"
+    latex += "\\label{tab:LM_features}\n"
+    latex += "\\end{table}\n"
     with open(os.path.join(output_folder, 'model_names_table.tex'), 'w') as f:
         f.write(latex)
 
