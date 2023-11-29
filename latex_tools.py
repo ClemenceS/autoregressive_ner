@@ -76,7 +76,7 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
     #\caption{This table presents the (macro?)-F1 obtained from few-shot experiments. skyline results are obtained using all training data available instead of the few-shot setting.}
-    latex += "\\caption{This table presents the micro-F1 obtained from few-shot experiments. Skyline results are obtained using all training data available instead of the few-shot setting.  CLMs marked with * are fine-tuned versions of other CLMs. MLMs marked with \textsuperscript{\texttt{[en]}.} (respectively \textsuperscript{\texttt{[fr]}}, \textsuperscript{\texttt{[es]}}) are mainly trained on English (respectively French, Spanish).}\n"
+    latex += "\\caption{This table presents the micro-F1 obtained from few-shot experiments. Skyline results are obtained using all training data available instead of the few-shot setting.}\n"
     latex += "\\label{tab:results}\n"
     latex += "\\end{table}\n"
     with open(os.path.join(output_folder, output_name), 'w') as f:
@@ -106,7 +106,7 @@ def million_notation(x):
         return '-'
     return str(round(x/1000000))
 
-def latex_models(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference, model_order):
+def latex_models(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference, model_order, model_language_markers):
     #get a row from each model type
     df_table = df['model_name'].drop_duplicates().to_frame()
     df_table = df_table.set_index('model_name')
@@ -117,10 +117,11 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     df_table['model_training_data_size'] = df_table.index.map(lambda x: model_training_data_sizes[x])
     df_table['model_training_data_languages'] = df_table.index.map(lambda x: model_training_data_languages[x])
     df_table['model_reference'] = df_table.index.map(lambda x: model_reference[x])
+    df_table['model_language_markers'] = df_table.index.map(lambda x: ''.join(['\\textsuperscript{\\texttt{['+lang+']}}' if lang!="*" else lang for lang in model_language_markers[x]]))
     df_table.index = df_table.index.map(lambda x: model_clean_names[x])
     df_table['model_latex_name'] = df_table.index.map(lambda x: x.replace('_','\\_'))
     #add reference to the model name if available
-    df_table['model_latex_name'] = df_table['model_latex_name'] + df_table['model_reference'].map(lambda x: ' \\cite{' + x + '}' if x != '-' else '')
+    df_table['model_latex_name'] = df_table['model_latex_name'] + df_table['model_language_markers'] + df_table['model_reference'].map(lambda x: ' \\cite{' + x + '}' if x != '-' else '')
     #sort by type and by then by index
     df_table.index.name = 'model_name'
     df_table = df_table.sort_values(by=['model_type', 'model_name'], ascending=[True, True])
@@ -147,7 +148,7 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
         latex += " & " + str(i+n_causal+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}\n"
-    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. CLMs marked with * are fine-tuned versions of other CLMs. MLMs marked with \textsuperscript{\texttt{[en]}.} (respectively \textsuperscript{\texttt{[fr]}}, \textsuperscript{\texttt{[es]}}) are mainly trained on English (respectively French, Spanish).}\n"
+    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. CLMs marked with * are fine-tuned versions of other CLMs. MLMs marked with \\textsuperscript{\\texttt{[en]}} (respectively \\textsuperscript{\\texttt{[fr]}}, \\textsuperscript{\\texttt{[es]}}) are mainly trained on English (respectively French, Spanish).}\n"
     latex += "\\label{tab:LM_features}\n"
     latex += "\\end{table}\n"
     with open(os.path.join(output_folder, 'model_names_table.tex'), 'w') as f:
