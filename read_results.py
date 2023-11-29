@@ -50,6 +50,7 @@ model_hierarchy = {
                 "languages" : "english",
                 "training_data_size": "160 GiB",
                 "training_data_languages": "English",
+                "reference": "liu2019roberta",
             },
             {
                 "name": "camembert-large",
@@ -57,6 +58,8 @@ model_hierarchy = {
                 "size": 335*M,
                 "languages" : "french",
                 "training_data_languages": "French",
+                "reference": "martin2019camembert",
+                "training_data_size": "64 billion tokens",
             },
             {
                 "name": "flaubert_large_cased",
@@ -64,6 +67,8 @@ model_hierarchy = {
                 "size": 335*M,
                 "languages" : "french",
                 "training_data_languages": "French",
+                "reference": "le2019flaubert",
+                "training_data_size": "13 billion tokens",
             },
             {
                 "name": "bert-large-cased",
@@ -94,6 +99,7 @@ model_hierarchy = {
                 "size": 110*M,
                 "languages" : "spanish",
                 "training_data_languages": "Spanish",
+                "reference": "canete2020beto",
             },
             {
                 "name": "xlm-roberta-large",
@@ -101,6 +107,7 @@ model_hierarchy = {
                 "size": 355*M,
                 "languages" : "all",
                 "training_data_languages": "100 languages including English, French and Spanish",
+                "reference": "conneau2020unsupervised",
             },
             {
                 "name": "bert-base-multilingual-cased",
@@ -118,6 +125,7 @@ model_hierarchy = {
                 "size": 110*M,
                 "languages" : "english",
                 "training_data_languages": "English",
+                "reference": "wang2023optimized",
             },
             {
                 "name": "MedBERT",
@@ -125,6 +133,7 @@ model_hierarchy = {
                 "size": 110*M,
                 "languages" : "english",
                 "training_data_languages": "English",
+                "reference": "charangan2022medbert",
             },
             {
                 "name": "Bio_ClinicalBERT",
@@ -132,6 +141,7 @@ model_hierarchy = {
                 "size": 110*M,
                 "languages" : "english",
                 "training_data_languages": "English",
+                "reference": "alsentzer2019publicly",
             },
             {
                 "name": "camembert-bio-base",
@@ -139,6 +149,8 @@ model_hierarchy = {
                 "size": 110*M,
                 "languages" : "french",
                 "training_data_languages": "French",
+                "reference": "touchent2023camembertbio",
+                "training_data_size": "413 million words",
             },
             {
                 "name": "DrBERT-4GB",
@@ -146,6 +158,8 @@ model_hierarchy = {
                 "size": 4*B,
                 "languages" : "french",
                 "training_data_languages": "French",
+                "reference": "labrak2023drbert",
+                "training_data_size": "1 billion words",
             },
             {
                 "name": "bsc-bio-ehr-es",
@@ -153,6 +167,8 @@ model_hierarchy = {
                 "size": 110*M,
                 "languages" : "spanish",
                 "training_data_languages": "Spanish",
+                "reference": "carrino2022pretrained",
+                "training_data_size": "1.1 billion tokens",
             },
             {
                 "name": "bsc-bio-es",
@@ -160,6 +176,8 @@ model_hierarchy = {
                 "size": 110*M,
                 "languages" : "spanish",
                 "training_data_languages": "Spanish",
+                "reference": "carrino2022pretrained",
+                "training_data_size": "963 million tokens",
             }
         ],
     },
