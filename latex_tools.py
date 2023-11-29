@@ -58,24 +58,25 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
     latex += " \\multicolumn{" + str(n_datasets+3) + "}{l}{\\textit{Few-shot approaches}} \\\\\n"
     latex += "\\midrule\n"
     n_causal = len(df_table[df_table.model_type == 'Causal'])
-    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
+    #to print floats up to 3 decimals, replace str(x) by "{:.3f}".format(x)
+    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table.index[0] + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in df_table.iloc[0][:-1]]) + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
-        latex += " & " + str(i+2) + " & " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+        latex += " & " + str(i+2) + " & " + model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
     latex += "\\midrule\n"
     n_masked = len(df_table[df_table.model_type == 'Masked'])
-    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & "+ str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + " & ".join([str(x) for x in df_table.iloc[n_causal][:-1]]) + " \\\\\n"
+    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & "+ str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in df_table.iloc[n_causal][:-1]]) + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
-        latex += " & " + str(i+n_causal+2) + " & " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+        latex += " & " + str(i+n_causal+2) + " & " + model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
     latex += "\\midrule\n"
     latex += "\\midrule\n"
     latex += "\\multicolumn{" + str(n_datasets+3) + "}{l}{\\textit{Masked fully-supervised (skyline)}} \\\\\n"
     latex += "\\midrule\n"
     for i, (model_name, row) in enumerate(df_fully_sup_table.iterrows()):
-        latex += " & & " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row]) + " \\\\\n"
+        latex += " & & " + model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row]) + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
     #\caption{This table presents the (macro?)-F1 obtained from few-shot experiments. skyline results are obtained using all training data available instead of the few-shot setting.}
-    latex += "\\caption{This table presents the (macro?)-F1 obtained from few-shot experiments. Skyline results are obtained using all training data available instead of the few-shot setting.}\n"
+    latex += "\\caption{This table presents the micro-F1 obtained from few-shot experiments. Skyline results are obtained using all training data available instead of the few-shot setting.  CLMs marked with * are fine-tuned versions of other CLMs. MLMs marked with \textsuperscript{\texttt{[en]}.} (respectively \textsuperscript{\texttt{[fr]}}, \textsuperscript{\texttt{[es]}}) are mainly trained on English (respectively French, Spanish).}\n"
     latex += "\\label{tab:results}\n"
     latex += "\\end{table}\n"
     with open(os.path.join(output_folder, output_name), 'w') as f:
@@ -201,7 +202,8 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
     
     latex = "\\begin{table}[ht]\n"
     latex += "\\centering\n"
-    latex += "\\scalebox{0.7}{\\begin{tabular}"
+    latex += "\\scalebox{0.7}{%\n"
+    latex += "\\begin{tabular}"
     latex += "{l|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
     latex += " & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c|}{French} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c}{Spanish} \\\\\n"
     latex += "\\cmidrule{2-" + str(len(ordered_datasets['en'])+1) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+2) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+1) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+2) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+len(ordered_datasets['es'])+1) + "}\n"
@@ -211,16 +213,16 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
     n_datasets = len(ordered_datasets['en']) + len(ordered_datasets['fr']) + len(ordered_datasets['es'])
     latex += " \\multicolumn{" + str(n_datasets+1) + "}{l}{\\textit{Listing prompts}} \\\\\n"
     latex += "\\midrule\n"
-    latex += df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
+    latex += df_table.index[0] + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in df_table.iloc[0][:-1]]) + " \\\\\n"
     for model_name, row in df_table.iloc[1:].iterrows():
-        latex += model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+        latex += model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
     latex += "\\midrule\n"
     latex += "\\midrule\n"
     latex += "\\multicolumn{" + str(n_datasets+1) + "}{l}{\\textit{Tagging prompts}} \\\\\n"
     latex += "\\midrule\n"
-    latex += df_base_table.index[0] + " & " + " & ".join([str(x) for x in df_base_table.iloc[0][:-1]]) + " \\\\\n"
+    latex += df_base_table.index[0] + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in df_base_table.iloc[0][:-1]]) + " \\\\\n"
     for model_name, row in df_base_table.iloc[1:].iterrows():
-        latex += model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+        latex += model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
 
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
