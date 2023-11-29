@@ -4,8 +4,9 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 from read_results import read_jsons, model_domains, model_types, model_sizes, model_clean_names, dataset_names, model_langs, model_training_data_sizes, model_training_data_languages, model_reference, model_language_markers
 from read_results import dataset_hierarchy, model_hierarchy
+from prompt_strings import strings
 from plot_tools import plot_data
-from latex_tools import latex_results, latex_models, latex_listing, latex_sampling
+from latex_tools import latex_results, latex_models, latex_listing, latex_sampling, latex_ner_descriptions
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -34,5 +35,6 @@ model_order = latex_results(df_few_shot, df_fully_supervised, output_folder, mod
 latex_listing(df_few_shot, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
 latex_sampling(df_few_shot, dataset_names=dataset_names, model_clean_names=model_clean_names, output_folder=output_folder)
 latex_models(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference, model_order, model_language_markers)
+latex_ner_descriptions(strings)
 model_numbers = {model_order[i]:i+1 for i in range(len(model_order))}
 plot_data(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers)

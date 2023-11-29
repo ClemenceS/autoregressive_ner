@@ -318,3 +318,42 @@ def latex_sampling(df, dataset_names, model_clean_names, output_folder):
 
     with open(os.path.join(output_folder, "sampling.tex"), 'w') as f:
         f.write(latex)
+
+def latex_ner_descriptions(strings):
+    language_clean_names = {"en": "English", "fr": "French", "es": "Spanish"}
+    for lang in ["en", "fr", "es"]:
+        latex = "\\begin{table}[ht]\n"
+        latex += "\\centering\n"
+        latex += "\\scalebox{0.6}{\\begin{tabular}"
+        latex += "{lll}\n"
+        latex += "\\toprule\n"
+        latex += "Tag & Tag name (in singular) & Description \\\\\n"
+        latex += "\\midrule\n"
+        latex += "\\midrule\n"
+        for tag in strings[lang]['ner_tags_names_in_plural']:
+            tag_name = tag.replace('_', '\\_')
+            tag_name_in_plural = strings[lang]['ner_tags_names_in_plural'][tag].replace('_', '\\_')
+            tag_name_in_singular = strings[lang]['ner_tags_names'][tag].replace('_', '\\_')
+            tag_full_name = tag_name_in_plural + " (" + tag_name_in_singular + ")"
+            tag_full_description = strings[lang]['ner_tags_description'][tag].replace('_', '\\_')
+            #use makecell to allow line breaks in the description
+            tag_clean_name = ""
+            for word in tag_full_name.split():
+                if len(tag_clean_name.split("\\\\")[-1]) + len(word) > 30:
+                    tag_clean_name += "\\\\"
+                tag_clean_name += word + " "
+            tag_description = ""
+            for word in tag_full_description.split():
+                if len(tag_description.split("\\\\")[-1]) + len(word) > 120:
+                    tag_description += "\\\\"
+                tag_description += word + " "
+            latex += tag_name + " & \\makecell{" + tag_clean_name+ "} & \\makecell{" + tag_description + "} \\\\\n"
+            latex += "\\midrule\n"
+        latex += "\\bottomrule\n"
+        latex += "\\end{tabular}}\n"
+        # latex += "\\caption{Description of the NER tags used in our experiments.}\n"
+        latex += "\\caption{Description of the NER tags used in our experiments for " + language_clean_names[lang] + ".}\n"
+        latex += "\\label{tab:ner_tags_" + lang + "}\n"
+        latex += "\\end{table}\n"
+        with open(os.path.join('tabs_and_plots', 'tags_' + lang + '.tex'), 'w') as f:
+            f.write(latex)
