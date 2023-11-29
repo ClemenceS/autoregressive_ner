@@ -33,6 +33,6 @@ os.makedirs(output_folder, exist_ok=True)
 model_order = latex_results(df_few_shot, df_fully_supervised, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
 latex_listing(df_few_shot, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
 latex_sampling(df_few_shot, dataset_names=dataset_names, model_clean_names=model_clean_names, output_folder=output_folder)
-latex_models(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference)
+latex_models(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference, model_order)
 model_numbers = {model_order[i]:i+1 for i in range(len(model_order))}
 plot_data(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers)

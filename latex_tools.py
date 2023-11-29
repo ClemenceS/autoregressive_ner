@@ -106,7 +106,7 @@ def million_notation(x):
         return '-'
     return str(round(x/1000000))
 
-def latex_models(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference):
+def latex_models(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference, model_order):
     #get a row from each model type
     df_table = df['model_name'].drop_duplicates().to_frame()
     df_table = df_table.set_index('model_name')
@@ -126,25 +126,28 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     df_table = df_table.sort_values(by=['model_type', 'model_name'], ascending=[True, True])
     n_causal = len(df_table[df_table.model_type == 'Causal'])
     n_masked = len(df_table[df_table.model_type == 'Masked'])
+    #order the model by model_order
+    df_table['model_order'] = df_table.index.map(lambda x: model_order.index(x))
+    df_table = df_table.sort_values(by=['model_order'])    
     #print a table with the model names
     latex = "\\begin{table}[ht]\n"
     latex += "\\centering\n"
     latex += "\\scalebox{0.7}{\\begin{tabular}"
     # latex += "{clllll}\n"
-    latex += "{clrrl}\n"
+    latex += "{cllrrl}\n"
     latex += "\\toprule\n"
-    latex += "& Model & \makecell{Number of\\\\ parameters\\\\(in millions)} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
+    latex += "& \# & Model & \makecell{Number of\\\\ parameters\\\\(in millions)} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
     latex += "\\midrule\n"
-    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & " + df_table.iloc[0]['model_latex_name'] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_training_data_size'] + " & " + df_table.iloc[0]['model_training_data_languages'] + " \\\\\n"
+    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table.index[0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_training_data_size'] + " & " + df_table.iloc[0]['model_training_data_languages'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
-        latex += " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
+        latex += " & " + str(i+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\midrule\n"
-    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & "+ df_table.iloc[n_causal]['model_latex_name'] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
+    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
-        latex += " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
+        latex += " & " + str(i+n_causal+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}\n"
-    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus.}\n"
+    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. CLMs marked with * are fine-tuned versions of other CLMs. MLMs marked with \textsuperscript{\texttt{[en]}.} (respectively \textsuperscript{\texttt{[fr]}}, \textsuperscript{\texttt{[es]}}) are mainly trained on English (respectively French, Spanish).}\n"
     latex += "\\label{tab:LM_features}\n"
     latex += "\\end{table}\n"
     with open(os.path.join(output_folder, 'model_names_table.tex'), 'w') as f:

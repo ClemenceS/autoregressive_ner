@@ -1,38 +1,38 @@
 \begin{table}[ht]
 \centering
-\scalebox{0.7}{\begin{tabular}{clrrl}
+\scalebox{0.7}{\begin{tabular}{cllrrl}
 \toprule
-& Model & \makecell{Number of\\ parameters\\(in millions)} & \makecell{Training data\\ size} & \makecell{Training corpus\\ language(s) and details} \\
+& \# & Model & \makecell{Number of\\ parameters\\(in millions)} & \makecell{Training data\\ size} & \makecell{Training corpus\\ language(s) and details} \\
 \midrule
-\multirow{10}{*}{\rotatebox[origin=c]{90}{Causal}} & BLOOM-7B1 \cite{workshop2022bloom} & 7000 & 1600 GiB & 46 languages including English, French and Spanish \\
- & Falcon-40B & 40000 & 1 trillion tokens & Mainly English, French, Spanish and German \\
- & GPT-J-6B \cite{wang2021gptj} & 6000 & 825 GiB & English \\
- & LLAMA-2-70B \cite{touvron2023llama} & 70000 & 2 trillion tokens & Mainly English \\
- & Medalpaca-7B \cite{han2023medalpaca} & 7000 & 400K Q.A. pairs & LLAMA 2, fine-tuned on semi-generated medical question-answer pairs in English \\
- & Mistral-7B \cite{jiang2023mistral} & 7000 & Undisclosed & Undisclosed \\
- & OPT-66B \cite{zhang2022opt} & 66000 & 180 billion tokens & Mainly English \\
- & Vicuna-13B \cite{zheng2023judging} & 13000 & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
- & Vicuna-7B \cite{zheng2023judging} & 7000 & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
- & Vigogne-13B & 13000 & 52K instructions & LLAMA 2, fine-tuned on English instructions automatically translated to French \\
+\multirow{10}{*}{\rotatebox[origin=c]{90}{Causal}} & 1 & LLAMA-2-70B & 70000 & 2 trillion tokens & Mainly English \\
+ & 2 & Mistral-7B \cite{jiang2023mistral} & 7000 & Undisclosed & Undisclosed \\
+ & 3 & BLOOM-7B1 \cite{workshop2022bloom} & 7000 & 1600 GiB & 46 languages including English, French and Spanish \\
+ & 4 & Falcon-40B & 40000 & 1 trillion tokens & Mainly English, French, Spanish and German \\
+ & 5 & GPT-J-6B \cite{wang2021gptj} & 6000 & 825 GiB & English \\
+ & 6 & OPT-66B \cite{zhang2022opt} & 66000 & 180 billion tokens & Mainly English \\
+ & 7 & Vicuna-13B \cite{zheng2023judging} & 13000 & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
+ & 8 & Vicuna-7B \cite{zheng2023judging} & 7000 & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
+ & 9 & Medalpaca-7B \cite{han2023medalpaca} & 7000 & 400K Q.A. pairs & LLAMA 2, fine-tuned on semi-generated medical question-answer pairs in English \\
+ & 10 & Vigogne-13B & 13000 & 52K instructions & LLAMA 2, fine-tuned on English instructions automatically translated to French \\
 \midrule
-\multirow{16}{*}{\rotatebox[origin=c]{90}{Masked}} & BERT-large \cite{devlin2019bert} & 345 & 3,3 billion words & English \\
- & BETO \cite{canete2020beto} & 110 & - & Spanish \\
- & BSC-Bio \cite{carrino2022pretrained} & 110 & 963 million tokens & Spanish \\
- & BSC-BioEHR \cite{carrino2022pretrained} & 110 & 1.1 billion tokens & Spanish \\
- & Bio\_ClinicalBERT \cite{alsentzer2019publicly} & 110 & - & English \\
- & CamemBERT-bio \cite{touchent2023camembertbio} & 110 & 413 million words & French \\
- & CamemBERT-large \cite{martin2019camembert} & 335 & 64 billion tokens & French \\
- & ClinicalBERT \cite{wang2023optimized} & 110 & - & English \\
- & DrBERT-4GB \cite{labrak2023drbert} & 4000 & 1 billion words & French \\
- & FlauBERT-large \cite{le2019flaubert} & 335 & 13 billion tokens & French \\
- & MedBERT \cite{charangan2022medbert} & 110 & - & English \\
- & PatanaBERT & 110 & - & Spanish \\
- & RoBERTa-large \cite{liu2019roberta} & 355 & 160 GiB & English \\
- & TulioBERT & 110 & - & Spanish \\
- & XLM-RoBERTa-large \cite{conneau2020unsupervised} & 355 & - & 100 languages including English, French and Spanish \\
- & mBERT \cite{devlin2019bert} & 110 & - & 104 languages including English, French and Spanish \\
+\multirow{16}{*}{\rotatebox[origin=c]{90}{Masked}} & 11 & mBERT & 110 & - & 104 languages including English, French and Spanish \\
+ & 12 & XLM-RoBERTa-large \cite{conneau2020unsupervised} & 355 & - & 100 languages including English, French and Spanish \\
+ & 13 & BERT-large \cite{devlin2019bert} & 345 & 3,3 billion words & English \\
+ & 14 & RoBERTa-large \cite{liu2019roberta} & 355 & 160 GiB & English \\
+ & 15 & Bio\_ClinicalBERT \cite{alsentzer2019publicly} & 110 & - & English \\
+ & 16 & ClinicalBERT \cite{wang2023optimized} & 110 & - & English \\
+ & 17 & MedBERT \cite{charangan2022medbert} & 110 & - & English \\
+ & 18 & CamemBERT-large \cite{martin2019camembert} & 335 & 64 billion tokens & French \\
+ & 19 & FlauBERT-large \cite{le2019flaubert} & 335 & 13 billion tokens & French \\
+ & 20 & DrBERT-4GB \cite{labrak2023drbert} & 4000 & 1 billion words & French \\
+ & 21 & CamemBERT-bio \cite{touchent2023camembertbio} & 110 & 413 million words & French \\
+ & 22 & BETO \cite{canete2020beto} & 110 & - & Spanish \\
+ & 23 & PatanaBERT & 110 & - & Spanish \\
+ & 24 & TulioBERT & 110 & - & Spanish \\
+ & 25 & BSC-BioEHR \cite{carrino2022pretrained} & 110 & 1.1 billion tokens & Spanish \\
+ & 26 & BSC-Bio \cite{carrino2022pretrained} & 110 & 963 million tokens & Spanish \\
 \bottomrule
 \end{tabular}}
-\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus.}
+\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. CLMs marked with * are fine-tuned versions of other CLMs. MLMs marked with 	extsuperscript{	exttt{[en]}.} (respectively 	extsuperscript{	exttt{[fr]}}, 	extsuperscript{	exttt{[es]}}) are mainly trained on English (respectively French, Spanish).}
 \label{tab:LM_features}
 \end{table}
