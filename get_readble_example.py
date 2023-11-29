@@ -25,15 +25,16 @@ first_prompts_ner_tag, self_verif_template_ner_tag = make_prompts(
     one_step=False,
     random_seed=42,
     prompt_specialist_name="w",
-    n_few_shot=5,
+    n_few_shot=3,
     list_separator=", ",
-    listing=True,
+    listing=False,
     prompt_language="en",
-    prompt_youre_a_specialist=True,
+    prompt_youre_a_specialist=False,
     prompt_label_description=False,
-    prompt_ask=True,
+    prompt_ask=False,
     prompt_long_answer=False,
     prompt_dash=False,
+    medalpaca=False,
 )
 print(first_prompts_ner_tag[0])
-print(self_verif_template_ner_tag[0])
+print(self_verif_template_ner_tag)
