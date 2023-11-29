@@ -139,11 +139,13 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     latex += "\\toprule\n"
     latex += "& \# & Model & \makecell{Number of\\\\ parameters\\\\(in millions)} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
     latex += "\\midrule\n"
-    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table.index[0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_training_data_size'] + " & " + df_table.iloc[0]['model_training_data_languages'] + " \\\\\n"
+    # latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table.index[0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_training_data_size'] + " & " + df_table.iloc[0]['model_training_data_languages'] + " \\\\\n"
+    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table['model_latex_name'][0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_training_data_size'] + " & " + df_table.iloc[0]['model_training_data_languages'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
         latex += " & " + str(i+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\midrule\n"
-    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
+    # latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
+    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table['model_latex_name'][n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
         latex += " & " + str(i+n_causal+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\bottomrule\n"
