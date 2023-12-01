@@ -150,7 +150,7 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
         latex += " & " + str(i+n_causal+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}\n"
-    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. CLMs marked with * are fine-tuned versions of other CLMs. MLMs marked with \\textsuperscript{\\texttt{[en]}} (respectively \\textsuperscript{\\texttt{[fr]}}, \\textsuperscript{\\texttt{[es]}}) are mainly trained on English (respectively French, Spanish).}\n"
+    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. Models marked with \\textsuperscript{\\texttt{[en]}} (respectively \\textsuperscript{\\texttt{[fr]}}, \\textsuperscript{\\texttt{[es]}}) are mainly trained on English (respectively French, Spanish). CLMs marked with * are fine-tuned versions of other CLMs.}\n"
     latex += "\\label{tab:LM_features}\n"
     latex += "\\end{table}\n"
     with open(os.path.join(output_folder, 'model_names_table.tex'), 'w') as f:
