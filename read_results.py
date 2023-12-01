@@ -176,7 +176,7 @@ model_hierarchy = {
             {
                 "name": "DrBERT-4GB",
                 "clean_name": "DrBERT-4GB",
-                "size": 4*B,
+                "size": 110*M,
                 "languages" : "french",
                 "training_data_languages": "French",
                 "reference": "labrak2023drbert",
