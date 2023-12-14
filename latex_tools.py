@@ -116,6 +116,18 @@ def billion_notation(x):
         return str(round(x/b))
     return str(x/b)
 
+def billion_notation(x):
+    #X is a float, usually in millions or billions
+    #return a string with the number divided by 1 billion
+    m = 1000000
+    b = 1000000000
+    if x == '-':
+        return '-'
+    if m < x < b:
+        return str(round(x/m)) + 'M'
+    if x > b:
+        return str(round(x/b)) + 'B'
+
 def latex_models(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference, model_order, model_language_markers):
     #get a row from each model type
     df_table = df['model_name'].drop_duplicates().to_frame()
@@ -149,7 +161,7 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     latex += "{cllrrl}\n"
     latex += "\\toprule\n"
     if in_billion:
-        latex += "& \# & Model & \makecell{Number of\\\\ parameters\\\\(in billions)} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
+        latex += "& \# & Model & \makecell{Number of\\\\ parameters} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
     else:
         latex += "& \# & Model & \makecell{Number of\\\\ parameters\\\\(in millions)} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
     latex += "\\midrule\n"
@@ -163,7 +175,7 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
         latex += " & " + str(i+n_causal+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}\n"
-    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. Models marked with \\textsuperscript{\\texttt{[en]}} (respectively \\textsuperscript{\\texttt{[fr]}}, \\textsuperscript{\\texttt{[es]}}) are mainly trained on English (respectively French, Spanish). CLMs marked with * are fine-tuned versions of other CLMs.}\n"
+    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. Models marked with \\textsuperscript{\\texttt{[en]}} (respectively \\textsuperscript{\\texttt{[fr]}}, \\textsuperscript{\\texttt{[es]}}) are heavily trained on English (respectively French, Spanish). CLMs marked with * are fine-tuned versions of other CLMs.}\n"
     latex += "\\label{tab:LM_features}\n"
     latex += "\\end{table}\n"
     with open(os.path.join(output_folder, 'model_names_table.tex'), 'w') as f:
