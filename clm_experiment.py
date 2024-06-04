@@ -33,6 +33,7 @@ args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('-p','--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('--listing', action="store_true")
+args.add_argument('--grid_search', action="store_true")
 
 args = args.parse_args()
 random.seed(args.random_seed)
@@ -235,53 +236,92 @@ logfilename = os.path.join(log_dir, f"{last_two_dirs}_{model_base_name}_{args.ra
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("experiment")
 
-#run once without any features
-logger.info("Running without any features")
-with open(logfilename, 'w') as logfile:
-    logfile.write("Running without any features\n")
-best_f1 = run_with_hyper_params()
-kept_features = {}
-for feature_name, feature_value in possible_features.items():
-    if feature_name == "prompt_language" and dataset_language == "en":
-        #we don't want to test prompt_language if the dataset is already in english
-        continue
-    if feature_name == "n_few_shot" and "BioMedLM" in args.model_name:
-        #we don't want to test n_few_shot if the model is BioMedLM
-        continue
-    new_features = {feature_name: feature_value}
-    #exceptionally, if the new feature is prompt_long_answer, we want to test it with one_step=False
-    if feature_name == "prompt_long_answer" and "one_step" not in kept_features:
-        new_features["one_step"] = False
-    
-    for k,v in new_features.items():
-        logger.info(f"Testing feature {k} with value {v}")
+if not args.grid_search:
+    #run once without any features
+    logger.info("Running without any features")
+    with open(logfilename, 'w') as logfile:
+        logfile.write("Running without any features\n")
+    best_f1 = run_with_hyper_params()
+    kept_features = {}
+    for feature_name, feature_value in possible_features.items():
+        if feature_name == "prompt_language" and dataset_language == "en":
+            #we don't want to test prompt_language if the dataset is already in english
+            continue
+        if feature_name == "n_few_shot" and "BioMedLM" in args.model_name:
+            #we don't want to test n_few_shot if the model is BioMedLM
+            continue
+        new_features = {feature_name: feature_value}
+        #exceptionally, if the new feature is prompt_long_answer, we want to test it with one_step=False
+        if feature_name == "prompt_long_answer" and "one_step" not in kept_features:
+            new_features["one_step"] = False
+        
+        for k,v in new_features.items():
+            logger.info(f"Testing feature {k} with value {v}")
+            with open(logfilename, 'a') as logfile:
+                logfile.write(f"Testing feature {k} with value {v}\n")
+
+        #run with the new feature
+        new_f1 = run_with_hyper_params(**kept_features, **new_features)
+
+        #if the new feature is better, keep it
+        if new_f1 > best_f1:
+            for k,v in new_features.items():
+                #this loop runs almost always only once, except for prompt_long_answer, where if we keep it, we also want to keep one_step=False
+                logger.info(f"Feature {k} with value {v} kept")
+                with open(logfilename, 'a') as logfile:
+                    logfile.write(f"Feature {k} with value {v} kept\n")
+                kept_features[k] = v
+            best_f1 = new_f1
+        else:
+            for k,v in new_features.items():
+                #this loop runs almost always only once, except for prompt_long_answer, where if we discard it, we also want to discard one_step=False
+                logger.info(f"Feature {k} with value {v} discarded")
+                with open(logfilename, 'a') as logfile:
+                    logfile.write(f"Feature {k} with value {v} discarded\n")
+
+    logger.info(f"Best F1: {best_f1}")
+    logger.info(f"Best features: {kept_features}")
+    with open(logfilename, 'a') as logfile:
+        logfile.write(f"Best F1: {best_f1}\n")
+        logfile.write(f"Best features: {kept_features}\n")
+else:
+    import itertools
+    #make every possible combination of features
+    all_features = []
+    for i in range(len(possible_features)+1):
+        all_features.extend(itertools.combinations(possible_features.items(), i))
+    logger.info(f"Testing {len(all_features)} combinations of features")
+    with open(logfilename, 'w') as logfile:
+        logfile.write(f"Testing {len(all_features)} combinations of features\n")
+    best_f1 = 0
+    for features in all_features:
+        logger.info(f"Testing features {features}")
         with open(logfilename, 'a') as logfile:
-            logfile.write(f"Testing feature {k} with value {v}\n")
+            logfile.write(f"Testing features {features}\n")
+        new_features = dict(features)
+        #exceptionally, if the new feature is prompt_long_answer, we want to test it with one_step=False
+        if "prompt_long_answer" in new_features and "one_step" not in new_features:
+            new_features["one_step"] = False
+        
+        #run with the new features
+        new_f1 = run_with_hyper_params(**new_features)
 
-    #run with the new feature
-    new_f1 = run_with_hyper_params(**kept_features, **new_features)
-
-    #if the new feature is better, keep it
-    if new_f1 > best_f1:
-        for k,v in new_features.items():
-            #this loop runs almost always only once, except for prompt_long_answer, where if we keep it, we also want to keep one_step=False
-            logger.info(f"Feature {k} with value {v} kept")
+        #if the new features are better, keep them
+        if new_f1 > best_f1:
+            logger.info(f"Features {features} kept")
             with open(logfilename, 'a') as logfile:
-                logfile.write(f"Feature {k} with value {v} kept\n")
-            kept_features[k] = v
-        best_f1 = new_f1
-    else:
-        for k,v in new_features.items():
-            #this loop runs almost always only once, except for prompt_long_answer, where if we discard it, we also want to discard one_step=False
-            logger.info(f"Feature {k} with value {v} discarded")
+                logfile.write(f"Features {features} kept\n")
+            kept_features = new_features
+            best_f1 = new_f1
+        else:
+            logger.info(f"Features {features} discarded")
             with open(logfilename, 'a') as logfile:
-                logfile.write(f"Feature {k} with value {v} discarded\n")
-
-logger.info(f"Best F1: {best_f1}")
-logger.info(f"Best features: {kept_features}")
-with open(logfilename, 'a') as logfile:
-    logfile.write(f"Best F1: {best_f1}\n")
-    logfile.write(f"Best features: {kept_features}\n")
+                logfile.write(f"Features {features} discarded\n")  
+    logger.info(f"Best F1: {best_f1}")
+    logger.info(f"Best features: {kept_features}")
+    with open(logfilename, 'a') as logfile:
+        logfile.write(f"Best F1: {best_f1}\n")
+        logfile.write(f"Best features: {kept_features}\n")      
 
 #run with the best features on the test set
 logger.info("Running with the best features on the test set")
