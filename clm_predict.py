@@ -251,6 +251,8 @@ def predict_for_dataset(
             outputs.append(output_text)
         
     for i, output in enumerate(outputs):
+        if i//len(reference)>=len(ner_tags):
+            continue
         predictions[i%len(reference)]['entities'].extend([
             {
                 'entity_id': 'T{}'.format(len(predictions[i%len(reference)]['entities'])+ent_idx+1),
@@ -290,9 +292,10 @@ def predict_for_dataset(
             pre_outputs = llm.generate(verif_prompts, sampling_params)
             verif_outputs = [o.outputs[0].text for o in pre_outputs]
             for i, output in enumerate(verif_outputs):
-                if yes_no[1].lower() in output.lower():
-                    sent_idx, ent_id = addresses[i]
-                    predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
+                if i < len(addresses):
+                    if yes_no[1].lower() in output.lower():
+                        sent_idx, ent_id = addresses[i]
+                        predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
         else:
             batch_size = 4
             for i in tqdm(range(0,len(verif_prompts),batch_size)):

@@ -1,33 +1,38 @@
-\scalebox{1}{\begin{tabular}{clll}
+\begin{table}[ht]
+\centering
+\scalebox{0.7}{\begin{tabular}{cllrrl}
 \toprule
-& Model & \makecell{Number of\\ parameters} & Brief description of the training data \\
+& \# & Model & \makecell{Number of\\ parameters} & \makecell{Training data\\ size} & \makecell{Training corpus\\ language(s) and details} \\
 \midrule
-\multirow{10}{*}{\rotatebox[origin=c]{90}{Causal}} & BLOOM-7B1 & 7.0B & - \\
- & Falcon-40B & 40.0B & - \\
- & GPT-J-6B & 6.0B & - \\
- & LLAMA-70B & 70.0B & - \\
- & Medalpaca-7B & 7.0B & - \\
- & Mistral-7B & 7.0B & Not shared yet. \\
- & OPT-66B & 66.0B & - \\
- & Vicuna-13B & 13.0B & - \\
- & Vicuna-7B & 7.0B & - \\
- & Vigogne-13B & 13.0B & - \\
+\multirow{10}{*}{\rotatebox[origin=c]{90}{Causal}} & 1 & LLAMA-2-70B\textsuperscript{\texttt{[en]}} \cite{touvron2023llama} & 70B & 2 trillion tokens & A mix of publicly available online data, mainly in English \\
+ & 2 & Mistral-7B\textsuperscript{\texttt{[?]}} \cite{jiang2023mistral} & 7B & Undisclosed & Undisclosed \\
+ & 3 & BLOOM-7B1\textsuperscript{\texttt{[en]}}\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[es]}} \cite{workshop2022bloom} & 7B & 1.6 TB & ROOTS \cite{laurenccon2022bigscience}, a mix of datasets and pseudo-crawled data 59 languages \\
+ & 4 & Falcon-40B\textsuperscript{\texttt{[en]}}\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[es]}} & 40B & 1 trillion tokens & RefinedWeb \cite{penedo2023refinedweb}, a dataset of filtered and deduplicated web data \\
+ & 5 & GPT-J-6B\textsuperscript{\texttt{[en]}} \cite{wang2021gptj} & 6B & 825 GiB & The Pile \cite{gao2020pile}, a mixture of public datasets and web data in English \\
+ & 6 & OPT-66B\textsuperscript{\texttt{[en]}} \cite{zhang2022opt} & 66B & 180 billion tokens & Crawled data from the web, mainly in English \\
+ & 7 & Vicuna-13B\textsuperscript{\texttt{[en]}}* \cite{zheng2023judging} & 13B & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
+ & 8 & Vicuna-7B\textsuperscript{\texttt{[en]}}* \cite{zheng2023judging} & 7B & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
+ & 9 & Medalpaca-7B\textsuperscript{\texttt{[en]}}* \cite{han2023medalpaca} & 7B & 400K Q.A. pairs & LLAMA 2, fine-tuned on semi-generated medical question-answer pairs in English \\
+ & 10 & Vigogne-13B\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[en]}}* & 13B & 52K instructions & LLAMA 2, fine-tuned on English instructions automatically translated to French \\
 \midrule
-\multirow{16}{*}{\rotatebox[origin=c]{90}{Masked}} & BERT-large & 345.0M & - \\
- & BETO & 110.0M & - \\
- & BSC-Bio & 110.0M & - \\
- & BSC-BioEHR & 110.0M & - \\
- & Bio\_ClinicalBERT & 110.0M & - \\
- & CamemBERT-bio & 110.0M & - \\
- & CamemBERT-large & 335.0M & - \\
- & ClinicalBERT & 110.0M & - \\
- & DrBERT-4GB & 4.0B & - \\
- & FlauBERT-large & 335.0M & - \\
- & MedBERT & 110.0M & - \\
- & PatanaBERT & 110.0M & - \\
- & RoBERTa-large & 355.0M & 160GB of text from CommonCrawl, a dataset of web crawl data. \\
- & TulioBERT & 110.0M & - \\
- & XLM-RoBERTa-large & 355.0M & - \\
- & mBERT & 110.0M & - \\
+\multirow{16}{*}{\rotatebox[origin=c]{90}{Masked}} & 11 & mBERT\textsuperscript{\texttt{[en]}}\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[es]}} \cite{devlin2019bert} & 110M & Undisclosed & A corpus featuring 104 languages built from undisclosed sources \\
+ & 12 & XLM-RoBERTa-large\textsuperscript{\texttt{[en]}}\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[es]}} \cite{conneau2020unsupervised} & 355M & 2.5 TB & Filtered CommonCrawl data containing 100 languages \\
+ & 13 & BERT-large\textsuperscript{\texttt{[en]}} \cite{devlin2019bert} & 345M & 3,3 billion words & BookCorpus \cite{zhu2015aligning}, a dataset consisting of unpublished books and English Wikipedia. \\
+ & 14 & RoBERTa-large\textsuperscript{\texttt{[en]}} \cite{liu2019roberta} & 355M & 160 GiB & BooksCorpus \cite{zhu2015aligning}, English Wikipedia, and crawled web data \\
+ & 15 & Bio\_ClinicalBERT\textsuperscript{\texttt{[en]}} \cite{alsentzer2019publicly} & 110M & 2 million clinical notes & MIMIC-III \cite{johnson2016mimic}, a database containing electronic health records from hospitalized ICU patients \\
+ & 16 & ClinicalBERT\textsuperscript{\texttt{[en]}} \cite{wang2023optimized} & 110M & 1.2 billion words & A large multi-center dataset with a corpus built from undisclosed sources \\
+ & 17 & MedBERT\textsuperscript{\texttt{[en]}} \cite{charangan2022medbert} & 110M & 57 million words & Community datasets (including N2C2 \cite{luo2020n2c2}) and Crawled medical-related articles from Wikipedia \\
+ & 18 & CamemBERT-large\textsuperscript{\texttt{[fr]}} \cite{martin2019camembert} & 335M & 64 billion tokens & OSCAR \cite{suarez2020monolingual}, a corpus of web data in French \\
+ & 19 & FlauBERT-large\textsuperscript{\texttt{[fr]}} \cite{le2019flaubert} & 335M & 13 billion tokens & A mix of French Wikipedia, French books, and French web data \\
+ & 20 & DrBERT-4GB\textsuperscript{\texttt{[fr]}} \cite{labrak2023drbert} & 110M & 1 billion words & A mix of publicly available biomedical corpora in French (including QuaeroFrenchMed \cite{neveol2014quaero}). \\
+ & 21 & CamemBERT-bio\textsuperscript{\texttt{[fr]}} \cite{touchent2023camembertbio} & 110M & 413 million words & A mix of publicly available biomedical corpora in French (including E3C \cite{magnini2021e3c}). \\
+ & 22 & BETO\textsuperscript{\texttt{[es]}} \cite{canete2020beto} & 110M & 3 billion words & Spanish Wikipedia and Spanish data from OPUS \cite{tiedemann2012parallel} \\
+ & 23 & PatanaBERT\textsuperscript{\texttt{[es]}} & 110M & Undisclosed & Spanish \\
+ & 24 & TulioBERT\textsuperscript{\texttt{[es]}} & 110M & Undisclosed & Spanish \\
+ & 25 & BSC-BioEHR\textsuperscript{\texttt{[es]}} \cite{carrino2022pretrained} & 110M & 1.1 billion tokens & A mixture of biomedical community datasets including EHR documents and crawled data in Spanish \\
+ & 26 & BSC-Bio\textsuperscript{\texttt{[es]}} \cite{carrino2022pretrained} & 110M & 963 million tokens & A mixture of biomedical community datasets and crawled data in Spanish \\
 \bottomrule
 \end{tabular}}
+\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. Models marked with \textsuperscript{\texttt{[en]}} (respectively \textsuperscript{\texttt{[fr]}}, \textsuperscript{\texttt{[es]}}) are heavily trained on English (respectively French, Spanish). CLMs marked with * are fine-tuned versions of other CLMs.}
+\label{tab:LM_features}
+\end{table}

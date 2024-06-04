@@ -147,7 +147,7 @@ strings={
     },
     "fr":{
         "task_introduction" : "La tâche est d'identifier toutes les mentions {ner_tag_plural} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelques exemples :\n",
-        "task_introduction_youre_a_specialist" : "Tu es un excellent {specialist}. Tu sais identifier toutes les mentions {ner_tag_plural} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelues exemples que tu peux traiter :\n",
+        "task_introduction_youre_a_specialist" : "Tu es un excellent {specialist}. Tu sais identifier toutes les mentions {ner_tag_plural} dans une phrase, en les mettant en forme. {ner_tag_description} Voici quelques exemples que tu peux traiter :\n",
         "ask": "Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
         "ask_youre_a_specialist": "Continue. Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en mettant \"{begin_tag}\" devant et \"{end_tag}\" derrière chacune d'entre elles.\n",
         "ask_listing": "Identifie toutes les mentions {ner_tag_plural} dans la phrase suivante, en les listant, séparées par \"{list_separator}\".\n",
@@ -347,7 +347,7 @@ strings={
             "Body_Part" : "Estas son palabras que se refieren a òrganos y partes anatómicas de personas.",
             "Clinical_Finding" : "Estas son palabras que se refieren a observaciones, juicios o evaluaciones que se hacen sobre los pacientes.",
             "Diagnostic_Procedure" : "Estas son palabras que se refieren a exámenes que permiten determinar la condición del individuo.",
-            "Disease" : "Estas son palabras que describen una alteración del estado fisioógico en una o varias partes del cuerpo, por causas en general conocidas, manifestada por síntomas y signos característicos, y cuya evolución es más o menos previsible.",
+            "Disease" : "Estas son palabras que describen una alteración del estado fisiológico en una o varias partes del cuerpo, por causas en general conocidas, manifestada por síntomas y signos característicos, y cuya evolución es más o menos previsible.",
             "Family_Member" : "Estas son palabras que se refieren a miembros de la familia.",
             "Laboratory_or_Test_Result" : "Estas son palabras que se refieren a cualquier medición o evaluación obtenida a partir de un exámen de apoyo diagnóstico.",
             "Laboratory_Procedure" : "Estas son palabras que se refieren a exámenes que se realizan en diversas muestras de pacientes que permiten diagnosticar enfermedades mediante la detección de biomarcadores y otros parámetros. Se consideran los análisis de sangre, orina, y otros fluidos y tejidos que emplean métodos bioquímicos, microbiológicos y/o citológicos.",

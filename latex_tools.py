@@ -44,8 +44,9 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
     df_fully_sup_table.drop(columns='model_language', inplace=True)
     df_fully_sup_table = df_fully_sup_table.fillna('-')
     df_fully_sup_table = df_fully_sup_table[ordered_datasets['en'] + ordered_datasets['fr'] + ordered_datasets['es']]
-    
-    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex = "\\begin{table}[ht]\n"
+    latex += "\\centering\n"
+    latex += "\\scalebox{0.7}{\\begin{tabular}"
     latex += "{lll|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
     # latex += "\\toprule\n"
     latex += " & & & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c|}{French} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c}{Spanish} \\\\\n"
@@ -57,22 +58,27 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
     latex += " \\multicolumn{" + str(n_datasets+3) + "}{l}{\\textit{Few-shot approaches}} \\\\\n"
     latex += "\\midrule\n"
     n_causal = len(df_table[df_table.model_type == 'Causal'])
-    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
+    #to print floats up to 3 decimals, replace str(x) by "{:.3f}".format(x)
+    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table.index[0] + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in df_table.iloc[0][:-1]]) + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
-        latex += " & " + str(i+2) + " & " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+        latex += " & " + str(i+2) + " & " + model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
     latex += "\\midrule\n"
     n_masked = len(df_table[df_table.model_type == 'Masked'])
-    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & "+ str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + " & ".join([str(x) for x in df_table.iloc[n_causal][:-1]]) + " \\\\\n"
+    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & "+ str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in df_table.iloc[n_causal][:-1]]) + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
-        latex += " & " + str(i+n_causal+2) + " & " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+        latex += " & " + str(i+n_causal+2) + " & " + model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
     latex += "\\midrule\n"
     latex += "\\midrule\n"
     latex += "\\multicolumn{" + str(n_datasets+3) + "}{l}{\\textit{Masked fully-supervised (skyline)}} \\\\\n"
     latex += "\\midrule\n"
     for i, (model_name, row) in enumerate(df_fully_sup_table.iterrows()):
-        latex += " & & " + model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row]) + " \\\\\n"
+        latex += " & & " + model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row]) + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
+    #\caption{This table presents the (macro?)-F1 obtained from few-shot experiments. skyline results are obtained using all training data available instead of the few-shot setting.}
+    latex += "\\caption{This table presents the micro-F1 obtained from few-shot experiments. Skyline results are obtained using all training data available instead of the few-shot setting.}\n"
+    latex += "\\label{tab:results}\n"
+    latex += "\\end{table}\n"
     with open(os.path.join(output_folder, output_name), 'w') as f:
         f.write(latex)
     
@@ -88,42 +94,90 @@ def scientific_notation(x):
     if x < 1000:
         return str(round(x))
     if x < 1000000:
-        return str(round(x/1000, 2)) + 'K'
+        return str(round(x/1000, 2)) + ' thousand'
     if x < 1000000000:
-        return str(round(x/1000000, 2)) + 'M'
-    return str(round(x/1000000000, 2)) + 'B'
+        return str(round(x/1000000, 2)) + ' million'
+    return str(round(x/1000000000, 2)) + ' billion'
 
+def million_notation(x):
+    #X is a float, usually in millions or billions
+    #return a string with the number divided by 1 million
+    if x == '-':
+        return '-'
+    return str(round(x/1000000))
 
-def latex_models(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_descriptions):
+def billion_notation(x):
+    #X is a float, usually in millions or billions
+    #return a string with the number divided by 1 billion
+    b = 1000000000
+    if x == '-':
+        return '-'
+    if x > b:
+        return str(round(x/b))
+    return str(x/b)
+
+def billion_notation(x):
+    #X is a float, usually in millions or billions
+    #return a string with the number divided by 1 billion
+    m = 1000000
+    b = 1000000000
+    if x == '-':
+        return '-'
+    if m < x < b:
+        return str(round(x/m)) + 'M'
+    if x > b:
+        return str(round(x/b)) + 'B'
+
+def latex_models(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference, model_order, model_language_markers):
     #get a row from each model type
     df_table = df['model_name'].drop_duplicates().to_frame()
     df_table = df_table.set_index('model_name')
     df_table['model_type'] = df_table.index.map(lambda x: model_types[x])
     df_table['model_domain'] = df_table.index.map(lambda x: model_domains[x])
     df_table['model_size'] = df_table.index.map(lambda x: model_sizes[x])
-    df_table['model_size'] = df_table['model_size'].map(scientific_notation)
-    df_table['model_description'] = df_table.index.map(lambda x: model_descriptions[x])
+    in_billion = True
+    df_table['model_size'] = df_table['model_size'].map(billion_notation if in_billion else million_notation)
+    df_table['model_training_data_size'] = df_table.index.map(lambda x: model_training_data_sizes[x])
+    df_table['model_training_data_languages'] = df_table.index.map(lambda x: model_training_data_languages[x])
+    df_table['model_reference'] = df_table.index.map(lambda x: model_reference[x])
+    df_table['model_language_markers'] = df_table.index.map(lambda x: ''.join(['\\textsuperscript{\\texttt{['+lang+']}}' if lang!="*" else lang for lang in model_language_markers[x]]))
     df_table.index = df_table.index.map(lambda x: model_clean_names[x])
+    df_table['model_latex_name'] = df_table.index.map(lambda x: x.replace('_','\\_'))
+    #add reference to the model name if available
+    df_table['model_latex_name'] = df_table['model_latex_name'] + df_table['model_language_markers'] + df_table['model_reference'].map(lambda x: ' \\cite{' + x + '}' if x != '-' else '')
     #sort by type and by then by index
     df_table.index.name = 'model_name'
     df_table = df_table.sort_values(by=['model_type', 'model_name'], ascending=[True, True])
     n_causal = len(df_table[df_table.model_type == 'Causal'])
     n_masked = len(df_table[df_table.model_type == 'Masked'])
+    #order the model by model_order
+    df_table['model_order'] = df_table.index.map(lambda x: model_order.index(x))
+    df_table = df_table.sort_values(by=['model_order'])    
     #print a table with the model names
-    latex = "\\scalebox{1}{\\begin{tabular}"
-    latex += "{clll}\n"
+    latex = "\\begin{table}[ht]\n"
+    latex += "\\centering\n"
+    latex += "\\scalebox{0.7}{\\begin{tabular}"
+    # latex += "{clllll}\n"
+    latex += "{cllrrl}\n"
     latex += "\\toprule\n"
-    latex += "& Model & \makecell{Number of\\\\ parameters} & Brief description of the training data \\\\\n"
+    if in_billion:
+        latex += "& \# & Model & \makecell{Number of\\\\ parameters} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
+    else:
+        latex += "& \# & Model & \makecell{Number of\\\\ parameters\\\\(in millions)} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
     latex += "\\midrule\n"
-    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & " + df_table.index[0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_description'] + " \\\\\n"
+    latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table['model_latex_name'][0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_training_data_size'] + " & " + df_table.iloc[0]['model_training_data_languages'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
-        latex += " & " + model_name.replace('_','\\_') + " & " + row['model_size'] + " & " + row['model_description'] + " \\\\\n"
+        latex += " & " + str(i+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\midrule\n"
-    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & "+ df_table.index[n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_description'] + " \\\\\n"
+    # latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
+    latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table['model_latex_name'][n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
-        latex += " & " + model_name.replace('_','\\_') + " & " + row['model_size'] + " & " + row['model_description'] + " \\\\\n"
+        latex += " & " + str(i+n_causal+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
     latex += "\\bottomrule\n"
-    latex += "\\end{tabular}}"
+    latex += "\\end{tabular}}\n"
+    latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. Models marked with \\textsuperscript{\\texttt{[en]}} (respectively \\textsuperscript{\\texttt{[fr]}}, \\textsuperscript{\\texttt{[es]}}) are heavily trained on English (respectively French, Spanish). CLMs marked with * are fine-tuned versions of other CLMs.}\n"
+    latex += "\\label{tab:LM_features}\n"
+    latex += "\\end{table}\n"
     with open(os.path.join(output_folder, 'model_names_table.tex'), 'w') as f:
         f.write(latex)
 
@@ -177,7 +231,10 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
     #select only the models that are in the listing
     df_base_table = df_base_table.loc[df_table.index]
     
-    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex = "\\begin{table}[ht]\n"
+    latex += "\\centering\n"
+    latex += "\\scalebox{0.7}{%\n"
+    latex += "\\begin{tabular}"
     latex += "{l|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
     latex += " & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c|}{French} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c}{Spanish} \\\\\n"
     latex += "\\cmidrule{2-" + str(len(ordered_datasets['en'])+1) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+2) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+1) + "} \\cmidrule{" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+2) + "-" + str(len(ordered_datasets['en'])+len(ordered_datasets['fr'])+len(ordered_datasets['es'])+1) + "}\n"
@@ -187,19 +244,23 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
     n_datasets = len(ordered_datasets['en']) + len(ordered_datasets['fr']) + len(ordered_datasets['es'])
     latex += " \\multicolumn{" + str(n_datasets+1) + "}{l}{\\textit{Listing prompts}} \\\\\n"
     latex += "\\midrule\n"
-    latex += df_table.index[0] + " & " + " & ".join([str(x) for x in df_table.iloc[0][:-1]]) + " \\\\\n"
+    latex += df_table.index[0] + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in df_table.iloc[0][:-1]]) + " \\\\\n"
     for model_name, row in df_table.iloc[1:].iterrows():
-        latex += model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+        latex += model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
     latex += "\\midrule\n"
     latex += "\\midrule\n"
     latex += "\\multicolumn{" + str(n_datasets+1) + "}{l}{\\textit{Tagging prompts}} \\\\\n"
     latex += "\\midrule\n"
-    latex += df_base_table.index[0] + " & " + " & ".join([str(x) for x in df_base_table.iloc[0][:-1]]) + " \\\\\n"
+    latex += df_base_table.index[0] + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in df_base_table.iloc[0][:-1]]) + " \\\\\n"
     for model_name, row in df_base_table.iloc[1:].iterrows():
-        latex += model_name.replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:-1]]) + " \\\\\n"
+        latex += model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
 
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
+    # latex += "\\caption{This table presents the F1 obtained from the listing and tagging prompts.}\n"
+    latex += "\\caption{F1 scores obtained with the listing and tagging prompts.}\n"
+    latex += "\\label{tab:listing}\n"
+    latex += "\\end{table}\n"
     with open(os.path.join(output_folder, "listing.tex"), 'w') as f:
         f.write(latex)
 
@@ -241,7 +302,9 @@ def latex_sampling(df, dataset_names, model_clean_names, output_folder):
     df_table = df_table[column_order]
     df_table = df_table.fillna('-')
     
-    latex = "\\scalebox{0.7}{\\begin{tabular}"
+    latex = "\\begin{table}[ht]\n"
+    latex += "\\centering\n"
+    latex += "\\scalebox{1}{\\begin{tabular}"
     latex += "{l|" + "c"*len(p_values) + "|" + "c"*len(p_values) + "}\n"
     latex += "\\toprule\n"
     # latex += "\\multicolumn{" + str(len(studied_datasets)) + "}{c}{" + dataset_names[studied_datasets[0]] + "} & \\multicolumn{" + str(len(studied_datasets)) + "}{c}{" + dataset_names[studied_datasets[1]] + "} \\\\\n"
@@ -274,5 +337,48 @@ def latex_sampling(df, dataset_names, model_clean_names, output_folder):
         latex += model_clean_names[model_name.split()[0]].replace('_','\\_') + " & " + " & ".join([str(x) for x in row[:len(p_values)]]) + " & " + " & ".join([str(x) for x in row[len(p_values):]]) + " \\\\\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}"
+    latex += "\\caption{F1 scores obtained over experiments with different training samples and different training sample sizes.}\n"
+    latex += "\\label{tab:sampling}\n"
+    latex += "\\end{table}\n"
+
     with open(os.path.join(output_folder, "sampling.tex"), 'w') as f:
         f.write(latex)
+
+def latex_ner_descriptions(strings):
+    language_clean_names = {"en": "English", "fr": "French", "es": "Spanish"}
+    for lang in ["en", "fr", "es"]:
+        latex = "\\begin{table}[ht]\n"
+        latex += "\\centering\n"
+        latex += "\\scalebox{0.6}{\\begin{tabular}"
+        latex += "{lll}\n"
+        latex += "\\toprule\n"
+        latex += "Tag & Tag name (in singular) & Description \\\\\n"
+        latex += "\\midrule\n"
+        latex += "\\midrule\n"
+        for tag in strings[lang]['ner_tags_names_in_plural']:
+            tag_name = tag.replace('_', '\\_')
+            tag_name_in_plural = strings[lang]['ner_tags_names_in_plural'][tag].replace('_', '\\_')
+            tag_name_in_singular = strings[lang]['ner_tags_names'][tag].replace('_', '\\_')
+            tag_full_name = tag_name_in_plural + " (" + tag_name_in_singular + ")"
+            tag_full_description = strings[lang]['ner_tags_description'][tag].replace('_', '\\_')
+            #use makecell to allow line breaks in the description
+            tag_clean_name = ""
+            for word in tag_full_name.split():
+                if len(tag_clean_name.split("\\\\")[-1]) + len(word) > 30:
+                    tag_clean_name += "\\\\"
+                tag_clean_name += word + " "
+            tag_description = ""
+            for word in tag_full_description.split():
+                if len(tag_description.split("\\\\")[-1]) + len(word) > 120:
+                    tag_description += "\\\\"
+                tag_description += word + " "
+            latex += tag_name + " & \\makecell{" + tag_clean_name+ "} & \\makecell{" + tag_description + "} \\\\\n"
+            latex += "\\midrule\n"
+        latex += "\\bottomrule\n"
+        latex += "\\end{tabular}}\n"
+        # latex += "\\caption{Description of the NER tags used in our experiments.}\n"
+        latex += "\\caption{Description of the NER tags used in our experiments for " + language_clean_names[lang] + ".}\n"
+        latex += "\\label{tab:ner_tags_" + lang + "}\n"
+        latex += "\\end{table}\n"
+        with open(os.path.join('tabs_and_plots', 'tags_' + lang + '.tex'), 'w') as f:
+            f.write(latex)

@@ -34,6 +34,7 @@ args.add_argument('-p','--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('--listing', action="store_true")
 args.add_argument('--grid_search', action="store_true")
+args.add_argument('--grid_search', action="store_true")
 
 args = args.parse_args()
 random.seed(args.random_seed)
