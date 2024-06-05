@@ -26,6 +26,7 @@ args.add_argument('--no_write_log', dest='write_log', action='store_false')
 args.add_argument('-n', '--n_gpus', type=int, default=1)
 args.add_argument('--transformers', action="store_true")
 args.add_argument('--debug', action="store_true")
+args.add_argument('--log_full_preds', action="store_true")
 
 #ABLATION ARGS
 args.add_argument('--control', action="store_true")
@@ -33,7 +34,6 @@ args.add_argument('--random_seed', type=int, default=42)
 args.add_argument('-p','--partition_seed', type=int, default=1)
 args.add_argument('-s', '--training_size', type=int, default=100)
 args.add_argument('--listing', action="store_true")
-args.add_argument('--grid_search', action="store_true")
 args.add_argument('--grid_search', action="store_true")
 
 args = args.parse_args()
@@ -205,13 +205,14 @@ def run_with_hyper_params(
     if args.write_log:
         with open(logfilename, 'a') as logfile:
             logfile.write(get_metrics_string(metric_dict, ner_tags))
-
-    if args.write_log:
+    
+    if args.log_full_preds:
         full_preds = full_preds_string(textual_outputs, predicted_dataset, test_dataset if test_on_test_set else traindev_dataset_this_seed, ner_tags)
         full_preds_path = os.path.join(script_dir, folder_name)+f'/full_preds_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.txt'
         res_dict['full_preds_path'] = full_preds_path
         with open(full_preds_path, 'w') as f:
             f.write(full_preds)
+    if args.write_log:
         res_dict_path = os.path.join(script_dir, folder_name)+f'/res_dict_{last_two_dirs}_{model_base_name}_{args.random_seed}_{time_str}.json'
         with open(res_dict_path, 'w') as f:
             json.dump(res_dict, f)
