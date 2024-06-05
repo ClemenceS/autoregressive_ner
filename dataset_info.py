@@ -38,17 +38,19 @@ language_by_dataset = {
     "NCBI" : "en",
 }
 
+clinician_datasets = ["medline", "emea", "n2c2", "e3c", "cwlc", "NCBI"]
+
+#include clinician datasets
 specialist_name_by_dataset = {
-    "WikiNER" : "linguist",
-    "conll2003" : "linguist",
-    "conll2002" : "linguist",
-    "QFP" : "linguist",
-    "medline" : "clinician",
-    "emea" : "clinician",
-    "n2c2" : "clinician",
-    "e3c" : "clinician",
-    "cwlc" : "clinician",
-    "NCBI" : "clinician",
+    "en" : {
+        k: ("clinician" if k in clinician_datasets else "linguist") for k in ner_tags_by_dataset
+    },
+    "fr" : {
+        k: ("clinicien" if k in clinician_datasets else "linguiste") for k in ner_tags_by_dataset
+    },
+    "es" : {
+        k: ("clínico" if k in clinician_datasets else "lingüista") for k in ner_tags_by_dataset
+    },
 }
 
 
@@ -67,5 +69,5 @@ def get_dataset_tag_map(dataset_name):
 def get_dataset_language(dataset_name):
     return _get_if_key_in_x(language_by_dataset, dataset_name)
 
-def get_dataset_specialist_name(dataset_name):
-    return _get_if_key_in_x(specialist_name_by_dataset, dataset_name)
+def get_dataset_specialist_name(dataset_name, dataset_language):
+    return _get_if_key_in_x(specialist_name_by_dataset, dataset_name)[dataset_language]

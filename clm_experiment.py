@@ -75,7 +75,7 @@ traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_
 last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
 ner_tags = get_dataset_ner_tags(args.dataset_name)
 dataset_language = get_dataset_language(args.dataset_name)
-prompt_specialist_name = get_dataset_specialist_name(args.dataset_name)
+prompt_specialist_name = get_dataset_specialist_name(args.dataset_name, dataset_language)
 
 if args.debug:
     traindev_dataset_this_seed = traindev_dataset_this_seed[:50]
