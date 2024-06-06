@@ -154,30 +154,31 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     df_table['model_order'] = df_table.index.map(lambda x: model_order.index(x))
     df_table = df_table.sort_values(by=['model_order'])    
     #print a table with the model names
-    latex = "\\begin{table}[ht]\n"
-    latex += "\\centering\n"
-    latex += "\\scalebox{0.7}{\\begin{tabular}"
+    latex = "\\begin{table*}[htbp]\n"
+    latex += "\\centerline{\\scalebox{0.8}{\n\\begin{tabular}"
     # latex += "{clllll}\n"
-    latex += "{cllrrl}\n"
+    latex += "{clp{7cm}rp{3cm}p{10cm}}\n"
     latex += "\\toprule\n"
     if in_billion:
-        latex += "& \# & Model & \makecell{Number of\\\\ parameters} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
+        latex += "& \# & Model & \makecell[r]{Number of\\\\ parameters} & Training data size & \makecell[l]{Training corpus} \\\\\n"
     else:
-        latex += "& \# & Model & \makecell{Number of\\\\ parameters\\\\(in millions)} & \makecell{Training data\\\\ size} & \makecell{Training corpus\\\\ language(s) and details} \\\\\n"
-    latex += "\\midrule\n"
+        latex += "& \# & Model & \makecell[r]{Number of\\\\ parameters\\\\(in millions)} & Training data size & \makecell[l]{Training corpus} \\\\\n"
+    latex += "\\midrule[2pt]\n"
     latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table['model_latex_name'][0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_training_data_size'] + " & " + df_table.iloc[0]['model_training_data_languages'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
         latex += " & " + str(i+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
-    latex += "\\midrule\n"
+        latex += "\\cmidrule{2-6}\n"
+    latex += "\\midrule[2pt]\n"
     # latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
     latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table['model_latex_name'][n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
         latex += " & " + str(i+n_causal+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
+        latex += "\\cmidrule{2-6}\n"
     latex += "\\bottomrule\n"
-    latex += "\\end{tabular}}\n"
+    latex += "\\end{tabular}}}\n"
     latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. Models marked with \\textsuperscript{\\texttt{[en]}} (respectively \\textsuperscript{\\texttt{[fr]}}, \\textsuperscript{\\texttt{[es]}}) are heavily trained on English (respectively French, Spanish). CLMs marked with * are fine-tuned versions of other CLMs.}\n"
     latex += "\\label{tab:LM_features}\n"
-    latex += "\\end{table}\n"
+    latex += "\\end{table*}\n"
     with open(os.path.join(output_folder, 'model_names_table.tex'), 'w') as f:
         f.write(latex)
 
