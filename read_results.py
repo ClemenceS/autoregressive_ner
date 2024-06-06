@@ -113,7 +113,7 @@ model_hierarchy = {
             },
             {
                 "name": "xlm-roberta-large",
-                "clean_name": "XLM-RoBERTa-large",
+                "clean_name": "XLM-R-large",
                 "size": 355*M,
                 "languages" : "all",
                 "training_data_languages": "Filtered CommonCrawl data containing 100 languages",
@@ -259,6 +259,16 @@ model_hierarchy = {
                 "language_markers": ["en", "fr", "es"],
             },
             {
+                "name": "Phi-3-medium-4k-instruct",
+                "clean_name": "Phi-3-medium-instruct",
+                "size": 14*B,
+                "languages" : "all",
+                "training_data_size": "4.8 trillion tokens",
+                "training_data_languages": "A combination of publicly available corpora, synthetic data and chat format supervised data, mainly in English",
+                "language_markers": ["en"],
+                "reference" : "-",
+            },
+            {
                 "name": "vigogne-2-13b-instruct",
                 "clean_name": "Vigogne-13B",
                 "size": 13*B,
@@ -277,7 +287,18 @@ model_hierarchy = {
                 "reference": "wang2021gptj",
                 "language_markers": ["en"],
             },
-           {
+            {
+                "name" : "Meta-Llama-3-8B-Instruct",
+                "clean_name" : "Llama-3-8B-Instruct",
+                "size" : 8*B,
+                "languages" : "all",
+                "training_data_size": "-",
+                "training_data_languages": "-",
+                "reference": "-",
+                "language_markers": ["en"],
+
+            },
+            {
                 "name" : "opt-66b",
                 "clean_name": "OPT-66B",
                 "size": 66*B,
