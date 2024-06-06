@@ -231,9 +231,9 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
     #select only the models that are in the listing
     df_base_table = df_base_table.loc[df_table.index]
     
-    latex = "\\begin{table}[ht]\n"
+    latex = "\\begin{table*}[htbp]\n"
     latex += "\\centering\n"
-    latex += "\\scalebox{0.7}{%\n"
+    latex += "\\centerline{\\scalebox{0.65}{%\n"
     latex += "\\begin{tabular}"
     latex += "{l|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
     latex += " & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c|}{French} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c}{Spanish} \\\\\n"
@@ -256,11 +256,11 @@ def latex_listing(df, output_folder, model_domains, model_types, dataset_names, 
         latex += model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row[:-1]]) + " \\\\\n"
 
     latex += "\\bottomrule\n"
-    latex += "\\end{tabular}}"
+    latex += "\\end{tabular}}}\n"
     # latex += "\\caption{This table presents the F1 obtained from the listing and tagging prompts.}\n"
     latex += "\\caption{F1 scores obtained with the listing and tagging prompts.}\n"
     latex += "\\label{tab:listing}\n"
-    latex += "\\end{table}\n"
+    latex += "\\end{table*}\n"
     with open(os.path.join(output_folder, "listing.tex"), 'w') as f:
         f.write(latex)
 
@@ -302,9 +302,9 @@ def latex_sampling(df, dataset_names, model_clean_names, output_folder):
     df_table = df_table[column_order]
     df_table = df_table.fillna('-')
     
-    latex = "\\begin{table}[ht]\n"
+    latex = "\\begin{table}[H]\n"
     latex += "\\centering\n"
-    latex += "\\scalebox{1}{\\begin{tabular}"
+    latex += "\\scalebox{0.65}{\\begin{tabular}"
     latex += "{l|" + "c"*len(p_values) + "|" + "c"*len(p_values) + "}\n"
     latex += "\\toprule\n"
     # latex += "\\multicolumn{" + str(len(studied_datasets)) + "}{c}{" + dataset_names[studied_datasets[0]] + "} & \\multicolumn{" + str(len(studied_datasets)) + "}{c}{" + dataset_names[studied_datasets[1]] + "} \\\\\n"
