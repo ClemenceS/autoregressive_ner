@@ -44,9 +44,9 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
     df_fully_sup_table.drop(columns='model_language', inplace=True)
     df_fully_sup_table = df_fully_sup_table.fillna('-')
     df_fully_sup_table = df_fully_sup_table[ordered_datasets['en'] + ordered_datasets['fr'] + ordered_datasets['es']]
-    latex = "\\begin{table}[ht]\n"
+    latex = "\\begin{table*}[ht]\n"
     latex += "\\centering\n"
-    latex += "\\scalebox{0.7}{\\begin{tabular}"
+    latex += "\\centerline{\\scalebox{0.65}{\\begin{tabular}"
     latex += "{lll|" + "c"*len(ordered_datasets['en']) + "|" + "c"*len(ordered_datasets['fr']) + "|" + "c"*len(ordered_datasets['es']) + "}\n"
     # latex += "\\toprule\n"
     latex += " & & & \\multicolumn{" + str(len(ordered_datasets['en'])) + "}{c|}{English} & \\multicolumn{" + str(len(ordered_datasets['fr'])) + "}{c|}{French} & \\multicolumn{" + str(len(ordered_datasets['es'])) + "}{c}{Spanish} \\\\\n"
@@ -74,11 +74,11 @@ def latex_results(df, df_fully_sup, output_folder, model_domains, model_types, d
     for i, (model_name, row) in enumerate(df_fully_sup_table.iterrows()):
         latex += " & & " + model_name.replace('_','\\_') + " & " + " & ".join(["{:.3f}".format(x) if x!='-' else x for x in row]) + " \\\\\n"
     latex += "\\bottomrule\n"
-    latex += "\\end{tabular}}"
+    latex += "\\end{tabular}}}\n"
     #\caption{This table presents the (macro?)-F1 obtained from few-shot experiments. skyline results are obtained using all training data available instead of the few-shot setting.}
     latex += "\\caption{This table presents the micro-F1 obtained from few-shot experiments. Skyline results are obtained using all training data available instead of the few-shot setting.}\n"
     latex += "\\label{tab:results}\n"
-    latex += "\\end{table}\n"
+    latex += "\\end{table*}\n"
     with open(os.path.join(output_folder, output_name), 'w') as f:
         f.write(latex)
     
