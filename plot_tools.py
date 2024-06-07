@@ -16,6 +16,8 @@ def add_text(ax, i, df):
 
 def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers, print_results=False):
     df = df[df['listing'] == False]
+    df = df[df['partition_seed'] == 1]
+    df = df[df['training_size'] == 100]
     scatter_data = []
     for language, df_lang in df.groupby('lang'):
         if print_results:
@@ -44,6 +46,8 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
 
     scatter_df = pd.DataFrame(scatter_data)
     scatter_df['model_number'] = scatter_df['model_name'].map(lambda x: model_numbers[x])
+    #sort by model number
+    scatter_df = scatter_df.sort_values('model_number')
 
     for lang in ['english', 'french', 'spanish']:
         # scatter_df_lang = scatter_df[scatter_df.model_language == lang]
