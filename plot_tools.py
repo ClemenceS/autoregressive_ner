@@ -14,11 +14,11 @@ def add_text(ax, i, df):
         # bbox=dict(facecolor='white',alpha=0.5,edgecolor='black',boxstyle='round,pad=0.5')
     )
 
-def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers, print=False):
+def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers, print_results=False):
     df = df[df['listing'] == False]
     scatter_data = []
     for language, df_lang in df.groupby('lang'):
-        if print:
+        if print_results:
             print(f'================{language}================')
         for model_name, model_performance in df_lang.groupby('model_name'):
             model_name = model_name.split('/')[-1]
@@ -27,7 +27,7 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
             model_size = model_sizes[model_name]
             general_performance = model_performance[model_performance['dataset_domain'] == 'General']['f1'].mean()
             clinical_performance = model_performance[model_performance['dataset_domain'] == 'Clinical']['f1'].mean()
-            if print:
+            if print_results:
                 print(f'------------{model_clean_names[model_name]}------------')
                 print(model_performance[['dataset_name','f1']])
                 print(f'=== General: {general_performance} - Clinical: {clinical_performance} ===')
