@@ -4,7 +4,8 @@
 \toprule
 & \# & Model & \makecell[r]{Number of\\ parameters} & Training data size & \makecell[l]{Training corpus} \\
 \midrule[2pt]
-\multirow{12}{*}{\rotatebox[origin=c]{90}{Causal}} & 1 & LLAMA-2-70B\textsuperscript{\texttt{[en]}} \cite{touvron2023llama} & 70B & 2 trillion tokens & A mix of publicly available online data, mainly in English \\
+\multirow{12}{*}{\rotatebox[origin=c]{90}{Causal}} & 1 & Llama-2-70B\textsuperscript{\texttt{[en]}} \cite{touvron2023llama} & 70B & 2 trillion tokens & A mix of publicly available online data, mainly in English \\
+\cmidrule{2-6}
  & 2 & Llama-3-8B-Instruct\textsuperscript{\texttt{[en]}} & 8B & - & - \\
 \cmidrule{2-6}
  & 3 & Mistral-7B\textsuperscript{\texttt{[?]}} \cite{jiang2023mistral} & 7B & Undisclosed & Undisclosed \\
@@ -19,16 +20,16 @@
 \cmidrule{2-6}
  & 8 & OPT-66B\textsuperscript{\texttt{[en]}} \cite{zhang2022opt} & 66B & 180 billion tokens & Crawled data from the web, mainly in English \\
 \cmidrule{2-6}
- & 9 & Vicuna-13B\textsuperscript{\texttt{[en]}}* \cite{zheng2023judging} & 13B & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
+ & 9 & Vicuna-13B\textsuperscript{\texttt{[en]}}* \cite{zheng2023judging} & 13B & 125K conversations & Llama 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
 \cmidrule{2-6}
- & 10 & Vicuna-7B\textsuperscript{\texttt{[en]}}* \cite{zheng2023judging} & 7B & 125K conversations & LLAMA 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
+ & 10 & Vicuna-7B\textsuperscript{\texttt{[en]}}* \cite{zheng2023judging} & 7B & 125K conversations & Llama 2, fine-tuned on conversations collected from ShareGPT.com, mainly in English \\
 \cmidrule{2-6}
- & 11 & Medalpaca-7B\textsuperscript{\texttt{[en]}}* \cite{han2023medalpaca} & 7B & 400K Q.A. pairs & LLAMA 2, fine-tuned on semi-generated medical question-answer pairs in English \\
+ & 11 & Medalpaca-7B\textsuperscript{\texttt{[en]}}* \cite{han2023medalpaca} & 7B & 400K Q.A. pairs & Llama 2, fine-tuned on semi-generated medical question-answer pairs in English \\
 \cmidrule{2-6}
- & 12 & Vigogne-13B\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[en]}}* & 13B & 52K instructions & LLAMA 2, fine-tuned on English instructions automatically translated to French \\
-\cmidrule{2-6}
+ & 12 & Vigogne-13B\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[en]}}* & 13B & 52K instructions & Llama 2, fine-tuned on English instructions automatically translated to French \\
 \midrule[2pt]
 \multirow{16}{*}{\rotatebox[origin=c]{90}{Masked}} & 13 & mBERT\textsuperscript{\texttt{[en]}}\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[es]}} \cite{devlin2019bert} & 110M & Undisclosed & A corpus featuring 104 languages built from undisclosed sources \\
+\cmidrule{2-6}
  & 14 & XLM-R-large\textsuperscript{\texttt{[en]}}\textsuperscript{\texttt{[fr]}}\textsuperscript{\texttt{[es]}} \cite{conneau2020unsupervised} & 355M & 2.5 TB & Filtered CommonCrawl data containing 100 languages \\
 \cmidrule{2-6}
  & 15 & BERT-large\textsuperscript{\texttt{[en]}} \cite{devlin2019bert} & 345M & 3,3 billion words & BookCorpus \cite{zhu2015aligning}, a dataset consisting of unpublished books and English Wikipedia. \\
@@ -58,7 +59,6 @@
  & 27 & BSC-BioEHR\textsuperscript{\texttt{[es]}} \cite{carrino2022pretrained} & 110M & 1.1 billion tokens & A mixture of biomedical community datasets including EHR documents and crawled data in Spanish \\
 \cmidrule{2-6}
  & 28 & BSC-Bio\textsuperscript{\texttt{[es]}} \cite{carrino2022pretrained} & 110M & 963 million tokens & A mixture of biomedical community datasets and crawled data in Spanish \\
-\cmidrule{2-6}
 \bottomrule
 \end{tabular}}}
 \caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. Models marked with \textsuperscript{\texttt{[en]}} (respectively \textsuperscript{\texttt{[fr]}}, \textsuperscript{\texttt{[es]}}) are heavily trained on English (respectively French, Spanish). CLMs marked with * are fine-tuned versions of other CLMs.}

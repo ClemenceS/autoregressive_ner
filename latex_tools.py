@@ -165,15 +165,18 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
         latex += "& \# & Model & \makecell[r]{Number of\\\\ parameters\\\\(in millions)} & Training data size & \makecell[l]{Training corpus} \\\\\n"
     latex += "\\midrule[2pt]\n"
     latex += "\\multirow{" + str(n_causal) + "}{*}{\\rotatebox[origin=c]{90}{Causal}} & 1 & " + df_table['model_latex_name'][0] + " & " + df_table.iloc[0]['model_size'] + " & " + df_table.iloc[0]['model_training_data_size'] + " & " + df_table.iloc[0]['model_training_data_languages'] + " \\\\\n"
+    latex += "\\cmidrule{2-6}\n"
     for i, (model_name, row) in enumerate(df_table.iloc[1:n_causal].iterrows()):
         latex += " & " + str(i+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
-        latex += "\\cmidrule{2-6}\n"
+        if i != n_causal-2:
+            latex += "\\cmidrule{2-6}\n"
     latex += "\\midrule[2pt]\n"
-    # latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table.index[n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
     latex += "\\multirow{" + str(n_masked) + "}{*}{\\rotatebox[origin=c]{90}{Masked}} & " + str(n_causal+1) + " & " + df_table['model_latex_name'][n_causal] + " & " + df_table.iloc[n_causal]['model_size'] + " & " + df_table.iloc[n_causal]['model_training_data_size'] + " & " + df_table.iloc[n_causal]['model_training_data_languages'] + " \\\\\n"
+    latex += "\\cmidrule{2-6}\n"
     for i, (model_name, row) in enumerate(df_table.iloc[n_causal+1:].iterrows()):
         latex += " & " + str(i+n_causal+2) + " & " + row['model_latex_name'] + " & " + row['model_size'] + " & " + row['model_training_data_size'] + " & " + row['model_training_data_languages'] + " \\\\\n"
-        latex += "\\cmidrule{2-6}\n"
+        if i != n_masked-2:
+            latex += "\\cmidrule{2-6}\n"
     latex += "\\bottomrule\n"
     latex += "\\end{tabular}}}\n"
     latex += "\\caption{Characterization of the language models used in our experiments in terms of parameters and training corpus. Models marked with \\textsuperscript{\\texttt{[en]}} (respectively \\textsuperscript{\\texttt{[fr]}}, \\textsuperscript{\\texttt{[es]}}) are heavily trained on English (respectively French, Spanish). CLMs marked with * are fine-tuned versions of other CLMs.}\n"
