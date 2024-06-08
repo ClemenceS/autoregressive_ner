@@ -331,12 +331,16 @@ model_hierarchy = {
                 "reference": "han2023medalpaca",
                 "language_markers": ["en", "*"],
             },
-            # {
-            #     "name": "BioMedLM",
-            #     "clean_name": "BioMedLM",
-            #     "size": 7*B,
-            #     "languages" : "all",
-            # }
+            {
+                "name": "BioMistral-7B",
+                "clean_name": "BioMistral-7B",
+                "size": 7*B,
+                "languages" : "all",
+                "training_data_languages": "-",
+                "training_data_size": "-",
+                "reference": "-",
+                "language_markers": ["en"],
+            }
         ],
     }
 }

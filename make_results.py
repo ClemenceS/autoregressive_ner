@@ -22,9 +22,9 @@ if not args.local:
         cmd1='rsync -r segur.limsi.fr:~/autoregressive_ner/results/ {}/results/'.format(script_dir)    
     else:
         cmd1='rsync -r jean-zay.idris.fr:/gpfswork/rech/lak/utb11pp/autoregressive_ner/results/ {}/results/'.format(script_dir)
-    cmd2='rsync -r slurm.lab-ia.fr:/mnt/beegfs/home/naguib/autoregressive_ner/results/ {}/results/'.format(script_dir)
+    #cmd2='rsync -r slurm.lab-ia.fr:/mnt/beegfs/home/naguib/autoregressive_ner/results/ {}/results/'.format(script_dir)
     os.system(cmd1)
-    os.system(cmd2)
+    #os.system(cmd2)
     print('Done.')
 df_few_shot, df_fully_supervised = read_jsons(os.path.join(script_dir, 'results'))
 
@@ -35,6 +35,6 @@ model_order = latex_results(df_few_shot, df_fully_supervised, output_folder, mod
 latex_listing(df_few_shot, output_folder, model_domains, model_types, dataset_names, model_langs, model_clean_names, dataset_hierarchy, model_hierarchy)
 latex_sampling(df_few_shot, dataset_names=dataset_names, model_clean_names=model_clean_names, output_folder=output_folder)
 latex_models(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_training_data_sizes, model_training_data_languages, model_reference, model_order, model_language_markers)
-latex_ner_descriptions(strings)
+# latex_ner_descriptions(strings)
 model_numbers = {model_order[i]:i+1 for i in range(len(model_order))}
 plot_data(df_few_shot, output_folder, model_domains, model_types, model_sizes, model_clean_names, model_numbers)

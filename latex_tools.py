@@ -152,10 +152,10 @@ def latex_models(df, output_folder, model_domains, model_types, model_sizes, mod
     n_masked = len(df_table[df_table.model_type == 'Masked'])
     #order the model by model_order
     df_table['model_order'] = df_table.index.map(lambda x: model_order.index(x))
-    df_table = df_table.sort_values(by=['model_order'])    
+    df_table = df_table.sort_values(by=['model_order'])   
     #print a table with the model names
     latex = "\\begin{table*}[htbp]\n"
-    latex += "\\centerline{\\scalebox{0.8}{\n\\begin{tabular}"
+    latex += "\\centerline{\\scalebox{0.75}{\n\\begin{tabular}"
     # latex += "{clllll}\n"
     latex += "{clp{7cm}rp{3cm}p{10cm}}\n"
     latex += "\\toprule\n"
