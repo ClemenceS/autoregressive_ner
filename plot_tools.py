@@ -48,6 +48,23 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
     scatter_df['model_number'] = scatter_df['model_name'].map(lambda x: model_numbers[x])
     #sort by model number
     scatter_df = scatter_df.sort_values('model_number')
+    ceilings = {
+        "english":
+        {
+            "General": 0.929,
+            "Clinical": 0.748,
+        },
+        "french":
+        {
+            "General": 0.881,
+            "Clinical": 0.763
+        },
+        "spanish":
+        {
+            "General": 0.8995,
+            "Clinical": 0.5735
+        }
+    }
 
     for lang in ['english', 'french', 'spanish']:
         plt.figure()
@@ -66,6 +83,11 @@ def plot_data(df, output_folder, model_domains, model_types, model_sizes, model_
             sizes=MARKER_SIZES,
             alpha=0.8
             )
+        #plot the ceilings
+        # plt.axvline(x=0.5, color='red', linestyle='--')
+        # plt.axhline(y=0.5, color='red', linestyle='--')
+        plt.axvline(x=ceilings[lang]["General"], color='red', linestyle='--')
+        plt.axhline(y=ceilings[lang]["Clinical"], color='red', linestyle='--')
 
         #set limits
         plt.xlim(0, 1)

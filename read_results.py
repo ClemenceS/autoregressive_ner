@@ -266,7 +266,7 @@ model_hierarchy = {
                 "training_data_size": "4.8 trillion tokens",
                 "training_data_languages": "A combination of publicly available corpora, synthetic data and chat format supervised data, mainly in English",
                 "language_markers": ["en"],
-                "reference" : "-",
+                "reference" : "abdin2024phi",
             },
             {
                 "name": "vigogne-2-13b-instruct",
@@ -292,8 +292,8 @@ model_hierarchy = {
                 "clean_name" : "Llama-3-8B-Instruct",
                 "size" : 8*B,
                 "languages" : "all",
-                "training_data_size": "-",
-                "training_data_languages": "-",
+                "training_data_size": "over 15 trillion tokens",
+                "training_data_languages": "\"A new mix\" of publicly available online data, mainly in English",
                 "reference": "-",
                 "language_markers": ["en"],
 
@@ -326,7 +326,6 @@ model_hierarchy = {
                 "size": 7*B,
                 "languages" : "all",
                 "training_data_languages": "Llama 2, fine-tuned on semi-generated medical question-answer pairs in English",
-                # "training_data_languages": "Mainly English",
                 "training_data_size": "400K Q.A. pairs",
                 "reference": "han2023medalpaca",
                 "language_markers": ["en", "*"],
@@ -336,10 +335,10 @@ model_hierarchy = {
                 "clean_name": "BioMistral-7B",
                 "size": 7*B,
                 "languages" : "all",
-                "training_data_languages": "-",
-                "training_data_size": "-",
-                "reference": "-",
-                "language_markers": ["en"],
+                "training_data_languages": "Mistral, fine-tuned on the PMC Open Access Subset",
+                "training_data_size": "3 billion tokens",
+                "reference": "labrak2024biomistral",
+                "language_markers": ["en", "*"],
             }
         ],
     }
