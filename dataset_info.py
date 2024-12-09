@@ -70,4 +70,4 @@ def get_dataset_language(dataset_name):
     return _get_if_key_in_x(language_by_dataset, dataset_name)
 
 def get_dataset_specialist_name(dataset_name, dataset_language):
-    return _get_if_key_in_x(specialist_name_by_dataset, dataset_name)[dataset_language]
+    return _get_if_key_in_x(specialist_name_by_dataset[dataset_language], dataset_name)
