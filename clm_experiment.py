@@ -9,8 +9,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
 from clm_predict import predict_for_dataset, MODEL_INSTRUCTION_TEMPLATES
-from nlstruct import BRATDataset, HuggingfaceNERDataset
-from nlstruct.metrics import MetricsCollection, DocumentEntityMetric
+from nlstruct import BRATDataset
+from nlstruct.metrics import MetricsCollection
+from nlstruct_extensions import HuggingfaceNERDataset, DocumentEntityMetricPerLabel
 from nlstruct.data_utils import sentencize
 from dataset_info import get_dataset_colnames, get_dataset_ner_tags, get_dataset_tag_map, get_dataset_language, get_dataset_specialist_name
 from pred_utils import full_preds_string, get_metrics_string
@@ -83,8 +84,8 @@ if args.debug:
     args.training_size = 50
 
 metrics = MetricsCollection({
-    "exact": DocumentEntityMetric(binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
-    "partial": DocumentEntityMetric(binarize_tag_threshold=1e-5, binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
+    "exact": DocumentEntityMetricPerLabel(binarize_tag_threshold=1., binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
+    "partial": DocumentEntityMetricPerLabel(binarize_tag_threshold=1e-5, binarize_label_threshold=1., add_label_specific_metrics=ner_tags, filter_entities=ner_tags),
 })
 
 ################# MODEL LOADING #################
