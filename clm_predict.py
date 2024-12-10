@@ -174,17 +174,9 @@ def predict_for_dataset(
     ]
     if not control:
         model_prompts = get_prompts_for_model(model_name, first_prompts)
-        # if "vicuna" in model_name:
-        #     timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        #     script_dir = os.path.dirname(__file__)
-        #     folder_name = "repro"
-        #     os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
-        #     with open(os.path.join(script_dir, folder_name, f"prompts_{timedate}.txt"), "w") as f:
-        #         f.write("\n".join(model_prompts))
         if llm:
             sampling_params = SamplingParams(
-                use_beam_search=model_kwargs["num_beams"]>1,
-                best_of=model_kwargs["num_beams"],
+                best_of=1,
                 stop=['\n'],
                 temperature=0.0,
                 top_k=-1,
@@ -312,13 +304,6 @@ def predict_for_dataset(
                     if yes_no[1].lower() in output.lower():
                         sent_idx, ent_id = addresses[i+j]
                         predictions[sent_idx]['entities'] = [ent for ent in predictions[sent_idx]['entities'] if ent['entity_id']!=ent_id]
-    # if "vicuna" in model_name:
-    #     timedate = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    #     script_dir = os.path.dirname(__file__)
-    #     folder_name = "repro"
-    #     os.makedirs(os.path.join(script_dir, folder_name), exist_ok=True)
-    #     with open(os.path.join(script_dir, folder_name, f"outputs_{timedate}.txt"), "w") as f:
-    #         f.write("\n".join(outputs))
 
     return outputs, predictions, model_prompts[0], (verif_prompts[0] if len(verif_prompts)>0 else None)
     
