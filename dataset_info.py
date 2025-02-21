@@ -10,6 +10,8 @@ ner_tags_by_dataset = {
     "cwlc" : ["Abbreviation", "Body_Part", "Clinical_Finding", "Diagnostic_Procedure", "Disease", "Family_Member", "Laboratory_or_Test_Result", "Laboratory_Procedure", "Medication", "Procedure", "Sign_or_Symptom", "Therapeutic_Procedure"],
     "QFP" : ["PER", "LOC", "ORG", "FAC", "FUNC"],
     "NCBI" : ['CompositeMention', 'DiseaseClass', 'Modifier', 'SpecificDisease'],
+    # add BioToFlow entities
+    "BioToFlow" : ["Tool", "Version", "Description", "Parameter", "Biblio", "Data", "File", "Database", "Environment", "Container", "ManagementSystem", "LibraryPackage", "ProgrammingLanguage", "Hardware", "Method","WorkflowName"],
 }
 colnames_by_hf_dataset = {
     "WikiNER" : ("id", "words", "ner_tags"),
@@ -36,14 +38,17 @@ language_by_dataset = {
     "e3c_es" : "es",
     "cwlc" : "es",
     "NCBI" : "en",
+    # add BioToFlow language
+    "BioToFlow":"en",
 }
 
-clinician_datasets = ["medline", "emea", "n2c2", "e3c", "cwlc", "NCBI"]
+#Modif this part to take in account BioToFlow
+clinician_datasets = ["medline", "emea", "n2c2", "e3c", "cwlc", "NCBI", "BioToFlow"]
 
 #include clinician datasets
 specialist_name_by_dataset = {
     "en" : {
-        k: ("clinician" if k in clinician_datasets else "linguist") for k in ner_tags_by_dataset
+        k: ("bioinformatician" if k in clinician_datasets else "linguist") for k in ner_tags_by_dataset
     },
     "fr" : {
         k: ("clinicien" if k in clinician_datasets else "linguiste") for k in ner_tags_by_dataset
