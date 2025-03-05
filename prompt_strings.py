@@ -187,6 +187,7 @@ strings={
             "File": "These are files used in the bioinformatic workflows.",
             "Database": "These are organized collections of data accessible online used in the bioinformatic workflows.",
             "Environment": "These are the configurations, dependencies, and resources required for a workflow to execute properly.", 
+            "ManagementSystem" : "These are workflow management systems for automating and scaling data analysis.",
             "Container": "These are units encapsulating applications and their dependencies for portability.",
             "LibraryPackage": "These are libraries or packages called within the workflow.",
             "ProgrammingLanguage": "These are languages used to write computer programs.",

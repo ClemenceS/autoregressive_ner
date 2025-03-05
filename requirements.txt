@@ -7,3 +7,4 @@ sentencepiece
 nlstruct
 fschat[model_worker,webui]
 bitsandbytes
+vllm
