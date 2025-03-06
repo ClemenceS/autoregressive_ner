@@ -1,4 +1,4 @@
-# autoregressive_ner
+# Autoregressive NER
 
 This repo is a fork of the autorgressive_ner repo by Marco Naguib.
 
