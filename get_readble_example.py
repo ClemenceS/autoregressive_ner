@@ -1,10 +1,23 @@
+# USER configuration : 
+# you should specify the path where is nlstruct (https://github.com/ClemenceS/nlstruct) : 
+project_root_nlstruct = "../nlstruct" 
+
+if project_root_nlstruct not in sys.path:
+    sys.path.insert(0, project_root)
+
+
 from nlstruct import HuggingfaceNERDataset, BRATDataset
 from dataset_info import get_dataset_colnames, get_dataset_tag_map
 from prompt_maker import make_prompts, example2string
 from nlstruct.data_utils import sentencize
 
+
+# Path of your dataset :
 #dataset_name = "/people/mnaguib/n2c2/"
 dataset_name = "mnaguib/WikiNER/fr"
+
+
+
 doc_id_colname, words_colname, ner_tags_colname = get_dataset_colnames(dataset_name)
 dataset = HuggingfaceNERDataset(
     dataset_name=dataset_name,

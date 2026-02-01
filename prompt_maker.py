@@ -132,7 +132,9 @@ def make_prompts(
     self_verification_template+= keywords['task_introduction_self_verif'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag], ner_tag_description=keywords['ner_tags_description'][ner_tag], specialist=prompt_specialist_name)
     examples = get_self_verif_examples(train_dataset, ner_tag, n_few_shot, begin_tag, end_tag, list_separator, listing)
     for example, pred, label in examples:
-        self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag]).format(word=pred,sentence=example,)+keywords[label].format(word=pred, ner_tag_sing=keywords['ner_tags_names'][ner_tag])+"\n"
+        pred_modif = pred.replace('{','{{').replace('}','}}')
+        example_modif = example.replace('{','{{').replace('}','}}')
+        self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag]).format(word=pred_modif,sentence=example_modif,)+keywords[label].format(word=pred_modif, ner_tag_sing=keywords['ner_tags_names'][ner_tag])+"\n"
     self_verification_template+= keywords['self_verif_template'].format(ner_tag_sing=keywords['ner_tags_names'][ner_tag])
     
     return prompts, self_verification_template

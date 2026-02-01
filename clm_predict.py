@@ -264,12 +264,12 @@ def predict_for_dataset(
         addresses = []
         for i,predicted_example in enumerate(predictions):
             for pred in predicted_example['entities']:
-                type = pred['label']
-                id = pred['entity_id']
-                prompting_sentence = example2string(predicted_example, type, begin_tag, end_tag, sticked=True, tagged=False, listing=listing)
-                verification_sentence = self_verif_templates[type].format(word=pred['text'], sentence=prompting_sentence)
+                ent_type = pred['label']
+                ent_id = pred['entity_id']
+                prompting_sentence = example2string(predicted_example, ent_type, begin_tag, end_tag, sticked=True, tagged=False, listing=listing)
+                verification_sentence = self_verif_templates[ent_type].format(word=pred['text'], sentence=prompting_sentence)
                 sentences.append(verification_sentence)
-                addresses.append((i,id))
+                addresses.append((i,ent_id))
         verif_prompts = get_prompts_for_model(model_name, sentences)
         logger.info(f"{len(verif_prompts)} prompts generated for self verification")
         

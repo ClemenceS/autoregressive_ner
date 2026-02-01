@@ -12,7 +12,12 @@ ner_tags_by_dataset = {
     "NCBI" : ['CompositeMention', 'DiseaseClass', 'Modifier', 'SpecificDisease'],
     # add BioToFlow entities
     "BioToFlow" : ["Tool", "Version", "Description", "Parameter", "Biblio", "Data", "File", "Database", "Environment", "Container", "ManagementSystem", "LibraryPackage", "ProgrammingLanguage", "Hardware", "Method","WorkflowName"],
+    # add CPL-Article
+    "CPL-Article": ["Tool"],
+    #add CPL-Code
+    "CPL-Code": ["Tool"]
 }
+
 colnames_by_hf_dataset = {
     "WikiNER" : ("id", "words", "ner_tags"),
     "conll2003" : ("id", "tokens", "ner_tags"),
@@ -40,10 +45,12 @@ language_by_dataset = {
     "NCBI" : "en",
     # add BioToFlow language
     "BioToFlow":"en",
+    "CPL-Article":"en",
+    "CPL-Code":"en",
 }
 
 #Modif this part to take in account BioToFlow
-clinician_datasets = ["medline", "emea", "n2c2", "e3c", "cwlc", "NCBI", "BioToFlow"]
+clinician_datasets = ["medline", "emea", "n2c2", "e3c", "cwlc", "NCBI", "BioToFlow", "CPL-Article", "CPL-Code"]
 
 #include clinician datasets
 specialist_name_by_dataset = {

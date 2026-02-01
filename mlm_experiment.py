@@ -1,3 +1,10 @@
+# USER configuration : 
+# you should specify the path where is nlstruct (https://github.com/ClemenceS/nlstruct) : 
+project_root_nlstruct = "../nlstruct" 
+
+if project_root_nlstruct not in sys.path:
+    sys.path.insert(0, project_root)
+
 import datetime
 import gc
 import json
@@ -10,7 +17,8 @@ import random
 from typing import Dict
 import string
 import torch
-from nlstruct import BRATDataset, HuggingfaceNERDataset, get_instance, get_config, InformationExtractor
+from nlstruct_extensions import HuggingfaceNERDataset
+from nlstruct import BRATDataset, get_instance, get_config, InformationExtractor
 from nlstruct.metrics import MetricsCollection
 from nlstruct.registry import get_instance
 from rich_logger import RichTableLogger
