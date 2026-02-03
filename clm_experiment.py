@@ -110,18 +110,20 @@ if __name__ == '__main__':
     for e in dataset.train_data:
         if args.dataset_type.lower() == "article":
             sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
+            traindev_dataset.extend([s for s in sentences if len(s['text']) < 512])
         else:
-            sentences = line_chunk_sentencize(e, lines_per_chunk=4, entity_overlap="split")
-
-        traindev_dataset.extend([s for s in sentences if len(s['text']) < 512])
+            sentences = line_chunk_sentencize(e, entity_overlap="split")
+            traindev_dataset.extend(sentences)
 
     test_dataset = []
     for e in dataset.test_data:
         if args.dataset_type.lower() == "article":
             sentences = sentencize(e, reg_split=r"(?<=[.|\s])(?:\s+)(?=[A-Z])", entity_overlap="split")
+            test_dataset.extend([s for s in sentences if len(s['text']) < 512])
         else:
-            sentences = line_chunk_sentencize(e, lines_per_chunk=4, entity_overlap="split")
-        test_dataset.extend([s for s in sentences if len(s['text']) < 512])
+            sentences = line_chunk_sentencize(e, entity_overlap="split")
+            test_dataset.extend(sentences)
+        
     
     traindev_dataset_this_seed = random.Random(args.partition_seed).sample(traindev_dataset, args.training_size)
     last_two_dirs = '-'.join(args.dataset_name.split('/')[-2:])
