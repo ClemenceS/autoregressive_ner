@@ -19,9 +19,9 @@ python clm_experiment.py --dataset_name "where_is_BioToFlow" --dataset_type "art
 * To run the experiments presented on the CPL-Article and CPL-Code corpus after downloading the two corpora :
 
 ```
-python clm_experiment.py --dataset_name "where_is_CPL-Article" --dataset_type "article" --model_name meta-llama/Meta-Llama-3-8B-Instruct
+python clm_experiment.py --dataset_name "where_is_CPL-Article" --dataset_type "article" --model_name meta-llama/Meta-Llama-3.1-8B-Instruct
 ```
 
 ```
-python clm_experiment.py --dataset_name "where_is_CPL-Code" --dataset_type "code" --model_name meta-llama/Meta-Llama-3-8B-Instruct
+python clm_experiment.py --dataset_name "where_is_CPL-Code" --dataset_type "code" --model_name meta-llama/Meta-Llama-3.1-8B-Instruct
 ```
