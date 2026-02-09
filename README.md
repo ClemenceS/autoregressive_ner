@@ -10,13 +10,13 @@ To use your own  corpus, simply add its information to this file.
 
 Before running the experiments, you need to update `clm_experiment.py` by specifying the local path to `nlstruct` after downloading it from https://github.com/ClemenceS/nlstruct .
 
-* To run the experiments presented in the paper [Extracting Information in a Low-resource Setting: Case Study on Bioinformatics Workflows](https://arxiv.org/abs/2411.19295) (accepted to IDA 2025) after downloading the corpus : 
+* To run the experiments presented in the paper [Extracting Information in a Low-resource Setting: Case Study on Bioinformatics Workflows](https://arxiv.org/abs/2411.19295) (accepted to IDA 2025) after downloading the corpus [BioToFlow](https://zenodo.org/records/14900544) : 
 
 ```
 python clm_experiment.py --dataset_name "where_is_BioToFlow" --dataset_type "article" --model_name meta-llama/Llama-3.1-8B-Instruct
 ```
 
-* To run the experiments presented on the CPL-Article and CPL-Code corpus after downloading the two corpora :
+* To run the experiments on the CPL-Article and CPL-Code corpus after downloading the corpora :
 
 ```
 python clm_experiment.py --dataset_name "where_is_CPL-Article" --dataset_type "article" --model_name meta-llama/Llama-3.1-8B-Instruct
