@@ -1,6 +1,6 @@
 # Autoregressive NER
 
-This repo is a fork of the autorgressive_ner repo by Marco Naguib.
+This repo is a fork of the autoregressive_ner repo by Marco Naguib.
 
 This repository is designed to run experiments based on decoder-based approaches.
 It allows you to design, test, and optimize prompts, and to evaluate decoder-based methods on your domain.
@@ -16,7 +16,7 @@ Before running the experiments, you need to update `clm_experiment.py` by specif
 python clm_experiment.py --dataset_name "where_is_BioToFlow" --dataset_type "article" --model_name meta-llama/Llama-3.1-8B-Instruct
 ```
 
-* To run the experiments on the [CPL-Article](https://doi.org/10.5281/zenodo.18526700) and [CPL-Code](https://doi.org/10.5281/zenodo.18526760) corpus after downloading the corpora :
+* To run the experiments on the [CPL-Article](https://doi.org/10.5281/zenodo.20746904) and [CPL-Code](https://doi.org/10.5281/zenodo.20746970) corpus after downloading the corpora :
 
 ```
 python clm_experiment.py --dataset_name "where_is_CPL-Article" --dataset_type "article" --model_name meta-llama/Llama-3.1-8B-Instruct
